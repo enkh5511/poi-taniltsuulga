@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>POI Capital Group · Фьючерс арилжааны хамтын ажиллагаа</title>
+<meta name="description" content="POI Capital Group-ийн фьючерс арилжааны хамтын ажиллагаа, гүйцэтгэл, хөрөнгө өсөлтийн тооцоолуур." />
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+<meta name="theme-color" content="#040711" />
+<style>
+/*
+  ANDROID SCROLL + BACKGROUND FIX v2
+  - body дээр overflow:hidden байхгүй
+  - stage-wrap fixed биш
+  - calculator iframe байхгүй, бүх тооцоолуур same page дотор
+  - background canvas байхгүй, ганц CSS background layer ашигласан
+*/
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg0:#03060e;
+  --bg1:#07111f;
+  --cyan:#4FC3F7;
+  --green:#00C897;
+  --green2:#0bf2b4;
+  --amber:#FFB547;
+  --red:#E85D5D;
+  --ink:#EAF2FF;
+  --soft:#CADCFC;
+  --mut:#7D91B5;
+  --mut2:#5A7194;
+  --panel:rgba(9,17,30,.78);
+  --panel2:rgba(13,22,38,.86);
+  --card:rgba(17,26,45,.78);
+  --line:rgba(255,255,255,.09);
+  --line2:rgba(79,195,247,.18);
+  --shadow:0 20px 70px rgba(0,0,0,.35);
+  --radius:18px;
+}
+html{background:var(--bg0);scroll-behavior:smooth;height:auto;min-height:100%;overflow-y:auto;overflow-x:hidden}
+body{
+  min-height:100dvh;
+  height:auto;
+  overflow-x:hidden;
+  overflow-y:auto;
+  touch-action:pan-y;
+  -webkit-overflow-scrolling:touch;
+  font-family:"Segoe UI",Arial,sans-serif;
+  color:var(--ink);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+.single-bg{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(79,195,247,.22), transparent 29%),
+    radial-gradient(circle at 88% 4%, rgba(0,200,151,.20), transparent 24%),
+    radial-gradient(circle at 84% 86%, rgba(255,181,71,.10), transparent 32%),
+    linear-gradient(135deg,#040711 0%,#06121f 46%,#020307 100%);
+}
+.single-bg .grain{
+  position:absolute;inset:0;opacity:.11;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:58px 58px;
+  mask-image:linear-gradient(to bottom,transparent,black 12%,black 88%,transparent);
+}
+.single-bg .aurora{
+  position:absolute;inset:-18% -12%;opacity:.42;filter:blur(38px);
+  background:
+    linear-gradient(115deg,transparent 0 28%,rgba(79,195,247,.12) 36%,transparent 49%),
+    linear-gradient(25deg,transparent 0 43%,rgba(0,200,151,.16) 52%,transparent 62%),
+    linear-gradient(160deg,transparent 0 58%,rgba(255,181,71,.08) 66%,transparent 76%);
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+.appbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  min-height:66px;
+  padding:10px clamp(14px,2.4vw,34px);
+  border-bottom:1px solid rgba(79,195,247,.14);
+  background:rgba(4,8,16,.78);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+.brand{min-width:190px}
+.brand-kicker{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);font-weight:800}
+.brand-title{font-size:15px;font-weight:800;color:#fff;letter-spacing:.02em;margin-top:2px}
+.tabs{
+  display:flex;align-items:center;gap:5px;
+  padding:5px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.045);
+  max-width:100%;overflow-x:auto;scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  border:0;border-radius:999px;background:transparent;color:var(--mut);font-weight:800;font-size:12px;
+  padding:8px 15px;white-space:nowrap;transition:background .18s,color .18s,transform .18s;
+}
+.tab:hover{color:var(--soft)}
+.tab.active{background:linear-gradient(135deg,var(--cyan),#7AE7FF);color:#06131e;box-shadow:0 0 24px rgba(79,195,247,.24)}
+
+.main{width:min(1360px,100%);margin:0 auto;padding:clamp(16px,2.4vw,34px);position:relative;z-index:1}
+.view{display:none;animation:softIn .18s ease both}
+.view.active{display:block}
+@keyframes softIn{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.hero-strip{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:24px;
+  padding:18px 20px;margin-bottom:18px;border:1px solid rgba(79,195,247,.14);border-radius:var(--radius);
+  background:rgba(7,14,26,.62);box-shadow:var(--shadow)
+}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--cyan);font-weight:900;margin-bottom:6px}
+h1{font-size:clamp(26px,4vw,46px);line-height:1.05;letter-spacing:-.02em;color:#fff;text-wrap:balance}
+.lead{font-size:15px;color:var(--soft);max-width:820px;margin-top:10px;line-height:1.7}
+.status-pill{border:1px solid rgba(0,200,151,.28);background:rgba(0,200,151,.08);color:#9CF6D8;border-radius:999px;padding:8px 13px;font-size:12px;font-weight:800;white-space:nowrap;margin-top:4px}
+
+.stage-wrap{
+  position:relative;
+  z-index:1;
+  width:100%;
+  min-height:auto;
+  overflow:visible;
+}
+.stage{
+  width:min(1280px,100%);
+  margin:0 auto;
+  aspect-ratio:16/9;
+  min-height:520px;
+  position:relative;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:24px;
+  overflow:hidden;
+  background:linear-gradient(180deg,rgba(8,16,30,.78),rgba(6,10,18,.84));
+  box-shadow:0 28px 90px rgba(0,0,0,.48), inset 0 0 0 1px rgba(79,195,247,.05);
+}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:clamp(24px,4vw,58px)}
+.slide.is-active{display:flex}
+.s-head{flex:0 0 auto}
+.s-kick{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.s-num{width:38px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:9px;border:1px solid rgba(79,195,247,.28);background:rgba(79,195,247,.10);font-size:13px;color:var(--cyan);font-weight:900}
+.s-line{width:58px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+.s-title{font-size:clamp(27px,3.3vw,42px);line-height:1.12;color:#fff;font-weight:850;letter-spacing:-.015em}
+.s-sub{color:var(--mut);font-size:15px;margin-top:8px;line-height:1.6}
+.s-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;min-height:0;padding-top:12px}
+.cards-grid{display:grid;gap:13px}
+.cards-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card,.metric,.step,.panel,.result-card,.perf-card,.calc-card,.table-card{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 34px rgba(0,0,0,.22);
+}
+.card{padding:18px 20px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;border-radius:4px;background:var(--cyan);opacity:.75}
+.card.green::before{background:var(--green)}.card.amber::before{background:var(--amber)}
+.c-label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--cyan);font-weight:900}.card.green .c-label{color:var(--green)}.card.amber .c-label{color:var(--amber)}
+.c-text{margin-top:9px;color:#A9EED8;font-size:14px;line-height:1.65}
+.stats-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.metric{padding:18px;text-align:center}
+.metric .num{font-size:clamp(25px,3.1vw,38px);font-weight:900;color:var(--cyan);line-height:1}.metric .num.green{color:var(--green)}.metric .num.amber{color:var(--amber)}
+.metric .lbl{font-size:12px;color:var(--mut);margin-top:9px;line-height:1.45}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.step{padding:18px}.step-n{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid rgba(79,195,247,.4);color:var(--cyan);font-weight:900;margin-bottom:12px}.step-t{font-size:13px;color:var(--cyan);font-weight:900;text-transform:uppercase;letter-spacing:.04em}.step-p{font-size:13px;color:#B7D2E8;margin-top:8px;line-height:1.62}
+.slide-controls{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:16px auto 4px;width:min(1280px,100%)}
+.ctrl-left,.ctrl-right{display:flex;align-items:center;gap:8px}.slide-btn{border:1px solid rgba(79,195,247,.18);background:rgba(9,17,30,.78);color:var(--soft);border-radius:999px;padding:10px 14px;font-weight:850;font-size:12px}.slide-btn:hover{border-color:rgba(79,195,247,.35);color:#fff}.slide-count{font-size:12px;color:var(--mut);font-weight:800}
+.dots{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}.dot{width:8px;height:8px;border-radius:50%;border:0;background:rgba(255,255,255,.22);padding:0}.dot.active{background:var(--cyan);box-shadow:0 0 14px rgba(79,195,247,.55)}
+
+/* Performance */
+.section-title{font-size:clamp(25px,3vw,38px);color:#fff;line-height:1.12;margin-bottom:8px}
+.section-sub{color:var(--mut);font-size:15px;line-height:1.65;max-width:900px}
+.perf-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:18px 0}
+.perf-card{padding:17px}.perf-label{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;font-weight:900}.perf-value{font-size:clamp(23px,2.5vw,34px);font-weight:900;color:#fff;margin-top:5px}.perf-value.green{color:var(--green)}.perf-value.cyan{color:var(--cyan)}.perf-value.amber{color:var(--amber)}.perf-mini{font-size:12px;color:var(--mut2);margin-top:5px}
+.perf-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:16px;align-items:start}.panel{padding:18px}.panel-title{font-size:16px;font-weight:900;color:#fff;margin-bottom:4px}.panel-sub{font-size:12px;color:var(--mut);line-height:1.55;margin-bottom:12px}.chart-wrap{width:100%;height:310px;overflow:hidden;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06)}
+#perfChart{display:block;width:100%;height:100%}.projection-list{display:grid;gap:10px}.proj-row{display:flex;justify-content:space-between;gap:14px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.04);padding:12px 14px;border-radius:12px;color:var(--soft);font-size:13px}.proj-row b{color:#fff}.proj-row .green{color:var(--green)}.sync-line{margin-top:10px;font-size:12px;color:var(--mut)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:14px;border:1px solid rgba(255,255,255,.07)}
+table{width:100%;border-collapse:collapse;min-width:760px;background:rgba(8,15,28,.65)}
+th,td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.065);font-size:12.5px;text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}th{color:var(--cyan);font-size:11px;text-transform:uppercase;letter-spacing:.06em;background:rgba(79,195,247,.055)}td{color:var(--soft)}tr:last-child td{border-bottom:0}.pos{color:var(--green)}.warn{color:var(--amber)}
+
+/* Calculator */
+.calc-layout{display:grid;grid-template-columns:380px minmax(0,1fr);gap:16px;align-items:start;margin-top:18px}.calc-card{padding:18px}.calc-card h3{font-size:17px;color:#fff;margin-bottom:12px}.form-grid{display:grid;gap:12px}.field label{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--mut);font-weight:850;margin-bottom:6px}.field label span{color:var(--cyan)}.field input,.field select{width:100%;border:1px solid rgba(255,255,255,.11);border-radius:12px;background:rgba(5,10,20,.74);color:#fff;padding:11px 12px;outline:none}.field input:focus,.field select:focus{border-color:rgba(79,195,247,.45);box-shadow:0 0 0 3px rgba(79,195,247,.08)}input[type="range"]{padding:0;accent-color:var(--green)}.mode-row{display:flex;gap:7px;flex-wrap:wrap}.chip-btn{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:var(--mut);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:900}.chip-btn.active{background:rgba(79,195,247,.15);color:var(--cyan);border-color:rgba(79,195,247,.36)}.small-note{font-size:12px;color:var(--mut);line-height:1.6}.member-editor{display:grid;gap:8px;margin-top:8px}.mem-edit{display:grid;grid-template-columns:1fr 132px 34px;gap:7px}.mem-edit button{border:1px solid rgba(232,93,93,.3);background:rgba(232,93,93,.08);color:#ffadad;border-radius:10px;font-weight:900}.add-btn{border:1px solid rgba(0,200,151,.25);background:rgba(0,200,151,.08);color:var(--green);border-radius:12px;padding:10px 12px;font-weight:900;width:100%;margin-top:8px}.result-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:14px}.result-card{padding:16px}.result-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);font-weight:900}.result-value{font-size:clamp(22px,2.4vw,32px);font-weight:900;color:#fff;margin-top:4px}.result-value.green{color:var(--green)}.result-value.cyan{color:var(--cyan)}.big-green{background:linear-gradient(180deg,rgba(0,200,151,.16),rgba(10,25,20,.86));border:2px solid rgba(0,200,151,.62);border-radius:20px;padding:20px;box-shadow:0 22px 70px rgba(0,200,151,.14);margin-bottom:14px}.bg-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.bg-k{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#9CF6D8;font-weight:900}.bg-v{font-size:clamp(34px,4vw,56px);font-weight:950;color:#fff;line-height:1;margin-top:5px}.bg-sub{font-size:13px;color:#B9ECDD;margin-top:8px}.bg-side{text-align:right}.bg-side div{font-size:12px;color:#A4DCCB}.bg-side b{display:block;color:var(--green);font-size:18px;margin-top:2px}.member-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}.member-box{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.075);border-radius:14px;padding:13px}.member-name{font-size:12px;color:var(--green);font-weight:900;text-transform:uppercase;letter-spacing:.04em}.member-row{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;color:var(--soft);padding:4px 0}.member-row b{color:#fff}.logic-box{border:1px solid rgba(79,195,247,.16);background:rgba(79,195,247,.055);border-radius:16px;padding:15px;color:#BFD7F1;font-size:13px;line-height:1.7;margin-bottom:14px}.logic-box b{color:#fff}.logic-box .green{color:var(--green);font-weight:900}.logic-box .amber{color:var(--amber);font-weight:900}
+
+.footer-note{margin:20px 0 6px;color:var(--mut2);font-size:12px;line-height:1.65;text-align:center}
+
+@media (hover:hover){
+  .card,.metric,.step,.panel,.perf-card,.calc-card,.result-card,.table-card{transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+  .card:hover,.metric:hover,.step:hover,.panel:hover,.perf-card:hover,.calc-card:hover,.result-card:hover{transform:translateY(-2px);border-color:rgba(79,195,247,.24)}
+}
+
+@media (max-width:980px){
+  .main{padding:14px}
+  .hero-strip{display:block;padding:16px}.status-pill{display:inline-block;margin-top:12px}
+  .stage{aspect-ratio:auto;min-height:auto;overflow:visible;border-radius:18px;background:rgba(8,16,30,.78)}
+  .slide{position:relative;inset:auto;min-height:calc(100dvh - 170px);padding:22px;display:none}.slide.is-active{display:flex}
+  .cards-2,.cards-3,.stats-row,.steps,.perf-grid,.perf-layout,.calc-layout,.result-grid,.member-results{grid-template-columns:1fr}
+  .slide-controls{position:sticky;bottom:0;z-index:30;background:rgba(4,8,16,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:18px}
+  .appbar{align-items:flex-start;flex-direction:column;gap:10px;padding:10px 12px}.brand{min-width:0}.tabs{width:100%}
+  .perf-layout{gap:14px}.chart-wrap{height:260px}.calc-layout{margin-top:14px}.mem-edit{grid-template-columns:1fr 110px 34px}.bg-side{text-align:left}.bg-v{font-size:40px}
+}
+
+@media (max-width:560px){
+  h1{font-size:29px}.lead{font-size:14px}.s-title{font-size:28px}.s-sub{font-size:14px}.slide{padding:18px;min-height:calc(100dvh - 190px)}.metric .num{font-size:28px}.ctrl-left,.ctrl-right{gap:5px}.slide-btn{padding:9px 11px}.dots{max-width:100%;gap:6px}.dot{width:7px;height:7px}.perf-value{font-size:27px}.calc-card{padding:15px}.result-card{padding:14px}.bg-v{font-size:36px}.single-bg .aurora{opacity:.30;filter:blur(28px)}.single-bg .grain{opacity:.07;background-size:42px 42px}
+}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.single-bg .aurora{display:none}}
+</style>
+</head>
+<body>
+<div class="single-bg" aria-hidden="true"><div class="aurora"></div><div class="grain"></div></div>
+<header class="appbar">
+  <div class="brand">
+    <div class="brand-kicker">POI Capital Group</div>
+    <div class="brand-title">Фьючерс арилжааны хамтын ажиллагаа</div>
+  </div>
+  <nav class="tabs" aria-label="Үндсэн цэс">
+    <button class="tab active" data-view="deck">Танилцуулга</button>
+    <button class="tab" data-view="performance">Гүйцэтгэл</button>
+    <button class="tab" data-view="calculator">Тооцоолуур</button>
+  </nav>
+</header>
+<main class="main">
+  <section id="view-deck" class="view active">
+    <div class="hero-strip">
+      <div>
+        <div class="eyebrow">Closed group · dashboard</div>
+        <h1>Зах зээлийн боломж, гүйцэтгэл, хөрөнгө өсөлтийн тооцоолол</h1>
+        <p class="lead">Нэг файл дотор танилцуулга, Google Sheet‑ээс татах гүйцэтгэл, гишүүний урьдчилсан үр дүнгийн тооцоолуур орсон. Android дээр scroll түгжих fixed stage болон давхар canvas background бүрэн авсан.</p>
+      </div>
+      <div class="status-pill">Android scroll fixed</div>
+    </div>
+    <div class="stage-wrap">
+      <div id="stage" class="stage" aria-live="polite"></div>
+    </div>
+    <div class="slide-controls">
+      <div class="ctrl-left"><button class="slide-btn" id="prevSlide">← Өмнөх</button><span class="slide-count" id="slideCount">01 / 08</span></div>
+      <div class="dots" id="dots"></div>
+      <div class="ctrl-right"><button class="slide-btn" id="nextSlide">Дараах →</button></div>
+    </div>
+  </section>
+
+  <section id="view-performance" class="view">
+    <div class="hero-strip">
+      <div>
+        <div class="eyebrow">Performance sync</div>
+        <h2 class="section-title">Гүйцэтгэлийн самбар</h2>
+        <p class="section-sub">Google Sheets API‑аас хамгийн сүүлийн хаагдсан 7 хоногийн мэдээллийг татна. API уншихгүй үед fallback demo дата гарч, layout эвдрэхгүй.</p>
+      </div>
+      <button class="slide-btn" id="refreshPerf">Sync шинэчлэх</button>
+    </div>
+    <div class="perf-grid" id="perfSummary"></div>
+    <div class="perf-layout">
+      <div class="panel">
+        <div class="panel-title">Balance curve</div>
+        <div class="panel-sub">7 хоногийн closing balance. Mobile дээр canvas animation ашиглахгүй, SVG chart байна.</div>
+        <div class="chart-wrap"><svg id="perfChart" viewBox="0 0 900 310" preserveAspectRatio="none"></svg></div>
+        <div class="sync-line" id="perfSyncLine">Sync төлөв: хүлээгдэж байна.</div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Ирэх 7 хоногийн зураглал</div>
+        <div class="panel-sub">Сүүлийн 7 хаагдсан долоо хоногийн median ROI‑оор тооцсон projection.</div>
+        <div class="projection-list" id="projectionList"></div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:16px">
+      <div class="panel-title">7 хоногийн гүйцэтгэлийн түүх</div>
+      <div class="panel-sub">Raw history. Table wrapper нь өөрөө horizontal scroll хийнэ, body vertical scroll хаахгүй.</div>
+      <div class="table-wrap"><table><thead><tr><th>Week</th><th>Period end</th><th>Ending balance</th><th>Weekly P/L</th><th>Weekly ROI</th><th>Max DD</th><th>Statement</th></tr></thead><tbody id="perfRows"></tbody></table></div>
+    </div>
+  </section>
+
+  <section id="view-calculator" class="view">
+    <div class="hero-strip">
+      <div>
+        <div class="eyebrow">Member calculator</div>
+        <h2 class="section-title">Хөрөнгө өсөлтийн тооцоолуур</h2>
+        <p class="section-sub">Default: 2 гишүүн × $50,000, сарын ROI 10%, зардал 1%, өсгөх хэмжээ 50%, хугацаа 12 сар, Close option B.</p>
+      </div>
+      <div class="status-pill">Operator amount hidden</div>
+    </div>
+    <div class="calc-layout">
+      <aside class="calc-card">
+        <h3>Тохиргоо</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label>Гишүүдийн горим <span id="modeText">Тэнцүү</span></label>
+            <div class="mode-row">
+              <button class="chip-btn active" id="modeEqual" type="button">Тэнцүү</button>
+              <button class="chip-btn" id="modeFlex" type="button">Өөр өөр дүн</button>
+            </div>
+          </div>
+          <div class="field equal-only"><label>Гишүүний тоо <span id="memberCountText">2</span></label><input id="memberCount" type="number" min="1" max="14" step="1" value="2" /></div>
+          <div class="field equal-only"><label>Нэг гишүүний капитал <span id="equalCapitalText">$50,000</span></label><input id="equalCapital" type="number" min="1000" step="1000" value="50000" /></div>
+          <div class="field flex-only" style="display:none"><label>Өөр өөр дүнтэй гишүүд <span id="flexCountText">2</span></label><div class="member-editor" id="memberEditor"></div><button class="add-btn" id="addMember" type="button">+ Гишүүн нэмэх</button></div>
+          <div class="field"><label>Сарын ROI <span id="roiText">10%</span></label><input id="monthlyRoi" type="range" min="1" max="25" step="0.5" value="10" /></div>
+          <div class="field"><label>Хугацаа <span id="monthsText">12 сар</span></label><input id="months" type="range" min="1" max="24" step="1" value="12" /></div>
+          <div class="field"><label>Зардал <span id="costText">1%</span></label><input id="costPct" type="range" min="0" max="5" step="0.25" value="1" /></div>
+          <div class="field"><label>Данс өсгөх хувь <span id="reinvestText">50%</span></label><input id="reinvestPct" type="range" min="50" max="90" step="5" value="50" /></div>
+          <div class="field"><label>Close option <span id="closeText">B</span></label><select id="closeMode"><option value="B" selected>B · Анхны капиталын дараах хуваалт</option><option value="A">A · Тэнцүү хаалт</option></select></div>
+          <div class="field"><label>Close үед гишүүдийн profit share <span id="memberCloseText">30%</span></label><input id="memberClosePct" type="range" min="10" max="60" step="5" value="30" /></div>
+          <div class="field"><label>Close үед удирдлагын profit share <span id="managerCloseText">40%</span></label><input id="managerClosePct" type="range" min="0" max="70" step="5" value="40" /></div>
+          <p class="small-note">Данс удирдагчийн авах дүн dashboard дээр гаргахгүй. Энэ файл гишүүний авах дүн, ROI, сар бүрийн cash flow дээр төвлөрнө.</p>
+        </div>
+      </aside>
+      <div>
+        <div class="result-grid" id="calcSummary"></div>
+        <div class="big-green" id="mainMemberResult"></div>
+        <div class="logic-box" id="logicBox"></div>
+        <div class="panel">
+          <div class="panel-title">Сар бүрийн дэлгэрэнгүй</div>
+          <div class="panel-sub">Капитал, ашиг, зардал, өсгөх хэмжээ, гишүүдэд очих сарын pool.</div>
+          <div class="table-wrap"><table><thead><tr><th>Сар</th><th>Эхний капитал</th><th>Нийт ашиг</th><th>Зардал</th><th>Данс өсгөх</th><th>Гишүүдэд очих</th><th>Нэг гишүүн дундаж</th><th>Эцсийн капитал</th></tr></thead><tbody id="calcRows"></tbody></table></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="footer-note">POI Capital Group · Single background layer · Mobile scroll safe · Calculator + Performance in one HTML file</div>
+</main>
+
+<script>
+const API_URL='https://script.google.com/macros/s/AKfycbyTcEU5bOBb2ZAwPSoaylGFuueuk8evm9KNWFJF-oWTGa4n97DxiCnq6ZPUrFg5fpaC/exec';
+const fmt=n=>'$'+Math.round(Number(n)||0).toLocaleString('en-US');
+const pct=n=>((Number(n)||0)*100).toFixed(2)+'%';
+const safeNum=v=>{if(typeof v==='string')v=v.replace(/[$,%\s,]/g,'');const n=Number(v);return Number.isFinite(n)?n:0};
+const median=arr=>{const a=arr.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length)return 0;const m=Math.floor(a.length/2);return a.length%2?a[m]:(a[m-1]+a[m])/2};
+
+/* Tabs */
+const tabs=[...document.querySelectorAll('.tab')];
+const views={deck:document.getElementById('view-deck'),performance:document.getElementById('view-performance'),calculator:document.getElementById('view-calculator')};
+function showView(name){
+  tabs.forEach(t=>t.classList.toggle('active',t.dataset.view===name));
+  Object.entries(views).forEach(([k,v])=>v.classList.toggle('active',k===name));
+  if(location.hash!=='#'+name) history.replaceState(null,'','#'+name);
+  setTimeout(()=>window.scrollTo({top:0,behavior:'smooth'}),0);
+  if(name==='performance') drawPerf(perfState.history,perfState.summary);
+}
+tabs.forEach(t=>t.addEventListener('click',()=>showView(t.dataset.view)));
+window.addEventListener('load',()=>{const h=location.hash.replace('#','');if(views[h])showView(h)});
+
+/* Deck */
+const slides=[
+  {k:'Танилцуулга',t:'Фьючерс арилжааны хамтын ажиллагааны санал',s:'Зах зээлийн боломж · Эрсдэлийн хяналт · Ил тод тайлагнал · Хөрөнгө өсгөх бүтэц',type:'cards',items:[['Зорилго','Гишүүдийн хөрөнгийг нэг бүтэцтэй account model дотор өсгөж, weekly performance report‑оор ил тод хянах.','green'],['Фокус','NQ/MNQ futures дээр POI V2/V3 аргачлал, VP/TPO context, orderflow reaction ашиглана.',''],['Гишүүний харах зүйл','Оруулсан капитал, сар бүрийн cash flow, close үеийн авах дүн, нийт ROI.','amber']]},
+  {k:'Аргачлал',t:'POI V2/V3 үндсэн хөдөлгүүр',s:'Directional болон oscillation campaign‑ийг market context‑оор ялгана.',type:'steps',items:[['V2','Directional reaction: sweep, rejection, absorption, POC чиглэлтэй trade.'],['V3','Oscillation campaign: range дотор mean reversion, POI gravity.'],['CS2','Edge байхгүй үед no trade. Capital хамгаалах горим.'],['Filter','VP/TPO, CVD, LT‑Diff, absorption, stops, session structure.']]},
+  {k:'Эрсдэл',t:'Хамгаалалтын зарчим',s:'Daily profit‑оос илүү account survival чухал.',type:'cards',items:[['Position sizing','Account size, volatility, session quality‑оор lot хэмжээ нэмэгдэнэ.',''],['No edge = no trade','Market structure тодорхой биш үед оролцохгүй.','green'],['Event day protection','High impact мэдээ, liquidation zone, extreme imbalance үед хамгаалалтын горим.','amber']]},
+  {k:'Тайлагнал',t:'Weekly performance dashboard',s:'Гишүүдийн итгэлцэлд хамгийн чухал хэсэг нь тайлан.',type:'stats'},
+  {k:'Бүтэц',t:'Хөрөнгө өсөлтийн логик',s:'Ашгаас зардал, данс өсгөх хувь, гишүүдэд очих cash flow тусдаа харагдана.',type:'flow'},
+  {k:'Тооцоолуур',t:'Гишүүний урьдчилсан үр дүн',s:'Default setup: 2 гишүүн × $50k, ROI 10%, scale‑up 50%, cost 1%, 12 сар.',type:'member'},
+  {k:'Mobile fix',t:'Android дээр гацах алдааг авсан',s:'Энэ хувилбарт body scroll нээлттэй, stage fixed биш, iframe болон background canvas байхгүй.',type:'cards',items:[['Scroll','body overflow‑y auto, touch‑action pan‑y, -webkit-overflow-scrolling touch.','green'],['Background','Нэг static CSS layer. Давхар body/canvas/view background байхгүй.',''],['Performance + calculator','Хоёулаа same page content. Iframe дотор scroll түгжихгүй.','amber']]},
+  {k:'Дараагийн алхам',t:'Deploy хийхэд бэлэн бүтэц',s:'Netlify дээр index.html болгон оруулж publish хийнэ.',type:'steps',items:[['1','Энэ файлын нэрийг index.html болгоно.'],['2','Netlify deploy folder дотор ганцааранг нь тавина.'],['3','Android Chrome дээр refresh + clear site data хийж шалгана.'],['4','Performance API sync орж ирж байгаа эсэхийг Гүйцэтгэл tab дээр шалгана.']]}
+];
+let slideIndex=0;
+function slideHTML(sl,i){
+  let body='';
+  if(sl.type==='cards') body=`<div class="cards-grid cards-${sl.items.length>=3?3:2}">${sl.items.map(x=>`<div class="card ${x[2]||''}"><div class="c-label">${x[0]}</div><div class="c-text">${x[1]}</div></div>`).join('')}</div>`;
+  if(sl.type==='steps') body=`<div class="steps">${sl.items.map((x,j)=>`<div class="step"><div class="step-n">${j+1}</div><div class="step-t">${x[0]}</div><div class="step-p">${x[1]}</div></div>`).join('')}</div>`;
+  if(sl.type==='stats') body=`<div class="stats-row"><div class="metric"><div class="num cyan">API</div><div class="lbl">Google Sheet sync</div></div><div class="metric"><div class="num green">7W</div><div class="lbl">хаагдсан 7 хоног</div></div><div class="metric"><div class="num amber">ROI</div><div class="lbl">weekly return</div></div><div class="metric"><div class="num">DD</div><div class="lbl">max drawdown</div></div></div><div class="card green"><div class="c-label">Гүйцэтгэлийн зорилго</div><div class="c-text">Balance, weekly P/L, weekly ROI, max drawdown, statement link нэг дор харагдана.</div></div>`;
+  if(sl.type==='flow') body=`<div class="cards-grid cards-3"><div class="card"><div class="c-label">1. Нийт ашиг</div><div class="c-text">Сарын эхний капитал × ROI.</div></div><div class="card amber"><div class="c-label">2. Зардал + scale</div><div class="c-text">Зардал хасна. Доод scale‑up 50% дансандаа үлдэнэ.</div></div><div class="card green"><div class="c-label">3. Гишүүний cash flow</div><div class="c-text">Үлдсэн дүнгээс гишүүдэд очих сарын pool, дараа нь close үеийн авах дүн тооцогдоно.</div></div></div>`;
+  if(sl.type==='member') body=`<div class="result-grid"><div class="result-card"><div class="result-label">Эхлэх капитал</div><div class="result-value">$100K</div></div><div class="result-card"><div class="result-label">Сарын ROI</div><div class="result-value cyan">10%</div></div><div class="result-card"><div class="result-label">Scale‑up</div><div class="result-value green">50%</div></div><div class="result-card"><div class="result-label">Хугацаа</div><div class="result-value amber">12 сар</div></div></div><div class="card green"><div class="c-label">Гишүүний үр дүн</div><div class="c-text">Ногоон card дээр зөвхөн гишүүний суурь авах дүн, нийт ROI, сар бүрийн cash flow гарна. Данс удирдагчийн дүн тусад нь харуулахгүй.</div></div>`;
+  return `<article class="slide ${i===slideIndex?'is-active':''}"><div class="s-head"><div class="s-kick"><div class="s-num">${String(i+1).padStart(2,'0')}</div><div class="s-line"></div><div class="eyebrow">${sl.k}</div></div><div class="s-title">${sl.t}</div><div class="s-sub">${sl.s}</div></div><div class="s-body">${body}</div></article>`;
+}
+function renderDeck(){
+  document.getElementById('stage').innerHTML=slides.map(slideHTML).join('');
+  document.getElementById('slideCount').textContent=String(slideIndex+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+  document.getElementById('dots').innerHTML=slides.map((_,i)=>`<button class="dot ${i===slideIndex?'active':''}" data-i="${i}" aria-label="Slide ${i+1}"></button>`).join('');
+  [...document.querySelectorAll('.dot')].forEach(d=>d.addEventListener('click',()=>{slideIndex=Number(d.dataset.i);renderDeck()}));
+}
+document.getElementById('prevSlide').addEventListener('click',()=>{slideIndex=(slideIndex-1+slides.length)%slides.length;renderDeck()});
+document.getElementById('nextSlide').addEventListener('click',()=>{slideIndex=(slideIndex+1)%slides.length;renderDeck()});
+renderDeck();
+
+/* Performance */
+const fallbackHistory=[
+  {week:'W1',end:'2026-05-10',balance:150000,pl:10000,roi:.0714,dd:.018,statement:''},
+  {week:'W2',end:'2026-05-17',balance:164000,pl:14000,roi:.0933,dd:.022,statement:''},
+  {week:'W3',end:'2026-05-24',balance:181500,pl:17500,roi:.1067,dd:.019,statement:''},
+  {week:'W4',end:'2026-05-31',balance:198000,pl:16500,roi:.0909,dd:.024,statement:''},
+  {week:'W5',end:'2026-06-07',balance:216000,pl:18000,roi:.0909,dd:.020,statement:''},
+  {week:'W6',end:'2026-06-14',balance:235000,pl:19000,roi:.0880,dd:.023,statement:''},
+  {week:'W7',end:'2026-06-21',balance:255000,pl:20000,roi:.0851,dd:.021,statement:''}
+];
+let perfState={history:fallbackHistory,summary:{source:'fallback'}};
+function normalizePerf(data){
+  const raw=Array.isArray(data)?data:(data.history||data.weekly_history||data.performance_history||data.rows||data.data||[]);
+  const history=(Array.isArray(raw)?raw:[]).map((r,i)=>({
+    week:r.week||r.Week||r.week_no||r.name||('W'+(i+1)),
+    end:r.period_end||r.end||r.date||r.update_date||r['Period end']||'',
+    balance:safeNum(r.ending_balance??r.balance??r.current_balance??r['Ending balance']),
+    pl:safeNum(r.weekly_pl??r.pl??r.profit??r['Weekly P/L']),
+    roi:(String(r.weekly_roi??r.roi??r['Weekly ROI']??'').includes('%')?safeNum(r.weekly_roi??r.roi??r['Weekly ROI'])/100:safeNum(r.weekly_roi??r.roi??r['Weekly ROI'])),
+    dd:(String(r.max_dd??r.drawdown??r['Max DD']??'').includes('%')?safeNum(r.max_dd??r.drawdown??r['Max DD'])/100:safeNum(r.max_dd??r.drawdown??r['Max DD'])),
+    statement:r.statement||r.Statement||r.statement_url||''
+  })).filter(r=>r.balance||r.pl||r.roi);
+  const top=Array.isArray(data)?{}:data;
+  const h=history.length?history:fallbackHistory;
+  const last=h[h.length-1]||{};
+  return {history:h,summary:{
+    balance:safeNum(top.balance??top.current_balance??top.ending_balance)||last.balance||0,
+    weeklyPl:safeNum(top.weekly_pl??top.weeklyPL??top.pl)||last.pl||0,
+    weeklyRoi:(String(top.weekly_roi??'').includes('%')?safeNum(top.weekly_roi)/100:safeNum(top.weekly_roi))||last.roi||0,
+    maxDd:(String(top.max_weekly_dd??top.max_dd??'').includes('%')?safeNum(top.max_weekly_dd??top.max_dd)/100:safeNum(top.max_weekly_dd??top.max_dd))||last.dd||0,
+    updateDate:top.update_date||top.updated_at||last.end||'',
+    source:history.length?'api':'fallback'
+  }};
+}
+async function loadPerf(){
+  document.getElementById('perfSyncLine').textContent='Sync төлөв: Google Sheets API уншиж байна...';
+  try{
+    const res=await fetch(API_URL+'?t='+Date.now(),{cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    perfState=normalizePerf(data);
+  }catch(e){
+    perfState=normalizePerf({history:fallbackHistory});
+    perfState.summary.error=e.message;
+  }
+  renderPerf();
+}
+function renderPerf(){
+  const h=perfState.history, s=perfState.summary, last=h[h.length-1]||{};
+  const rois=h.slice(-7).map(x=>x.roi).filter(x=>Number.isFinite(x)&&x!==0);
+  const med=median(rois);
+  const bal=s.balance||last.balance||0;
+  const proj1=bal*(1+med), proj4=bal*Math.pow(1+med,4), proj12=bal*Math.pow(1+med,12);
+  document.getElementById('perfSummary').innerHTML=`
+    <div class="perf-card"><div class="perf-label">Ending balance</div><div class="perf-value green">${fmt(bal)}</div><div class="perf-mini">Update: ${s.updateDate||'—'}</div></div>
+    <div class="perf-card"><div class="perf-label">Weekly P/L</div><div class="perf-value ${s.weeklyPl>=0?'green':'amber'}">${fmt(s.weeklyPl)}</div><div class="perf-mini">Сүүлийн хаагдсан 7 хоног</div></div>
+    <div class="perf-card"><div class="perf-label">Weekly ROI</div><div class="perf-value cyan">${pct(s.weeklyRoi||last.roi)}</div><div class="perf-mini">Actual weekly return</div></div>
+    <div class="perf-card"><div class="perf-label">Max weekly DD</div><div class="perf-value amber">${pct(s.maxDd||last.dd)}</div><div class="perf-mini">Risk snapshot</div></div>`;
+  document.getElementById('projectionList').innerHTML=`
+    <div class="proj-row"><span>Median weekly ROI</span><b class="green">${pct(med)}</b></div>
+    <div class="proj-row"><span>1 долоо хоног</span><b>${fmt(proj1)}</b></div>
+    <div class="proj-row"><span>4 долоо хоног</span><b>${fmt(proj4)}</b></div>
+    <div class="proj-row"><span>12 долоо хоног</span><b>${fmt(proj12)}</b></div>`;
+  document.getElementById('perfRows').innerHTML=h.map(r=>`<tr><td>${r.week}</td><td>${r.end||'—'}</td><td>${fmt(r.balance)}</td><td class="${r.pl>=0?'pos':'warn'}">${fmt(r.pl)}</td><td>${pct(r.roi)}</td><td>${pct(r.dd)}</td><td>${r.statement?`<a class="pos" href="${r.statement}" target="_blank" rel="noopener">View</a>`:'—'}</td></tr>`).join('');
+  document.getElementById('perfSyncLine').textContent=s.source==='api'?'Sync төлөв: API‑аас амжилттай татлаа.':'Sync төлөв: API уншаагүй тул fallback demo дата харагдаж байна'+(s.error?' · '+s.error:'')+'.';
+  drawPerf(h,s);
+}
+function drawPerf(h){
+  const svg=document.getElementById('perfChart');
+  if(!svg)return;
+  const W=900,H=310,p=38;
+  const vals=h.map(x=>x.balance).filter(x=>x>0);
+  const min=Math.min(...vals), max=Math.max(...vals), span=(max-min)||1;
+  const pts=h.map((x,i)=>{const xx=p+(W-p*2)*(i/Math.max(1,h.length-1));const yy=H-p-(H-p*2)*((x.balance-min)/span);return [xx,yy,x];});
+  const d=pts.map((pnt,i)=>(i?'L':'M')+pnt[0].toFixed(1)+' '+pnt[1].toFixed(1)).join(' ');
+  const area=d+' L '+pts[pts.length-1][0]+' '+(H-p)+' L '+pts[0][0]+' '+(H-p)+' Z';
+  svg.innerHTML=`<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00C897" stop-opacity=".34"/><stop offset="1" stop-color="#00C897" stop-opacity="0"/></linearGradient></defs><rect width="900" height="310" fill="rgba(255,255,255,.015)"/><path d="${area}" fill="url(#g)"/><path d="${d}" fill="none" stroke="#00C897" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><g>${pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#4FC3F7"/>`).join('')}</g><text x="38" y="28" fill="#7D91B5" font-size="12">${fmt(max)}</text><text x="38" y="292" fill="#7D91B5" font-size="12">${fmt(min)}</text>`;
+}
+document.getElementById('refreshPerf').addEventListener('click',loadPerf);
+loadPerf();
+
+/* Calculator */
+let calc={mode:'equal',members:[{name:'Гишүүн 1',capital:50000},{name:'Гишүүн 2',capital:50000}]};
+const ids=['memberCount','equalCapital','monthlyRoi','months','costPct','reinvestPct','closeMode','memberClosePct','managerClosePct'];
+ids.forEach(id=>document.getElementById(id).addEventListener('input',renderCalc));
+document.getElementById('modeEqual').addEventListener('click',()=>{calc.mode='equal';renderCalc()});
+document.getElementById('modeFlex').addEventListener('click',()=>{calc.mode='flex';renderCalc()});
+document.getElementById('addMember').addEventListener('click',()=>{if(calc.members.length<14){calc.members.push({name:'Гишүүн '+(calc.members.length+1),capital:10000});renderCalc()}});
+function getMembers(){
+  if(calc.mode==='equal'){
+    const n=Math.max(1,Math.min(14,Math.round(safeNum(document.getElementById('memberCount').value)||2)));
+    const cap=Math.max(0,safeNum(document.getElementById('equalCapital').value)||0);
+    return Array.from({length:n},(_,i)=>({name:'Гишүүн '+(i+1),capital:cap}));
+  }
+  return calc.members.map((m,i)=>({name:m.name||('Гишүүн '+(i+1)),capital:Math.max(0,safeNum(m.capital))})).filter(m=>m.capital>0);
+}
+function renderMemberEditor(){
+  const box=document.getElementById('memberEditor');
+  box.innerHTML=calc.members.map((m,i)=>`<div class="mem-edit"><input data-i="${i}" data-k="name" value="${m.name}" /><input data-i="${i}" data-k="capital" type="number" step="1000" value="${m.capital}" /><button type="button" data-remove="${i}">×</button></div>`).join('');
+  box.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',()=>{const i=Number(inp.dataset.i);const k=inp.dataset.k;calc.members[i][k]=k==='capital'?safeNum(inp.value):inp.value;renderCalc(false)}));
+  box.querySelectorAll('button[data-remove]').forEach(btn=>btn.addEventListener('click',()=>{if(calc.members.length>1){calc.members.splice(Number(btn.dataset.remove),1);renderCalc()}}));
+}
+function calculate(){
+  const members=getMembers();
+  const n=members.length||1;
+  const totalCap=members.reduce((a,b)=>a+b.capital,0);
+  const roi=safeNum(document.getElementById('monthlyRoi').value)/100;
+  const months=Math.round(safeNum(document.getElementById('months').value));
+  const costPct=safeNum(document.getElementById('costPct').value)/100;
+  const reinvestPct=Math.max(.50,safeNum(document.getElementById('reinvestPct').value)/100);
+  const closeMode=document.getElementById('closeMode').value;
+  const memberClosePct=safeNum(document.getElementById('memberClosePct').value)/100;
+  const managerClosePct=safeNum(document.getElementById('managerClosePct').value)/100;
+  let cap=totalCap;
+  const income=members.map(()=>0), rows=[];
+  for(let m=1;m<=months;m++){
+    const start=cap;
+    const gross=start*roi;
+    const cost=gross*costPct;
+    const net=Math.max(0,gross-cost);
+    const reinvest=net*reinvestPct;
+    const distributable=Math.max(0,net-reinvest);
+    const memberPool=distributable*(n/(n+1));
+    members.forEach((mem,i)=>{const w=totalCap?mem.capital/totalCap:1/n;income[i]+=memberPool*w});
+    cap=start+reinvest;
+    rows.push({m,start,gross,cost,reinvest,memberPool,avg:memberPool/n,end:cap});
+  }
+  const finalAccount=cap;
+  const finalProfit=Math.max(0,finalAccount-totalCap);
+  const closeMemberPool=closeMode==='A'?(finalAccount*(n/(n+1))):finalProfit*memberClosePct;
+  const closeShares=members.map(mem=>closeMode==='A'?closeMemberPool/n:(totalCap?closeMemberPool*(mem.capital/totalCap):closeMemberPool/n));
+  const results=members.map((mem,i)=>{
+    const total=mem.capital+income[i]+closeShares[i];
+    return {...mem,monthly:income[i],close:closeShares[i],total,roi:mem.capital?(total-mem.capital)/mem.capital:0};
+  });
+  return {members,n,totalCap,roi,months,costPct,reinvestPct,closeMode,memberClosePct,managerClosePct,rows,finalAccount,finalProfit,closeMemberPool,results};
+}
+function renderCalc(rebuildEditor=true){
+  document.getElementById('modeEqual').classList.toggle('active',calc.mode==='equal');
+  document.getElementById('modeFlex').classList.toggle('active',calc.mode==='flex');
+  document.querySelectorAll('.equal-only').forEach(e=>e.style.display=calc.mode==='equal'?'block':'none');
+  document.querySelectorAll('.flex-only').forEach(e=>e.style.display=calc.mode==='flex'?'block':'none');
+  if(rebuildEditor) renderMemberEditor();
+  const c=calculate();
+  document.getElementById('modeText').textContent=calc.mode==='equal'?'Тэнцүү':'Өөр өөр дүн';
+  document.getElementById('memberCountText').textContent=document.getElementById('memberCount').value;
+  document.getElementById('equalCapitalText').textContent=fmt(document.getElementById('equalCapital').value);
+  document.getElementById('flexCountText').textContent=String(calc.members.length);
+  document.getElementById('roiText').textContent=safeNum(document.getElementById('monthlyRoi').value)+'%';
+  document.getElementById('monthsText').textContent=document.getElementById('months').value+' сар';
+  document.getElementById('costText').textContent=safeNum(document.getElementById('costPct').value)+'%';
+  document.getElementById('reinvestText').textContent=safeNum(document.getElementById('reinvestPct').value)+'%';
+  document.getElementById('closeText').textContent=c.closeMode;
+  document.getElementById('memberCloseText').textContent=safeNum(document.getElementById('memberClosePct').value)+'%';
+  document.getElementById('managerCloseText').textContent=safeNum(document.getElementById('managerClosePct').value)+'%';
+  const avg=c.results.reduce((a,b)=>a+b.total,0)/Math.max(1,c.results.length);
+  const avgRoi=c.results.reduce((a,b)=>a+b.roi,0)/Math.max(1,c.results.length);
+  document.getElementById('calcSummary').innerHTML=`
+    <div class="result-card"><div class="result-label">Нийт эхлэх капитал</div><div class="result-value">${fmt(c.totalCap)}</div></div>
+    <div class="result-card"><div class="result-label">Эцсийн account</div><div class="result-value cyan">${fmt(c.finalAccount)}</div></div>
+    <div class="result-card"><div class="result-label">Гишүүний дундаж авах</div><div class="result-value green">${fmt(avg)}</div></div>
+    <div class="result-card"><div class="result-label">Дундаж ROI</div><div class="result-value amber">+${(avgRoi*100).toFixed(1)}%</div></div>`;
+  const first=c.results[0]||{total:0,monthly:0,close:0,capital:0,roi:0};
+  const equal=c.results.every(r=>Math.abs(r.total-first.total)<1);
+  document.getElementById('mainMemberResult').innerHTML=`
+    <div class="bg-top"><div><div class="bg-k">${equal?'Гишүүний урьдчилсан үр дүн · тус бүр':'Гишүүдийн урьдчилсан үр дүн'}</div><div class="bg-v">${equal?fmt(first.total):fmt(avg)}</div><div class="bg-sub">${equal?'Нэг гишүүний авах дүн':'Нэг гишүүний дундаж авах дүн'} · ROI ${equal?('+'+(first.roi*100).toFixed(1)+'%'):('+'+(avgRoi*100).toFixed(1)+'%')}</div></div><div class="bg-side"><div>Сарын cash flow</div><b>${equal?fmt(first.monthly):fmt(c.results.reduce((a,b)=>a+b.monthly,0)/c.results.length)}</b><div style="margin-top:8px">Close үеийн share</div><b>${equal?fmt(first.close):fmt(c.closeMemberPool/c.results.length)}</b></div></div>
+    <div class="member-results">${c.results.map(r=>`<div class="member-box"><div class="member-name">${r.name}</div><div class="member-row"><span>Оруулсан капитал</span><b>${fmt(r.capital)}</b></div><div class="member-row"><span>Сарын cash flow нийт</span><b>${fmt(r.monthly)}</b></div><div class="member-row"><span>Close share</span><b>${fmt(r.close)}</b></div><div class="member-row"><span>Нийт авах</span><b class="pos">${fmt(r.total)}</b></div><div class="member-row"><span>ROI</span><b class="pos">+${(r.roi*100).toFixed(1)}%</b></div></div>`).join('')}</div>`;
+  document.getElementById('logicBox').innerHTML=`<b>Логик:</b> ${c.n} гишүүний нийт капитал <b>${fmt(c.totalCap)}</b>. Сарын ашиг <b>${(c.roi*100).toFixed(1)}%</b>. Ашгаас <b>${(c.costPct*100).toFixed(2)}%</b> зардал хасаж, үлдсэнээс <b class="green">${(c.reinvestPct*100).toFixed(0)}%</b> дансандаа өсгөж үлдээнэ. Сарын distribution‑оос гишүүдийн pool weighted байдлаар хуваагдана. Close option <b>${c.closeMode}</b> үед гишүүдийн profit share <b class="green">${(c.memberClosePct*100).toFixed(0)}%</b>. Удирдлагын дүн dashboard дээр гаргахгүй.`;
+  document.getElementById('calcRows').innerHTML=c.rows.map(r=>`<tr><td>${r.m}</td><td>${fmt(r.start)}</td><td class="pos">${fmt(r.gross)}</td><td>${fmt(r.cost)}</td><td class="green">${fmt(r.reinvest)}</td><td class="pos">${fmt(r.memberPool)}</td><td>${fmt(r.avg)}</td><td>${fmt(r.end)}</td></tr>`).join('');
+}
+renderCalc();
+
+/* Keyboard safe */
+document.addEventListener('keydown',e=>{if(!views.deck.classList.contains('active'))return;if(e.key==='ArrowLeft')document.getElementById('prevSlide').click();if(e.key==='ArrowRight')document.getElementById('nextSlide').click();});
+</script>
+</body>
+</html>
