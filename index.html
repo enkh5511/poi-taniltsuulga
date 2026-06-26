@@ -1237,7 +1237,66 @@ body.cert-lock{overflow:hidden}
 #view-performance{padding:0!important;overflow:hidden!important;background:url('aurora.jpg') center/cover no-repeat!important}
 #view-performance:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 24% 8%,rgba(0,200,151,.08),transparent 34%),radial-gradient(circle at 76% 18%,rgba(79,195,247,.07),transparent 34%),linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.84));pointer-events:none;z-index:-1}
 #performanceframe{width:100%!important;height:100%!important;border:0!important;background:transparent!important}
+
+
+/* === V12 FIX: calculator/performance sections keep aurora behind iframe === */
+#view-calc, #view-performance{
+  background-image:
+    radial-gradient(circle at 24% 8%, rgba(0,200,151,.18), transparent 34%),
+    radial-gradient(circle at 76% 18%, rgba(79,195,247,.13), transparent 34%),
+    linear-gradient(rgba(2,6,8,.28), rgba(2,6,8,.74)),
+    url('aurora.jpg') !important;
+  background-position:center center !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+}
+#calcframe{background:transparent!important;}
+
 </style>
+
+<style id="v13-aurora-exact-background">
+/* V13: exact POI aurora background, no artificial fog/gradient replacement */
+html,body{
+  min-height:100% !important;
+  background:#020608 url('aurora.jpg') center center/cover no-repeat fixed !important;
+}
+body::before{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:-10 !important;
+  background:url('aurora.jpg') center center/cover no-repeat fixed !important;
+  opacity:1 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+body::after{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:-9 !important;
+  background:transparent !important;
+  opacity:0 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+.view,#view-home,#view-calc,#view-performance,.site-view,.page-view{
+  background:transparent !important;
+  background-image:none !important;
+}
+#view-calc::before,#view-calc::after,#view-performance::before,#view-performance::after,
+.view::before,.view::after,.site-view::before,.site-view::after,.page-view::before,.page-view::after{
+  background:transparent !important;
+  background-image:none !important;
+  opacity:0 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+#calcframe,#performanceframe,iframe{
+  background:transparent !important;
+}
+</style>
+
 </head>
 <body>
 <div class="site-copyright">© 2026 Enkhtuvshin Tserennadmid. All rights reserved.</div>

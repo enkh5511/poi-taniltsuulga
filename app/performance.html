@@ -1298,9 +1298,175 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradie
 .sheet-note{margin-top:12px;border-left:3px solid rgba(0,200,151,.55);padding:10px 12px;background:rgba(0,200,151,.06);border-radius:0 12px 12px 0;color:#c8fff0;font-size:12px;line-height:1.55}
 @media (max-width:760px){.sheet-control-grid,.sheet-projection{grid-template-columns:1fr}.sheet-proj-card.main{grid-column:auto}.perf-sheet-member{padding:15px}}
 
+
+
+/* === V12 FIX: app pages always show the aurora background === */
+html, body {
+  background-color:#020608 !important;
+  background-image:
+    radial-gradient(circle at 24% 8%, rgba(0,200,151,.18), transparent 34%),
+    radial-gradient(circle at 76% 18%, rgba(79,195,247,.13), transparent 34%),
+    linear-gradient(rgba(2,6,8,.34), rgba(2,6,8,.82)),
+    url('../aurora.jpg') !important;
+  background-position:center center !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+  background-attachment:fixed !important;
+}
+body {
+  position:relative !important;
+  isolation:isolate !important;
+}
+body::before {
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:-1 !important;
+  pointer-events:none !important;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(0,200,151,.12), transparent 28%),
+    radial-gradient(circle at 78% 28%, rgba(79,195,247,.10), transparent 30%),
+    radial-gradient(circle at 50% 84%, rgba(255,181,71,.08), transparent 34%) !important;
+  opacity:1 !important;
+  filter:none !important;
+}
+
+</style>
+
+<style id="v13-aurora-exact-background">
+/* V13: exact POI aurora background for standalone app pages */
+html,body{
+  min-height:100% !important;
+  background:#020608 url('../aurora.jpg') center center/cover no-repeat fixed !important;
+}
+body::before{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:-10 !important;
+  background:url('../aurora.jpg') center center/cover no-repeat fixed !important;
+  opacity:1 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+body::after{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:-9 !important;
+  background:transparent !important;
+  opacity:0 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+#view-calc,#view-performance,.view,.site-view,.page-view,.calc-page,.perf-page{
+  background:transparent !important;
+  background-image:none !important;
+}
+#view-calc::before,#view-calc::after,#view-performance::before,#view-performance::after,
+.view::before,.view::after,.site-view::before,.site-view::after,.page-view::before,.page-view::after,
+.calc-page::before,.calc-page::after,.perf-page::before,.perf-page::after{
+  background:transparent !important;
+  background-image:none !important;
+  opacity:0 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+</style>
+
+
+
+<style id="v14-module-motion-bg-css">
+/* V14: main page-ийн aurora + twinkle stars + moving gold network effect-ийг module дотор сэргээв */
+html,body{
+  min-height:100% !important;
+  background:#020608 url('../aurora.jpg') center center/cover no-repeat fixed !important;
+}
+body{position:relative !important; overflow-x:hidden !important;}
+#wbg{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+  opacity:1 !important;
+  filter:none !important;
+}
+.wrap,#view-performance,.perf-wrap,main,.calc-view,.choice-grid,.topbar{
+  position:relative !important;
+  z-index:1 !important;
+}
+/* old static star layer duplicate үүсгэхгүй */
+.stars{display:none !important;}
+</style>
+
+
+<style id="v15-member-login-dashboard-css">
+/* V15: Гүйцэтгэл хэсэг дээр гишүүн нэвтэрсний дараа л Sheet-driven хувийн самбар нээгдэнэ. Manual slider устгасан. */
+.sheet-auth-view,.sheet-dashboard-view{position:relative;z-index:1}
+.sheet-auth-title{font-size:24px;margin-top:4px}
+.sheet-auth-copy{max-width:780px}
+.sheet-login-card{margin-top:18px;border:1px solid rgba(79,195,247,.22);background:linear-gradient(180deg,rgba(5,22,26,.82),rgba(4,14,16,.86));border-radius:18px;padding:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 18px 44px rgba(0,0,0,.26)}
+.auth-grid{grid-template-columns:1fr 1fr auto!important;align-items:end}
+.auth-action{min-width:180px}
+.sheet-fetch-btn{font-size:14px!important;letter-spacing:.02em}
+.sheet-login-loading{display:flex;align-items:center;gap:12px;margin-top:14px;border:1px solid rgba(0,200,151,.22);background:rgba(0,200,151,.08);border-radius:14px;padding:12px 14px;color:#dffff8}
+.sheet-login-loading.is-hidden,.sheet-dashboard-view.is-hidden,.sheet-auth-view.is-hidden{display:none!important}
+.sheet-spinner{width:26px;height:26px;border-radius:50%;border:3px solid rgba(79,195,247,.20);border-top-color:#00e6b0;border-right-color:#ffd66b;animation:sheetSpin .85s linear infinite;flex:0 0 auto}
+@keyframes sheetSpin{to{transform:rotate(360deg)}}
+.sheet-login-loading b{font-weight:900;color:#cffff7}.sheet-login-loading small{display:block;color:#8ecbc3;font-size:12px;margin-left:auto}
+.sheet-login-error{margin-top:12px;color:#ff8a8a;font-weight:800;font-size:13px;min-height:18px}
+.sheet-note.muted{color:#96bcb5;border-top:1px solid rgba(255,255,255,.07);padding-top:12px;margin-top:12px}
+.sheet-welcome-card{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;border:1px solid rgba(0,200,151,.24);background:linear-gradient(135deg,rgba(0,200,151,.12),rgba(79,195,247,.055));border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:0 18px 50px rgba(0,200,151,.07)}
+.sheet-login-status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.sheet-mini-btn{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#bfffee;border-radius:999px;padding:8px 12px;font-weight:900;cursor:pointer}.sheet-mini-btn:hover{border-color:rgba(79,195,247,.45);color:#fff}
+.sheet-profile-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}.sheet-profile-card{border:1px solid rgba(79,195,247,.14);background:rgba(6,20,22,.72);border-radius:14px;padding:13px}.sheet-profile-card span{display:block;color:#7fc6bd;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}.sheet-profile-card b{display:block;color:#eafffb;font-size:20px;margin-top:5px}.sheet-profile-card.green b{color:#00e6b0}.sheet-profile-card.gold b{color:#ffd66b}.sheet-profile-card.cyan b{color:#61d7ff}
+.sheet-progress-card{border:1px solid rgba(255,214,107,.28);background:linear-gradient(135deg,rgba(255,214,107,.12),rgba(0,200,151,.06));border-radius:16px;padding:15px;margin:12px 0}.sheet-progress-card h4{margin:0 0 8px;color:#ffe49c;font-size:15px}.sheet-progress-big{display:flex;justify-content:space-between;gap:12px;align-items:baseline}.sheet-progress-big b{font-size:24px;color:#fff}.sheet-progress-big span{color:#a9d8d1;font-size:12px}.sheet-goal-line{height:10px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin:12px 0}.sheet-goal-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#00c897,#4fc3f7);box-shadow:0 0 18px rgba(0,200,151,.35)}.sheet-goal-fill.over{background:linear-gradient(90deg,#00c897,#ffd66b)}.sheet-progress-card small{display:block;color:#c9f5ef;line-height:1.55}
+.sheet-projection{margin-top:14px}.sheet-proj-card.member-main{grid-column:span 2;background:linear-gradient(180deg,rgba(0,200,151,.18),rgba(0,200,151,.06));border-color:rgba(0,200,151,.30)}
+.sheet-brief-card{border:1px solid rgba(79,195,247,.18);background:rgba(4,16,21,.78);border-radius:16px;padding:15px;margin-top:14px}.sheet-brief-card h4{margin:0 0 8px;color:#8be7ff}.sheet-brief-card p{margin:0;color:#b7ddd8;line-height:1.65;font-size:13px}.sheet-brief-card .brief-note{margin-top:10px;color:#ffdf8c;border-top:1px solid rgba(255,255,255,.07);padding-top:10px}
+.sheet-month-table{margin-top:14px}.sheet-month-table table{font-size:12px}
+
+/* V16 two-step flow: performance цэс = эхлээд нэвтрэх нүүр, дараа нь үндсэн dashboard */
+body.perf-auth-gate #view-performance{display:flex!important;align-items:flex-start;justify-content:center;padding-top:clamp(28px,7vh,72px)}
+body.perf-auth-gate .perf-hero,
+body.perf-auth-gate #perfLoading,
+body.perf-auth-gate #perfCards,
+body.perf-auth-gate .perf-charts,
+body.perf-auth-gate .perf-left-stack,
+body.perf-auth-gate .perf-table-card{display:none!important}
+body.perf-auth-gate .perf-wrap{width:min(900px,calc(100vw - 36px));margin:0 auto}
+body.perf-auth-gate .perf-lower{display:block!important;margin:0!important}
+body.perf-auth-gate .perf-sheet-member{width:100%;max-width:900px;margin:0 auto;padding:clamp(18px,3vw,30px);border-color:rgba(79,195,247,.32);box-shadow:0 24px 80px rgba(0,0,0,.35),0 0 80px rgba(0,200,151,.08)}
+body.perf-auth-gate .sheet-auth-title{font-size:clamp(26px,4.8vw,46px);line-height:1.08;color:#eaffff;text-wrap:balance;max-width:820px}
+body.perf-auth-gate .sheet-auth-copy{font-size:15px;line-height:1.75;max-width:760px;color:#b8efe8;margin-top:12px}
+body.perf-auth-gate .sheet-login-card{margin-top:22px;padding:18px;border-radius:20px;background:linear-gradient(180deg,rgba(4,20,25,.88),rgba(3,12,17,.92))}
+body.perf-auth-gate .auth-badges{margin-top:18px}
+body.perf-auth-gate .sheet-note.muted{font-size:12.5px;line-height:1.6}
+body.perf-member-authed .perf-sheet-member{max-width:1180px;margin:0 auto 16px;grid-column:1/-1;order:-1}
+body.perf-member-authed .sheet-welcome-card{padding:22px;border-radius:20px}
+body.perf-member-authed .sheet-welcome-card .perf-section-title{font-size:clamp(26px,4.4vw,42px);line-height:1.08;color:#eaffff}
+body.perf-member-authed .perf-lower{grid-template-columns:1fr!important}
+body.perf-member-authed .perf-left-stack{grid-template-columns:1fr 1fr;display:grid}
+@media(max-width:980px){body.perf-member-authed .perf-left-stack{grid-template-columns:1fr}}
+
+@media(max-width:860px){.auth-grid,.sheet-profile-grid{grid-template-columns:1fr!important}.auth-action{min-width:0}.sheet-welcome-card{display:block}.sheet-login-status{justify-content:flex-start;margin-top:12px}.sheet-proj-card.member-main{grid-column:auto}}
+</style>
+
+
+<style id="v17-member-focused-css">
+.sheet-access-input{text-transform:none!important;letter-spacing:.06em!important}
+.sheet-proj-card.thanks{background:rgba(255,214,107,.09);border-color:rgba(255,214,107,.26)}
+.sheet-thanks-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-top:10px}
+.sheet-thanks-row input[type=range]{width:100%;accent-color:#ffd66b;cursor:pointer}
+.sheet-thanks-pill{display:inline-flex;align-items:center;justify-content:center;min-width:46px;height:28px;border-radius:999px;background:rgba(255,214,107,.13);border:1px solid rgba(255,214,107,.32);color:#ffe49c;font-weight:950;font-size:12px}
+.sheet-proj-card.subtle-total b{font-size:18px;color:#bfffee}
+.sheet-progress-big.member-only b{font-size:22px}.sheet-progress-big.member-only span{font-size:13px;font-weight:900;color:#ffe49c}
+.sheet-month-table table{min-width:420px!important}.sheet-month-table th:nth-child(2),.sheet-month-table td:nth-child(2){text-align:right}.sheet-month-table td.num{font-size:12.5px}
+.sheet-brief-card{margin-top:18px!important}
 </style>
 </head>
-<body>
+<body class="perf-auth-gate">
+<canvas id="wbg" aria-hidden="true"></canvas>
 <section id="view-performance" class="view active">
   <div class="perf-wrap">
     <div class="perf-hero">
@@ -1309,7 +1475,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradie
           <div>
             <div class="perf-kicker">LIVE PERFORMANCE DASHBOARD</div>
             <h2 class="perf-title">Гүйцэтгэл</h2>
-            <p class="perf-sub">Google Sheets дээр хадгалсан 7 хоногийн хаалттай үр дүнгээс гүйцэтгэлийн самбар, сарын тайлан, өсөлтийн график, гишүүний урьдчилсан өгөөжийн тооцоог автоматаар уншиж харуулна.</p>
+            <p class="perf-sub">Бүртгэлийн сан дээр хадгалсан 7 хоногийн хаалттай үр дүнгээс гүйцэтгэлийн самбар, сарын тайлан, өсөлтийн график, гишүүний урьдчилсан өгөөжийн тооцоог автоматаар уншиж харуулна.</p>
             <div class="perf-actions">
               <button class="perf-btn" id="perfReloadBtn" type="button">Дата шинэчлэх</button>
               <button class="perf-btn secondary" type="button" onclick="goSection('calc')">Тооцоолуур руу</button>
@@ -1317,7 +1483,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradie
           </div>
           <div class="perf-status is-loading">
             <small>LIVE DATA</small>
-            <b id="perfStatusText">Google Sheets холболт хүлээгдэж байна...</b>
+            <b id="perfStatusText">Бүртгэлийн мэдээлэл хүлээгдэж байна...</b>
             <div class="perf-update-time" id="perfUpdateTime">Дата шинэчлэгдсэн: —</div>
           </div>
         </div>
@@ -1325,11 +1491,11 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradie
       <div class="perf-panel">
         <div class="perf-kicker">Тэмдэглэл</div>
         <div class="perf-title" style="font-size:25px" id="perfOperatorHeadline">—</div>
-        <p class="perf-sub" id="perfOperatorNote">Sheet дээрх operator_note энд харагдана.</p>
+        <p class="perf-sub" id="perfOperatorNote">Бүртгэл дээрх operator_note энд харагдана.</p>
       </div>
     </div>
 
-    <div id="perfLoading" class="perf-loading">Google Sheets-ээс дата татаж байна...</div>
+    <div id="perfLoading" class="perf-loading">Бүртгэлийн сангаас дата татаж байна...</div>
 
     <div class="perf-grid" id="perfCards" aria-live="polite"></div>
 
@@ -1368,119 +1534,68 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradie
           <div class="perf-method-box" id="perfForecastMethodBox" hidden>
             <div class="perf-method-kicker">Тооцооны аргачлал</div>
             <div class="perf-method-copy">Аргачлал: сүүлийн хаагдсан 7 хоногийн өгөөжийн цуваанд <b>нийлмэл дундаж өгөөж</b> хэрэглэнэ.</div>
-            <div class="perf-method-copy">Урьдчилсан дансны хэмжээ = одоогийн дансны хэмжээ × (1 + суурь 7 хоногийн дундаж өгөөж).</div>
-            <div class="perf-method-copy subtle">Оролтын өгөгдөл: хаагдсан 7 хоногийн өгөөжийн цуваа, одоогийн дансны хэмжээ, сүүлийн гүйцэтгэлийн түүх.</div>
+            <div class="perf-method-copy">Дараагийн 7 хоногийн төлөвлөгдсөн ашиг = хаагдсан дансны хэмжээ × суурь 7 хоногийн дундаж өгөөж.</div>
+            <div class="perf-method-copy subtle">Оролтын өгөгдөл: хаагдсан 7 хоногийн өгөөжийн цуваа болон сүүлийн гүйцэтгэлийн түүх.</div>
           </div>
         </div>
       </div>
-
-      <div class="perf-member-tool">
-        <div class="perf-section-title">Гишүүний урьдчилсан үр дүн</div>
-        <div class="perf-section-sub">Том тооцоолуурын 2 үндсэн logic-той тааруулсан: ижил дүнтэй бүлэг дээр А/Б хаалтын сонголт, өөр өөр дүнтэй бүлэг дээр нийт капиталд эзлэх хувиар сарын мөнгөн урсгал болон данс хаах үеийн дүн бодогдоно.</div>
-
-        <div class="perf-mode-row">
-          <button class="perf-mode-btn active" id="perfCalcEqual" type="button">Тооцоолуур 1 · Ижил дүн</button>
-          <button class="perf-mode-btn" id="perfCalcWeighted" type="button">Тооцоолуур 2 · Хувийн жин</button>
-        </div>
-        <div class="perf-mode-row" id="perfCloseModeRow">
-          <button class="perf-mode-btn" id="perfModeA" type="button">А · Данс тэнцүү хуваах</button>
-          <button class="perf-mode-btn active" id="perfModeB" type="button">Б · Капитал буцааж, ашгийг хувьчлах</button>
-        </div>
-
-        <div class="perf-tool-controls static-controls">
-          <div class="perf-tool-control">
-            <label>Гишүүдийн тоо <b id="perfMemberCountLabel">2 хүн</b></label>
-            <input id="perfMemberCount" type="range" min="1" max="10" step="1" value="2">
-          </div>
-          <div class="perf-tool-control">
-            <label><span id="perfMemberCapitalText">Нэг гишүүний капитал</span> <b id="perfMemberCapitalLabel">$50,000</b></label>
-            <input id="perfMemberCapital" type="range" min="10000" max="250000" step="5000" value="50000">
-          </div>
-          <div class="perf-tool-control is-hidden" id="perfWeightedTotalWrap">
-            <label>Нийт хамтын капитал <b id="perfWeightedTotalLabel">$100,000</b></label>
-            <input id="perfWeightedTotal" type="range" min="10000" max="400000" step="5000" value="100000">
-          </div>
-          <div class="perf-tool-control">
-            <label>Сарын жишээ өгөөж <b id="perfMemberReturnLabel">10%</b></label>
-            <input id="perfMemberReturn" type="range" min="2" max="20" step="1" value="10">
-          </div>
-          <div class="perf-tool-control">
-            <label>Дансанд үлдэх хувь <b id="perfMemberScaleLabel">50%</b></label>
-            <input id="perfMemberScale" type="range" min="50" max="70" step="5" value="50">
-          </div>
-          <div class="perf-tool-control">
-            <label>Хугацаа <b id="perfMemberMonthsLabel">12 сар</b></label>
-            <input id="perfMemberMonths" type="range" min="1" max="36" step="1" value="12">
-          </div>
-          <div class="perf-tool-control">
-            <label>Гүйцэтгэлийн урамшуулал <b id="perfIncentiveLabel">5%</b></label>
-            <input id="perfIncentive" type="range" min="0" max="20" step="5" value="5">
-          </div>
-        </div>
-
-        <div class="perf-member-projection" id="perfMemberProjection"></div>
-        <div class="perf-projection-note" id="perfMemberProjectionNote"></div>
-      </div>
-
 
       <div class="perf-sheet-member" id="perfSheetMemberModule">
-        <div class="perf-section-title">Google Sheet-д суурилсан гишүүний зураглал</div>
-        <div class="perf-section-sub">Гишүүн өөрийн дугаар болон нэвтрэх кодоо оруулахад Google Sheet-ээс капитал, эзлэх хувь, campaign тохиргоо шууд татагдаж, сарын мөнгөн урсгал болон campaign хаах үеийн дүн бодогдоно.</div>
-        <div class="sheet-badge-row">
-          <span class="sheet-badge green" id="sheetDataStatus">Sheet feed: LIVE API холбогдсон</span>
-          <span class="sheet-badge">Тооцоолуур 1 ба 2 logic 1:1</span>
-          <span class="sheet-badge">Гүйцэтгэлийн урамшуулал net дүнгээс хасагдана</span>
-        </div>
-        <div class="perf-mode-row">
-          <button class="perf-mode-btn" id="sheetCalcEqual" type="button">1 · Ижил дүнтэй бүлэг</button>
-          <button class="perf-mode-btn active" id="sheetCalcWeighted" type="button">2 · Өөрийн дүн / эзлэх хувь</button>
-        </div>
-        <div class="perf-mode-row" id="sheetCloseModeRow">
-          <button class="perf-mode-btn" id="sheetCloseA" type="button">А · Данс тэнцүү хуваах</button>
-          <button class="perf-mode-btn active" id="sheetCloseB" type="button">Б · Капитал + ашгийн хувь</button>
-        </div>
-        <div class="sheet-control-grid">
-          <div class="sheet-control">
-            <label>Гишүүний дугаар <b id="sheetMemberNoLabel">1</b></label>
-            <input id="sheetMemberNo" type="number" min="1" max="10" step="1" value="1" inputmode="numeric">
+        <div class="sheet-auth-view" id="sheetAuthView">
+          <div class="perf-kicker">ГИШҮҮНИЙ НЭВТРЭХ ХЭСЭГ</div>
+          <div class="perf-section-title sheet-auth-title">Гишүүний гүйцэтгэлийн нэвтрэх хэсэг</div>
+          <div class="perf-section-sub sheet-auth-copy">
+            Тавтай морилно уу. Энэ хэсэгт гишүүн өөрийн оруулсан капитал, эзлэх хувь, хүлээгдэж буй өгөөж, сарын гүйцэтгэл, 7 хоногийн ерөнхий дүр зураг болон хуваарилалтын урьдчилсан тооцоог харах боломжтой. Гишүүний дугаар болон нэвтрэх кодоо оруулаад үр дүнгээ харна уу.
           </div>
-          <div class="sheet-control">
-            <label>Нэвтрэх код <b>access</b></label>
-            <div class="sheet-password-wrap">
-              <input id="sheetAccessCode" class="sheet-access-input" type="text" value="" placeholder="••••••••" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" aria-label="Нэвтрэх код">
-              <button id="sheetAccessToggle" class="sheet-toggle-btn" type="button" aria-pressed="false">SHOW</button>
+          <div class="sheet-badge-row auth-badges">
+            <span class="sheet-badge green">Зөвхөн бүртгэлтэй гишүүн</span>
+            <span class="sheet-badge">Дугаар + кодоор нэвтэрнэ</span>
+            <span class="sheet-badge">Мэдээлэл автоматаар бэлдэгдэнэ</span>
+          </div>
+          <div class="sheet-login-card">
+            <div class="sheet-control-grid auth-grid">
+              <div class="sheet-control">
+                <label>Гишүүний дугаар <b id="sheetMemberNoLabel">—</b></label>
+                <input id="sheetMemberNo" type="number" min="1" max="10" step="1" value="" inputmode="numeric" placeholder="Жишээ: 1">
+              </div>
+              <div class="sheet-control">
+                <label>Нэвтрэх код <b>••••</b></label>
+                <div class="sheet-password-wrap">
+                  <input id="sheetAccessCode" class="sheet-access-input" type="text" value="" placeholder="••••••••" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" aria-label="Нэвтрэх код">
+                  <button id="sheetAccessToggle" class="sheet-toggle-btn" type="button" aria-pressed="false">SHOW</button>
+                </div>
+              </div>
+              <div class="sheet-control sheet-action-control auth-action">
+                <button class="sheet-fetch-btn" id="sheetFetchBtn" type="button">Нэвтрэх</button>
+                <small class="sheet-login-hint" id="sheetLoginHint">Кодоо мартсан бол удирдагчтай холбогдож шинэ код авна уу.</small>
+              </div>
+            </div>
+            <div class="sheet-login-loading is-hidden" id="sheetLoginLoading"><span class="sheet-spinner"></span><b>Нэвтэрч байна...</b><small>Гишүүний мэдээлэл шалгаж байна.</small></div>
+            <div class="sheet-login-error" id="sheetLoginError" aria-live="polite"></div>
+          </div>
+          <div class="sheet-note muted" id="sheetMemberNote">Нэвтэрсний дараа таны бүртгэгдсэн капитал, эзлэх хувь, campaign тохиргоо автоматаар уншигдаж хувийн тооцоолол нээгдэнэ.</div>
+        </div>
+
+        <div class="sheet-dashboard-view is-hidden" id="sheetDashboardView">
+          <div class="sheet-welcome-card">
+            <div>
+              <div class="perf-kicker">ГИШҮҮНИЙ САМБАР</div>
+              <div class="perf-section-title" id="sheetWelcomeName">Тавтай морил</div>
+              <div class="perf-section-sub" id="sheetWelcomeText">Таны мэдээлэл амжилттай татагдлаа.</div>
+            </div>
+            <div class="sheet-login-status">
+              <span class="sheet-badge green" id="sheetDataStatus">Нэвтэрсэн</span>
+              <button class="sheet-mini-btn" id="sheetLogoutBtn" type="button">Солих</button>
             </div>
           </div>
-          <div class="sheet-control sheet-action-control">
-            <button class="sheet-fetch-btn" id="sheetFetchBtn" type="button">Sheet-ээс татах</button>
-            <small class="sheet-login-hint" id="sheetLoginHint">Нэвтрэх кодыг зөвхөн гишүүн өөрөө оруулна.</small>
-          </div>
-          <div class="sheet-control">
-            <label>Sheet-ээс ирэх өөрийн капитал <b id="sheetMemberCapLabel">$50,000</b></label>
-            <input id="sheetMemberCap" type="range" min="5000" max="250000" step="1000" value="50000">
-          </div>
-          <div class="sheet-control">
-            <label>Нийт хамтын капитал <b id="sheetTotalCapLabel">$100,000</b></label>
-            <input id="sheetTotalCap" type="range" min="10000" max="400000" step="1000" value="100000">
-          </div>
-          <div class="sheet-control">
-            <label>Сарын жишээ өгөөж <b id="sheetReturnLabel">10%</b></label>
-            <input id="sheetReturn" type="range" min="2" max="20" step="1" value="10">
-          </div>
-          <div class="sheet-control">
-            <label>Дансанд үлдэх хувь <b id="sheetScaleLabel">50%</b></label>
-            <input id="sheetScale" type="range" min="50" max="70" step="5" value="50">
-          </div>
-          <div class="sheet-control">
-            <label>Хугацаа <b id="sheetMonthsLabel">12 сар</b></label>
-            <input id="sheetMonths" type="range" min="1" max="36" step="1" value="12">
-          </div>
+
+          <div class="sheet-profile-grid" id="sheetProfileGrid"></div>
+          <div class="sheet-progress-card" id="sheetCampaignProgress"></div>
+          <div class="sheet-projection" id="sheetMemberProjection"></div>
+          <div class="sheet-month-table" id="sheetMonthTable"></div>
+          <div class="sheet-brief-card" id="sheetMarketBrief"></div>
         </div>
-        <div class="sheet-projection" id="sheetMemberProjection"></div>
-        <div class="sheet-month-table" id="sheetMonthTable"></div>
-        <div class="sheet-note" id="sheetMemberNote">Дугаар болон access code оруулаад “Sheet-ээс татах” дарна. Дата татагдсаны дараа өөрийн капитал, нийт капитал, эзлэх хувь Sheet-ийн утгаар түгжигдэнэ.</div>
-      </div>
-    </div>
+      </div>    </div>
 
     <div class="perf-table-card">
       <div class="perf-section-title">7 хоногийн гүйцэтгэлийн түүх</div>
@@ -1684,9 +1799,9 @@ function loadPerformanceDashboard(force){
   __perfLoading=true;
 
   if(!instant){
-    perfSetStatus("Google Sheets-ээс шууд дата татаж байна...",false,"loading");
+    perfSetStatus("Бүртгэлийн сангаас дата татаж байна...",false,"loading");
   }else{
-    perfSetStatus("Google Sheets-ийн шинэчлэлт шалгаж байна...",false,"loading");
+    perfSetStatus("Бүртгэлийн шинэчлэлт шалгаж байна...",false,"loading");
   }
 
   perfFetchJsonp(PERFORMANCE_API_URL).then(function(data){
@@ -1694,7 +1809,7 @@ function loadPerformanceDashboard(force){
     __perfDataCache=data;
     perfWriteLocalCache(data);
     renderPerformanceDashboard(data);
-    perfSetStatus("Google Sheets дата шинэчлэгдлээ.",false,"ok");
+    perfSetStatus("Бүртгэлийн дата шинэчлэгдлээ.",false,"ok");
   }).catch(function(err){
     __perfLoading=false;
     if(!instant){
@@ -1720,7 +1835,6 @@ function renderPerformanceDashboard(data){
 
   var latestBalance=perfLatestBalance(d,m,chart);
   var cards=[
-    ["Одоогийн данс",perfCurrency(latestBalance),"Сүүлийн хаалтын дансны хэмжээ","perf-cyan"],
     ["7 хоногийн ашиг/алдагдал",perfCurrency(perfRawValue(d,"weekly_pl_usd",0)),"Сүүлийн хаагдсан 7 хоног",perfClass(perfRawValue(d,"weekly_pl_usd",0))],
     ["7 хоногийн өгөөж",perfPct(perfRawValue(d,"weekly_pl_pct",0)),"7 хоногийн өгөөж",perfClass(perfRawValue(d,"weekly_pl_pct",0))],
     ["Нийт өгөөж",perfPct(perfRawValue(d,"total_roi_pct",0)),"Нийт хугацааны үр дүн",perfClass(perfRawValue(d,"total_roi_pct",0))],
@@ -1973,13 +2087,14 @@ function renderMonthlyForecast(m,chart,d,cfg){
   var currentBal=perfLatestBalance(d,m,chart);
   var basisR=(weeklyGeo||weeklyMedian||weeklyArith||0);
   var nextBal=currentBal*(1+basisR);
+  var nextProfit=currentBal*basisR;
   var minR=weeks.length?Math.min.apply(null,weeks.map(function(x){return x.roi;})):0;
   var maxR=weeks.length?Math.max.apply(null,weeks.map(function(x){return x.roi;})):0;
   var rangeText=perfPctPlain(minR)+' – '+perfPctPlain(maxR);
   el.classList.add("outlook-grid");
   el.innerHTML=[
     '<div class="perf-forecast-card gold"><span>Нийлмэл дундаж 7 хоногийн өгөөж</span><b>'+perfPctPlain(basisR)+'</b><small>Сүүлийн хаагдсан '+weeks.length+' 7 хоногийн өгөөжийн нийлмэл дундаж.</small></div>',
-    '<div class="perf-forecast-card gold"><span>Урьдчилсан дансны хэмжээ</span><b>'+perfCurrency(nextBal)+'</b><small>Одоогийн хаалттай дансны хэмжээнд суурилсан дараагийн 7 хоногийн урьдчилсан тооцоо.</small></div>',
+    '<div class="perf-forecast-card gold"><span>Дараагийн 7 хоногийн төлөвлөгдсөн ашиг</span><b>'+perfCurrency(nextProfit)+'</b><small>Сүүлийн хаагдсан өгөөжийн хэмнэлд суурилсан богино хугацааны зураглал.</small></div>',
     '<div class="perf-forecast-card"><span>7 хоногийн өгөөжийн хүрээ</span><b class="perf-amber">'+rangeText+'</b><small>Сүүлийн 7 хаагдсан 7 хоногт ажиглагдсан өгөөжийн хүрээ.</small></div>',
     '<div class="perf-forecast-card"><span>7 хоногийн медиан өгөөж</span><b class="perf-cyan">'+perfPctPlain(weeklyMedian)+'</b><small>Медиан өгөөж буюу 7 хоногийн өгөөжийн цувааны төв утга.</small></div>'
   ].join('');
@@ -2277,7 +2392,7 @@ function sheetInstallSmartAccessInput(input,toggle){
     }
   }
   function cleanText(text){
-    return String(text||'').replace(/\s+/g,'').toUpperCase();
+    return String(text||'').replace(/\s+/g,'');
   }
   function insertText(text){
     text=cleanText(text);
@@ -2394,122 +2509,205 @@ function sheetCalcProjection(opts){
 }
 function renderSheetMemberModule(data){
   var box=document.getElementById("perfSheetMemberModule"); if(!box)return;
-  var cfg=data&&data.web_config?data.web_config:{};
-  var members=sheetMemberRowsFromData(data||{});
-  var memberNoInput=document.getElementById("sheetMemberNo"), accessInput=document.getElementById("sheetAccessCode"), accessToggle=document.getElementById("sheetAccessToggle"), fetchBtn=document.getElementById("sheetFetchBtn"), capInput=document.getElementById("sheetMemberCap"), totalInput=document.getElementById("sheetTotalCap"), retInput=document.getElementById("sheetReturn"), scaleInput=document.getElementById("sheetScale"), monthsInput=document.getElementById("sheetMonths");
-  var eqBtn=document.getElementById("sheetCalcEqual"), wtBtn=document.getElementById("sheetCalcWeighted"), modeA=document.getElementById("sheetCloseA"), modeB=document.getElementById("sheetCloseB"), closeRow=document.getElementById("sheetCloseModeRow");
-  var out=document.getElementById("sheetMemberProjection"), table=document.getElementById("sheetMonthTable"), note=document.getElementById("sheetMemberNote"), status=document.getElementById("sheetDataStatus");
-  if(!memberNoInput||!capInput||!totalInput||!retInput||!scaleInput||!monthsInput||!out||!table)return;
+  var memberNoInput=document.getElementById("sheetMemberNo"), accessInput=document.getElementById("sheetAccessCode"), accessToggle=document.getElementById("sheetAccessToggle"), fetchBtn=document.getElementById("sheetFetchBtn");
+  var authView=document.getElementById("sheetAuthView"), dashView=document.getElementById("sheetDashboardView"), loading=document.getElementById("sheetLoginLoading"), errBox=document.getElementById("sheetLoginError"), status=document.getElementById("sheetDataStatus");
+  var welcomeName=document.getElementById("sheetWelcomeName"), welcomeText=document.getElementById("sheetWelcomeText"), profileGrid=document.getElementById("sheetProfileGrid"), progressBox=document.getElementById("sheetCampaignProgress"), out=document.getElementById("sheetMemberProjection"), table=document.getElementById("sheetMonthTable"), brief=document.getElementById("sheetMarketBrief"), note=document.getElementById("sheetMemberNote"), logoutBtn=document.getElementById("sheetLogoutBtn");
+  if(!memberNoInput||!accessInput||!fetchBtn||!out||!table)return;
   var getAccessCode=sheetInstallSmartAccessInput(accessInput,accessToggle);
-  var totalFromSheet=members.reduce(function(s,r){return s+r.capital;},0);
-  var cfgReturn=perfNumber(perfRawValue(cfg,"default_monthly_return_pct",0.10)); if(cfgReturn>1)cfgReturn=cfgReturn/100;
-  var cfgScale=perfNumber(perfRawValue(cfg,"default_scale_up_pct",0.50)); if(cfgScale>1)cfgScale=cfgScale/100;
-  if(!box.dataset.ready){
-    memberNoInput.max=Math.max(1,members.length);
-    memberNoInput.value=members[0]?members[0].no:1;
-    capInput.value=members[0]?members[0].capital:50000;
-    totalInput.value=totalFromSheet||100000;
-    retInput.value=Math.max(2,Math.min(20,Math.round((cfgReturn||0.10)*100)));
-    scaleInput.value=Math.max(50,Math.min(70,Math.round((cfgScale||0.50)*100/5)*5));
-    monthsInput.value=Math.round(perfNumber(perfRawValue(cfg,"default_campaign_months",12))||12);
-    box.dataset.ready="1";
+  window.__sheetPerformanceData=data||window.__sheetPerformanceData||{};
+  if(!box.dataset.v15Ready){
+    memberNoInput.value=memberNoInput.value||'';
+    box.dataset.v15Ready='1';
   }
-  function findMember(no){
-    no=Math.round(perfNumber(no)||1);
-    return members.find(function(r){return r.no===no;}) || members[0] || {no:1,capital:50000,share:.5};
+  function setLoading(on,msg){
+    if(fetchBtn){fetchBtn.disabled=!!on;fetchBtn.textContent=on?'Нэвтэрч байна...':'Нэвтрэх';}
+    if(loading){loading.classList.toggle('is-hidden',!on); var b=loading.querySelector('b'); if(b)b.textContent=msg||'Нэвтэрч байна...';}
   }
-  function recalc(){
-    var liveMember=window.__sheetLiveMember||null, liveCampaign=window.__sheetLiveCampaign||null;
-    var type=window.__sheetCalcType||(liveCampaign&&liveCampaign.model_type?String(liveCampaign.model_type).toLowerCase():"weighted");
-    var closeMode=window.__sheetCloseMode||(liveCampaign&&liveCampaign.close_method?String(liveCampaign.close_method).toLowerCase():"b");
-    closeMode=closeMode==="a"?"a":"b";
-    type=type==="equal"?"equal":"weighted";
-    var picked=liveMember?{no:perfNumber(liveMember.member_no)||1,capital:perfNumber(liveMember.capital)||0}:findMember(memberNoInput.value);
-    var n=Math.max(1,Math.round((liveCampaign&&perfNumber(liveCampaign.member_count))||members.length||perfNumber(memberNoInput.max)||1));
-    var totalCap=Math.max(1,Math.round((liveCampaign&&perfNumber(liveCampaign.total_capital))||perfNumber(totalInput.value)||totalFromSheet||picked.capital*n));
-    if(liveMember){
-      capInput.value=picked.capital;
-      totalInput.value=totalCap;
-      capInput.disabled=true;
-      totalInput.disabled=true;
-    }else if(type==="weighted"){
-      capInput.disabled=false;totalInput.disabled=false;
-      capInput.value=picked.capital;
-      totalInput.value=totalFromSheet||totalCap;
-      totalCap=perfNumber(totalInput.value)||totalCap;
-    }else{
-      capInput.disabled=false;totalInput.disabled=false;
-      totalInput.value=totalFromSheet||totalCap;
-      capInput.value=Math.round((perfNumber(totalInput.value)||totalCap)/n);
-    }
-    var memberCap=Math.round(perfNumber(capInput.value)||picked.capital);
-    var r=(perfNumber(retInput.value)||10)/100, scale=(perfNumber(scaleInput.value)||50)/100, months=Math.round(perfNumber(monthsInput.value)||12);
-    var cost=liveCampaign?sheetUnitPct(liveCampaign.cost_pct,0.02):0.02;
-    var incentive=liveCampaign?sheetUnitPct(liveCampaign.incentive_pct,0.05):0.05;
+  function setError(msg){ if(errBox)errBox.textContent=msg||''; }
+  function showAuth(){
+    if(authView)authView.classList.remove('is-hidden');
+    if(dashView)dashView.classList.add('is-hidden');
+    if(status)status.textContent='Нэвтрэх шаардлагатай';
+    document.body.classList.add('perf-auth-gate');
+    document.body.classList.remove('perf-member-authed');
+    var lower=document.querySelector('.perf-lower');
+    if(lower && box && box.parentNode!==lower){ lower.appendChild(box); }
+  }
+  function showDashboard(){
+    if(authView)authView.classList.add('is-hidden');
+    if(dashView)dashView.classList.remove('is-hidden');
+    document.body.classList.remove('perf-auth-gate');
+    document.body.classList.add('perf-member-authed');
+    var wrap=document.querySelector('.perf-wrap');
+    var cards=document.getElementById('perfCards');
+    if(wrap && box && box.parentNode!==wrap){ wrap.insertBefore(box,cards||wrap.firstChild); }
+    setTimeout(function(){try{window.scrollTo({top:0,behavior:'smooth'});}catch(e){window.scrollTo(0,0);}},40);
+  }
+  function currentPerformance(){
+    var pdata=window.__sheetPerformanceData||{};
+    var d=pdata.dashboard_data||{}, m=pdata.monthly_data||{}, chart=Array.isArray(pdata.chart_data)?pdata.chart_data:[];
+    var latest=perfLatestBalance(d,m,chart);
+    var monthlyRoi=perfNumber(perfRawValue(m,'monthly_roi_pct',perfRawValue(d,'weekly_pl_pct',0)));
+    if(Math.abs(monthlyRoi)>1)monthlyRoi=monthlyRoi/100;
+    var op=perfRawValue(d,'operator_note','');
+    var update=perfDate(perfRawValue(d,'update_date',''))||perfDate(pdata.updated_at)||'';
+    return {d:d,m:m,chart:chart,latest:latest,monthlyRoi:monthlyRoi,operatorNote:op,update:update};
+  }
+  function renderMemberDashboard(resp){
+    var mem=resp.member||{}, camp=resp.campaign||{}, perf=currentPerformance();
+    var name=mem.display_name||('Гишүүн '+(mem.member_no||''));
+    var type=String(camp.model_type||'weighted').toLowerCase()==='equal'?'equal':'weighted';
+    var closeMode=String(camp.close_method||'B').toLowerCase()==='a'?'a':'b';
+    var n=Math.max(1,Math.round(perfNumber(camp.member_count)||1));
+    var totalCap=Math.max(1,Math.round(perfNumber(camp.total_capital)||perfNumber(mem.capital)||1));
+    var memberCap=Math.max(0,Math.round(perfNumber(mem.capital)||0));
+    var r=sheetUnitPct(camp.monthly_roi,0.10);
+    var scale=sheetUnitPct(camp.scaleup_pct,0.50);
+    var cost=sheetUnitPct(camp.cost_pct,0.02);
+    var incentive=sheetUnitPct(camp.incentive_pct,0.05);
+    var months=Math.max(1,Math.round(perfNumber(camp.months)||12));
     var res=sheetCalcProjection({type:type,closeMode:closeMode,memberCount:n,memberCap:memberCap,totalCap:totalCap,returnPct:r,scalePct:scale,costPct:cost,incentivePct:incentive,months:months});
-    document.getElementById("sheetMemberNoLabel").textContent=String(picked.no||memberNoInput.value);
-    document.getElementById("sheetMemberCapLabel").textContent=perfCurrency(res.memberCap);
-    document.getElementById("sheetTotalCapLabel").textContent=perfCurrency(res.totalCap);
-    document.getElementById("sheetReturnLabel").textContent=perfPctPlain(r);
-    document.getElementById("sheetScaleLabel").textContent=perfPctPlain(scale);
-    document.getElementById("sheetMonthsLabel").textContent=months+" сар";
-    if(eqBtn)eqBtn.classList.toggle("active",type==="equal"); if(wtBtn)wtBtn.classList.toggle("active",type==="weighted");
-    if(modeA)modeA.classList.toggle("active",closeMode==="a"); if(modeB)modeB.classList.toggle("active",closeMode==="b");
-    if(closeRow)closeRow.classList.toggle("is-hidden",type==="weighted");
-    var calcLabel=type==="weighted"?"Тооцоолуур 2 · нийт капиталд эзлэх хувь":"Тооцоолуур 1 · ижил дүнтэй бүлэг";
-    out.innerHTML=[
-      '<div class="sheet-proj-card main"><span>Хасалтын дараах гишүүний харах дүн</span><b>'+perfCurrency(res.net)+'</b><small>Нийт зураглалаас 5% гүйцэтгэлийн урамшуулал хассан net дүн.</small></div>',
-      '<div class="sheet-proj-card cyan"><span>Өөрийн капитал / эзлэх хувь</span><b>'+perfCurrency(res.memberCap)+' · '+perfPctPlain(res.share)+'</b><small>'+calcLabel+' · нийт '+perfCurrency(res.totalCap)+' / '+res.n+' гишүүн.</small></div>',
-      '<div class="sheet-proj-card"><span>Сар бүр нийт авах боломж</span><b>'+perfCurrency(res.totalMonthly)+'</b><small>1-р сар '+perfCurrency(res.first)+' · сүүлийн сар '+perfCurrency(res.last)+'.</small></div>',
-      '<div class="sheet-proj-card gold"><span>Данс хаах үед авах</span><b>'+perfCurrency(res.close)+'</b><small>'+(type==="weighted"?'Капитал + ашгийн хувийн жин.':(closeMode==="a"?'А · данс тэнцүү хуваах.':'Б · капитал + ашгийн хувь.'))+'</small></div>',
-      '<div class="sheet-proj-card red"><span>Гүйцэтгэлийн урамшуулал '+perfPctPlain(res.incentivePct)+'</span><b>−'+perfCurrency(res.fee)+'</b><small>Энэ нь гишүүнд очих мөнгө биш, хасагдах урамшууллын зураглал.</small></div>',
-      '<div class="sheet-proj-card"><span>Хасахаас өмнөх нийт зураглал</span><b>'+perfCurrency(res.grossTotal)+'</b><small>Сарын мөнгөн урсгал + данс хаах үеийн дүн.</small></div>'
-    ].join('');
-    table.innerHTML='<table><thead><tr><th>Сар</th><th>Эхний balance</th><th>Нийт ашиг</th><th>Дансанд үлдэх</th><th>Гишүүнд ногдох</th></tr></thead><tbody>'+res.rows.map(function(x){return '<tr><td>'+x.m+'</td><td class="num cyan">'+perfCurrency(x.balance)+'</td><td class="num">'+perfCurrency(x.gross)+'</td><td class="num">'+perfCurrency(x.scaleUp)+'</td><td class="num green">'+perfCurrency(x.memberMonthly)+'</td></tr>';}).join('')+'</tbody></table>';
-    if(note)note.textContent= liveMember ? ('Live Sheet: '+(liveMember.display_name||('Гишүүн '+picked.no))+' · '+perfCurrency(res.memberCap)+' · эзлэх хувь '+perfPctPlain(res.share)+'. Сарын өгөөж / хугацаа / scale-up-г өөрчилж зураглалаа шалгаж болно.') : (type==="weighted" ? 'Гишүүний дугаар болон access code оруулаад Sheet-ээс татна. Тухайн гишүүний капитал / нийт капитал = эзлэх хувь; сарын мөнгөн урсгал болон данс хаах үеийн дүн энэ хувиар бодогдоно.' : 'Ижил дүнтэй бүлэг дээр Sheet-ийн нийт капитал болон гишүүдийн тоонд суурилж нэг гишүүний тэнцүү капитал бодогдоно. Данс хаах А/Б сонголт том тооцоолууртай адил.');
+    var calcLabel=type==='weighted'?'Өөр өөр дүнтэй бүлэг':'Ижил дүнтэй бүлэг';
+    var closeLabel=closeMode==='a'?'А · данс тэнцүү хуваах':'Б · капитал + ашгийн хувь';
+    var target=res.finalCap||0;
+    var current=perf.latest||0;
+    var rawProgress=target?current/target*100:0;
+    var progress=Math.max(0,Math.min(100,rawProgress));
+    var over=rawProgress>100;
+    var gap=Math.max(0,target-current);
+    var excess=Math.max(0,current-target);
+    var memberExcess=0;
+    if(excess>0){
+      if(type==='weighted')memberExcess=Math.round(Math.max(0,excess-Math.round(excess*sheetTraderPct(n)))*res.share);
+      else if(closeMode==='a')memberExcess=Math.round(excess/(n+1));
+      else memberExcess=Math.round((excess-Math.round(excess*sheetTraderPct(n)))/n);
+    }
+    var adjustedGross=res.grossTotal+memberExcess;
+    var adjustedFee=Math.round(adjustedGross*res.incentivePct);
+    var adjustedNet=Math.max(0,adjustedGross-adjustedFee);
+    var adjustedRoi=memberCap?adjustedNet/memberCap-1:0;
+    var welcome=mem.welcome_note||('Тавтай морил, '+name+'. Энэ самбар таны оруулсан капитал, эзлэх хувь, хүлээгдэж буй үр дүн, сарын гүйцэтгэл болон 7 хоногийн ерөнхий дүр зургийг харуулна.');
+    if(welcomeName)welcomeName.textContent='Тавтай морил, '+name;
+    if(welcomeText)welcomeText.textContent=welcome;
+    if(status)status.textContent='Нэвтэрсэн · '+calcLabel;
+    if(profileGrid){
+      profileGrid.innerHTML=[
+        '<div class="sheet-profile-card green"><span>Таны бүртгэгдсэн капитал</span><b>'+perfCurrency(memberCap)+'</b></div>',
+        '<div class="sheet-profile-card cyan"><span>Таны эзлэх хувь</span><b>'+perfPctPlain(res.share)+'</b></div>',
+        '<div class="sheet-profile-card gold"><span>Хамрагдсан бүлэг</span><b>'+n+' гишүүн</b></div>',
+        '<div class="sheet-profile-card"><span>Тооцооллын загвар</span><b>'+calcLabel+'</b></div>',
+        '<div class="sheet-profile-card"><span>Хугацаа</span><b>'+months+' сар</b></div>',
+        '<div class="sheet-profile-card"><span>Сарын зорилтот өгөөж</span><b>'+perfPctPlain(r)+'</b></div>'
+      ].join('');
+    }
+    function calcProjectionView(pct){
+      pct=Math.max(5,Math.min(15,Math.round(perfNumber(pct)||5)))/100;
+      var projected=sheetCalcProjection({type:type,closeMode:closeMode,memberCount:n,memberCap:memberCap,totalCap:totalCap,returnPct:r,scalePct:scale,costPct:cost,incentivePct:pct,months:months});
+      var targetNet=projected.net||0;
+      var targetGross=projected.grossTotal||0;
+      var targetFinalCap=projected.finalCap||0;
+      var latestAccount=perf.latest||0;
+      var accountExcess=Math.max(0,latestAccount-targetFinalCap);
+      var memberExtra=0;
+      if(accountExcess>0){
+        if(type==='weighted')memberExtra=Math.round(Math.max(0,accountExcess-Math.round(accountExcess*sheetTraderPct(n)))*projected.share);
+        else if(closeMode==='a')memberExtra=Math.round(accountExcess/(n+1));
+        else memberExtra=Math.round((accountExcess-Math.round(accountExcess*sheetTraderPct(n)))/n);
+      }
+      var revisedGross=targetGross+memberExtra;
+      var thanks=Math.round(revisedGross*pct);
+      var revisedNet=Math.max(0,revisedGross-thanks);
+      var progressPct=targetNet?revisedNet/targetNet*100:0;
+      return {pct:pct,projected:projected,targetNet:targetNet,targetGross:targetGross,memberExtra:memberExtra,revisedGross:revisedGross,thanks:thanks,revisedNet:revisedNet,progressPct:progressPct};
+    }
+    var view=calcProjectionView(incentive*100);
+    if(progressBox){
+      progressBox.innerHTML=[
+        '<h4>Таны зорилтот өгөөжийн явц</h4>',
+        '<div class="sheet-progress-big member-only"><b><span id="sheetMemberProgressCurrent">'+perfCurrency(view.revisedNet)+'</span> / <span id="sheetMemberProgressTarget">'+perfCurrency(view.targetNet)+'</span></b><span id="sheetMemberProgressPct">'+Math.max(0,view.progressPct).toFixed(1)+'%</span></div>',
+        '<div class="sheet-goal-line"><div id="sheetMemberProgressFill" class="sheet-goal-fill '+(view.progressPct>100?'over':'')+'" style="width:'+Math.min(100,Math.max(0,view.progressPct)).toFixed(1)+'%"></div></div>',
+        '<small id="sheetMemberProgressNote">'+(view.progressPct>100?('Таны шинэчилсэн зураглал зорилтот цэвэр өгөөжөөс '+(view.progressPct-100).toFixed(1)+'% давж байна. Ойролцоогоор '+perfCurrency(view.memberExtra)+' нэмэлт боломж үүссэн байна.'):('Таны шинэчилсэн зураглал зорилтын '+Math.max(0,view.progressPct).toFixed(1)+'% дээр байна.'))+'</small>'
+      ].join('');
+    }
+    if(out){
+      out.innerHTML=[
+        '<div class="sheet-proj-card member-main"><span>Таны урьдчилсан цэвэр зураглал</span><b id="sheetNetProjection">'+perfCurrency(view.revisedNet)+'</b><small>Сонгосон талархлын хувь тооцогдсоны дараах хувийн зураглал.</small></div>',
+        '<div class="sheet-proj-card cyan"><span>Сарын төлөвлөгдсөн хуваарилалт</span><b>'+perfCurrency(view.projected.first)+'</b><small>Эхний сар '+perfCurrency(view.projected.first)+' · сүүлийн сар '+perfCurrency(view.projected.last)+' · '+months+' сарын нийлбэр '+perfCurrency(view.projected.totalMonthly)+'.</small></div>',
+        '<div class="sheet-proj-card gold"><span>Данс хаах үеийн төлөвлөгдсөн дүн</span><b>'+perfCurrency(view.projected.close)+'</b><small>'+closeLabel+'.</small></div>',
+        '<div class="sheet-proj-card thanks"><span>Баярлалаа POI Capital</span><b id="sheetThanksAmount">'+perfCurrency(view.thanks)+'</b><small>Зорилтот ашиг биелсэн үед нийт хуваарилагдах ашгаас таны сонгосон хувиар POI Capital-д очих талархлын дүн.</small><div class="sheet-thanks-row"><input id="sheetThanksSlider" type="range" min="5" max="15" step="1" value="'+Math.round(view.pct*100)+'"><span class="sheet-thanks-pill" id="sheetThanksPct">'+Math.round(view.pct*100)+'%</span></div></div>',
+        '<div class="sheet-proj-card subtle-total"><span>Талархлаас өмнөх хувийн зураглал</span><b id="sheetGrossProjection">'+perfCurrency(view.revisedGross)+'</b><small>Сарын хуваарилалт + данс хаах үеийн дүн.</small></div>',
+        '<div class="sheet-proj-card"><span>Шинэчилсэн өгөөж</span><b id="sheetAdjustedRoi">'+perfPctPlain(memberCap?(view.revisedNet/memberCap-1):0)+'</b><small>Одоогийн явцад суурилсан хувийн зураглал.</small></div>'
+      ].join('');
+      var thanksSlider=document.getElementById('sheetThanksSlider');
+      if(thanksSlider){
+        thanksSlider.oninput=function(){
+          var nv=calcProjectionView(this.value);
+          var pctLabel=document.getElementById('sheetThanksPct');
+          var thanksEl=document.getElementById('sheetThanksAmount');
+          var netEl=document.getElementById('sheetNetProjection');
+          var grossEl=document.getElementById('sheetGrossProjection');
+          var roiEl=document.getElementById('sheetAdjustedRoi');
+          var pc=document.getElementById('sheetMemberProgressCurrent');
+          var pt=document.getElementById('sheetMemberProgressTarget');
+          var pp=document.getElementById('sheetMemberProgressPct');
+          var pf=document.getElementById('sheetMemberProgressFill');
+          var pn=document.getElementById('sheetMemberProgressNote');
+          if(pctLabel)pctLabel.textContent=Math.round(nv.pct*100)+'%';
+          if(thanksEl)thanksEl.textContent=perfCurrency(nv.thanks);
+          if(netEl)netEl.textContent=perfCurrency(nv.revisedNet);
+          if(grossEl)grossEl.textContent=perfCurrency(nv.revisedGross);
+          if(roiEl)roiEl.textContent=perfPctPlain(memberCap?(nv.revisedNet/memberCap-1):0);
+          if(pc)pc.textContent=perfCurrency(nv.revisedNet);
+          if(pt)pt.textContent=perfCurrency(nv.targetNet);
+          if(pp)pp.textContent=Math.max(0,nv.progressPct).toFixed(1)+'%';
+          if(pf){pf.style.width=Math.min(100,Math.max(0,nv.progressPct)).toFixed(1)+'%';pf.classList.toggle('over',nv.progressPct>100);}
+          if(pn)pn.textContent=nv.progressPct>100?('Таны шинэчилсэн зураглал зорилтот цэвэр өгөөжөөс '+(nv.progressPct-100).toFixed(1)+'% давж байна. Ойролцоогоор '+perfCurrency(nv.memberExtra)+' нэмэлт боломж үүссэн байна.'):('Таны шинэчилсэн зураглал зорилтын '+Math.max(0,nv.progressPct).toFixed(1)+'% дээр байна.');
+        };
+      }
+    }
+    if(table){
+      table.innerHTML='<table><thead><tr><th>Сар</th><th>Сард танд төлөвлөгдсөн хуваарилалт</th></tr></thead><tbody>'+view.projected.rows.map(function(x){return '<tr><td>'+x.m+'-р сар</td><td class="num green">'+perfCurrency(x.memberMonthly)+'</td></tr>';}).join('')+'</tbody></table>';
+    }
+    if(brief){
+      var title=(camp.market_title||'7 хоногийн ерөнхий дүр зураг');
+      var summary=camp.market_summary||perf.operatorNote||'Сүүлийн хаагдсан гүйцэтгэлийн мэдээлэлд тулгуурлан зах зээлийн ерөнхий дүр зураг болон дараагийн долоо хоногийн чиглэлийг шинэчилж харуулна.';
+      var risk=camp.risk_note||'Зах зээлийн нөхцөл өөрчлөгдвөл гүйцэтгэлийн тооцоо дараагийн тайлангаар дахин шинэчлэгдэнэ.';
+      brief.innerHTML='<h4>'+perfEscape(title)+'</h4><p>'+perfEscape(summary)+'</p><p class="brief-note">'+perfEscape(risk)+(perf.update?' · Шинэчлэлт: '+perfEscape(perf.update):'')+'</p>';
+    }
+    if(note)note.textContent='Нэвтэрсэн: '+name+' · '+perfCurrency(memberCap)+' · эзлэх хувь '+perfPctPlain(res.share)+'. Үндсэн тохиргоо бүртгэлийн сангаас уншигдана. “Баярлалаа POI Capital” хувь нь зөвхөн урьдчилсан зураглалаа харах сонголт.';
+    showDashboard();
   }
   function lookupLiveMember(){
-    if(!fetchBtn||!accessInput)return;
     var no=String(memberNoInput.value||'').trim();
     var code=String(getAccessCode?getAccessCode():(accessInput?accessInput.value:'' )).trim();
-    if(!no||!code){ if(status)status.textContent='Дугаар болон access code оруулна'; return; }
-    fetchBtn.disabled=true; fetchBtn.textContent='Татаж байна...';
-    if(status)status.textContent='Sheet API руу холбогдож байна...';
+    setError('');
+    if(!no||!code){ setError('Гишүүний дугаар болон нэвтрэх кодоо оруулна уу.'); return; }
+    setLoading(true,'Нэвтэрч байна...');
+    if(status)status.textContent='Нэвтрэх мэдээлэл шалгаж байна...';
     sheetFetchJson(sheetBuildMemberUrl(no,code)).then(function(resp){
       if(!resp||!resp.ok)throw new Error(resp&&resp.error?resp.error:'lookup_failed');
       window.__sheetLiveMember=resp.member||null;
       window.__sheetLiveCampaign=resp.campaign||null;
-      var camp=window.__sheetLiveCampaign||{}, mem=window.__sheetLiveMember||{};
-      if(camp.model_type)window.__sheetCalcType=String(camp.model_type).toLowerCase()==='equal'?'equal':'weighted';
-      if(camp.close_method)window.__sheetCloseMode=String(camp.close_method).toLowerCase()==='a'?'a':'b';
-      if(mem.member_no)memberNoInput.value=mem.member_no;
-      if(mem.capital)capInput.value=perfNumber(mem.capital);
-      if(camp.total_capital)totalInput.value=perfNumber(camp.total_capital);
-      if(camp.monthly_roi!==undefined)retInput.value=Math.max(2,Math.min(20,Math.round(sheetPlainPct(camp.monthly_roi,10))));
-      if(camp.scaleup_pct!==undefined)scaleInput.value=Math.max(50,Math.min(70,Math.round(sheetPlainPct(camp.scaleup_pct,50)/5)*5));
-      if(camp.months!==undefined)monthsInput.value=Math.max(1,Math.min(36,Math.round(perfNumber(camp.months)||12)));
-      if(status)status.textContent='Live Sheet: '+(mem.display_name||('Гишүүн '+no))+' татагдлаа';
-      recalc();
+      renderMemberDashboard(resp);
     }).catch(function(err){
       console.warn('member lookup failed',err);
       window.__sheetLiveMember=null; window.__sheetLiveCampaign=null;
-      capInput.disabled=false; totalInput.disabled=false;
-      if(status)status.textContent='Access code эсвэл дугаар таарахгүй байна';
-      if(note)note.textContent='Sheet API хариу: '+(err&&err.message?err.message:'алдаа')+'. Дугаар, access code, members_model status=active эсэхийг шалгана.';
-      recalc();
+      if(status)status.textContent='Нэвтрэх мэдээлэл таарсангүй';
+      setError('Гишүүний дугаар эсвэл нэвтрэх код таарахгүй байна. Кодоо мартсан бол удирдагчтай холбогдож шинэ код авна уу.');
+      showAuth();
     }).finally(function(){
-      fetchBtn.disabled=false; fetchBtn.textContent='Sheet-ээс татах';
+      setLoading(false);
     });
   }
   if(accessInput)accessInput.onkeydown=function(e){ if(e.key==='Enter')lookupLiveMember(); };
-  if(memberNoInput)memberNoInput.onchange=function(){ recalc(); };
+  if(memberNoInput)memberNoInput.onkeydown=function(e){ if(e.key==='Enter')lookupLiveMember(); };
   if(fetchBtn)fetchBtn.onclick=lookupLiveMember;
-  [memberNoInput,retInput,scaleInput,monthsInput,totalInput].forEach(function(inp){inp.oninput=recalc;});
-  if(eqBtn)eqBtn.onclick=function(){window.__sheetCalcType="equal";recalc();};
-  if(wtBtn)wtBtn.onclick=function(){window.__sheetCalcType="weighted";recalc();};
-  if(modeA)modeA.onclick=function(){window.__sheetCloseMode="a";recalc();};
-  if(modeB)modeB.onclick=function(){window.__sheetCloseMode="b";recalc();};
-  recalc();
+  if(logoutBtn)logoutBtn.onclick=function(){ window.__sheetLiveMember=null; window.__sheetLiveCampaign=null; setError(''); showAuth(); };
+  if(window.__sheetLiveMember&&window.__sheetLiveCampaign){
+    renderMemberDashboard({ok:true,member:window.__sheetLiveMember,campaign:window.__sheetLiveCampaign});
+  }else{
+    showAuth();
+  }
 }
 
 function renderHistory(rows){
@@ -2538,5 +2736,347 @@ window.addEventListener('DOMContentLoaded',function(){
   try{ window.__perfReady=true; loadPerformanceDashboard(false); }catch(e){ console.warn(e); }
 });
 </script>
+
+
+<script id="v14-poi-motion-background">
+// ---------- Background canvas (gold beams + stars) ----------
+(function(){
+  var cv=document.getElementById('wbg');
+  if(!cv)return;
+  var ctx=cv.getContext('2d');
+  var W=0,H=0,dpr=1,t=0,ready=false;
+  var bgImg=new Image();
+  var stars=[], nodes=[], pulses=[];
+  var reduce=false;
+  try{ reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var mobileBg=false,lastFrame=0,scrollPauseUntil=0,scrollStaticDrawn=false;
+  function detectMobileBg(){
+    try{
+      mobileBg=(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent||'')) || (window.matchMedia&&window.matchMedia('(max-width: 820px)').matches) || (window.matchMedia&&window.matchMedia('(pointer: coarse)').matches);
+    }catch(e){mobileBg=(window.innerWidth||0)<821;}
+  }
+  function markBgScroll(){
+    if(!mobileBg)return;
+    scrollPauseUntil=Date.now()+850;
+    scrollStaticDrawn=false;
+  }
+  function bindBgScrollPause(){
+    try{
+      window.addEventListener('scroll',markBgScroll,{passive:true});
+      window.addEventListener('wheel',markBgScroll,{passive:true});
+      window.addEventListener('touchstart',markBgScroll,{passive:true});
+      window.addEventListener('touchmove',markBgScroll,{passive:true});
+    }catch(e){}
+  }
+
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+
+  function resize(){
+    detectMobileBg();
+    bindBgScrollPause();
+    dpr=mobileBg?1:Math.max(1,Math.min(1.35,window.devicePixelRatio||1));
+    W=window.innerWidth; H=window.innerHeight;
+    cv.width=Math.floor(W*dpr); cv.height=Math.floor(H*dpr);
+    cv.style.width=W+'px'; cv.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    buildScene();
+  }
+
+  function buildScene(){
+    stars=[]; nodes=[]; pulses=[];
+    var skyCount=mobileBg?(mobileBg?8:(reduce?10:18)):(reduce?45:70);
+    for(var i=0;i<skyCount;i++){
+      stars.push({
+        x:Math.random(),
+        y:Math.random()*0.48,
+        r:rand(0.45,1.6),
+        a:rand(0.22,0.95),
+        p:rand(0,Math.PI*2),
+        tw:rand(0.0007,0.0022),
+        cool:Math.random()>0.75
+      });
+    }
+    var rows=mobileBg?2:3, cols=mobileBg?Math.max(4,Math.round(W/360)):Math.max(6, Math.round(W/260));
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        nodes.push({
+          bx:(c+0.35+Math.random()*0.45)/cols,
+          by:0.78 + r*0.050 + rand(-0.010,0.010),
+          rx:mobileBg?rand(0.002,0.007):rand(0.006,0.020),
+          ry:mobileBg?rand(0.0005,0.0018):rand(0.0008,0.0032),
+          sp:mobileBg?rand(0.000035,0.000075):rand(0.00006,0.00016),
+          p:rand(0,Math.PI*2),
+          r:rand(1.2,2.6),
+          a:rand(0.45,1)
+        });
+      }
+    }
+    for(var p=0;p<(mobileBg?(reduce?0:3):(reduce?6:10));p++){
+      pulses.push({ edge:-1, prog:Math.random(), sp:mobileBg?rand(0.00035,0.00075):rand(0.00065,0.0017), a:mobileBg?rand(0.08,0.16):rand(0.14,0.30) });
+    }
+  }
+
+  bgImg.onload=function(){ ready=true; };
+  bgImg.src="../aurora.jpg";
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+
+  function drawBgImage(tm){
+    if(!ready){
+      ctx.fillStyle='#02070b';
+      ctx.fillRect(0,0,W,H);
+      return;
+    }
+    var iw=bgImg.naturalWidth||bgImg.width;
+    var ih=bgImg.naturalHeight||bgImg.height;
+    var cover=Math.max(W/iw,H/ih);
+    var scale=cover*1.03;
+    var driftX=Math.sin(tm*0.00006)*W*0.008;
+    var driftY=Math.cos(tm*0.00005)*H*0.006;
+    var dw=iw*scale, dh=ih*scale;
+    var ox=(W-dw)/2 + driftX;
+    var oy=(H-dh)/2 + driftY;
+    ctx.drawImage(bgImg, ox, oy, dw, dh);
+    var vign=ctx.createLinearGradient(0,0,0,H);
+    vign.addColorStop(0,'rgba(0,0,0,0.10)');
+    vign.addColorStop(0.68,'rgba(0,0,0,0.04)');
+    vign.addColorStop(1,'rgba(0,0,0,0.18)');
+    ctx.fillStyle=vign; ctx.fillRect(0,0,W,H);
+  }
+
+  function drawStars(tm){
+    for(var i=0;i<stars.length;i++){
+      var s=stars[i];
+      var x=s.x*W, y=s.y*H;
+      var tw=0.35+0.65*Math.abs(Math.sin(tm*s.tw+s.p));
+      var a=s.a*tw;
+      var r=s.r*(0.7+tw*0.6);
+      var hue=s.cool?'220,245,255':'255,245,220';
+      var g=ctx.createRadialGradient(x,y,0,x,y,r*8);
+      g.addColorStop(0,'rgba('+hue+','+(a*0.9)+')');
+      g.addColorStop(0.3,'rgba('+hue+','+(a*0.22)+')');
+      g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='rgba(255,255,255,'+(a*0.95)+')'; ctx.beginPath(); ctx.arc(x,y,Math.max(0.4,r*0.45),0,Math.PI*2); ctx.fill();
+      if(tw>0.84){
+        var fl=r*6.8;
+        ctx.strokeStyle='rgba(255,255,255,'+(a*0.34)+')';
+        ctx.lineWidth=0.45;
+        ctx.beginPath(); ctx.moveTo(x-fl,y); ctx.lineTo(x+fl,y); ctx.moveTo(x,y-fl*0.65); ctx.lineTo(x,y+fl*0.65); ctx.stroke();
+      }
+    }
+  }
+
+  function drawAurora(tm){
+    var bands=[
+      { x1:-0.08, x2:0.42, y1:0.40, y2:0.22, amp:0.032, speed:0.00014, width:0.22, alpha:0.21 },
+      { x1:0.18, x2:0.66, y1:0.34, y2:0.26, amp:0.020, speed:0.00012, width:0.16, alpha:0.11 },
+      { x1:0.50, x2:1.04, y1:0.23, y2:0.16, amp:0.042, speed:0.00013, width:0.26, alpha:0.23 },
+      { x1:0.60, x2:0.96, y1:0.31, y2:0.24, amp:0.024, speed:0.00015, width:0.17, alpha:0.12 }
+    ];
+    ctx.save();
+    ctx.globalCompositeOperation='screen';
+    for(var b=0;b<bands.length;b++){
+      var band=bands[b];
+      var top=[], bot=[];
+      var steps=mobileBg?28:56;
+      for(var i=0;i<=steps;i++){
+        var u=i/steps;
+        var x=(band.x1 + (band.x2-band.x1)*u)*W;
+        var baseY=(band.y1 + (band.y2-band.y1)*u)*H;
+        var wob=Math.sin(u*7.2 + tm*band.speed + b)*H*band.amp + Math.sin(u*13.2 - tm*band.speed*1.45 + b*1.3)*H*(band.amp*0.48);
+        var y=baseY+wob;
+        var th=H*band.width*(0.78+0.22*Math.sin(u*8.2 + tm*0.00024 + b));
+        top.push([x, y-th*0.5]);
+        bot.push([x, y+th*0.5]);
+      }
+      ctx.beginPath();
+      ctx.moveTo(top[0][0],top[0][1]);
+      for(var t1=1;t1<top.length;t1++) ctx.lineTo(top[t1][0],top[t1][1]);
+      for(var t2=bot.length-1;t2>=0;t2--) ctx.lineTo(bot[t2][0],bot[t2][1]);
+      ctx.closePath();
+      var grad=ctx.createLinearGradient(0, top[0][1], 0, bot[Math.floor(bot.length/2)][1]);
+      grad.addColorStop(0,'rgba(105,255,224,'+band.alpha+')');
+      grad.addColorStop(0.42,'rgba(42,240,205,'+(band.alpha*0.78)+')');
+      grad.addColorStop(0.76,'rgba(18,160,220,'+(band.alpha*0.46)+')');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      if('filter' in ctx) ctx.filter='blur('+ (mobileBg?8:(reduce?10:18)) +'px)';
+      ctx.fillStyle=grad;
+      ctx.fill();
+      if('filter' in ctx) ctx.filter='none';
+
+      // vertical curtain strands
+      var strands=mobileBg?8:28;
+      for(var s=0;s<strands;s++){
+        var uu=s/(strands-1);
+        var sx=(band.x1 + (band.x2-band.x1)*uu)*W;
+        var sy=(band.y1 + (band.y2-band.y1)*uu)*H + Math.sin(uu*7.8 + tm*band.speed + b)*H*band.amp;
+        var len=H*(0.08 + 0.06*Math.abs(Math.sin(tm*0.00038 + uu*6 + b)));
+        ctx.strokeStyle='rgba(90,255,220,'+(band.alpha*0.18)+')';
+        ctx.lineWidth=1.2;
+        if('filter' in ctx) ctx.filter='blur('+(mobileBg?3:(reduce?4:7))+'px)';
+        ctx.beginPath();
+        ctx.moveTo(sx, sy-len*0.18);
+        ctx.quadraticCurveTo(sx+Math.sin(tm*0.00022+s)*10, sy+len*0.30, sx+Math.cos(tm*0.00016+s)*7, sy+len);
+        ctx.stroke();
+        if('filter' in ctx) ctx.filter='none';
+      }
+    }
+    ctx.restore();
+  }
+
+  function drawReflection(tm){
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0,H*0.60,W,H*0.40);
+    ctx.clip();
+    ctx.globalCompositeOperation='screen';
+    ctx.globalAlpha=0.30;
+    var bands=[
+      { x1:0.04, x2:0.48, y1:0.79, y2:0.69, amp:0.018, speed:0.00022, width:0.11, alpha:0.12 },
+      { x1:0.58, x2:0.96, y1:0.68, y2:0.74, amp:0.024, speed:0.00018, width:0.14, alpha:0.14 }
+    ];
+    for(var b=0;b<bands.length;b++){
+      var band=bands[b];
+      var top=[], bot=[];
+      var steps=mobileBg?22:36;
+      for(var i=0;i<=steps;i++){
+        var u=i/steps;
+        var x=(band.x1 + (band.x2-band.x1)*u)*W;
+        var baseY=(band.y1 + (band.y2-band.y1)*u)*H;
+        var wob=Math.sin(u*8.6 + tm*band.speed + b)*H*band.amp + Math.sin(u*14.5 - tm*band.speed*1.5)*H*(band.amp*0.35);
+        var y=baseY+wob;
+        var th=H*band.width*(0.72+0.28*Math.sin(u*7 + tm*0.0002));
+        top.push([x, y-th*0.42]);
+        bot.push([x, y+th*0.42]);
+      }
+      ctx.beginPath(); ctx.moveTo(top[0][0],top[0][1]);
+      for(var k=1;k<top.length;k++) ctx.lineTo(top[k][0],top[k][1]);
+      for(var q=bot.length-1;q>=0;q--) ctx.lineTo(bot[q][0],bot[q][1]);
+      ctx.closePath();
+      var grad=ctx.createLinearGradient(0, top[0][1], 0, bot[Math.floor(bot.length/2)][1]);
+      grad.addColorStop(0,'rgba(60,255,210,'+band.alpha+')');
+      grad.addColorStop(0.5,'rgba(30,170,220,'+(band.alpha*0.6)+')');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      if('filter' in ctx) ctx.filter='blur('+(mobileBg?6:(reduce?8:14))+'px)';
+      ctx.fillStyle=grad; ctx.fill();
+      if('filter' in ctx) ctx.filter='none';
+    }
+    // subtle shimmer lines
+    for(var y=H*0.64; y<H*0.95; y+=26){
+      ctx.strokeStyle='rgba(120,255,255,0.02)';
+      ctx.lineWidth=1;
+      ctx.beginPath();
+      ctx.moveTo(0,y);
+      ctx.bezierCurveTo(W*0.25,y+Math.sin(tm*0.0002+y)*2.4,W*0.75,y+Math.cos(tm*0.00018+y)*2.4,W,y+Math.sin(tm*0.00016+y)*2.0);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function updateNodes(tm){
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i];
+      n.x = n.bx + Math.sin(tm*n.sp + n.p)*n.rx;
+      n.y = n.by + Math.cos(tm*n.sp*0.9 + n.p)*n.ry;
+    }
+  }
+
+  function buildEdges(){
+    var edges=[];
+    var maxDist=Math.min(W,H)*(mobileBg?0.095:0.125);
+    for(var i=0;i<nodes.length;i++){
+      for(var j=i+1;j<nodes.length;j++){
+        var a=nodes[i], b=nodes[j];
+        var x1=a.x*W, y1=a.y*H, x2=b.x*W, y2=b.y*H;
+        var dx=x1-x2, dy=y1-y2;
+        var d=Math.sqrt(dx*dx+dy*dy);
+        if(d<maxDist) edges.push({a:i,b:j,d:d});
+      }
+    }
+    return edges;
+  }
+
+  function drawNetwork(tm){
+    updateNodes(tm);
+    var edges=buildEdges();
+    ctx.save();
+    ctx.globalCompositeOperation='screen';
+    for(var e=0;e<edges.length;e++){
+      var ed=edges[e], a=nodes[ed.a], b=nodes[ed.b];
+      var x1=a.x*W, y1=a.y*H, x2=b.x*W, y2=b.y*H;
+      var alpha=clamp(0.20 - ed.d/(Math.min(W,H)*1.0), 0.04, 0.14);
+      var grad=ctx.createLinearGradient(x1,y1,x2,y2);
+      grad.addColorStop(0,'rgba(255,182,60,'+(alpha*0.9)+')');
+      grad.addColorStop(0.5,'rgba(255,220,132,'+(alpha*0.55)+')');
+      grad.addColorStop(1,'rgba(255,182,60,'+(alpha*0.85)+')');
+      ctx.strokeStyle=grad;
+      ctx.lineWidth=0.75;
+      ctx.shadowColor='rgba(255,176,64,'+(alpha*0.55)+')';
+      ctx.shadowBlur=6;
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    }
+    // moving pulses along lines
+    for(var p=0;p<pulses.length && edges.length;p++){
+      var pulse=pulses[p];
+      if(pulse.edge<0 || pulse.edge>=edges.length) pulse.edge=Math.floor(Math.random()*edges.length);
+      pulse.prog += pulse.sp*(mobileBg?0.38:(reduce?0.55:0.72));
+      if(pulse.prog>1){ pulse.prog=0; pulse.edge=Math.floor(Math.random()*edges.length); }
+      var edg=edges[pulse.edge];
+      var aa=nodes[edg.a], bb=nodes[edg.b];
+      var sx=aa.x*W, sy=aa.y*H, ex=bb.x*W, ey=bb.y*H;
+      var px=sx+(ex-sx)*pulse.prog;
+      var py=sy+(ey-sy)*pulse.prog;
+      var tail=Math.max(0,pulse.prog-0.20);
+      var tx=sx+(ex-sx)*tail;
+      var ty=sy+(ey-sy)*tail;
+      var tg=ctx.createLinearGradient(tx,ty,px,py);
+      tg.addColorStop(0,'rgba(255,200,90,0)');
+      tg.addColorStop(1,'rgba(255,240,188,'+(pulse.a)+')');
+      ctx.strokeStyle=tg; ctx.lineWidth=1.15; ctx.shadowBlur=9; ctx.shadowColor='rgba(255,210,120,'+(pulse.a*0.52)+')';
+      ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(px,py); ctx.stroke();
+      var rg=ctx.createRadialGradient(px,py,0,px,py,8);
+      rg.addColorStop(0,'rgba(255,250,220,'+(pulse.a*1.08)+')');
+      rg.addColorStop(0.24,'rgba(255,205,92,'+(pulse.a*0.68)+')');
+      rg.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(px,py,10,0,Math.PI*2); ctx.fill();
+    }
+    // nodes
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i], x=n.x*W, y=n.y*H;
+      var tw=0.42+0.58*Math.abs(Math.sin(tm*0.0012+n.p));
+      var rr=n.r*(0.85+tw*0.5);
+      var glow=ctx.createRadialGradient(x,y,0,x,y,rr*8);
+      glow.addColorStop(0,'rgba(255,242,205,'+(n.a*tw*0.92)+')');
+      glow.addColorStop(0.28,'rgba(255,184,70,'+(n.a*tw*0.42)+')');
+      glow.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(x,y,rr*8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='rgba(255,228,160,'+(n.a*tw)+')'; ctx.beginPath(); ctx.arc(x,y,rr,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function frame(ts){
+    if(mobileBg && Date.now()<scrollPauseUntil){
+      if(!scrollStaticDrawn){ctx.clearRect(0,0,W,H);try{drawBgImage(ts||0);}catch(e){}scrollStaticDrawn=true;}
+      requestAnimationFrame(frame);return;
+    }
+    scrollStaticDrawn=false;
+    if(mobileBg && ts-lastFrame<100){requestAnimationFrame(frame);return;}
+    lastFrame=ts||0;
+    t=ts||0;
+    ctx.clearRect(0,0,W,H);
+    drawBgImage(t);
+    drawAurora(t);
+    if(!mobileBg)drawReflection(t);
+    drawStars(t);
+    drawNetwork(t);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+
 </body>
 </html>
