@@ -1,0 +1,2542 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>POI Capital Group · Гүйцэтгэл ба гишүүний dashboard</title>
+<meta name="description" content="Google Sheet API-д суурилсан гишүүний performance dashboard: хөрөнгө, хувь, сарын өгөөж, хаалтын дараах дүн, POI V2/V3 гүйцэтгэлийн зураглал.">
+<meta name="keywords" content="POI Capital Group, POI Capital, futures trading, futures performance, futures trading cooperation, NQ futures, MNQ futures, futures calculator, investment calculator, performance dashboard, member dashboard, capital growth model, POI V2, POI V3, V2 directional trading, V3 oscillation trading, хөрөнгө оруулалтын санал, фьючерс арилжаа, фьючерс хамтын ажиллагаа, өгөөжийн тооцоолуур, гишүүний гүйцэтгэл, хөрөнгө өсөлтийн загвар">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="author" content="POI Capital Group">
+<link rel="canonical" href="https://poicapitalgroup.com/app/performance.html">
+<meta property="og:locale" content="mn_MN">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="POI Capital Group">
+<meta property="og:title" content="POI Capital Group · Гүйцэтгэл ба гишүүний dashboard">
+<meta property="og:description" content="Google Sheet API-д суурилсан гишүүний performance dashboard: хөрөнгө, хувь, сарын өгөөж, хаалтын дараах дүн, POI V2/V3 гүйцэтгэлийн зураглал.">
+<meta property="og:url" content="https://poicapitalgroup.com/app/performance.html">
+<meta property="og:image" content="https://poicapitalgroup.com/aurora.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="POI Capital Group · Гүйцэтгэл ба гишүүний dashboard">
+<meta name="twitter:description" content="Google Sheet API-д суурилсан гишүүний performance dashboard: хөрөнгө, хувь, сарын өгөөж, хаалтын дараах дүн, POI V2/V3 гүйцэтгэлийн зураглал.">
+<meta name="twitter:image" content="https://poicapitalgroup.com/aurora.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "POI Capital Group",
+  "url": "https://poicapitalgroup.com/",
+  "description": "Фьючерс арилжааны хамтын ажиллагаа, гүйцэтгэлийн тайлан, гишүүний хөрөнгө ба өгөөжийн тооцооллын dashboard.",
+  "sameAs": []
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "POI Capital Group",
+  "url": "https://poicapitalgroup.com/",
+  "inLanguage": "mn",
+  "description": "POI Capital Group-ийн фьючерс арилжааны хамтын ажиллагааны танилцуулга, гүйцэтгэл, тооцоолуур."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "POI Capital Group · Гүйцэтгэл ба гишүүний dashboard",
+  "url": "https://poicapitalgroup.com/app/performance.html",
+  "inLanguage": "mn",
+  "description": "Google Sheet API-д суурилсан гишүүний performance dashboard: хөрөнгө, хувь, сарын өгөөж, хаалтын дараах дүн, POI V2/V3 гүйцэтгэлийн зураглал.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "POI Capital Group",
+    "url": "https://poicapitalgroup.com/"
+  }
+}
+</script>
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cyan:#4FC3F7; --green:#00C897; --amber:#FFB547;
+  --ink:#E0E8F0; --soft:#CADCFC; --mut:#5A7A9A; --mut2:#8A9CC8;
+  --panel:rgba(13,21,32,0.82); --cardbg:rgba(17,24,39,0.82); --line:rgba(255,255,255,.07);
+}
+html{background:#040302}
+body{font-family:'Segoe UI',Arial,sans-serif;color:var(--ink);min-height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased}
+#wbg{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ---------- App bar ---------- */
+.appbar{position:fixed;top:0;left:0;right:0;height:60px;z-index:30;background:rgba(6,10,20,0.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(79,195,247,.14)}
+.brand .ab-eyebrow{font-size:9px;letter-spacing:.18em;color:var(--cyan);font-weight:700;text-transform:uppercase}
+.brand .ab-title{font-size:13.5px;color:#fff;font-weight:700;margin-top:2px;letter-spacing:.01em}
+.tabs{display:flex;gap:3px;background:rgba(255,255,255,.05);border-radius:24px;padding:4px;border:1px solid var(--line)}
+.tab{font-size:12px;padding:7px 14px;border-radius:18px;border:none;background:transparent;color:var(--mut2);cursor:pointer;font-weight:700;transition:.2s;font-family:inherit;white-space:nowrap}
+.tab:hover{color:var(--soft)}
+.tab.active{background:var(--cyan);color:#06121e}
+
+/* ---------- Views ---------- */
+.view{display:none}
+.view.active{display:block}
+
+/* ---------- Deck stage ---------- */
+.stage-wrap{position:fixed;top:60px;left:0;right:0;bottom:80px;z-index:1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage{width:1280px;height:720px;position:relative;transform-origin:center center;flex-shrink:0}
+.slide{position:absolute;inset:0;padding:52px 68px 44px;display:none;flex-direction:column}
+.slide.is-active{display:flex}
+
+.s-head{flex-shrink:0}
+.s-kick{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.s-num{font-size:13px;font-weight:800;color:var(--cyan);letter-spacing:.05em;background:rgba(79,195,247,.12);border:1px solid rgba(79,195,247,.25);width:38px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:8px}
+.s-line{flex:0 0 54px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+.s-title{font-size:38px;font-weight:700;color:#fff;line-height:1.1;letter-spacing:.005em;text-wrap:balance}
+.s-sub{font-size:16px;color:var(--mut2);margin-top:8px;line-height:1.5}
+
+.s-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;min-height:0;padding:14px 0}
+
+/* cards */
+.cards-grid{display:grid;gap:13px}
+.card{background:var(--cardbg);border:0.5px solid var(--line);border-radius:13px;padding:18px 20px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:2px;background:var(--cyan);border-radius:2px;opacity:.7}
+.card.hl-green::before{background:var(--green)}
+.card.hl-amber::before{background:var(--amber)}
+.c-label{font-size:12.5px;font-weight:800;color:var(--cyan);text-transform:uppercase;letter-spacing:.05em;line-height:1.3}
+.card.hl-green .c-label{color:var(--green)}
+.card.hl-amber .c-label{color:var(--amber)}
+.c-text{font-size:14px;color:#8FE3C6;margin-top:9px;line-height:1.6}
+
+/* stats */
+.stats-row{display:flex;flex-wrap:wrap;gap:12px}
+.stat{flex:1 1 0;min-width:150px;background:var(--cardbg);border:0.5px solid var(--line);border-radius:13px;padding:18px 18px;text-align:center}
+.s-figure{font-size:32px;font-weight:800;line-height:1;color:var(--cyan)}
+.s-figure.green{color:var(--green)} .s-figure.amber{color:var(--amber)} .s-figure.white{color:#fff}
+.s-flabel{font-size:12.5px;color:var(--mut);margin-top:8px;line-height:1.45}
+
+/* flow */
+.flow{display:flex;align-items:stretch;justify-content:center;gap:0}
+.fbox{flex:1;max-width:300px;background:var(--cardbg);border:0.5px solid var(--line);border-radius:14px;padding:26px 20px;text-align:center}
+.fbox.amber{border-color:rgba(255,181,71,.4)} .fbox.green{border-color:rgba(0,200,151,.4)}
+.fbox .fn{font-size:38px;font-weight:800;color:#fff;line-height:1}
+.fbox.amber .fn{color:var(--amber)} .fbox.green .fn{color:var(--green)}
+.fbox .fl{font-size:13px;color:var(--mut2);margin-top:10px;line-height:1.4}
+.farrow{display:flex;align-items:center;color:var(--mut);font-size:26px;padding:0 18px}
+
+/* bars */
+.bars{display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:230px 1fr 92px;align-items:center;gap:16px}
+.bar-name{font-size:14.5px;color:var(--soft);font-weight:600}
+.bar-name small{display:block;color:var(--mut);font-weight:400;font-size:12px;margin-top:2px}
+.bar-track{height:26px;background:rgba(255,255,255,.05);border-radius:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,rgba(79,195,247,.5),var(--cyan));transition:width .6s ease}
+.bar-fill.green{background:linear-gradient(90deg,rgba(0,200,151,.5),var(--green))}
+.bar-val{font-size:16px;font-weight:800;color:var(--ink);text-align:right}
+.bar-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px}
+
+/* steps */
+.steps{display:flex;gap:13px}
+.step{flex:1;background:var(--cardbg);border:0.5px solid var(--line);border-radius:13px;padding:18px 18px}
+.st-idx{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--cyan);color:var(--cyan);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-bottom:12px}
+.st-label{font-size:13px;font-weight:800;color:var(--cyan);text-transform:uppercase;letter-spacing:.03em;line-height:1.3}
+.st-text{font-size:13.5px;color:#8FE3C6;margin-top:8px;line-height:1.55}
+/* accordion (арга барил тайлбар) */
+.exp-grid{align-items:start}
+.exp-steps{align-items:flex-start}
+.card.expandable,.step.expandable{cursor:pointer}
+.card.expandable:hover,.step.expandable:hover{border-color:rgba(79,195,247,.4)}
+.step{position:relative}
+.card-detail{display:none}
+.card.open .card-detail,.step.open .card-detail{display:block}
+.cd-inner{margin-top:11px;padding-top:11px;border-top:1px solid rgba(0,200,151,.2);font-size:12.5px;line-height:1.6;color:#C8D8E8}
+.more-tag{display:inline-block;margin-top:9px;font-size:10px;font-weight:800;letter-spacing:.06em;color:var(--cyan);text-transform:uppercase}
+.more-tag::after{content:" ▾"}
+.open .more-tag{color:var(--green)}
+.open .more-tag::after{content:" ▴"}
+
+/* note + cta */
+.s-note{font-size:13.5px;color:var(--mut2);line-height:1.65;background:rgba(10,22,40,.55);border:1px solid rgba(79,195,247,.14);border-radius:11px;padding:13px 17px}
+.s-note.green{color:#9AE6CB;border-color:rgba(0,200,151,.32);background:rgba(0,200,151,.07);font-weight:500}
+.member-result{background:linear-gradient(180deg,rgba(15,42,30,.85),rgba(13,24,20,.85));border:2px solid var(--green);border-radius:16px;padding:20px 24px;box-shadow:0 12px 44px -16px rgba(0,200,151,.4)}
+.mr-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.mr-role{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green)}
+.mr-total{font-size:38px;font-weight:800;color:#fff;line-height:1;margin-top:6px}
+.mr-roi{display:inline-block;margin-top:9px;font-size:12.5px;font-weight:800;color:#06121e;background:var(--green);padding:4px 14px;border-radius:20px}
+.mr-side{text-align:right}
+.mr-side>div{font-size:11px;color:#7FB9A6;margin-bottom:7px}
+.mr-side b{display:block;font-size:15px;color:var(--green);font-weight:800;margin-top:1px}
+.mr-rows{display:grid;grid-template-columns:repeat(2,1fr);gap:2px 30px;margin-top:16px;border-top:1px solid rgba(0,200,151,.2);padding-top:13px}
+.mr-row{display:flex;justify-content:space-between;font-size:13px;color:#CADCFC;padding:4px 0}
+.mr-row b{color:#fff;font-weight:700}
+.mr-members{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.mr-mem{background:rgba(255,255,255,.05);border-radius:10px;padding:11px 14px}
+.mr-mem-name{font-size:10.5px;color:var(--green);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+.mr-mem-row{display:flex;justify-content:space-between;font-size:12px;color:#CADCFC;padding:2.5px 0}
+.mr-mem-row b{color:#fff;font-weight:700}
+.s-cta{margin-top:4px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.cta-btn{background:var(--green);color:#06121e;border:none;padding:11px 24px;border-radius:24px;font-weight:800;font-size:13.5px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:8px;transition:.2s}
+.cta-btn.secondary{background:rgba(255,255,255,.06);color:var(--soft);border:1px solid rgba(79,195,247,.24)}
+.cta-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+a.cta-btn{text-decoration:none}
+a.cta-btn:visited{color:#06121e}
+a.cta-btn.secondary:visited{color:var(--soft)}
+
+/* footer */
+.s-foot{flex-shrink:0;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#3A4A5A;letter-spacing:.04em;border-top:1px solid rgba(255,255,255,.06);padding-top:13px;margin-top:6px}
+.s-foot b{color:var(--mut);font-weight:700}
+
+/* ---- Title slide ---- */
+.title-slide .s-body{justify-content:center;gap:20px;text-align:left}
+.ts-eyebrow{font-size:12px;letter-spacing:.2em;color:var(--cyan);font-weight:800;text-transform:uppercase}
+.ts-title{font-size:56px;font-weight:800;color:#fff;line-height:1.05;letter-spacing:.005em;max-width:18ch}
+.ts-sub{font-size:17px;color:var(--soft);line-height:1.6;max-width:60ch}
+.ts-intro{font-size:14px;color:var(--mut2);line-height:1.7;max-width:64ch;background:rgba(10,22,40,.5);border:1px solid rgba(79,195,247,.14);border-radius:12px;padding:16px 20px}
+.ts-stats{display:flex;gap:13px;flex-wrap:wrap;margin-top:4px}
+.ts-chip{background:var(--cardbg);border:0.5px solid var(--line);border-radius:13px;padding:16px 22px;min-width:150px}
+.ts-chip .tc-num{font-size:30px;font-weight:800;color:var(--cyan);line-height:1}
+.ts-chip .tc-lbl{font-size:12px;color:var(--mut);margin-top:7px}
+
+/* entrance — slide-level fade only (reliable); children always visible */
+.rise{opacity:1}
+
+/* ---------- Deck nav ---------- */
+.deck-nav{position:fixed;bottom:0;left:0;right:0;height:80px;z-index:20;display:flex;align-items:center;justify-content:center;gap:20px}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(79,195,247,.3);background:rgba(13,21,32,0.7);color:var(--cyan);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;backdrop-filter:blur(6px)}
+.nav-btn:hover{background:var(--cyan);color:#06121e;border-color:var(--cyan)}
+.nav-btn:disabled{opacity:.3;cursor:default}
+.dots{display:flex;gap:6px;max-width:46vw;flex-wrap:wrap;justify-content:center}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:.2s}
+.dot.active{background:var(--cyan);transform:scale(1.3)}
+.counter{position:fixed;right:24px;bottom:28px;font-size:12px;color:var(--mut);font-weight:700;letter-spacing:.05em}
+.hint{position:fixed;left:24px;bottom:28px;font-size:11px;color:#3A4A5A}
+
+/* ---------- Calc view ---------- */
+#view-calc{position:fixed;top:60px;left:0;right:0;bottom:0;z-index:1}
+#calcframe{width:100%;height:100%;border:0;background:transparent;display:block}
+
+/* ---------- Home page ---------- */
+#view-home{position:fixed;top:60px;left:0;right:0;bottom:0;z-index:1;overflow-y:auto;padding:clamp(28px,6vh,64px) 28px}
+.home-inner{max-width:880px;margin:0 auto}
+.home-inner .ts-eyebrow{margin-bottom:14px}
+.home-title{font-size:clamp(32px,5vw,54px);font-weight:800;color:#fff;line-height:1.08;letter-spacing:.005em;max-width:17ch}
+.home-sub{font-size:16px;color:var(--soft);margin-top:14px;line-height:1.6}
+.home-stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.home-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px;margin-top:30px}
+.home-card{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;position:relative;background:var(--cardbg);border:0.5px solid var(--line);border-radius:14px;padding:20px 22px 20px 24px;cursor:pointer;font-family:inherit;transition:.2s;overflow:hidden}
+.home-card::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:2px;background:var(--cyan);border-radius:2px}
+.home-card:hover{border-color:rgba(79,195,247,.4);transform:translateY(-3px);box-shadow:0 14px 36px -18px rgba(0,0,0,.7)}
+.hc-name{font-size:17px;font-weight:800;color:#fff;letter-spacing:.01em}
+.hc-desc{font-size:12.5px;color:var(--mut2);line-height:1.5;max-width:30ch}
+.hc-arrow{position:absolute;right:20px;top:20px;color:var(--cyan);font-size:18px;transition:.2s}
+.home-card:hover .hc-arrow{transform:translateX(3px)}
+
+@media (max-width:640px){
+  .brand .ab-title{display:none}
+  .tab{padding:8px 16px}
+  .counter{display:none}
+}
+
+/* --- FINAL HOME + MOBILE PATCH --- */
+.home-inner{max-width:1080px}
+.home-landing{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:18px;align-items:start}
+.home-copy{padding-top:4px}
+.home-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.home-primary,.home-secondary{border:none;border-radius:999px;padding:12px 18px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;transition:.2s}
+.home-primary{background:var(--green);color:#06121e;box-shadow:0 10px 34px -20px var(--green)}
+.home-secondary{background:rgba(255,255,255,.06);color:var(--soft);border:1px solid rgba(79,195,247,.18)}
+.home-primary:hover,.home-secondary:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.home-quick{background:rgba(13,21,32,.78);border:1px solid rgba(79,195,247,.16);border-radius:16px;padding:18px 20px;position:relative;overflow:hidden}
+.home-quick:before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:2px;background:var(--green);border-radius:2px}
+.hq-kicker,.proj-kicker,.home-section-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;color:var(--cyan)}
+.hq-title{font-size:22px;font-weight:850;color:#fff;margin-top:8px}
+.hq-row{margin-top:14px}
+.hq-row label{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--mut2);font-weight:650;margin-bottom:7px}
+.hq-row label b{color:var(--cyan)}
+.hq-row input[type=range]{width:100%;accent-color:var(--cyan)}
+.hq-results{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+.hq-result{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.065);border-radius:12px;padding:12px}
+.hq-result.main{grid-column:1/-1;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.22)}
+.hq-num{font-size:26px;font-weight:900;color:var(--green);line-height:1}
+.hq-result:not(.main) .hq-num{font-size:19px;color:var(--cyan)}
+.hq-lbl{font-size:11px;color:var(--mut2);line-height:1.35;margin-top:5px}
+.hq-note{font-size:11px;color:var(--mut);line-height:1.55;margin-top:10px}
+.project-card{margin-top:16px;background:rgba(13,21,32,.64);border:1px solid rgba(79,195,247,.14);border-radius:16px;padding:18px 20px;position:relative}
+.proj-title{font-size:22px;font-weight:850;color:#fff;line-height:1.18;margin-top:8px}
+.proj-text{font-size:13px;color:var(--soft);line-height:1.65;margin-top:10px}
+.proj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}
+.proj-box{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.055);border-radius:10px;padding:10px;font-size:12px;color:var(--mut2);line-height:1.35}
+.proj-box b{display:block;color:var(--green);font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.home-structure{font-size:13px;color:var(--mut2);line-height:1.65;margin-top:14px;background:rgba(10,22,40,.42);border:1px solid rgba(79,195,247,.12);border-radius:12px;padding:12px 16px}
+.home-nav{margin-top:12px}
+.home-card{padding-bottom:48px}
+.hc-start{position:absolute;left:22px;bottom:14px;font-size:11px;font-weight:800;color:#06121e;background:var(--green);border-radius:999px;padding:6px 12px}
+.nav-btn{width:118px;height:44px;border-radius:24px;background:rgba(0,200,151,.18);border:1px solid rgba(0,200,151,.48);color:var(--green);font-size:13px;font-weight:900}
+.nav-btn:hover{background:var(--green);color:#06121e;border-color:var(--green)}
+.deck-nav{gap:14px}
+
+#view-calc{overflow:auto;-webkit-overflow-scrolling:touch}
+#calcframe{min-width:320px}
+@media (max-width:900px){
+  .home-landing{grid-template-columns:1fr}
+  .proj-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .appbar{padding:0 10px;height:58px}
+  .brand{display:none}
+  .tabs{max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{font-size:11px;padding:7px 10px;flex:0 0 auto}
+  .stage-wrap{top:58px;bottom:92px}
+  .deck-nav{height:92px;gap:10px}
+  .nav-btn{width:132px;height:48px;font-size:13px}
+  .dots{display:none}
+  .hint{display:none}
+  .counter{right:50%;transform:translateX(50%);bottom:70px;color:var(--mut2)}
+  #view-home{top:58px;padding:20px 14px 90px}
+  #view-calc{top:58px;bottom:0}
+  #calcframe{width:100vw;height:calc(100dvh - 58px);display:block}
+  
+  .proj-grid{grid-template-columns:1fr}
+  .home-title{font-size:34px;max-width:none}
+}
+
+
+/* --- SECTION START BUTTON PATCH --- */
+.section-start-btn{
+  position:fixed;
+  left:24px;
+  bottom:28px;
+  z-index:24;
+  height:44px;
+  border-radius:24px;
+  border:1px solid rgba(79,195,247,.38);
+  background:rgba(13,21,32,.78);
+  color:var(--cyan);
+  padding:0 18px;
+  font-size:13px;
+  font-weight:900;
+  font-family:inherit;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  gap:7px;
+  transition:.2s;
+}
+.section-start-btn:hover{
+  background:var(--cyan);
+  color:#06121e;
+  border-color:var(--cyan);
+  transform:translateY(-2px);
+}
+#view-stage.active .section-start-btn{display:flex}
+@media (max-width:760px){
+  .section-start-btn{
+    left:12px;
+    bottom:22px;
+    height:48px;
+    padding:0 14px;
+    font-size:12px;
+    background:rgba(0,200,151,.18);
+    border-color:rgba(0,200,151,.48);
+    color:var(--green);
+  }
+  .section-start-btn:hover{background:var(--green);color:#06121e;border-color:var(--green)}
+}
+
+
+/* --- SIM SCREENSHOT EMBED PATCH --- */
+.sim-proof{margin-top:10px;display:grid;gap:10px}
+.sim-proof-title{font-size:12px;color:var(--cyan);font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px}
+.sim-proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sim-shot{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden}
+.sim-shot img{display:block;width:100%;height:auto}
+.sim-shot-cap{font-size:10.5px;color:var(--mut2);line-height:1.35;padding:7px 9px}
+.sim-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.sim-mini div{background:rgba(0,200,151,.08);border:1px solid rgba(0,200,151,.18);border-radius:8px;padding:7px 8px;font-size:11px;color:var(--mut2);line-height:1.25}
+.sim-mini b{display:block;color:var(--green);font-size:13px;margin-bottom:2px}
+@media (max-width:760px){.sim-proof-grid{grid-template-columns:1fr}.sim-mini{grid-template-columns:1fr 1fr}}
+
+
+/* --- SIM FIT PATCH --- */
+.sim-proof{margin-top:10px;display:grid;gap:10px}
+.sim-proof-title{font-size:12px;color:var(--cyan);font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px}
+.sim-proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sim-shot{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden}
+.sim-shot img{display:block;width:100%;height:auto}
+.sim-shot-cap{font-size:10.5px;color:var(--mut2);line-height:1.35;padding:7px 9px}
+.sim-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.sim-mini div{background:rgba(0,200,151,.08);border:1px solid rgba(0,200,151,.18);border-radius:9px;padding:9px 10px;font-size:11px;color:var(--mut2);line-height:1.25}
+.sim-mini b{display:block;color:var(--green);font-size:15px;margin-bottom:2px}
+.sim-slide-wrap{display:grid;grid-template-columns:.86fr 1.14fr;gap:14px;align-items:start;width:100%}
+.sim-hero{background:rgba(0,200,151,.08);border:1px solid rgba(0,200,151,.22);border-radius:14px;padding:16px 18px}
+.sim-hero-k{font-size:10px;color:var(--green);font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.sim-hero-main{font-size:34px;line-height:1;font-weight:900;color:var(--green);margin-top:10px}
+.sim-hero-sub{font-size:13px;color:var(--soft);line-height:1.55;margin-top:10px}
+.sim-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.sim-metric{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:9px 10px}
+.sim-metric b{display:block;color:var(--cyan);font-size:18px;line-height:1}
+.sim-metric span{display:block;color:var(--mut2);font-size:10.5px;margin-top:4px}
+.sim-images{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sim-images .sim-shot img{height:170px;object-fit:cover;object-position:top left}
+.sim-images .sim-shot-cap{font-size:10px}
+@media (max-width:760px){
+  .sim-slide-wrap{grid-template-columns:1fr}
+  .sim-images{grid-template-columns:1fr}
+  .sim-images .sim-shot img{height:auto}
+  .sim-mini{grid-template-columns:1fr 1fr}
+}
+
+
+/* --- IMAGE MODAL PATCH --- */
+.img-modal{
+  position:fixed;
+  inset:0;
+  z-index:999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.88);
+  padding:22px;
+}
+.img-modal.open{display:flex}
+.img-modal-inner{
+  position:relative;
+  max-width:min(96vw,1500px);
+  max-height:94vh;
+}
+.img-modal img{
+  display:block;
+  max-width:100%;
+  max-height:90vh;
+  object-fit:contain;
+  border-radius:10px;
+  border:1px solid rgba(79,195,247,.35);
+  box-shadow:0 20px 80px rgba(0,0,0,.7);
+}
+.img-modal-close{
+  position:absolute;
+  right:-8px;
+  top:-44px;
+  border:1px solid rgba(0,200,151,.55);
+  background:rgba(0,200,151,.18);
+  color:var(--green);
+  border-radius:999px;
+  padding:8px 14px;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+  font-family:inherit;
+}
+.sim-shot{cursor:zoom-in}
+.sim-shot:hover{border-color:rgba(0,200,151,.5)}
+.sim-shot:hover img{filter:brightness(1.08)}
+
+
+/* --- MOBILE SLIDE LAYOUT FIX V2 --- */
+@media (max-width:760px){
+  body{overflow:hidden}
+  .stage-wrap{
+    top:58px;
+    bottom:96px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    align-items:flex-start;
+    justify-content:flex-start;
+    padding:8px 8px calc(24px + env(safe-area-inset-bottom));
+    -webkit-overflow-scrolling:touch;
+  }
+  .stage{
+    width:100% !important;
+    height:auto !important;
+    min-height:100%;
+    flex-shrink:1;
+    transform:none !important;
+    zoom:1 !important;
+  }
+  .slide{
+    position:relative;
+    inset:auto;
+    min-height:calc(100dvh - 170px);
+    padding:14px 14px 18px;
+    overflow:visible;
+  }
+  .s-kick{gap:10px;margin-bottom:10px}
+  .s-num{width:34px;height:28px;font-size:12px}
+  .s-line{flex-basis:34px}
+  .s-title{font-size:26px;line-height:1.12}
+  .s-sub{font-size:13px;margin-top:6px;line-height:1.45}
+  .s-body{gap:12px;padding:8px 0}
+  .s-note{font-size:12.5px;line-height:1.55;padding:11px 13px}
+  .cards-grid,.steps,.flow,.bar-cols,.mr-rows,.mr-members,.sim-slide-wrap,.sim-images,.sim-proof-grid{grid-template-columns:1fr !important;display:grid !important}
+  .steps{gap:10px}
+  .stats-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .stat{min-width:0;padding:14px 12px}
+  .s-figure{font-size:24px}
+  .s-flabel{font-size:11px;margin-top:6px}
+  .bar-row{grid-template-columns:1fr;gap:7px}
+  .bar-name{font-size:13px;line-height:1.35}
+  .bar-name small{font-size:11px}
+  .bar-track{height:14px}
+  .bar-val{text-align:left;font-size:14px}
+  .card,.step,.fbox{padding:14px 14px;border-radius:12px}
+  .c-label,.st-label{font-size:12px}
+  .c-text,.st-text{font-size:12.5px;line-height:1.5}
+  .fbox .fn{font-size:28px}
+  .fbox .fl{font-size:12px}
+  .farrow{display:none}
+  .member-result{padding:14px 14px}
+  .mr-total{font-size:28px}
+  .mr-head{gap:10px}
+  .mr-side{text-align:left}
+  .sim-hero{padding:14px}
+  .sim-hero-main{font-size:28px}
+  .sim-hero-sub{font-size:12.5px}
+  .sim-metrics{grid-template-columns:1fr 1fr}
+  .sim-images .sim-shot img{height:auto !important;object-fit:contain}
+  .s-foot{font-size:10px;padding-top:10px}
+  .deck-nav{height:86px;gap:10px;padding:0 8px 6px}
+  .nav-btn{width:108px;height:42px;font-size:12px}
+  .counter{bottom:64px;font-size:11px}
+  .section-start-btn{
+    top:66px !important;
+    left:10px !important;
+    bottom:auto !important;
+    height:30px !important;
+    padding:0 10px !important;
+    font-size:10px !important;
+    border-radius:999px !important;
+    background:rgba(0,200,151,.14) !important;
+    border-color:rgba(0,200,151,.34) !important;
+    color:var(--green) !important;
+    z-index:26 !important;
+    box-shadow:none !important;
+  }
+}
+
+
+/* --- FINAL SECTION START CHIP POSITION --- */
+@media (max-width:760px){
+  .section-start-btn{
+    right:10px !important;
+    left:auto !important;
+    top:66px !important;
+    bottom:auto !important;
+    height:26px !important;
+    padding:0 8px !important;
+    font-size:9.5px !important;
+    line-height:1 !important;
+    border-radius:999px !important;
+    z-index:28 !important;
+    background:rgba(0,200,151,.12) !important;
+    border-color:rgba(0,200,151,.32) !important;
+    color:var(--green) !important;
+    box-shadow:none !important;
+  }
+}
+
+
+/* --- IOS BACKGROUND SOFTENING PATCH --- */
+/* Safari / iPhone / iPad дээр canvas glow хэт хурц харагдахыг standardizeнэ.
+   Android/Desktop-ийн харагдах байдлыг үндсэндээ өөрчлөхгүй. */
+@supports (-webkit-touch-callout: none) {
+  #wbg {
+    filter: brightness(0.68) saturate(0.82) contrast(0.90) !important;
+    opacity: 0.78 !important;
+  }
+}
+
+
+/* --- SUBTLE COPYRIGHT FOOTER --- */
+.site-copyright{
+  position:fixed;
+  left:50%;
+  bottom:calc(6px + env(safe-area-inset-bottom));
+  transform:translateX(-50%);
+  z-index:80;
+  font-size:10px;
+  line-height:1;
+  color:rgba(255,255,255,.22);
+  letter-spacing:.03em;
+  white-space:nowrap;
+  pointer-events:none;
+  user-select:none;
+  text-shadow:0 1px 10px rgba(0,0,0,.55);
+}
+@media (max-width:760px){
+  .site-copyright{
+    bottom:calc(5px + env(safe-area-inset-bottom));
+    font-size:8.5px;
+    color:rgba(255,255,255,.20);
+    max-width:92vw;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+}
+
+
+/* --- PERFORMANCE DASHBOARD PATCH --- */
+#view-performance{
+  position:fixed;top:60px;left:0;right:0;bottom:0;z-index:1;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:clamp(22px,4vw,46px) 22px 96px;
+  background:radial-gradient(circle at 24% 8%,rgba(0,200,151,.10),transparent 34%),radial-gradient(circle at 76% 18%,rgba(79,195,247,.08),transparent 34%);
+}
+.perf-wrap{max-width:1180px;margin:0 auto;position:relative}
+.perf-hero{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-bottom:18px;align-items:stretch}
+.perf-panel,.perf-card,.perf-chart,.perf-table-card,.perf-members,.perf-monthly{
+  background:linear-gradient(180deg,rgba(7,24,20,.88),rgba(5,14,18,.92));
+  border:1px solid rgba(0,200,151,.18);
+  box-shadow:0 22px 70px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.04);
+  border-radius:22px;
+}
+.perf-panel{padding:24px;min-height:220px;overflow:hidden;position:relative}
+.perf-panel:before{content:"";position:absolute;inset:-1px;background:linear-gradient(120deg,rgba(0,200,151,.12),transparent 48%,rgba(79,195,247,.10));pointer-events:none}
+.perf-title-row{position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.perf-kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);font-weight:900;margin-bottom:10px}
+.perf-title{font-size:clamp(28px,4vw,46px);line-height:1.02;font-weight:900;color:#fff;letter-spacing:-.03em}
+.perf-sub{margin-top:14px;max-width:700px;color:#9fb8c9;line-height:1.65;font-size:14px;position:relative}
+.perf-status{position:relative;min-width:210px;background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px}
+.perf-status small{display:block;color:#78a89b;font-size:11px;margin-bottom:6px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.perf-status b{display:block;color:#dfffee;font-size:14px;line-height:1.35}
+.perf-actions{display:flex;gap:10px;margin-top:18px;position:relative;flex-wrap:wrap}
+.perf-btn{border:1px solid rgba(0,200,151,.35);background:rgba(0,200,151,.10);color:#bffff0;border-radius:999px;padding:10px 14px;font-weight:900;font-size:12px;cursor:pointer;font-family:inherit}
+.perf-btn:hover{background:rgba(0,200,151,.18);border-color:rgba(0,200,151,.65)}
+.perf-btn.secondary{background:rgba(79,195,247,.08);border-color:rgba(79,195,247,.22);color:#bcecff}
+.perf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+.perf-card{padding:16px;min-height:112px;position:relative;overflow:hidden}
+.perf-card:after{content:"";position:absolute;right:-24px;top:-22px;width:82px;height:82px;border-radius:50%;background:rgba(0,200,151,.08)}
+.perf-label{font-size:11px;color:#77a497;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.perf-value{font-size:clamp(20px,2.2vw,30px);font-weight:950;color:#fff;letter-spacing:-.03em;line-height:1.05}
+.perf-note{margin-top:8px;color:#7e9d92;font-size:12px;line-height:1.35}
+.perf-positive{color:#00ff9d!important}.perf-negative{color:#ff867d!important}.perf-cyan{color:#4fc3f7!important}.perf-amber{color:#ffcc7a!important}
+.perf-charts{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-bottom:14px}
+.perf-chart{padding:18px;min-height:320px}
+.perf-chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+.perf-chart-title{font-size:16px;font-weight:950;color:#f4fffb}
+.perf-chart-desc{font-size:12px;color:#7fa99d;margin-top:5px;line-height:1.45}
+.perf-svg{width:100%;height:240px;display:block;overflow:visible;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.05));border-radius:16px}
+.perf-axis{stroke:rgba(255,255,255,.13);stroke-width:1}.perf-gridline{stroke:rgba(255,255,255,.06);stroke-width:1}.perf-line{fill:none;stroke:#00ff9d;stroke-width:3.2;filter:drop-shadow(0 0 7px rgba(0,255,157,.38))}.perf-area{fill:rgba(0,200,151,.10)}.perf-dot{fill:#03130f;stroke:#00ff9d;stroke-width:2.5}.perf-bar{fill:rgba(0,200,151,.78);filter:drop-shadow(0 0 6px rgba(0,200,151,.28))}.perf-bar.neg{fill:rgba(255,134,125,.78)}.perf-tick{fill:#8bbdad;font-size:10px;font-weight:800}
+.perf-lower{display:grid;grid-template-columns:.9fr 1.1fr;gap:14px;margin-bottom:14px}
+.perf-monthly,.perf-members,.perf-table-card{padding:18px}
+.perf-left-stack{display:grid;gap:14px}
+.perf-outlook-card{padding:18px;background:linear-gradient(180deg,rgba(42,28,6,.88),rgba(18,14,8,.94));border:1px solid rgba(255,181,71,.28);box-shadow:0 22px 70px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.04);border-radius:22px;position:relative;overflow:hidden}
+.perf-outlook-card:before{content:"";position:absolute;inset:-1px;background:linear-gradient(120deg,rgba(255,181,71,.12),transparent 48%,rgba(79,195,247,.06));pointer-events:none}
+.perf-outlook-card>*{position:relative;z-index:1}
+.perf-outlook-title{color:#fff4df}
+.perf-outlook-card .perf-section-sub{color:#d7c5a3}
+
+.perf-outlook-card{transform-style:preserve-3d;perspective:900px;animation:outlookFloat 7.5s ease-in-out infinite, outlookGoldPulse 3.8s ease-in-out infinite}
+.perf-outlook-card:after{content:"";position:absolute;inset:-45%;background:linear-gradient(115deg,transparent 34%,rgba(255,213,124,.18) 48%,rgba(255,255,255,.10) 50%,transparent 62%);transform:translateX(-38%) rotate(8deg);animation:outlookSweep 5.2s linear infinite;pointer-events:none;z-index:0}
+.perf-outlook-card .perf-section-title,.perf-outlook-card .perf-month-forecast,.perf-outlook-card .perf-risk-box,.perf-outlook-card .perf-method-btn,.perf-outlook-card .perf-method-box{transform:translateZ(18px)}
+@keyframes outlookFloat{0%,100%{filter:drop-shadow(0 0 0 rgba(255,181,71,0));}50%{filter:drop-shadow(0 0 18px rgba(255,181,71,.16));}}
+@keyframes outlookGoldPulse{0%,100%{box-shadow:0 22px 70px rgba(0,0,0,.32),0 0 22px rgba(255,181,71,.10),inset 0 1px 0 rgba(255,255,255,.04)}50%{box-shadow:0 26px 82px rgba(0,0,0,.36),0 0 38px rgba(255,181,71,.24),inset 0 1px 0 rgba(255,255,255,.06)}}
+@keyframes outlookSweep{0%{transform:translateX(-55%) rotate(8deg);opacity:0}12%{opacity:.9}42%{opacity:.35}100%{transform:translateX(55%) rotate(8deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.perf-outlook-card,.perf-outlook-card:after{animation:none!important}}
+.perf-month-forecast.outlook-grid,.outlook-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.perf-forecast-card.gold{background:rgba(255,181,71,.08);border-color:rgba(255,181,71,.24)}
+.perf-forecast-card.gold b{color:#ffd27a}
+.perf-forecast-card span{display:block;color:#a9b9b2;font-size:11px;font-weight:900;margin-bottom:6px;text-transform:uppercase;letter-spacing:.035em}
+.perf-risk-box{margin-top:12px;border:1px solid rgba(255,134,125,.45);background:rgba(255,134,125,.08);border-left:4px solid #ff867d;color:#ffd9d4;border-radius:14px;padding:12px 13px;font-size:12px;line-height:1.58}
+.perf-method-btn{margin-top:12px;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,181,71,.34);background:rgba(255,181,71,.10);color:#ffd27a;border-radius:999px;padding:10px 14px;font-weight:900;font-size:12px;cursor:pointer;font-family:inherit}
+.perf-method-btn:hover{background:rgba(255,181,71,.18);border-color:rgba(255,181,71,.58)}
+.perf-method-btn::after{content:"▾";font-size:11px}
+.perf-method-btn.is-open::after{content:"▴"}
+.perf-method-box{margin-top:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,181,71,.16);border-radius:14px;padding:13px}
+.perf-method-kicker{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:#ffcc7a;margin-bottom:8px}
+.perf-method-copy{font-size:12px;line-height:1.6;color:#f3ead5;margin-top:8px}
+.perf-method-copy.subtle{color:#cabd9d}
+
+.perf-section-title{font-size:17px;color:#fff;font-weight:950;margin-bottom:6px}.perf-section-sub{font-size:12px;color:#7fa99d;line-height:1.45;margin-bottom:14px}
+.perf-month-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.perf-mini{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}.perf-mini span{display:block;color:#7fa99d;font-size:11px;font-weight:800;margin-bottom:6px}.perf-mini b{font-size:18px;color:#fff}.perf-story{margin-top:12px;border-left:3px solid rgba(0,200,151,.55);padding:10px 12px;background:rgba(0,200,151,.06);border-radius:0 12px 12px 0;color:#c8fff0;font-size:13px;line-height:1.6;white-space:pre-line}
+.perf-member-row{display:grid;grid-template-columns:90px 1fr 88px;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.07)}.perf-member-row:last-child{border-bottom:0}.perf-member-name{color:#e9fff8;font-weight:900}.perf-member-cap{color:#bfffee;text-align:right;font-weight:900}.perf-share-track{height:9px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}.perf-share-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,#00c897,#4fc3f7)}.perf-member-empty{color:#76958d;font-size:13px;line-height:1.6}
+.perf-table-wrap{overflow:auto;border-radius:16px;border:1px solid rgba(255,255,255,.06)}.perf-table{width:100%;border-collapse:collapse;min-width:720px;background:rgba(0,0,0,.18)}.perf-table th{position:sticky;top:0;background:#063e31;color:#00ff9d;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:11px}.perf-table td{padding:11px;border-top:1px solid rgba(255,255,255,.06);color:#d8fff2;font-size:12px}.perf-table td.num{text-align:right;font-weight:800}.perf-loading{padding:18px;border-radius:18px;background:rgba(0,0,0,.22);border:1px dashed rgba(0,200,151,.28);color:#a6d9ca;font-size:13px;line-height:1.6}.perf-error{border-color:rgba(255,134,125,.45);color:#ffd2cd;background:rgba(255,134,125,.08)}.perf-statement-btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(0,200,151,.38);background:rgba(0,200,151,.10);color:#bffff0;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:900;text-decoration:none;white-space:nowrap}.perf-statement-btn:hover{background:rgba(0,200,151,.20);border-color:rgba(0,200,151,.70)}
+@media (max-width:980px){.perf-hero,.perf-charts,.perf-lower{grid-template-columns:1fr}.perf-grid{grid-template-columns:repeat(2,1fr)}.tabs{overflow-x:auto;max-width:calc(100vw - 220px)}}
+@media (max-width:760px){#view-performance{top:58px;padding:16px 12px 88px}.perf-panel{padding:18px}.perf-title-row{display:block}.perf-status{margin-top:14px}.perf-grid{grid-template-columns:1fr 1fr;gap:10px}.perf-card{padding:13px;min-height:100px}.perf-value{font-size:21px}.perf-month-grid{grid-template-columns:1fr}.perf-chart{padding:14px;min-height:280px}.perf-svg{height:210px}.perf-member-row{grid-template-columns:76px 1fr 76px}.tabs{max-width:calc(100vw - 118px)}.tab{font-size:11px;padding:7px 10px}.perf-left-stack{gap:12px}.outlook-grid,.perf-month-forecast{grid-template-columns:1fr}.perf-outlook-card{padding:15px}.perf-risk-box,.perf-method-copy{font-size:11.5px}}
+
+
+
+/* --- MEMBER EXPECTATION TOOL PATCH --- */
+.perf-member-tool{
+  padding:18px;
+  background:linear-gradient(180deg,rgba(7,24,20,.88),rgba(5,14,18,.92));
+  border:1px solid rgba(0,200,151,.18);
+  box-shadow:0 22px 70px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.04);
+  border-radius:22px;
+}
+.perf-tool-controls{display:grid;gap:12px;margin-top:14px}
+.perf-tool-control{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}
+.perf-tool-control label{display:flex;justify-content:space-between;gap:12px;color:#7fa99d;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.perf-tool-control label b{color:#00ff9d;font-size:12px;white-space:nowrap}
+.perf-tool-control input[type=range]{width:100%;accent-color:#00c897}
+.perf-member-projection{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.perf-proj-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}
+.perf-proj-card.main{grid-column:1/-1;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.25)}
+.perf-proj-card span{display:block;color:#7fa99d;font-size:11px;font-weight:900;margin-bottom:6px;line-height:1.35}
+.perf-proj-card b{display:block;color:#fff;font-size:18px;line-height:1.08}
+.perf-proj-card.main b{font-size:26px;color:#00ff9d}
+.perf-proj-card small{display:block;color:#7e9d92;font-size:11px;line-height:1.35;margin-top:6px}
+.perf-projection-note{margin-top:12px;border-left:3px solid rgba(79,195,247,.55);padding:10px 12px;background:rgba(79,195,247,.06);border-radius:0 12px 12px 0;color:#c8fff0;font-size:12px;line-height:1.55}
+@media (max-width:760px){.perf-member-projection{grid-template-columns:1fr}.perf-proj-card.main{grid-column:auto}}
+
+
+.perf-mode-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.perf-mode-btn{border:1px solid rgba(0,200,151,.28);background:rgba(0,200,151,.08);color:#bffff0;border-radius:999px;padding:8px 12px;font-weight:900;font-size:11px;cursor:pointer;font-family:inherit}
+.perf-mode-btn.active{background:#00c897;color:#06121e;border-color:#00c897}
+.perf-proj-card.operator{background:rgba(79,195,247,.07);border-color:rgba(79,195,247,.22)}
+.perf-proj-card.operator b{color:#8ee8ff}
+.perf-proj-card.warn{background:rgba(255,181,71,.08);border-color:rgba(255,181,71,.25)}
+.perf-proj-card.warn b{color:#ffcc7a}
+
+
+/* --- DEVICE FAST RESPONSIVE FINAL PATCH --- */
+.perf-panel,.perf-card,.perf-chart,.perf-table-card,.perf-members,.perf-monthly,.perf-member-tool{will-change:auto}
+@media (min-width:1280px){
+  .perf-wrap{max-width:1360px}
+  .perf-hero{grid-template-columns:1.2fr .8fr}
+  .perf-charts{grid-template-columns:1fr 1fr}
+  .perf-lower{grid-template-columns:.92fr 1.08fr}
+}
+@media (min-width:1600px){
+  .perf-wrap{max-width:1460px}
+  #view-performance{padding-left:34px;padding-right:34px}
+}
+@media (max-width:1180px){
+  .perf-wrap{max-width:100%}
+  .perf-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:900px){
+  .perf-hero,.perf-charts,.perf-lower{grid-template-columns:1fr!important}
+  .perf-panel{min-height:auto}
+  .perf-status{min-width:0}
+  .perf-member-projection{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:760px){
+  #view-performance{top:58px;padding:14px 10px 96px}
+  .perf-title{font-size:30px}
+  .perf-sub{font-size:12.5px;line-height:1.55}
+  .perf-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .perf-value{font-size:19px}
+  .perf-note{font-size:11px}
+  .perf-panel,.perf-card,.perf-chart,.perf-table-card,.perf-monthly,.perf-member-tool{border-radius:16px}
+  .perf-chart{min-height:260px}
+  .perf-svg{height:190px}
+  .perf-member-projection{grid-template-columns:1fr}
+  .perf-mode-row{gap:6px}
+  .perf-mode-btn{font-size:10px;padding:8px 10px}
+  .perf-tool-control{padding:10px}
+  .perf-tool-control label{font-size:10px}
+}
+@media (max-width:430px){
+  .perf-grid{grid-template-columns:1fr}
+  .perf-title{font-size:28px}
+  .perf-card{min-height:auto}
+  .perf-month-grid{grid-template-columns:1fr!important}
+  .perf-chart-head{display:block}
+  .perf-table{min-width:640px}
+}
+@supports (-webkit-touch-callout: none){
+  #view-performance{background:radial-gradient(circle at 24% 8%,rgba(0,200,151,.065),transparent 34%),radial-gradient(circle at 76% 18%,rgba(79,195,247,.055),transparent 34%)}
+  .perf-panel,.perf-card,.perf-chart,.perf-table-card,.perf-monthly,.perf-member-tool{box-shadow:0 12px 42px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.035)}
+}
+
+
+/* --- PERFORMANCE UX FINAL PATCH --- */
+.perf-status{overflow:hidden;isolation:isolate}
+.perf-status>*{position:relative;z-index:2}
+.perf-status.is-loading::before{content:"";position:absolute;inset:-1px;border-radius:18px;padding:1px;background:conic-gradient(from 0deg,rgba(0,255,157,0),rgba(0,255,157,.95),rgba(79,195,247,.75),rgba(0,255,157,0));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:perfSpin 1.2s linear infinite;z-index:1;pointer-events:none}
+.perf-status.is-ok{border-color:rgba(0,200,151,.35);box-shadow:0 0 24px rgba(0,200,151,.10)}
+.perf-status.is-stale{border-color:rgba(255,181,71,.34);box-shadow:0 0 24px rgba(255,181,71,.08)}
+.perf-update-time{margin-top:8px;color:#86b8aa;font-size:11px;line-height:1.35;font-weight:700}
+@keyframes perfSpin{to{transform:rotate(360deg)}}
+.perf-member-tool{transition:border-color .18s ease,box-shadow .18s ease,transform .12s ease!important}
+.perf-member-tool:hover{border-color:rgba(0,200,151,.42);box-shadow:0 18px 50px rgba(0,200,151,.10),0 0 30px rgba(0,200,151,.09)!important}
+.perf-member-static{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.perf-static-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px;min-height:86px}
+.perf-static-card.main{grid-column:1/-1;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.25)}
+.perf-static-card.progress{grid-column:1/-1;background:rgba(79,195,247,.065);border-color:rgba(79,195,247,.22)}
+.perf-static-card span{display:block;color:#7fa99d;font-size:11px;font-weight:900;margin-bottom:6px;line-height:1.35;text-transform:uppercase;letter-spacing:.035em}
+.perf-static-card b{display:block;color:#fff;font-size:18px;line-height:1.08}
+.perf-static-card.main b{font-size:27px;color:#00ff9d}
+.perf-static-card small{display:block;color:#7e9d92;font-size:11px;line-height:1.38;margin-top:6px}
+.perf-progress-line{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:9px}
+.perf-progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#00c897,#4fc3f7);box-shadow:0 0 14px rgba(0,200,151,.35)}
+.perf-month-forecast{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.perf-forecast-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}
+.perf-forecast-card.wide{grid-column:1/-1;background:rgba(79,195,247,.06);border-color:rgba(79,195,247,.18)}
+.perf-forecast-card span{display:block;color:#7fa99d;font-size:11px;font-weight:900;margin-bottom:6px;text-transform:uppercase;letter-spacing:.035em}
+.perf-forecast-card b{display:block;color:#fff;font-size:18px;line-height:1.08}
+.perf-forecast-card small{display:block;color:#7e9d92;font-size:11px;line-height:1.38;margin-top:6px}
+.perf-y-label{fill:#8bbdad;font-size:10px;font-weight:800}
+.perf-x-label{fill:#8bbdad;font-size:10px;font-weight:800}
+.perf-value-label{fill:#d8fff2;font-size:10px;font-weight:900}
+.perf-axis-title{fill:#6fa999;font-size:10px;font-weight:900;letter-spacing:.04em}
+.perf-svg{height:265px!important}
+@media (max-width:760px){.perf-member-static,.perf-month-forecast{grid-template-columns:1fr}.perf-static-card.main,.perf-static-card.progress,.perf-forecast-card.wide{grid-column:auto}.perf-svg{height:230px!important}}
+
+
+/* --- MEMBER CONTROLS RESTORED / STATIC GLOW PATCH --- */
+.perf-member-tool{
+  position:relative;
+  overflow:hidden;
+}
+.perf-member-tool:before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:22px;
+  background:linear-gradient(120deg,rgba(0,200,151,.10),transparent 45%,rgba(79,195,247,.08));
+  pointer-events:none;
+}
+.perf-member-tool>*{position:relative}
+.perf-mode-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.perf-mode-btn{
+  border:1px solid rgba(0,200,151,.28);
+  background:rgba(0,200,151,.08);
+  color:#bffff0;
+  border-radius:999px;
+  padding:8px 12px;
+  font-weight:900;
+  font-size:11px;
+  cursor:pointer;
+  font-family:inherit;
+  transition:background .15s ease,border-color .15s ease,color .15s ease;
+}
+.perf-mode-btn.active{background:#00c897;color:#06121e;border-color:#00c897}
+.perf-tool-controls.static-controls{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+.perf-tool-control{
+  background:rgba(0,0,0,.18);
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:14px;
+  padding:12px;
+}
+.perf-tool-control label{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  color:#7fa99d;
+  font-size:11px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  margin-bottom:8px;
+}
+.perf-tool-control label b{color:#00ff9d;font-size:12px;white-space:nowrap}
+.perf-tool-control input[type=range]{width:100%;accent-color:#00c897;cursor:pointer}
+.perf-member-projection{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.perf-proj-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}
+.perf-proj-card.main{grid-column:1/-1;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.25)}
+.perf-proj-card span{display:block;color:#7fa99d;font-size:11px;font-weight:900;margin-bottom:6px;line-height:1.35}
+.perf-proj-card b{display:block;color:#fff;font-size:18px;line-height:1.08}
+.perf-proj-card.main b{font-size:26px;color:#00ff9d}
+.perf-proj-card small{display:block;color:#7e9d92;font-size:11px;line-height:1.35;margin-top:6px}
+.perf-proj-card.forecast{background:rgba(79,195,247,.07);border-color:rgba(79,195,247,.22)}
+.perf-proj-card.forecast b{color:#8ee8ff}
+.perf-proj-card.warn{background:rgba(255,181,71,.08);border-color:rgba(255,181,71,.25)}
+.perf-proj-card.warn b{color:#ffcc7a}
+.perf-projection-note{margin-top:12px;border-left:3px solid rgba(79,195,247,.55);padding:10px 12px;background:rgba(79,195,247,.06);border-radius:0 12px 12px 0;color:#c8fff0;font-size:12px;line-height:1.55}
+@media (max-width:760px){.perf-member-projection{grid-template-columns:1fr}.perf-proj-card.main{grid-column:auto}.perf-mode-btn{font-size:10px;padding:8px 10px}.perf-tool-control{padding:10px}.perf-tool-control label{font-size:10px}}
+
+
+/* --- MINIMAL BLUR FIX / NO GLOBAL MOTION CHANGE --- */
+/* Зөвхөн "Ирэх 7 хоногийн урьдчилсан зураглал" card дээрх blur/filter давхаргыг авна. */
+.perf-outlook-card,
+.perf-outlook-card *,
+.perf-outlook-card::before,
+.perf-outlook-card::after{
+  -webkit-filter:none!important;
+  filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+
+/* Glow layer үлдэнэ, текст дээр filter/blur дамжихгүй. */
+.perf-outlook-card{
+  isolation:isolate!important;
+}
+.perf-outlook-card>*{
+  position:relative;
+  z-index:2;
+}
+
+/* Гишүүний урьдчилсан үр дүн card: зөвхөн өөрийнх нь hover movement-ийг бага болгоно. */
+.perf-member-tool:hover{
+  transform:translateY(-1px)!important;
+}
+
+
+
+/* --- MATCH BIG CARD EFFECT / TEXT SHARP PATCH --- */
+/* Энэ 2 card бусад том card-тай адил hover glow авна. Тусгай glow/pulse animation байхгүй. */
+.perf-outlook-card,
+.perf-member-tool{
+  animation:none!important;
+}
+.perf-outlook-card::after,
+.perf-member-tool::after{
+  animation:none!important;
+}
+.perf-outlook-card,
+.perf-outlook-card *,
+.perf-outlook-card::before,
+.perf-outlook-card::after{
+  filter:none!important;
+  -webkit-filter:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.perf-outlook-card .perf-section-title,
+.perf-outlook-card .perf-section-sub,
+.perf-outlook-card .perf-month-forecast,
+.perf-outlook-card .perf-risk-box,
+.perf-outlook-card .perf-method-btn,
+.perf-outlook-card .perf-method-box{
+  transform:none!important;
+}
+
+
+/* --- FINAL HOVER COLOR MAP ---
+   perf-outlook-card: gold hover light.
+   perf-member-tool: default card hover light, same as other cards.
+   No extra blur/filter/glow layer added here. */
+
+
+/* --- HISTORY TABLE COLUMN ALIGNMENT FIX --- */
+.perf-table{
+  table-layout:fixed!important;
+  min-width:920px!important;
+}
+.perf-table th,
+.perf-table td{
+  box-sizing:border-box;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  vertical-align:middle;
+}
+.perf-table th:nth-child(1), .perf-table td:nth-child(1){width:118px;text-align:left}
+.perf-table th:nth-child(2), .perf-table td:nth-child(2){width:132px;text-align:left}
+.perf-table th:nth-child(3), .perf-table td:nth-child(3){width:160px;text-align:right}
+.perf-table th:nth-child(4), .perf-table td:nth-child(4){width:152px;text-align:right}
+.perf-table th:nth-child(5), .perf-table td:nth-child(5){width:104px;text-align:right}
+.perf-table th:nth-child(6), .perf-table td:nth-child(6){width:104px;text-align:right}
+.perf-table th:nth-child(7), .perf-table td:nth-child(7){width:110px;text-align:center}
+.perf-table .hist-col-week{width:118px}
+.perf-table .hist-col-date{width:132px}
+.perf-table .hist-col-balance{width:160px}
+.perf-table .hist-col-pl{width:152px}
+.perf-table .hist-col-roi{width:104px}
+.perf-table .hist-col-dd{width:104px}
+.perf-table .hist-col-statement{width:110px}
+.perf-table td.num{text-align:right!important;font-variant-numeric:tabular-nums}
+.perf-table th{line-height:1.25}
+.perf-statement-btn{margin:0 auto}
+@media (max-width:760px){
+  .perf-table{min-width:880px!important}
+}
+
+
+/* --- MEMBER RESULT CARD LOGIC PATCH --- */
+.perf-proj-card.gold{
+  background:rgba(255,181,71,.085);
+  border-color:rgba(255,181,71,.28);
+}
+.perf-proj-card.gold b{color:#ffd27a}
+.perf-proj-card.risk{
+  grid-column:1/-1;
+  background:rgba(255,134,125,.075);
+  border-color:rgba(255,134,125,.32);
+  border-left:4px solid rgba(255,134,125,.75);
+}
+.perf-proj-card.risk b{color:#ffd2cd}
+.perf-proj-card.goal{
+  grid-column:1/-1;
+  background:rgba(79,195,247,.065);
+  border-color:rgba(79,195,247,.22);
+}
+.perf-goal-line{
+  height:10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+  margin-top:9px;
+}
+.perf-goal-fill{
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#00c897,#4fc3f7);
+  box-shadow:0 0 14px rgba(0,200,151,.32);
+}
+.perf-goal-fill.over{
+  background:linear-gradient(90deg,#ffb547,#00c897);
+  box-shadow:0 0 16px rgba(255,181,71,.34);
+}
+@media (max-width:760px){
+  .perf-proj-card.risk,.perf-proj-card.goal{grid-column:auto}
+}
+
+
+/* --- MEMBER TWO-COLUMN SUMMARY PATCH --- */
+.perf-proj-compare-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  grid-column:1/-1;
+}
+.perf-proj-col{
+  border-radius:18px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.035);
+}
+.perf-proj-col.green{
+  border-color:rgba(0,200,151,.26);
+  background:rgba(0,200,151,.065);
+}
+.perf-proj-col.gold{
+  border-color:rgba(255,181,71,.30);
+  background:rgba(255,181,71,.075);
+}
+.perf-proj-col h4{
+  margin:0 0 10px;
+  font-size:12px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:#dfffee;
+}
+.perf-proj-col.gold h4{color:#ffd27a}
+.perf-proj-metric{
+  padding:10px 0;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.perf-proj-metric:first-of-type{border-top:0;padding-top:0}
+.perf-proj-metric span{
+  display:block;
+  color:#8fb0a8;
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:4px;
+}
+.perf-proj-metric b{
+  display:block;
+  color:#fff;
+  font-size:22px;
+  letter-spacing:-.03em;
+}
+.perf-proj-col.gold .perf-proj-metric b{color:#ffd27a}
+.perf-proj-metric small{
+  display:block;
+  margin-top:4px;
+  color:#9fb8c9;
+  line-height:1.45;
+  font-size:11px;
+}
+
+.perf-tool-control.is-hidden{display:none!important}
+.perf-proj-col.cyan{border-color:rgba(79,195,247,.28);background:rgba(79,195,247,.065)}
+.perf-proj-col.cyan h4{color:#8ee8ff}
+.perf-proj-col.cyan .perf-proj-metric b{color:#8ee8ff}
+.perf-proj-metric.deduct b{color:#ffb3aa!important}
+.perf-proj-metric.net b{color:#00ff9d!important;font-size:25px}
+.perf-proj-pill{display:inline-flex;gap:6px;align-items:center;margin-top:8px;padding:7px 10px;border-radius:999px;background:rgba(0,200,151,.08);border:1px solid rgba(0,200,151,.20);font-size:11px;color:#bffff0;font-weight:900}
+@media (max-width:760px){
+  .perf-proj-compare-grid{grid-template-columns:1fr}
+}
+
+
+/* --- UX POLISH FINAL PATCH ---
+   Mobile history becomes cards; touch targets larger; live-data status clearer.
+*/
+.perf-status small{
+  color:#00ff9d!important;
+  letter-spacing:.16em!important;
+}
+.perf-status.is-ok small::after{
+  content:" · SYNCED";
+  color:#8fffe0;
+}
+.perf-status.is-stale small::after{
+  content:" · CHECK";
+  color:#ffcc7a;
+}
+.perf-actions .perf-btn,
+.perf-mode-btn,
+.perf-statement-btn{
+  min-height:38px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+@media (max-width:760px){
+  .perf-actions .perf-btn,
+  .perf-mode-btn,
+  .perf-statement-btn{
+    min-height:42px;
+  }
+  .perf-table-wrap{
+    overflow:visible!important;
+  }
+  .perf-table{
+    min-width:0!important;
+    width:100%!important;
+    table-layout:auto!important;
+    border-collapse:separate!important;
+    border-spacing:0 10px!important;
+  }
+  .perf-table colgroup,
+  .perf-table thead{
+    display:none!important;
+  }
+  .perf-table tbody,
+  .perf-table tr,
+  .perf-table td{
+    display:block!important;
+  }
+  .perf-table tr{
+    background:linear-gradient(180deg,rgba(7,24,20,.82),rgba(5,14,18,.94));
+    border:1px solid rgba(0,200,151,.16);
+    border-radius:16px;
+    padding:10px 12px;
+    margin-bottom:10px;
+    box-shadow:0 12px 34px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.035);
+  }
+  .perf-table td{
+    width:auto!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+    display:flex!important;
+    justify-content:space-between!important;
+    align-items:center!important;
+    gap:14px!important;
+    text-align:right!important;
+    white-space:normal!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    border:0!important;
+    border-bottom:1px solid rgba(255,255,255,.055)!important;
+    padding:8px 0!important;
+    font-size:12px!important;
+    line-height:1.35!important;
+  }
+  .perf-table td:last-child{
+    border-bottom:0!important;
+  }
+  .perf-table td::before{
+    content:attr(data-label);
+    color:#7fa99d;
+    font-size:10.5px;
+    font-weight:950;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    text-align:left;
+    flex:0 0 auto;
+  }
+  .perf-table td.num{
+    text-align:right!important;
+  }
+  .perf-status{
+    width:100%;
+  }
+  .perf-title-row{
+    gap:12px;
+  }
+  .perf-tool-control input[type=range]{
+    min-height:30px;
+  }
+}
+@media (max-width:430px){
+  .perf-actions{
+    display:grid!important;
+    grid-template-columns:1fr;
+  }
+  .perf-actions .perf-btn{
+    width:100%;
+  }
+}
+
+
+/* --- ANDROID PERFORMANCE PATCH --- */
+@media (max-width:820px), (pointer:coarse){
+  #wbg{opacity:.72!important;filter:brightness(.76) saturate(.86) contrast(.92)!important}
+}
+
+
+/* --- SCROLL SMOOTH MOBILE PATCH --- */
+@media (max-width:820px), (pointer:coarse){
+  html,body{overscroll-behavior-y:contain}
+  #view-home,#view-calc,#view-performance,.stage-wrap{
+    -webkit-overflow-scrolling:touch!important;
+    scroll-behavior:auto!important;
+    will-change:scroll-position;
+  }
+  #wbg{contain:strict}
+}
+
+
+
+/* --- MYFOREXFUNDS CERTIFICATE MODAL FINAL --- */
+.cert-btn{
+  margin-top:14px;
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:38px;
+  padding:9px 18px;
+  border-radius:999px;
+  border:1px solid rgba(244,210,118,.72);
+  background:
+    linear-gradient(135deg,rgba(89,58,10,.82),rgba(220,170,58,.28) 42%,rgba(24,20,12,.88)),
+    rgba(10,15,22,.74);
+  color:#f4d67a;
+  font-weight:800;
+  letter-spacing:.04em;
+  cursor:pointer;
+  overflow:hidden;
+  box-shadow:0 0 0 1px rgba(56,216,255,.12),0 0 18px rgba(212,175,55,.24),inset 0 1px 0 rgba(255,245,190,.35);
+  transform:translateZ(0);
+  -webkit-tap-highlight-color:transparent;
+}
+.cert-btn span{position:relative;z-index:2;text-shadow:0 1px 6px rgba(0,0,0,.48)}
+.cert-btn:before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:inherit;
+  background:linear-gradient(115deg,transparent 0%,rgba(255,244,178,.10) 33%,rgba(255,244,178,.72) 49%,rgba(60,220,255,.20) 56%,transparent 72%);
+  transform:translateX(-140%);
+  animation:certGoldShimmer 7.5s ease-in-out infinite;
+  pointer-events:none;
+}
+.cert-btn:after{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:inherit;
+  border:1px solid rgba(58,220,255,.20);
+  box-shadow:0 0 12px rgba(58,220,255,.10);
+  pointer-events:none;
+}
+.cert-btn:hover{box-shadow:0 0 0 1px rgba(56,216,255,.18),0 0 26px rgba(212,175,55,.34),inset 0 1px 0 rgba(255,245,190,.46)}
+.cert-btn:active{transform:translateY(1px);box-shadow:0 0 20px rgba(244,210,118,.38)}
+@keyframes certGoldShimmer{0%,70%{transform:translateX(-145%);opacity:.0}76%{opacity:.85}92%,100%{transform:translateX(145%);opacity:0}}
+
+.cert-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(2,7,15,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.cert-modal.is-open{display:flex}
+.cert-dialog{position:relative;width:min(980px,96vw);max-height:90vh;overflow:auto;border-radius:26px;border:1px solid rgba(231,189,82,.64);background:linear-gradient(180deg,rgba(8,17,29,.96),rgba(3,8,15,.98));box-shadow:0 26px 90px rgba(0,0,0,.70),0 0 38px rgba(212,175,55,.14),0 0 0 1px rgba(54,218,255,.10);padding:22px}
+.cert-close{position:sticky;top:0;float:right;z-index:3;width:38px;height:38px;border-radius:999px;border:1px solid rgba(244,210,118,.44);background:rgba(6,12,20,.80);color:#f4d67a;font-size:24px;line-height:1;cursor:pointer;box-shadow:0 0 14px rgba(212,175,55,.14)}
+.cert-view{clear:both;display:grid;gap:18px;justify-items:center}
+.cert-img{width:min(760px,100%);border-radius:16px;border:1px solid rgba(244,210,118,.42);box-shadow:0 18px 48px rgba(0,0,0,.50),0 0 20px rgba(60,220,255,.10);background:#fff}
+.cert-translation{width:min(760px,100%);border-radius:18px;border:1.4px solid rgba(244,210,118,.76);background:linear-gradient(180deg,rgba(18,22,27,.70),rgba(7,12,18,.84));box-shadow:inset 0 1px 0 rgba(255,244,178,.18),0 0 26px rgba(212,175,55,.12),0 0 18px rgba(60,220,255,.06);padding:20px 22px;color:#f0cf72;font-size:16px;line-height:1.72;letter-spacing:.01em;text-align:left;white-space:normal}
+.cert-translation p{margin:0 0 16px}.cert-translation p:last-child{margin-bottom:0}.cert-translation .cyan{color:#69e8ff;text-shadow:0 0 10px rgba(105,232,255,.20)}.cert-translation .gold-strong{color:#ffe08a;font-weight:800}.cert-translation .date{color:#f7d980;font-weight:800;letter-spacing:.035em}
+body.cert-lock{overflow:hidden}
+@media (max-width:768px){
+  .cert-btn{min-height:36px;padding:8px 16px;font-size:13px;box-shadow:0 0 0 1px rgba(56,216,255,.10),0 0 12px rgba(212,175,55,.18),inset 0 1px 0 rgba(255,245,190,.28)}
+  .cert-btn:before{animation:certGoldShimmer 12s ease-in-out 1;opacity:.65}
+  .cert-modal{align-items:flex-start;padding:12px;background:rgba(2,7,15,.78);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+  .cert-dialog{width:96vw;max-height:92vh;border-radius:20px;padding:14px;box-shadow:0 20px 60px rgba(0,0,0,.68),0 0 18px rgba(212,175,55,.12)}
+  .cert-close{width:34px;height:34px;font-size:22px}
+  .cert-view{gap:14px}.cert-img{border-radius:12px}.cert-translation{border-radius:15px;padding:16px 15px;font-size:14px;line-height:1.65}
+}
+@media (prefers-reduced-motion:reduce){.cert-btn:before{animation:none!important;opacity:0!important}.cert-modal{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}}
+
+
+/* --- Performance module overrides --- */
+html{background:#040302!important;min-height:100%}
+body{margin:0!important;min-height:100vh!important;overflow:auto!important;background:#040302!important;color:var(--ink);font-family:'Segoe UI',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body:before{content:"";position:fixed;inset:0;z-index:-3;background:url('../aurora.jpg') center/cover no-repeat;opacity:.42;filter:saturate(1.12) brightness(.42) contrast(1.08);pointer-events:none}
+body:after{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(circle at 24% 8%,rgba(0,200,151,.10),transparent 34%),radial-gradient(circle at 76% 18%,rgba(79,195,247,.08),transparent 34%),linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.86));pointer-events:none}
+.view{display:block!important}
+#view-performance{position:relative!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;min-height:100vh!important;z-index:1!important;overflow:visible!important;padding:clamp(18px,3.2vw,42px) 18px 64px!important;background:transparent!important}
+.perf-wrap{max-width:1180px!important}
+@media (max-width:760px){#view-performance{top:auto!important;padding:14px 10px 80px!important}}
+
+
+/* --- V5 GOOGLE SHEET MEMBER MODULE (READY, NOT FORCE-CONNECTED) --- */
+.perf-sheet-member{
+  padding:18px;
+  background:linear-gradient(180deg,rgba(7,24,20,.88),rgba(5,14,18,.92));
+  border:1px solid rgba(79,195,247,.18);
+  box-shadow:0 22px 70px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.04);
+  border-radius:22px;
+  position:relative;
+  overflow:hidden;
+}
+.perf-sheet-member:before{content:"";position:absolute;inset:-1px;background:linear-gradient(120deg,rgba(79,195,247,.08),transparent 42%,rgba(0,200,151,.08));pointer-events:none}
+.perf-sheet-member>*{position:relative;z-index:1}
+.sheet-badge-row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 10px}
+.sheet-badge{display:inline-flex;align-items:center;border:1px solid rgba(79,195,247,.20);background:rgba(79,195,247,.07);color:#bcecff;border-radius:999px;padding:6px 10px;font-size:10.5px;font-weight:900;letter-spacing:.025em}
+.sheet-badge.green{border-color:rgba(0,200,151,.25);background:rgba(0,200,151,.08);color:#bffff0}
+.sheet-control-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.sheet-control{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.065);border-radius:14px;padding:12px}
+.sheet-control label{display:flex;justify-content:space-between;gap:12px;color:#7fa99d;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;line-height:1.35}
+.sheet-control label b{color:#00ff9d;font-size:12px;white-space:nowrap}
+.sheet-control input[type=range]{width:100%;accent-color:#00c897;cursor:pointer}
+.sheet-control input[type=number],.sheet-control input[type=text],.sheet-control input[type=password]{width:100%;height:34px;border-radius:10px;border:1px solid rgba(79,195,247,.20);background:rgba(79,195,247,.06);color:#bcecff;padding:0 10px;font-weight:900;outline:none;font-family:inherit}
+.sheet-control input[type=text]::placeholder,.sheet-control input[type=password]::placeholder{color:rgba(188,236,255,.35)}
+.sheet-password-wrap{display:grid;grid-template-columns:1fr 74px;gap:8px;align-items:center}
+.sheet-password-wrap .sheet-access-input{letter-spacing:.08em;padding-right:10px}
+.sheet-toggle-btn{height:34px;border-radius:10px;border:1px solid rgba(0,200,151,.30);background:rgba(0,200,151,.10);color:#bffff0;font-size:10px;font-weight:950;letter-spacing:.045em;cursor:pointer;text-transform:uppercase}
+.sheet-toggle-btn:hover{background:rgba(0,200,151,.18)}
+.sheet-toggle-btn.is-on{border-color:rgba(255,181,71,.45);background:rgba(255,181,71,.12);color:#ffd27a}
+.sheet-action-control{display:flex;flex-direction:column;justify-content:center;gap:8px}
+.sheet-fetch-btn{height:36px;border:0;border-radius:12px;background:linear-gradient(135deg,#00c897,#4fc3f7);color:#001b18;font-weight:950;letter-spacing:.02em;cursor:pointer;box-shadow:0 0 18px rgba(0,200,151,.22)}
+.sheet-fetch-btn:hover{filter:brightness(1.08)}
+.sheet-fetch-btn:disabled{opacity:.58;cursor:wait;filter:none}
+.sheet-login-hint{display:block;color:#7fa99d;font-size:10.5px;line-height:1.35}
+.sheet-projection{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.sheet-proj-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px;min-height:88px}
+.sheet-proj-card.main{grid-column:1/-1;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.25)}
+.sheet-proj-card.cyan{background:rgba(79,195,247,.07);border-color:rgba(79,195,247,.20)}
+.sheet-proj-card.gold{background:rgba(255,181,71,.08);border-color:rgba(255,181,71,.22)}
+.sheet-proj-card.red{background:rgba(255,107,107,.07);border-color:rgba(255,107,107,.22)}
+.sheet-proj-card span{display:block;color:#7fa99d;font-size:11px;font-weight:900;margin-bottom:6px;line-height:1.35;text-transform:uppercase;letter-spacing:.035em}
+.sheet-proj-card b{display:block;color:#fff;font-size:18px;line-height:1.08;font-weight:950}
+.sheet-proj-card.main b{font-size:27px;color:#00ff9d}.sheet-proj-card.cyan b{color:#8ee8ff}.sheet-proj-card.gold b{color:#ffd27a}.sheet-proj-card.red b{color:#ff9a8f}
+.sheet-proj-card small{display:block;color:#7e9d92;font-size:11px;line-height:1.38;margin-top:6px}
+.sheet-month-table{margin-top:14px;border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:auto;background:rgba(0,0,0,.16)}
+.sheet-month-table table{width:100%;border-collapse:collapse;min-width:560px}.sheet-month-table th{background:rgba(79,195,247,.10);color:#bcecff;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.04em;padding:9px}.sheet-month-table td{border-top:1px solid rgba(255,255,255,.055);padding:8px 9px;color:#d8fff2;font-size:11.5px}.sheet-month-table td.num{text-align:right;font-weight:900}.sheet-month-table td.green{color:#00ff9d}.sheet-month-table td.cyan{color:#8ee8ff}
+.sheet-note{margin-top:12px;border-left:3px solid rgba(0,200,151,.55);padding:10px 12px;background:rgba(0,200,151,.06);border-radius:0 12px 12px 0;color:#c8fff0;font-size:12px;line-height:1.55}
+@media (max-width:760px){.sheet-control-grid,.sheet-projection{grid-template-columns:1fr}.sheet-proj-card.main{grid-column:auto}.perf-sheet-member{padding:15px}}
+
+</style>
+</head>
+<body>
+<section id="view-performance" class="view active">
+  <div class="perf-wrap">
+    <div class="perf-hero">
+      <div class="perf-panel">
+        <div class="perf-title-row">
+          <div>
+            <div class="perf-kicker">LIVE PERFORMANCE DASHBOARD</div>
+            <h2 class="perf-title">Гүйцэтгэл</h2>
+            <p class="perf-sub">Google Sheets дээр хадгалсан 7 хоногийн хаалттай үр дүнгээс гүйцэтгэлийн самбар, сарын тайлан, өсөлтийн график, гишүүний урьдчилсан өгөөжийн тооцоог автоматаар уншиж харуулна.</p>
+            <div class="perf-actions">
+              <button class="perf-btn" id="perfReloadBtn" type="button">Дата шинэчлэх</button>
+              <button class="perf-btn secondary" type="button" onclick="goSection('calc')">Тооцоолуур руу</button>
+            </div>
+          </div>
+          <div class="perf-status is-loading">
+            <small>LIVE DATA</small>
+            <b id="perfStatusText">Google Sheets холболт хүлээгдэж байна...</b>
+            <div class="perf-update-time" id="perfUpdateTime">Дата шинэчлэгдсэн: —</div>
+          </div>
+        </div>
+      </div>
+      <div class="perf-panel">
+        <div class="perf-kicker">Тэмдэглэл</div>
+        <div class="perf-title" style="font-size:25px" id="perfOperatorHeadline">—</div>
+        <p class="perf-sub" id="perfOperatorNote">Sheet дээрх operator_note энд харагдана.</p>
+      </div>
+    </div>
+
+    <div id="perfLoading" class="perf-loading">Google Sheets-ээс дата татаж байна...</div>
+
+    <div class="perf-grid" id="perfCards" aria-live="polite"></div>
+
+    <div class="perf-charts">
+      <div class="perf-chart">
+        <div class="perf-chart-head">
+          <div><div class="perf-chart-title">Өсөлтийн муруй</div><div class="perf-chart-desc">7 хоног бүрийн хаалтын дансны хэмжээн дээр үндэслэнэ.</div></div>
+          <div class="perf-note" id="perfEquityRange">—</div>
+        </div>
+        <svg id="perfEquityChart" class="perf-svg" viewBox="0 0 680 240" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="perf-chart">
+        <div class="perf-chart-head">
+          <div><div class="perf-chart-title">7 хоногийн ашиг/алдагдал</div><div class="perf-chart-desc">7 хоногийн ашиг/алдагдлын баганан график.</div></div>
+          <div class="perf-note" id="perfBarRange">—</div>
+        </div>
+        <svg id="perfBarChart" class="perf-svg" viewBox="0 0 520 240" preserveAspectRatio="none"></svg>
+      </div>
+    </div>
+
+    <div class="perf-lower">
+      <div class="perf-left-stack">
+        <div class="perf-monthly">
+          <div class="perf-section-title">Сарын тайлан</div>
+          <div class="perf-section-sub">Тухайн сарын хаалттай үр дүн: дансны өөрчлөлт, ашиг/алдагдал, өгөөж болон эрсдэлийн үндсэн үзүүлэлтүүд.</div>
+          <div class="perf-month-grid" id="perfMonthlyGrid"></div>
+          <div class="perf-story" id="perfMonthlyStory">Сарын тайлангийн өгүүлбэр энд гарна.</div>
+        </div>
+
+        <div class="perf-outlook-card">
+          <div class="perf-section-title perf-outlook-title">Ирэх 7 хоногийн урьдчилсан зураглал</div>
+          <div class="perf-section-sub">Сүүлийн хаагдсан 7 хоногийн өгөөжийн цуваанд тулгуурласан богино хугацааны урьдчилсан зураглал.</div>
+          <div class="perf-month-forecast" id="perfMonthlyForecast"></div>
+          <div class="perf-risk-box" id="perfForecastRiskBox">Анхааруулга: энэ хэсэг нь урьдчилсан тооцоолол. Бодит үр дүн нь зах зээлийн нөхцөл, эрсдэлийн удирдлага, арилжааны идэвх, дансны хамгаалалт зэрэг хүчин зүйлээс шалтгаалан өөрчлөгдөж болно.</div>
+          <button class="perf-method-btn" id="perfForecastMethodBtn" type="button" aria-expanded="false">Урьдчилсан тооцооны аргачлал харах</button>
+          <div class="perf-method-box" id="perfForecastMethodBox" hidden>
+            <div class="perf-method-kicker">Тооцооны аргачлал</div>
+            <div class="perf-method-copy">Аргачлал: сүүлийн хаагдсан 7 хоногийн өгөөжийн цуваанд <b>нийлмэл дундаж өгөөж</b> хэрэглэнэ.</div>
+            <div class="perf-method-copy">Урьдчилсан дансны хэмжээ = одоогийн дансны хэмжээ × (1 + суурь 7 хоногийн дундаж өгөөж).</div>
+            <div class="perf-method-copy subtle">Оролтын өгөгдөл: хаагдсан 7 хоногийн өгөөжийн цуваа, одоогийн дансны хэмжээ, сүүлийн гүйцэтгэлийн түүх.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="perf-member-tool">
+        <div class="perf-section-title">Гишүүний урьдчилсан үр дүн</div>
+        <div class="perf-section-sub">Том тооцоолуурын 2 үндсэн logic-той тааруулсан: ижил дүнтэй бүлэг дээр А/Б хаалтын сонголт, өөр өөр дүнтэй бүлэг дээр нийт капиталд эзлэх хувиар сарын мөнгөн урсгал болон данс хаах үеийн дүн бодогдоно.</div>
+
+        <div class="perf-mode-row">
+          <button class="perf-mode-btn active" id="perfCalcEqual" type="button">Тооцоолуур 1 · Ижил дүн</button>
+          <button class="perf-mode-btn" id="perfCalcWeighted" type="button">Тооцоолуур 2 · Хувийн жин</button>
+        </div>
+        <div class="perf-mode-row" id="perfCloseModeRow">
+          <button class="perf-mode-btn" id="perfModeA" type="button">А · Данс тэнцүү хуваах</button>
+          <button class="perf-mode-btn active" id="perfModeB" type="button">Б · Капитал буцааж, ашгийг хувьчлах</button>
+        </div>
+
+        <div class="perf-tool-controls static-controls">
+          <div class="perf-tool-control">
+            <label>Гишүүдийн тоо <b id="perfMemberCountLabel">2 хүн</b></label>
+            <input id="perfMemberCount" type="range" min="1" max="10" step="1" value="2">
+          </div>
+          <div class="perf-tool-control">
+            <label><span id="perfMemberCapitalText">Нэг гишүүний капитал</span> <b id="perfMemberCapitalLabel">$50,000</b></label>
+            <input id="perfMemberCapital" type="range" min="10000" max="250000" step="5000" value="50000">
+          </div>
+          <div class="perf-tool-control is-hidden" id="perfWeightedTotalWrap">
+            <label>Нийт хамтын капитал <b id="perfWeightedTotalLabel">$100,000</b></label>
+            <input id="perfWeightedTotal" type="range" min="10000" max="400000" step="5000" value="100000">
+          </div>
+          <div class="perf-tool-control">
+            <label>Сарын жишээ өгөөж <b id="perfMemberReturnLabel">10%</b></label>
+            <input id="perfMemberReturn" type="range" min="2" max="20" step="1" value="10">
+          </div>
+          <div class="perf-tool-control">
+            <label>Дансанд үлдэх хувь <b id="perfMemberScaleLabel">50%</b></label>
+            <input id="perfMemberScale" type="range" min="50" max="70" step="5" value="50">
+          </div>
+          <div class="perf-tool-control">
+            <label>Хугацаа <b id="perfMemberMonthsLabel">12 сар</b></label>
+            <input id="perfMemberMonths" type="range" min="1" max="36" step="1" value="12">
+          </div>
+          <div class="perf-tool-control">
+            <label>Гүйцэтгэлийн урамшуулал <b id="perfIncentiveLabel">5%</b></label>
+            <input id="perfIncentive" type="range" min="0" max="20" step="5" value="5">
+          </div>
+        </div>
+
+        <div class="perf-member-projection" id="perfMemberProjection"></div>
+        <div class="perf-projection-note" id="perfMemberProjectionNote"></div>
+      </div>
+
+
+      <div class="perf-sheet-member" id="perfSheetMemberModule">
+        <div class="perf-section-title">Google Sheet-д суурилсан гишүүний зураглал</div>
+        <div class="perf-section-sub">Гишүүн өөрийн дугаар болон нэвтрэх кодоо оруулахад Google Sheet-ээс капитал, эзлэх хувь, campaign тохиргоо шууд татагдаж, сарын мөнгөн урсгал болон campaign хаах үеийн дүн бодогдоно.</div>
+        <div class="sheet-badge-row">
+          <span class="sheet-badge green" id="sheetDataStatus">Sheet feed: LIVE API холбогдсон</span>
+          <span class="sheet-badge">Тооцоолуур 1 ба 2 logic 1:1</span>
+          <span class="sheet-badge">Гүйцэтгэлийн урамшуулал net дүнгээс хасагдана</span>
+        </div>
+        <div class="perf-mode-row">
+          <button class="perf-mode-btn" id="sheetCalcEqual" type="button">1 · Ижил дүнтэй бүлэг</button>
+          <button class="perf-mode-btn active" id="sheetCalcWeighted" type="button">2 · Өөрийн дүн / эзлэх хувь</button>
+        </div>
+        <div class="perf-mode-row" id="sheetCloseModeRow">
+          <button class="perf-mode-btn" id="sheetCloseA" type="button">А · Данс тэнцүү хуваах</button>
+          <button class="perf-mode-btn active" id="sheetCloseB" type="button">Б · Капитал + ашгийн хувь</button>
+        </div>
+        <div class="sheet-control-grid">
+          <div class="sheet-control">
+            <label>Гишүүний дугаар <b id="sheetMemberNoLabel">1</b></label>
+            <input id="sheetMemberNo" type="number" min="1" max="10" step="1" value="1" inputmode="numeric">
+          </div>
+          <div class="sheet-control">
+            <label>Нэвтрэх код <b>access</b></label>
+            <div class="sheet-password-wrap">
+              <input id="sheetAccessCode" class="sheet-access-input" type="text" value="" placeholder="••••••••" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" aria-label="Нэвтрэх код">
+              <button id="sheetAccessToggle" class="sheet-toggle-btn" type="button" aria-pressed="false">SHOW</button>
+            </div>
+          </div>
+          <div class="sheet-control sheet-action-control">
+            <button class="sheet-fetch-btn" id="sheetFetchBtn" type="button">Sheet-ээс татах</button>
+            <small class="sheet-login-hint" id="sheetLoginHint">Нэвтрэх кодыг зөвхөн гишүүн өөрөө оруулна.</small>
+          </div>
+          <div class="sheet-control">
+            <label>Sheet-ээс ирэх өөрийн капитал <b id="sheetMemberCapLabel">$50,000</b></label>
+            <input id="sheetMemberCap" type="range" min="5000" max="250000" step="1000" value="50000">
+          </div>
+          <div class="sheet-control">
+            <label>Нийт хамтын капитал <b id="sheetTotalCapLabel">$100,000</b></label>
+            <input id="sheetTotalCap" type="range" min="10000" max="400000" step="1000" value="100000">
+          </div>
+          <div class="sheet-control">
+            <label>Сарын жишээ өгөөж <b id="sheetReturnLabel">10%</b></label>
+            <input id="sheetReturn" type="range" min="2" max="20" step="1" value="10">
+          </div>
+          <div class="sheet-control">
+            <label>Дансанд үлдэх хувь <b id="sheetScaleLabel">50%</b></label>
+            <input id="sheetScale" type="range" min="50" max="70" step="5" value="50">
+          </div>
+          <div class="sheet-control">
+            <label>Хугацаа <b id="sheetMonthsLabel">12 сар</b></label>
+            <input id="sheetMonths" type="range" min="1" max="36" step="1" value="12">
+          </div>
+        </div>
+        <div class="sheet-projection" id="sheetMemberProjection"></div>
+        <div class="sheet-month-table" id="sheetMonthTable"></div>
+        <div class="sheet-note" id="sheetMemberNote">Дугаар болон access code оруулаад “Sheet-ээс татах” дарна. Дата татагдсаны дараа өөрийн капитал, нийт капитал, эзлэх хувь Sheet-ийн утгаар түгжигдэнэ.</div>
+      </div>
+    </div>
+
+    <div class="perf-table-card">
+      <div class="perf-section-title">7 хоногийн гүйцэтгэлийн түүх</div>
+      <div class="perf-section-sub">Графикт ашиглаж байгаа гүйцэтгэлийн түүх. Тайлангийн холбоос байвал товч харагдана.</div>
+      <div class="perf-table-wrap">
+        <table class="perf-table">
+          <colgroup>
+            <col class="hist-col-week">
+            <col class="hist-col-date">
+            <col class="hist-col-balance">
+            <col class="hist-col-pl">
+            <col class="hist-col-roi">
+            <col class="hist-col-dd">
+            <col class="hist-col-statement">
+          </colgroup>
+          <thead><tr><th>7 хоног</th><th>Хаалтын өдөр</th><th>Хаалтын данс</th><th>Ашиг/алдагдал</th><th>Өгөөж</th><th>Их уналт</th><th>Тайлан</th></tr></thead>
+          <tbody id="perfHistoryBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+/* V8: Performance dashboard + live member lookup + smart masked access input. Full/admin calculator logic: Calc 1 equal A/B, Calc 2 weighted share, 2% cost default, 50-70% scale-up, Sheet incentive deduction, rounded monthly. */
+function goSection(id){
+  try{ if(parent && parent!==window && typeof parent.goSection==='function'){ parent.goSection(id); return; } }catch(e){}
+  if(id==='calc') location.href='../index.html#calc';
+}
+/* --- PERFORMANCE DASHBOARD SCRIPT --- */
+const PERFORMANCE_API_URL = "https://script.google.com/macros/s/AKfycbyTcEU5bOBb2ZAwPSoaylGFuueuk8evm9KNWFJF-oWTGa4n97DxiCnq6ZPUrFg5fpaC/exec";
+const MEMBER_API_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwLSwH10mdlkwxkFICWEeE8wLCzY8VQj-C0p05a4LlFSu0GSfYWSvRs/exec";
+let __perfDataCache=null;
+let __perfLoading=false;
+const __PERF_FALLBACK_DATA = {"ok":true,"updated_at":null,"dashboard_data":{},"monthly_data":{},"web_config":{"default_member_count":{"value":2},"default_monthly_return_pct":{"value":0.10},"default_member_capital":{"value":50000},"default_scale_up_pct":{"value":0.5},"default_cost_pct":{"value":0.02},"default_campaign_months":{"value":12},"show_member_names":{"value":false}},"members_model":[],"chart_data":[]};
+
+
+function perfRawValue(obj,key,def){
+  if(!obj||!(key in obj))return def;
+  var item=obj[key];
+  if(item&&typeof item==="object"&&!Array.isArray(item)){
+    return item.value!==undefined?item.value:def;
+  }
+  return item!==undefined?item:def;
+}
+function perfNumber(v){
+  if(v===null||v===undefined||v==="")return 0;
+  if(typeof v==="number")return v;
+  var s=String(v).replace(/[$,%\s,]/g,"");
+  var n=Number(s);
+  return isFinite(n)?n:0;
+}
+function perfCurrency(v){
+  var n=perfNumber(v);
+  var sign=n<0?"-":"";
+  n=Math.abs(n);
+  return sign+"$"+n.toLocaleString("en-US",{maximumFractionDigits:0});
+}
+function perfLatestBalance(d,m,chart){
+  var dash=perfNumber(perfRawValue(d||{},"current_balance",0));
+  if(dash>0)return dash;
+  if(Array.isArray(chart)&&chart.length){
+    var last=chart[chart.length-1]||{};
+    var latest=perfNumber(last.ending_balance);
+    if(latest>0)return latest;
+  }
+  return perfNumber(perfRawValue(m||{},"monthly_end_balance",0));
+}
+function perfPct(v){
+  var n=perfNumber(v);
+  if(Math.abs(n)<=5)n*=100;
+  return (n>=0?"+":"")+n.toFixed(2)+"%";
+}
+function perfPctPlain(v){
+  var n=perfNumber(v);
+  if(Math.abs(n)<=5)n*=100;
+  return n.toFixed(2)+"%";
+}
+function perfNum(v,d){
+  var n=perfNumber(v);
+  return n.toLocaleString("en-US",{minimumFractionDigits:d||0,maximumFractionDigits:d||0});
+}
+function perfClass(v){
+  return perfNumber(v)<0?"perf-negative":"perf-positive";
+}
+function perfEscape(v){
+  return String(v===null||v===undefined?"":v).replace(/[&<>"']/g,function(ch){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","\'":"&#39;"}[ch]||ch;
+  });
+}
+function perfTruthy(v){
+  if(v===true)return true;
+  if(v===false||v===null||v===undefined)return false;
+  var s=String(v).toLowerCase().trim();
+  return s==="true"||s==="yes"||s==="1";
+}
+function perfDate(v){
+  if(v===null||v===undefined||v==="")return "";
+  if(typeof v==="number"){
+    var d=new Date(Math.round((v-25569)*86400*1000));
+    return isNaN(d.getTime())?String(v):d.toISOString().slice(0,10);
+  }
+  var s=String(v);
+  if(/^\d+(\.\d+)?$/.test(s))return perfDate(Number(s));
+  var d2=new Date(s);
+  if(!isNaN(d2.getTime()))return d2.toISOString().slice(0,10);
+  return s;
+}
+function perfSetStatus(text,err,state){
+  var el=document.getElementById("perfStatusText");
+  var box=document.getElementById("perfLoading");
+  var statusBox=document.querySelector(".perf-status");
+  if(el)el.textContent=text;
+  if(box){
+    box.textContent=text;
+    box.classList.toggle("perf-error",!!err);
+  }
+  if(statusBox){
+    statusBox.classList.toggle("is-loading",state==="loading");
+    statusBox.classList.toggle("is-ok",state==="ok");
+    statusBox.classList.toggle("is-stale",state==="stale");
+  }
+}
+function perfSetUpdateTime(data,d){
+  var el=document.getElementById("perfUpdateTime");
+  if(!el)return;
+  var sheetDate=perfDate(perfRawValue(d||{},"update_date",""));
+  var apiDate="";
+  try{apiDate=data&&data.updated_at?new Date(data.updated_at).toLocaleString():"";}catch(e){}
+  if(sheetDate&&apiDate)el.textContent="Дата шинэчлэгдсэн: "+sheetDate+" · API: "+apiDate;
+  else if(sheetDate)el.textContent="Дата шинэчлэгдсэн: "+sheetDate;
+  else if(apiDate)el.textContent="API шинэчлэлт: "+apiDate;
+  else el.textContent="Дата шинэчлэгдсэн: —";
+}
+function perfFetchJsonp(url){
+  return new Promise(function(resolve,reject){
+    var cb="__perf_cb_"+Date.now()+"_"+Math.floor(Math.random()*100000);
+    var sc=document.createElement("script");
+    var done=false;
+    window[cb]=function(data){
+      if(done)return;done=true;
+      try{delete window[cb];}catch(e){window[cb]=undefined;}
+      if(sc&&sc.parentNode)sc.parentNode.removeChild(sc);
+      resolve(data);
+    };
+    sc.onerror=function(){
+      if(done)return;done=true;
+      try{delete window[cb];}catch(e){window[cb]=undefined;}
+      if(sc&&sc.parentNode)sc.parentNode.removeChild(sc);
+      reject(new Error("API script load failed"));
+    };
+    sc.src=url+(url.indexOf("?")>=0?"&":"?")+"callback="+encodeURIComponent(cb)+"&t="+Date.now();
+    document.head.appendChild(sc);
+    setTimeout(function(){
+      if(done)return;done=true;
+      try{delete window[cb];}catch(e){window[cb]=undefined;}
+      if(sc&&sc.parentNode)sc.parentNode.removeChild(sc);
+      reject(new Error("API timeout"));
+    },25000);
+  });
+}
+function perfReadLocalCache(){
+  try{localStorage.removeItem("fc_perf_cache_v4_live");}catch(e){}
+  try{
+    var raw=localStorage.getItem("fc_perf_cache_v5_live");
+    if(!raw)return null;
+    return JSON.parse(raw);
+  }catch(e){return null;}
+}
+function perfWriteLocalCache(data){
+  try{localStorage.setItem("fc_perf_cache_v5_live",JSON.stringify(data));}catch(e){}
+}
+function perfIsChatGPTPreview(){
+  try{
+    var h=String(location.hostname||"").toLowerCase();
+    // Зөвхөн ChatGPT дотор preview хэлбэрээр нээгдсэн үед auto API-г зогсооно.
+    // Netlify сайтыг ChatGPT-ээс дарж нээхэд referrer=chatgpt.com ирдэг тул referrer-ээр хаахгүй.
+    return h.indexOf("chatgpt.com")>=0 || h.indexOf("oaiusercontent.com")>=0 || h.indexOf("sandbox")>=0;
+  }catch(e){return false;}
+}
+function loadPerformanceDashboard(force){
+  var instant=__perfDataCache||perfReadLocalCache();
+
+  if(instant){
+    try{
+      renderPerformanceDashboard(instant);
+      requestAnimationFrame(function(){ try{ renderPerformanceDashboard(instant); }catch(e){} });
+    }catch(e){ console.warn("instant render failed",e); }
+  }
+
+  var inChatGPTPreview=perfIsChatGPTPreview();
+
+  // Preview дээр auto Google API дуудлага хийхээр network permission popup давтагддаг.
+  // Тиймээс preview дээр зөвхөн cached/баталгаажсан data харуулна.
+  // "Дата шинэчлэх" товч дарсан үед л live API руу холбогдоно.
+  if(inChatGPTPreview && !force){
+    perfSetStatus("Preview горим: баталгаажсан дата харагдаж байна. Шууд дата авах бол “Дата шинэчлэх” дар.",false,"stale");
+    return;
+  }
+
+  if(__perfLoading)return;
+  __perfLoading=true;
+
+  if(!instant){
+    perfSetStatus("Google Sheets-ээс шууд дата татаж байна...",false,"loading");
+  }else{
+    perfSetStatus("Google Sheets-ийн шинэчлэлт шалгаж байна...",false,"loading");
+  }
+
+  perfFetchJsonp(PERFORMANCE_API_URL).then(function(data){
+    __perfLoading=false;
+    __perfDataCache=data;
+    perfWriteLocalCache(data);
+    renderPerformanceDashboard(data);
+    perfSetStatus("Google Sheets дата шинэчлэгдлээ.",false,"ok");
+  }).catch(function(err){
+    __perfLoading=false;
+    if(!instant){
+      renderPerformanceDashboard(__PERF_FALLBACK_DATA);
+    }
+    perfSetStatus("Шууд холболтын хариу удааширлаа. Баталгаажсан дата орж ирээгүй байна. “Дата шинэчлэх” дарж дахин татна уу.",false,"stale");
+    console.warn("Performance API slow/error",err);
+  });
+}
+function renderPerformanceDashboard(data){
+  var d=data&&data.dashboard_data?data.dashboard_data:{};
+  var m=data&&data.monthly_data?data.monthly_data:{};
+  var cfg=data&&data.web_config?data.web_config:{};
+  var chart=(data&&Array.isArray(data.chart_data)?data.chart_data:[])
+    .filter(function(r){return r&&r.week_no!==""&&r.ending_balance!=="";})
+    .sort(function(a,b){return perfNumber(a.week_no)-perfNumber(b.week_no);});
+  perfSetUpdateTime(data,d);
+
+  var op=perfRawValue(d,"operator_note","");
+  var updateDate=perfDate(perfRawValue(d,"update_date",""));
+  document.getElementById("perfOperatorHeadline").textContent=updateDate||"Сүүлийн шинэчлэл";
+  document.getElementById("perfOperatorNote").textContent=op||"Тэмдэглэл оруулаагүй байна.";
+
+  var latestBalance=perfLatestBalance(d,m,chart);
+  var cards=[
+    ["Одоогийн данс",perfCurrency(latestBalance),"Сүүлийн хаалтын дансны хэмжээ","perf-cyan"],
+    ["7 хоногийн ашиг/алдагдал",perfCurrency(perfRawValue(d,"weekly_pl_usd",0)),"Сүүлийн хаагдсан 7 хоног",perfClass(perfRawValue(d,"weekly_pl_usd",0))],
+    ["7 хоногийн өгөөж",perfPct(perfRawValue(d,"weekly_pl_pct",0)),"7 хоногийн өгөөж",perfClass(perfRawValue(d,"weekly_pl_pct",0))],
+    ["Нийт өгөөж",perfPct(perfRawValue(d,"total_roi_pct",0)),"Нийт хугацааны үр дүн",perfClass(perfRawValue(d,"total_roi_pct",0))],
+    ["Ашгийн фактор",perfNum(perfRawValue(d,"profit_factor",0),2),"Нийт ашиг / нийт алдагдал","perf-amber"],
+    ["Ялалтын хувь",perfPctPlain(perfRawValue(d,"win_rate_pct",0)),"Ашигтай арилжаа / нийт арилжаа","perf-positive"],
+    ["Их уналт",perfPctPlain(perfRawValue(d,"max_weekly_dd_pct",0)),"Сүүлийн 7 хоногийн уналт","perf-negative"],
+    ["DD хамгаалалт",perfCurrency(perfRawValue(d,"dd_limit_usd",0)),"20% хамгаалалтын шугам","perf-cyan"]
+  ];
+  var cardsEl=document.getElementById("perfCards");
+  if(cardsEl)cardsEl.innerHTML=cards.map(function(c){return '<div class="perf-card"><div class="perf-label">'+c[0]+'</div><div class="perf-value '+c[3]+'">'+c[1]+'</div><div class="perf-note">'+c[2]+'</div></div>';}).join("");
+
+  renderLineChart("perfEquityChart",chart,"ending_balance","perfEquityRange",perfCurrency);
+  renderBarChart("perfBarChart",chart,"weekly_pl_usd","perfBarRange",perfCurrency);
+  renderMonthly(m,chart,d,cfg);
+  renderMonthlyForecast(m,chart,d,cfg);
+  bindForecastMethodToggle();
+  renderMemberExpectation(m,cfg,chart,d);
+  renderSheetMemberModule(data);
+  renderHistory(chart);
+}
+function normalizeMembers(rows,cfg){
+  var out=[];
+  var showNames=perfTruthy(perfRawValue(cfg||{},"show_member_names",false));
+  if(Array.isArray(rows)){
+    rows.forEach(function(r,i){
+      var cap=r.capital!==undefined?r.capital:(r.Capital!==undefined?r.Capital:"");
+      var share=r.share_pct!==undefined?r.share_pct:(r.Share!==undefined?r.Share:"");
+      var memberNo=r.member_no||r.member||r.no||(i+1);
+      var rawName=r.display_name||r.member_name||r.Member||("Member "+memberNo);
+      var name=showNames?rawName:("Member "+memberNo);
+      if(cap!==""&&perfNumber(cap)>0)out.push({name:name,capital:perfNumber(cap),share:share});
+    });
+  }
+  if(!out.length){out=[{name:"Гишүүн 1",capital:50000,share:.5},{name:"Гишүүн 2",capital:50000,share:.5}];}
+  var total=out.reduce(function(s,r){return s+perfNumber(r.capital);},0)||1;
+  out.forEach(function(r){if(r.share===""||r.share===undefined)r.share=perfNumber(r.capital)/total;});
+  return out;
+}
+function renderMembers(rows){
+  var el=document.getElementById("perfMembersList");
+  if(!el)return;
+  if(!rows.length){el.innerHTML='<div class="perf-member-empty">Гишүүдийн дата хоосон байна.</div>';return;}
+  el.innerHTML=rows.map(function(r){
+    var pct=perfNumber(r.share); if(Math.abs(pct)<=1)pct*=100;
+    return '<div class="perf-member-row"><div class="perf-member-name">'+perfEscape(r.name)+'</div><div class="perf-share-track"><div class="perf-share-bar" style="width:'+Math.max(0,Math.min(100,pct))+'%"></div></div><div class="perf-member-cap">'+perfCurrency(r.capital)+' · '+pct.toFixed(1)+'%</div></div>';
+  }).join("");
+}
+function renderMonthly(m,chart,d,cfg){
+  var el=document.getElementById("perfMonthlyGrid");
+  if(!el)return;
+  var monthValue=perfRawValue(m,"month",perfRawValue(m,"report_month",""));
+  var items=[
+    ["Сарын ашиг/алдагдал",perfCurrency(perfRawValue(m,"monthly_pl_usd",perfRawValue(m,"monthly_p_l",0))),perfClass(perfRawValue(m,"monthly_pl_usd",0))],
+    ["Сарын өгөөж",perfPct(perfRawValue(m,"monthly_roi_pct",0)),perfClass(perfRawValue(m,"monthly_roi_pct",0))],
+    ["Monthly PF",perfNum(perfRawValue(m,"monthly_profit_factor",0),2),"perf-amber"],
+    ["Monthly Ялалтын хувь",perfPctPlain(perfRawValue(m,"monthly_win_rate_pct",0)),"perf-positive"],
+    ["Monthly Их уналт",perfPctPlain(perfRawValue(m,"monthly_max_dd_pct",0)),"perf-negative"],
+    ["Тайлангийн сар",perfDate(monthValue)||"—","perf-cyan"]
+  ];
+  el.innerHTML=items.map(function(x){return '<div class="perf-mini"><span>'+x[0]+'</span><b class="'+x[2]+'">'+x[1]+'</b></div>';}).join("");
+  var story=document.getElementById("perfMonthlyStory");
+  if(story){
+    var parts=[
+      perfRawValue(m,"monthly_statement_text_1",""),
+      perfRawValue(m,"monthly_statement_text_2",""),
+      perfRawValue(m,"monthly_statement_text_3","")
+    ].filter(function(x){return x!==""&&x!==null&&x!==undefined;});
+    var sentence=parts.join("\n");
+    if(!sentence)sentence=perfRawValue(m,"monthly_sentence",perfRawValue(m,"report_sentence",""));
+    if(!sentence)sentence="Сарын тайлангийн өгүүлбэр сарын тайлангийн хэсэг дээр гарч байгаа. Web feed-ийн monthly_statement_text_1/2/3 талбараар шууд харагдана.";
+    story.textContent=sentence;
+  }
+}
+function chartNiceRange(min,max){
+  if(!isFinite(min)||!isFinite(max)){min=0;max=1;}
+  if(min===max){var bump=Math.max(1,Math.abs(max)*.08);min-=bump;max+=bump;}
+  var span=max-min; var pad=span*.10; return {min:min-pad,max:max+pad};
+}
+function chartTicks(min,max,count){
+  var out=[]; if(count<2)count=2;
+  for(var i=0;i<count;i++)out.push(min+(max-min)*i/(count-1));
+  return out;
+}
+function svgEl(id){var el=document.getElementById(id);if(el)el.innerHTML="";return el;}
+function renderLineChart(id,rows,key,labelId,formatter){
+  var svg=svgEl(id); if(!svg)return;
+  var w=680,h=260,pL=78,pR=24,pT=22,pB=42;
+  svg.setAttribute("viewBox","0 0 "+w+" "+h);
+  if(!rows.length){svg.innerHTML='<text x="24" y="120" fill="#8bbdad" font-size="13">Графикийн дата хоосон байна</text>';return;}
+  var vals=rows.map(function(r){return perfNumber(r[key]);});
+  var rr=chartNiceRange(Math.min.apply(null,vals),Math.max.apply(null,vals));
+  var yScale=function(v){return h-pB-((v-rr.min)/(rr.max-rr.min))*(h-pT-pB);};
+  var xScale=function(i){return pL+(rows.length===1?(w-pL-pR)/2:i*(w-pL-pR)/(rows.length-1));};
+  var pts=rows.map(function(r,i){return {x:xScale(i),y:yScale(perfNumber(r[key])),v:perfNumber(r[key]),row:r};});
+  var d=pts.map(function(pt,i){return (i?"L":"M")+pt.x.toFixed(1)+","+pt.y.toFixed(1);}).join(" ");
+  var area=d+" L "+pts[pts.length-1].x+","+(h-pB)+" L "+pts[0].x+","+(h-pB)+" Z";
+  var html='<text class="perf-axis-title" x="'+pL+'" y="13">USD</text>';
+  chartTicks(rr.min,rr.max,5).forEach(function(v){
+    var y=yScale(v);
+    html+='<line class="perf-gridline" x1="'+pL+'" y1="'+y+'" x2="'+(w-pR)+'" y2="'+y+'"/>';
+    html+='<text class="perf-y-label" x="'+(pL-8)+'" y="'+(y+3)+'" text-anchor="end">'+formatter(v)+'</text>';
+  });
+  html+='<line class="perf-axis" x1="'+pL+'" y1="'+(h-pB)+'" x2="'+(w-pR)+'" y2="'+(h-pB)+'"/>';
+  html+='<line class="perf-axis" x1="'+pL+'" y1="'+pT+'" x2="'+pL+'" y2="'+(h-pB)+'"/>';
+  html+='<path class="perf-area" d="'+area+'"></path><path class="perf-line" d="'+d+'"></path>';
+  pts.forEach(function(pt,i){
+    html+='<circle class="perf-dot" cx="'+pt.x+'" cy="'+pt.y+'" r="4"><title>7 хоног '+pt.row.week_no+': '+formatter(pt.v)+'</title></circle>';
+    if(rows.length<=12||i%Math.ceil(rows.length/8)===0)html+='<text class="perf-x-label" x="'+pt.x+'" y="'+(h-14)+'" text-anchor="middle">W'+pt.row.week_no+'</text>';
+  });
+  svg.innerHTML=html;
+  var lab=document.getElementById(labelId); if(lab)lab.textContent=formatter(pts[0].v)+" → "+formatter(pts[pts.length-1].v);
+}
+function renderBarChart(id,rows,key,labelId,formatter){
+  var svg=svgEl(id); if(!svg)return;
+  var w=560,h=260,pL=78,pR=24,pT=22,pB=42;
+  svg.setAttribute("viewBox","0 0 "+w+" "+h);
+  if(!rows.length){svg.innerHTML='<text x="24" y="120" fill="#8bbdad" font-size="13">Графикийн дата хоосон байна</text>';return;}
+  var vals=rows.map(function(r){return perfNumber(r[key]);});
+  var min=Math.min.apply(null,vals),max=Math.max.apply(null,vals);
+  if(min>0)min=0; if(max<0)max=0;
+  var rr=chartNiceRange(min,max); if(rr.min>0)rr.min=0; if(rr.max<0)rr.max=0;
+  var yScale=function(v){return h-pB-((v-rr.min)/(rr.max-rr.min))*(h-pT-pB);};
+  var zero=yScale(0);
+  var gap=(w-pL-pR)/rows.length; var bw=Math.max(9,gap*.58);
+  var html='<text class="perf-axis-title" x="'+pL+'" y="13">USD</text>';
+  chartTicks(rr.min,rr.max,5).forEach(function(v){
+    var y=yScale(v);
+    html+='<line class="perf-gridline" x1="'+pL+'" y1="'+y+'" x2="'+(w-pR)+'" y2="'+y+'"/>';
+    html+='<text class="perf-y-label" x="'+(pL-8)+'" y="'+(y+3)+'" text-anchor="end">'+formatter(v)+'</text>';
+  });
+  html+='<line class="perf-axis" x1="'+pL+'" y1="'+zero+'" x2="'+(w-pR)+'" y2="'+zero+'"/>';
+  html+='<line class="perf-axis" x1="'+pL+'" y1="'+pT+'" x2="'+pL+'" y2="'+(h-pB)+'"/>';
+  rows.forEach(function(r,i){
+    var v=perfNumber(r[key]); var x=pL+i*gap+(gap-bw)/2; var y=v>=0?yScale(v):zero; var barH=Math.max(2,Math.abs(yScale(v)-zero));
+    html+='<rect class="perf-bar '+(v<0?'neg':'')+'" x="'+x+'" y="'+y+'" width="'+bw+'" height="'+barH+'" rx="6"><title>7 хоног '+r.week_no+': '+formatter(v)+'</title></rect>';
+    if(rows.length<=10)html+='<text class="perf-value-label" x="'+(x+bw/2)+'" y="'+(v>=0?y-6:y+barH+13)+'" text-anchor="middle">'+formatter(v).replace(/\$|,/g,'')+'</text>';
+    if(rows.length<=12||i%Math.ceil(rows.length/8)===0)html+='<text class="perf-x-label" x="'+(x+bw/2)+'" y="'+(h-14)+'" text-anchor="middle">W'+r.week_no+'</text>';
+  });
+  svg.innerHTML=html;
+  var lab=document.getElementById(labelId); if(lab){
+    var sum=vals.reduce(function(a,b){return a+b;},0); lab.textContent="Нийт: "+formatter(sum);
+  }
+}
+
+function perfTraderPctHidden(n){
+  if(n===1)return 0.50;
+  if(n===2)return 0.40;
+  if(n===3)return 0.30;
+  if(n===4)return 0.25;
+  return 0.20;
+}
+function perfMonthKey(v){var d=perfDate(v);return d?d.slice(0,7):"";}
+function perfMonthlyRoiSeries(rows){
+  var groups={};
+  (rows||[]).forEach(function(r){
+    var key=perfMonthKey(r.period_end); if(!key)return;
+    if(!groups[key])groups[key]={month:key,pl:0,start:null,end:0,count:0};
+    var pl=perfNumber(r.weekly_pl_usd); var end=perfNumber(r.ending_balance); var start=end-pl;
+    groups[key].pl+=pl; groups[key].end=end; groups[key].count++;
+    if(groups[key].start===null)groups[key].start=start;
+  });
+  return Object.keys(groups).sort().map(function(k){
+    var g=groups[k]; var roi=g.start?g.pl/g.start:0;
+    return {month:k,roi:roi,pl:g.pl,start:g.start,end:g.end,count:g.count};
+  });
+}
+function perfAvg(arr,key){
+  if(!arr||!arr.length)return 0;
+  return arr.reduce(function(s,x){return s+perfNumber(key?x[key]:x);},0)/arr.length;
+}
+function perfWeeklyRoiSeries(rows,limit){
+  var arr=(rows||[]).map(function(r,i){
+    var end=perfNumber(r.ending_balance);
+    var pl=perfNumber(r.weekly_pl_usd);
+    var raw=perfRawValue(r,"weekly_pl_pct",null);
+    var roi=(raw!==null&&raw!==undefined&&raw!=="")?perfNumber(raw):((end-pl)?pl/(end-pl):0);
+    if(Math.abs(roi)>1)roi=roi/100;
+    return {
+      week_no:r.week_no||r.week||i+1,
+      period_end:perfDate(r.period_end)||"",
+      roi:roi,
+      pl:pl,
+      end:end
+    };
+  }).filter(function(x){return isFinite(x.roi)&&x.end;});
+  arr.sort(function(a,b){
+    var ad=a.period_end||""; var bd=b.period_end||"";
+    if(ad===bd)return perfNumber(a.week_no)-perfNumber(b.week_no);
+    return ad<bd?-1:1;
+  });
+  if(limit&&arr.length>limit)arr=arr.slice(arr.length-limit);
+  return arr;
+}
+function perfGeometricMeanReturn(arr,key){
+  if(!arr||!arr.length)return 0;
+  var product=1,count=0;
+  arr.forEach(function(x){
+    var r=perfNumber(key?x[key]:x);
+    if(!isFinite(r)||r<=-0.999)return;
+    product*=1+r;
+    count++;
+  });
+  return count?Math.pow(product,1/count)-1:0;
+}
+function perfMedianReturn(arr,key){
+  if(!arr||!arr.length)return 0;
+  var vals=arr.map(function(x){return perfNumber(key?x[key]:x);}).filter(function(v){return isFinite(v);}).sort(function(a,b){return a-b;});
+  if(!vals.length)return 0;
+  var mid=Math.floor(vals.length/2);
+  return vals.length%2?vals[mid]:(vals[mid-1]+vals[mid])/2;
+}
+function perfMemberCalc(memberCap,n,monthlyRoi,months,scale,cost,mode){
+  var totalCap=Math.round(memberCap*n);
+  var bal=totalCap;
+  var distPct=Math.max(0,1-cost-scale);
+  var monthlyOperatorPct=1/(n+1);
+  var closePct=perfTraderPctHidden(n);
+  var memberMonthlyTotal=0;
+  var firstMember=0,lastMember=0,totalScale=0;
+  for(var i=1;i<=months;i++){
+    var profit=Math.round(bal*monthlyRoi);
+    var scaleUp=Math.round(profit*scale);
+    var dist=Math.round(profit*distPct);
+    var opMonthly=Math.round(dist*monthlyOperatorPct);
+    var memberPool=Math.max(0,dist-opMonthly);
+    var memberMonthly=Math.round(memberPool/n);
+    if(i===1)firstMember=memberMonthly;
+    if(i===months)lastMember=memberMonthly;
+    memberMonthlyTotal+=memberMonthly;
+    totalScale+=scaleUp;
+    bal+=scaleUp;
+  }
+  var finalCap=Math.round(totalCap+totalScale);
+  var growth=Math.max(0,finalCap-totalCap);
+  var memberEnd=0;
+  if(mode==="a"){
+    memberEnd=Math.round(finalCap/(n+1));
+  }else{
+    var opClose=Math.round(growth*closePct);
+    memberEnd=Math.round(memberCap+(growth-opClose)/n);
+  }
+  return {totalCap:totalCap,finalCap:finalCap,memberMonthlyTotal:memberMonthlyTotal,memberEnd:memberEnd,memberTotal:memberMonthlyTotal+memberEnd,firstMember:firstMember,lastMember:lastMember};
+}
+function renderMonthlyForecast(m,chart,d,cfg){
+  var el=document.getElementById("perfMonthlyForecast"); if(!el)return;
+  var weeks=perfWeeklyRoiSeries(chart||[],7);
+  var weeklyGeo=perfGeometricMeanReturn(weeks,"roi");
+  var weeklyArith=perfAvg(weeks,"roi");
+  var weeklyMedian=perfMedianReturn(weeks,"roi");
+  var currentBal=perfLatestBalance(d,m,chart);
+  var basisR=(weeklyGeo||weeklyMedian||weeklyArith||0);
+  var nextBal=currentBal*(1+basisR);
+  var minR=weeks.length?Math.min.apply(null,weeks.map(function(x){return x.roi;})):0;
+  var maxR=weeks.length?Math.max.apply(null,weeks.map(function(x){return x.roi;})):0;
+  var rangeText=perfPctPlain(minR)+' – '+perfPctPlain(maxR);
+  el.classList.add("outlook-grid");
+  el.innerHTML=[
+    '<div class="perf-forecast-card gold"><span>Нийлмэл дундаж 7 хоногийн өгөөж</span><b>'+perfPctPlain(basisR)+'</b><small>Сүүлийн хаагдсан '+weeks.length+' 7 хоногийн өгөөжийн нийлмэл дундаж.</small></div>',
+    '<div class="perf-forecast-card gold"><span>Урьдчилсан дансны хэмжээ</span><b>'+perfCurrency(nextBal)+'</b><small>Одоогийн хаалттай дансны хэмжээнд суурилсан дараагийн 7 хоногийн урьдчилсан тооцоо.</small></div>',
+    '<div class="perf-forecast-card"><span>7 хоногийн өгөөжийн хүрээ</span><b class="perf-amber">'+rangeText+'</b><small>Сүүлийн 7 хаагдсан 7 хоногт ажиглагдсан өгөөжийн хүрээ.</small></div>',
+    '<div class="perf-forecast-card"><span>7 хоногийн медиан өгөөж</span><b class="perf-cyan">'+perfPctPlain(weeklyMedian)+'</b><small>Медиан өгөөж буюу 7 хоногийн өгөөжийн цувааны төв утга.</small></div>'
+  ].join('');
+}
+
+function bindForecastMethodToggle(){
+  var btn=document.getElementById("perfForecastMethodBtn");
+  var box=document.getElementById("perfForecastMethodBox");
+  if(!btn||!box||btn.dataset.bound==="1")return;
+  btn.dataset.bound="1";
+  btn.addEventListener("click",function(){
+    var open=btn.getAttribute("aria-expanded")==="true";
+    btn.setAttribute("aria-expanded", open?"false":"true");
+    btn.classList.toggle("is-open", !open);
+    if(open){box.hidden=true;}else{box.hidden=false;}
+  });
+}
+function renderMemberExpectation(m,cfg,chart,d){
+  var capInput=document.getElementById("perfMemberCapital");
+  var retInput=document.getElementById("perfMemberReturn");
+  var monthsInput=document.getElementById("perfMemberMonths");
+  var countInput=document.getElementById("perfMemberCount");
+  var scaleInput=document.getElementById("perfMemberScale");
+  var incentiveInput=document.getElementById("perfIncentive");
+  var weightedTotalInput=document.getElementById("perfWeightedTotal");
+  var weightedTotalWrap=document.getElementById("perfWeightedTotalWrap");
+  var capitalText=document.getElementById("perfMemberCapitalText");
+  var calcEqualBtn=document.getElementById("perfCalcEqual");
+  var calcWeightedBtn=document.getElementById("perfCalcWeighted");
+  var closeModeRow=document.getElementById("perfCloseModeRow");
+  var modeA=document.getElementById("perfModeA");
+  var modeB=document.getElementById("perfModeB");
+  var out=document.getElementById("perfMemberProjection");
+  if(!capInput||!retInput||!monthsInput||!countInput||!scaleInput||!incentiveInput||!out)return;
+
+  function traderPct(n){
+    if(n===1)return 0.50;
+    if(n===2)return 0.40;
+    if(n===3)return 0.30;
+    if(n===4)return 0.25;
+    return 0.20;
+  }
+  function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
+  function roundStep(v,step){return Math.round(perfNumber(v)/step)*step;}
+  function equalMonthlyShare(dist,n){return Math.round(dist/(n+1));}
+
+  var defaultCount=Math.round(perfNumber(perfRawValue(cfg||{},"default_member_count",2))||2);
+  var defaultCap=perfNumber(perfRawValue(cfg||{},"default_member_capital",50000))||50000;
+  var defaultReturn=perfNumber(perfRawValue(cfg||{},"default_monthly_return_pct",0.10));
+  if(Math.abs(defaultReturn)<=1)defaultReturn*=100;
+  var defaultMonths=perfNumber(perfRawValue(cfg||{},"default_campaign_months",12))||12;
+  var defaultScale=perfNumber(perfRawValue(cfg||{},"default_scale_up_pct",0.5));
+  if(defaultScale<=1)defaultScale*=100;
+  defaultScale=clamp(defaultScale,50,70);
+
+  if(!capInput.dataset.ready){
+    countInput.value=clamp(defaultCount,Number(countInput.min)||1,Number(countInput.max)||10);
+    capInput.value=clamp(roundStep(defaultCap,5000),Number(capInput.min)||10000,Number(capInput.max)||250000);
+    retInput.value=clamp(Math.round(defaultReturn),Number(retInput.min)||2,Number(retInput.max)||20);
+    monthsInput.value=clamp(Math.round(defaultMonths),Number(monthsInput.min)||1,Number(monthsInput.max)||36);
+    scaleInput.value=clamp(Math.round(defaultScale/5)*5,Number(scaleInput.min)||50,Number(scaleInput.max)||70);
+    incentiveInput.value=5;
+    if(weightedTotalInput)weightedTotalInput.value=clamp(roundStep((defaultCap||50000)*(defaultCount||2),5000),Number(weightedTotalInput.min)||10000,Number(weightedTotalInput.max)||400000);
+    capInput.dataset.ready=retInput.dataset.ready=monthsInput.dataset.ready=countInput.dataset.ready=scaleInput.dataset.ready=incentiveInput.dataset.ready="1";
+    if(weightedTotalInput)weightedTotalInput.dataset.ready="1";
+  }
+
+  var cost=0.02; // V5 lock: full/admin calculator logic uses 2% cost
+  var mode=window.__perfMemberMode||"b";
+  var calcType=window.__perfCalcType||"equal";
+
+  function monthlyStep(balance,r,scale){
+    var profit=Math.round(balance*r);
+    var costAmt=Math.round(profit*cost);
+    var scaleUp=Math.round(profit*scale);
+    var dist=Math.max(0,profit-costAmt-scaleUp);
+    return {profit:profit,costAmt:costAmt,scaleUp:scaleUp,dist:dist};
+  }
+
+  function calcEqual(memberCap,n,r,months,scale,mode){
+    var totalCap=Math.round(memberCap*n);
+    var bal=totalCap;
+    var totalMonthly=0, first=0, last=0, totalScale=0;
+    for(var i=1;i<=months;i++){
+      var st=monthlyStep(bal,r,scale);
+      var mShare=equalMonthlyShare(st.dist,n);
+      if(i===1)first=mShare;
+      if(i===months)last=mShare;
+      totalMonthly+=mShare;
+      totalScale+=st.scaleUp;
+      bal+=st.scaleUp;
+    }
+    var finalCap=Math.round(totalCap+totalScale);
+    var growth=Math.max(0,finalCap-totalCap);
+    var closePct=traderPct(n);
+    var memberEnd=mode==="a" ? Math.round(finalCap/(n+1)) : Math.round(memberCap+(growth*(1-closePct))/n);
+    var gross=totalMonthly+memberEnd;
+    return {calcType:"equal",mode:mode,n:n,memberCap:memberCap,totalCap:totalCap,share:n?1/n:0,finalCap:finalCap,growth:growth,memberMonthlyTotal:totalMonthly,firstMember:first,lastMember:last,memberEnd:memberEnd,grossMemberTotal:gross,distLabel:"гишүүд + 1 талд тэнцүү"};
+  }
+
+  function calcWeighted(memberCap,totalCap,n,r,months,scale){
+    totalCap=Math.max(memberCap,Math.round(totalCap));
+    var share=totalCap?memberCap/totalCap:0;
+    var bal=totalCap;
+    var totalMonthly=0, first=0, last=0, totalScale=0;
+    var pct=traderPct(n);
+    for(var i=1;i<=months;i++){
+      var st=monthlyStep(bal,r,scale);
+      var operatorMonthly=Math.round(st.dist*pct);
+      var memberMonthly=Math.round(Math.max(0,st.dist-operatorMonthly)*share);
+      if(i===1)first=memberMonthly;
+      if(i===months)last=memberMonthly;
+      totalMonthly+=memberMonthly;
+      totalScale+=st.scaleUp;
+      bal+=st.scaleUp;
+    }
+    var finalCap=Math.round(totalCap+totalScale);
+    var growth=Math.max(0,finalCap-totalCap);
+    var operatorClose=Math.round(growth*pct);
+    var memberEnd=Math.round(memberCap+Math.max(0,growth-operatorClose)*share);
+    var gross=totalMonthly+memberEnd;
+    return {calcType:"weighted",mode:"b",n:n,memberCap:memberCap,totalCap:totalCap,share:share,finalCap:finalCap,growth:growth,memberMonthlyTotal:totalMonthly,firstMember:first,lastMember:last,memberEnd:memberEnd,grossMemberTotal:gross,distLabel:"нийт капиталд эзлэх хувиар"};
+  }
+
+  function applyIncentive(gross,pct){
+    var incentive=Math.round(Math.max(0,gross)*pct);
+    return {gross:gross,incentive:incentive,net:Math.max(0,gross-incentive)};
+  }
+
+  function actualMonthDistribution(totalCap,memberCap,n,r,scale,calcType){
+    var st=monthlyStep(totalCap,r,scale);
+    if(calcType==="weighted"){
+      var pct=traderPct(n);
+      var share=totalCap?memberCap/totalCap:0;
+      var op=Math.round(st.dist*pct);
+      return Math.round(Math.max(0,st.dist-op)*share);
+    }
+    return equalMonthlyShare(st.dist,n);
+  }
+
+  function recalc(){
+    var n=clamp(Math.round(perfNumber(countInput.value)),1,10);
+    var memberCap=clamp(roundStep(capInput.value,5000),Number(capInput.min)||10000,Number(capInput.max)||250000);
+    var r=perfNumber(retInput.value)/100;
+    var months=clamp(Math.round(perfNumber(monthsInput.value)),1,36);
+    var scale=clamp(perfNumber(scaleInput.value)/100,0.50,0.70);
+    var incentivePct=clamp(perfNumber(incentiveInput.value)/100,0,0.20);
+    var weightedTotal=weightedTotalInput?clamp(roundStep(weightedTotalInput.value,5000),memberCap,400000):memberCap*n;
+    if(calcType==="equal")weightedTotal=memberCap*n;
+    if(calcType==="weighted" && weightedTotalInput){weightedTotalInput.value=weightedTotal;}
+
+    var res=calcType==="weighted" ? calcWeighted(memberCap,weightedTotal,n,r,months,scale) : calcEqual(memberCap,n,r,months,scale,mode);
+    var baseMoney=applyIncentive(res.grossMemberTotal,incentivePct);
+    var baseRoi=memberCap?baseMoney.net/memberCap-1:0;
+
+    var currentBalance=perfLatestBalance(d,m,chart);
+    var actualMonthlyRoi=perfNumber(perfRawValue(m||{},"monthly_roi_pct",0));
+    if(Math.abs(actualMonthlyRoi)>1)actualMonthlyRoi=actualMonthlyRoi/100;
+    var monthlyStart=perfNumber(perfRawValue(m||{},"monthly_start_balance",0));
+    if(monthlyStart>0&&currentBalance>0){ actualMonthlyRoi=(currentBalance-monthlyStart)/monthlyStart; }
+    var actualMember=actualMonthDistribution(res.totalCap,memberCap,n,Math.max(0,actualMonthlyRoi),scale,calcType);
+
+    var target=res.finalCap||0;
+    var rawProgress=target?currentBalance/target*100:0;
+    var progress=clamp(rawProgress,0,100);
+    var over=rawProgress>100;
+    var gap=target-currentBalance;
+    var excess=Math.max(0,currentBalance-target);
+    var memberExcess=0;
+    if(excess>0){
+      if(calcType==="weighted"){
+        memberExcess=Math.round(Math.max(0,excess-Math.round(excess*traderPct(n)))*res.share);
+      }else if(mode==="a"){
+        memberExcess=Math.round(excess/(n+1));
+      }else{
+        memberExcess=Math.round((excess-Math.round(excess*traderPct(n)))/n);
+      }
+    }
+    var adjustedGross=res.grossMemberTotal+memberExcess;
+    var adjustedMoney=applyIncentive(adjustedGross,incentivePct);
+    var adjustedRoi=memberCap?adjustedMoney.net/memberCap-1:0;
+
+    var countLabel=document.getElementById("perfMemberCountLabel");
+    var capLabel=document.getElementById("perfMemberCapitalLabel");
+    var retLabel=document.getElementById("perfMemberReturnLabel");
+    var monthsLabel=document.getElementById("perfMemberMonthsLabel");
+    var scaleLabel=document.getElementById("perfMemberScaleLabel");
+    var incentiveLabel=document.getElementById("perfIncentiveLabel");
+    var weightedTotalLabel=document.getElementById("perfWeightedTotalLabel");
+    if(countLabel)countLabel.textContent=n+" хүн";
+    if(capLabel)capLabel.textContent=perfCurrency(memberCap);
+    if(retLabel)retLabel.textContent=perfPctPlain(r);
+    if(monthsLabel)monthsLabel.textContent=months+" сар";
+    if(scaleLabel)scaleLabel.textContent=perfPctPlain(scale);
+    if(incentiveLabel)incentiveLabel.textContent=perfPctPlain(incentivePct);
+    if(weightedTotalLabel)weightedTotalLabel.textContent=perfCurrency(weightedTotal);
+    if(capitalText)capitalText.textContent=calcType==="weighted"?"Таны капитал":"Нэг гишүүний капитал";
+    if(weightedTotalWrap)weightedTotalWrap.classList.toggle("is-hidden",calcType!=="weighted");
+    if(closeModeRow)closeModeRow.classList.toggle("is-hidden",calcType==="weighted");
+
+    if(calcEqualBtn)calcEqualBtn.classList.toggle("active",calcType==="equal");
+    if(calcWeightedBtn)calcWeightedBtn.classList.toggle("active",calcType==="weighted");
+    if(modeA)modeA.classList.toggle("active",mode==="a");
+    if(modeB)modeB.classList.toggle("active",mode==="b");
+
+    var distPct=Math.max(0,1-cost-scale);
+    var calcLabel=calcType==="weighted"?"Тооцоолуур 2 · хувийн жин":"Тооцоолуур 1 · ижил дүн";
+    var closeLabel=calcType==="weighted"?"капитал + ашгийн хувийн жин":(mode==="a"?"А · данс тэнцүү хуваах":"Б · капитал буцааж, ашгийг хувьчлах");
+
+    out.innerHTML=[
+      '<div class="perf-proj-compare-grid">',
+        '<div class="perf-proj-col green">',
+          '<h4>Суурь зураглал</h4>',
+          '<div class="perf-proj-metric"><span>Гишүүний нийт боломжит дүн</span><b>'+perfCurrency(res.grossMemberTotal)+'</b><small>'+calcLabel+' · '+closeLabel+'.</small></div>',
+          '<div class="perf-proj-metric deduct"><span>Гүйцэтгэлийн урамшуулал хасагдана</span><b>−'+perfCurrency(baseMoney.incentive)+'</b><small>'+perfPctPlain(incentivePct)+' нь гишүүний нийт дүнгээс хасагдаж, данс удирдагчийн урамшуулал болно.</small></div>',
+          '<div class="perf-proj-metric net"><span>Хасалтын дараах гишүүнд харагдах дүн</span><b>'+perfCurrency(baseMoney.net)+'</b><small>Нийт өгөөж: '+perfPctPlain(baseRoi)+'.</small></div>',
+        '</div>',
+        '<div class="perf-proj-col cyan">',
+          '<h4>Хуваарилалтын logic</h4>',
+          '<div class="perf-proj-metric"><span>Сарын эхний хуваарилалт</span><b>'+perfCurrency(res.firstMember)+'</b><small>2% зардал · '+perfPctPlain(scale)+' дансанд үлдэнэ · үлдэх '+perfPctPlain(distPct)+' '+res.distLabel+' бодогдоно.</small></div>',
+          '<div class="perf-proj-metric"><span>Данс хаах үед авах</span><b>'+perfCurrency(res.memberEnd)+'</b><small>'+(calcType==="weighted"?('Таны эзлэх хувь '+perfPctPlain(res.share)+' · нийт капитал '+perfCurrency(res.totalCap)+'.'):(closeLabel+'.'))+'</small></div>',
+          '<div class="perf-proj-metric"><span>Дансны зорилтот хэмжээ</span><b>'+perfCurrency(res.finalCap)+'</b><small>Сар бүр дансанд үлдэх дүнг нэмж өсгөсөн хаалтын зураглал.</small></div>',
+        '</div>',
+        '<div class="perf-proj-col gold">',
+          '<h4>Явцаар шинэчилсэн</h4>',
+          '<div class="perf-proj-metric"><span>Шинэчилсэн нийт дүн</span><b>'+perfCurrency(adjustedGross)+'</b><small>'+(excess>0?('Давсан хэсгээс гишүүнд ногдох нэмэлт '+perfCurrency(memberExcess)+' орсон.'):('Зорилтот дүн давсан нэмэлт одоогоор байхгүй.'))+'</small></div>',
+          '<div class="perf-proj-metric deduct"><span>Урамшуулал хасагдана</span><b>−'+perfCurrency(adjustedMoney.incentive)+'</b><small>'+perfPctPlain(incentivePct)+'-ийн хасалт.</small></div>',
+          '<div class="perf-proj-metric net"><span>Шинэчилсэн цэвэр зураглал</span><b>'+perfCurrency(adjustedMoney.net)+'</b><small>Нийт өгөөж: '+perfPctPlain(adjustedRoi)+'.</small></div>',
+        '</div>',
+      '</div>',
+      '<div class="perf-proj-card goal"><span>'+months+' сарын явц</span><b>'+perfCurrency(currentBalance)+' / '+perfCurrency(target)+'</b><div class="perf-goal-line"><div class="perf-goal-fill '+(over?'over':'')+'" style="width:'+progress.toFixed(1)+'%"></div></div><small>'+(over?('Зорилтот хэмжээнээс '+(rawProgress-100).toFixed(1)+'% давсан · гишүүнд ногдох нэмэлт '+perfCurrency(memberExcess)):('Зорилтот хэмжээнд хүрэх явц '+progress.toFixed(1)+'% · дутуу '+perfCurrency(Math.max(0,gap))))+'</small></div>',
+      '<div class="perf-proj-card forecast"><span>Энэ сарын бодит өгөөжөөр авах боломжит хуваарилалт</span><b>'+perfCurrency(actualMember)+'</b><small>Сарын хаалттай өгөөж '+perfPctPlain(actualMonthlyRoi)+' дээр үндэслэсэн.</small></div>',
+      '<div class="perf-proj-card risk"><span>Эрсдэлийн санамж</span><b>Урьдчилсан зураглал</b><small>Бодит үр дүн нь зах зээлийн нөхцөл, drawdown, арилжааны идэвх болон эрсдэлийн удирдлагаас хамаарч өөрчлөгдөнө.</small></div>'
+    ].join("");
+
+    var note=document.getElementById("perfMemberProjectionNote");
+    if(note){
+      note.textContent=calcType==="weighted" ? "Тооцоолуур 2 дээр таны капитал нийт хамтын капиталд хэдэн хувь эзэлж байгаагаар сарын мөнгөн урсгал болон данс хаах үеийн дүн бодогдоно." : "Тооцоолуур 1 дээр ижил дүнтэй гишүүдийн сарын хуваарилалт тэнцүү, данс хаах үед А/Б сонголтоор бодогдоно.";
+    }
+  }
+
+  [capInput,retInput,monthsInput,countInput,scaleInput,incentiveInput,weightedTotalInput].filter(Boolean).forEach(function(inp){inp.oninput=recalc;});
+  if(modeA)modeA.onclick=function(){window.__perfMemberMode="a";mode="a";recalc();};
+  if(modeB)modeB.onclick=function(){window.__perfMemberMode="b";mode="b";recalc();};
+  if(calcEqualBtn)calcEqualBtn.onclick=function(){window.__perfCalcType="equal";calcType="equal";recalc();};
+  if(calcWeightedBtn)calcWeightedBtn.onclick=function(){window.__perfCalcType="weighted";calcType="weighted";recalc();};
+  recalc();
+}
+
+
+
+/* V8: live member lookup API. Гишүүн дугаар + access_code ашиглаж Sheet-ээс зөвхөн тухайн гишүүний дата татна. */
+function sheetUnitPct(v,fallback){
+  var n=perfNumber(v);
+  if(!isFinite(n)||n===0){return fallback;}
+  return n>1?n/100:n;
+}
+function sheetPlainPct(v,fallback){
+  var n=perfNumber(v);
+  if(!isFinite(n)||n===0){return fallback;}
+  return n>1?n:n*100;
+}
+function sheetBuildMemberUrl(memberNo,code){
+  return MEMBER_API_URL+'?action=member_lookup&member_no='+encodeURIComponent(memberNo)+'&code='+encodeURIComponent(code);
+}
+function sheetMaskedValue(value,lastIndex){
+  value=String(value||'');
+  if(!value)return '';
+  var chars=value.split('').map(function(){return '•';});
+  if(lastIndex>=0&&lastIndex<value.length){chars[lastIndex]=value.charAt(lastIndex);}
+  return chars.join('');
+}
+function sheetInstallSmartAccessInput(input,toggle){
+  if(!input||input.dataset.smartMaskReady==='1')return function(){return input?String(input.dataset.rawValue||''):'';};
+  var state={value:String(input.dataset.rawValue||''),reveal:false,timer:null};
+  input.dataset.smartMaskReady='1';
+  function setCaret(pos){
+    setTimeout(function(){try{input.setSelectionRange(pos,pos);}catch(e){}},0);
+  }
+  function render(lastIndex,caretPos){
+    if(state.timer){clearTimeout(state.timer);state.timer=null;}
+    input.dataset.rawValue=state.value;
+    input.value=state.reveal?state.value:sheetMaskedValue(state.value,lastIndex);
+    if(toggle){
+      toggle.textContent=state.reveal?'HIDE':'SHOW';
+      toggle.classList.toggle('is-on',state.reveal);
+      toggle.setAttribute('aria-pressed',state.reveal?'true':'false');
+    }
+    if(typeof caretPos==='number')setCaret(caretPos);
+    if(!state.reveal&&lastIndex>=0){
+      state.timer=setTimeout(function(){
+        input.value=sheetMaskedValue(state.value,-1);
+        if(typeof caretPos==='number')setCaret(caretPos);
+      },850);
+    }
+  }
+  function cleanText(text){
+    return String(text||'').replace(/\s+/g,'').toUpperCase();
+  }
+  function insertText(text){
+    text=cleanText(text);
+    var start=input.selectionStart==null?state.value.length:input.selectionStart;
+    var end=input.selectionEnd==null?start:input.selectionEnd;
+    state.value=state.value.slice(0,start)+text+state.value.slice(end);
+    var pos=start+text.length;
+    render(text?pos-1:-1,pos);
+  }
+  function deleteText(backward){
+    var start=input.selectionStart==null?state.value.length:input.selectionStart;
+    var end=input.selectionEnd==null?start:input.selectionEnd;
+    if(start!==end){
+      state.value=state.value.slice(0,start)+state.value.slice(end);
+      render(-1,start);
+      return;
+    }
+    if(backward&&start>0){
+      state.value=state.value.slice(0,start-1)+state.value.slice(start);
+      render(-1,start-1);
+    }else if(!backward&&start<state.value.length){
+      state.value=state.value.slice(0,start)+state.value.slice(start+1);
+      render(-1,start);
+    }
+  }
+  input.addEventListener('beforeinput',function(e){
+    var t=e.inputType||'';
+    if(t==='insertText'||t==='insertCompositionText'){e.preventDefault();insertText(e.data||'');}
+    else if(t==='deleteContentBackward'){e.preventDefault();deleteText(true);}
+    else if(t==='deleteContentForward'){e.preventDefault();deleteText(false);}
+    else if(t==='insertFromPaste'){e.preventDefault();}
+  });
+  input.addEventListener('paste',function(e){
+    e.preventDefault();
+    var txt=(e.clipboardData||window.clipboardData).getData('text')||'';
+    insertText(txt);
+  });
+  input.addEventListener('drop',function(e){e.preventDefault();});
+  input.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){return;}
+    if((e.ctrlKey||e.metaKey)&&['a','c','v','x'].indexOf(String(e.key).toLowerCase())>=0){return;}
+  });
+  if(toggle){
+    toggle.addEventListener('click',function(){
+      state.reveal=!state.reveal;
+      render(-1,input.selectionStart==null?state.value.length:input.selectionStart);
+      input.focus();
+    });
+  }
+  render(-1,state.value.length);
+  return function(){return state.value;};
+}
+function sheetFetchJson(url){
+  return fetch(url,{method:'GET',cache:'no-store',redirect:'follow'}).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    return r.json();
+  });
+}
+
+/* V5: Sheet-driven member module. LIVE API холбогдсон. Fallback/manual горим хадгалагдана. */
+function sheetMemberRowsFromData(data){
+  var cfg=data&&data.web_config?data.web_config:{};
+  var rows=(data&&Array.isArray(data.members_model))?data.members_model:[];
+  var out=[];
+  rows.forEach(function(r,i){
+    var no=perfNumber(r.member_no||r.member||r.no||(i+1));
+    var cap=perfNumber(r.capital||r.Capital||0);
+    if(cap>0)out.push({no:no||i+1,capital:cap});
+  });
+  if(!out.length){
+    var n=Math.round(perfNumber(perfRawValue(cfg,"default_member_count",2))||2);
+    var cap=perfNumber(perfRawValue(cfg,"default_member_capital",50000))||50000;
+    n=Math.max(1,Math.min(10,n));
+    for(var i=1;i<=n;i++)out.push({no:i,capital:cap});
+  }
+  out.sort(function(a,b){return a.no-b.no;});
+  var total=out.reduce(function(s,r){return s+r.capital;},0);
+  out.forEach(function(r){r.share=total?r.capital/total:0;});
+  return out;
+}
+function sheetTraderPct(n){n=Math.round(n||1); if(n===1)return .50;if(n===2)return .40;if(n===3)return .30;if(n===4)return .25;return .20;}
+function sheetProjectionStep(balance,r,scale,cost){
+  var gross=Math.round(balance*r), costAmt=Math.round(gross*cost), scaleUp=Math.round(gross*scale), dist=Math.max(0,gross-costAmt-scaleUp);
+  return {gross:gross,cost:costAmt,scaleUp:scaleUp,dist:dist};
+}
+function sheetCalcProjection(opts){
+  var type=opts.type||"weighted", closeMode=opts.closeMode||"b";
+  var n=Math.max(1,Math.round(opts.memberCount||1)), totalCap=Math.max(1,Math.round(opts.totalCap||1));
+  var memberCap=Math.max(0,Math.round(opts.memberCap||0)), r=Math.max(0,perfNumber(opts.returnPct)||0), scale=Math.max(0,perfNumber(opts.scalePct)||0), cost=Math.max(0,perfNumber(opts.costPct)||0.02), months=Math.max(1,Math.round(opts.months||12));
+  if(type==="equal")memberCap=Math.round(totalCap/n);
+  var share=type==="weighted"?(totalCap?memberCap/totalCap:0):(n?1/n:0);
+  var bal=totalCap, totalMonthly=0, first=0, last=0, rows=[];
+  var pct=sheetTraderPct(n);
+  for(var i=1;i<=months;i++){
+    var st=sheetProjectionStep(bal,r,scale,cost);
+    var memberMonthly=0;
+    if(type==="equal")memberMonthly=Math.round(st.dist/(n+1));
+    else memberMonthly=Math.round(Math.max(0,st.dist-Math.round(st.dist*pct))*share);
+    if(i===1)first=memberMonthly;if(i===months)last=memberMonthly;totalMonthly+=memberMonthly;
+    rows.push({m:i,balance:bal,gross:st.gross,cost:st.cost,scaleUp:st.scaleUp,dist:st.dist,memberMonthly:memberMonthly});
+    bal+=st.scaleUp;
+  }
+  var finalCap=bal, growth=Math.max(0,finalCap-totalCap), close=0;
+  if(type==="equal"){
+    close=closeMode==="a"?Math.round(finalCap/(n+1)):Math.round(memberCap+(growth*(1-pct))/n);
+  }else{
+    close=Math.round(memberCap+(growth-Math.round(growth*pct))*share);
+  }
+  var grossTotal=totalMonthly+close;
+  var incentivePct=Math.max(0,sheetUnitPct(opts.incentivePct,0.05));
+  var fee=Math.round(grossTotal*incentivePct);
+  var net=Math.max(0,grossTotal-fee);
+  return {type:type,closeMode:closeMode,n:n,totalCap:totalCap,memberCap:memberCap,share:share,months:months,finalCap:finalCap,growth:growth,totalMonthly:totalMonthly,first:first,last:last,close:close,grossTotal:grossTotal,fee:fee,incentivePct:incentivePct,net:net,rows:rows};
+}
+function renderSheetMemberModule(data){
+  var box=document.getElementById("perfSheetMemberModule"); if(!box)return;
+  var cfg=data&&data.web_config?data.web_config:{};
+  var members=sheetMemberRowsFromData(data||{});
+  var memberNoInput=document.getElementById("sheetMemberNo"), accessInput=document.getElementById("sheetAccessCode"), accessToggle=document.getElementById("sheetAccessToggle"), fetchBtn=document.getElementById("sheetFetchBtn"), capInput=document.getElementById("sheetMemberCap"), totalInput=document.getElementById("sheetTotalCap"), retInput=document.getElementById("sheetReturn"), scaleInput=document.getElementById("sheetScale"), monthsInput=document.getElementById("sheetMonths");
+  var eqBtn=document.getElementById("sheetCalcEqual"), wtBtn=document.getElementById("sheetCalcWeighted"), modeA=document.getElementById("sheetCloseA"), modeB=document.getElementById("sheetCloseB"), closeRow=document.getElementById("sheetCloseModeRow");
+  var out=document.getElementById("sheetMemberProjection"), table=document.getElementById("sheetMonthTable"), note=document.getElementById("sheetMemberNote"), status=document.getElementById("sheetDataStatus");
+  if(!memberNoInput||!capInput||!totalInput||!retInput||!scaleInput||!monthsInput||!out||!table)return;
+  var getAccessCode=sheetInstallSmartAccessInput(accessInput,accessToggle);
+  var totalFromSheet=members.reduce(function(s,r){return s+r.capital;},0);
+  var cfgReturn=perfNumber(perfRawValue(cfg,"default_monthly_return_pct",0.10)); if(cfgReturn>1)cfgReturn=cfgReturn/100;
+  var cfgScale=perfNumber(perfRawValue(cfg,"default_scale_up_pct",0.50)); if(cfgScale>1)cfgScale=cfgScale/100;
+  if(!box.dataset.ready){
+    memberNoInput.max=Math.max(1,members.length);
+    memberNoInput.value=members[0]?members[0].no:1;
+    capInput.value=members[0]?members[0].capital:50000;
+    totalInput.value=totalFromSheet||100000;
+    retInput.value=Math.max(2,Math.min(20,Math.round((cfgReturn||0.10)*100)));
+    scaleInput.value=Math.max(50,Math.min(70,Math.round((cfgScale||0.50)*100/5)*5));
+    monthsInput.value=Math.round(perfNumber(perfRawValue(cfg,"default_campaign_months",12))||12);
+    box.dataset.ready="1";
+  }
+  function findMember(no){
+    no=Math.round(perfNumber(no)||1);
+    return members.find(function(r){return r.no===no;}) || members[0] || {no:1,capital:50000,share:.5};
+  }
+  function recalc(){
+    var liveMember=window.__sheetLiveMember||null, liveCampaign=window.__sheetLiveCampaign||null;
+    var type=window.__sheetCalcType||(liveCampaign&&liveCampaign.model_type?String(liveCampaign.model_type).toLowerCase():"weighted");
+    var closeMode=window.__sheetCloseMode||(liveCampaign&&liveCampaign.close_method?String(liveCampaign.close_method).toLowerCase():"b");
+    closeMode=closeMode==="a"?"a":"b";
+    type=type==="equal"?"equal":"weighted";
+    var picked=liveMember?{no:perfNumber(liveMember.member_no)||1,capital:perfNumber(liveMember.capital)||0}:findMember(memberNoInput.value);
+    var n=Math.max(1,Math.round((liveCampaign&&perfNumber(liveCampaign.member_count))||members.length||perfNumber(memberNoInput.max)||1));
+    var totalCap=Math.max(1,Math.round((liveCampaign&&perfNumber(liveCampaign.total_capital))||perfNumber(totalInput.value)||totalFromSheet||picked.capital*n));
+    if(liveMember){
+      capInput.value=picked.capital;
+      totalInput.value=totalCap;
+      capInput.disabled=true;
+      totalInput.disabled=true;
+    }else if(type==="weighted"){
+      capInput.disabled=false;totalInput.disabled=false;
+      capInput.value=picked.capital;
+      totalInput.value=totalFromSheet||totalCap;
+      totalCap=perfNumber(totalInput.value)||totalCap;
+    }else{
+      capInput.disabled=false;totalInput.disabled=false;
+      totalInput.value=totalFromSheet||totalCap;
+      capInput.value=Math.round((perfNumber(totalInput.value)||totalCap)/n);
+    }
+    var memberCap=Math.round(perfNumber(capInput.value)||picked.capital);
+    var r=(perfNumber(retInput.value)||10)/100, scale=(perfNumber(scaleInput.value)||50)/100, months=Math.round(perfNumber(monthsInput.value)||12);
+    var cost=liveCampaign?sheetUnitPct(liveCampaign.cost_pct,0.02):0.02;
+    var incentive=liveCampaign?sheetUnitPct(liveCampaign.incentive_pct,0.05):0.05;
+    var res=sheetCalcProjection({type:type,closeMode:closeMode,memberCount:n,memberCap:memberCap,totalCap:totalCap,returnPct:r,scalePct:scale,costPct:cost,incentivePct:incentive,months:months});
+    document.getElementById("sheetMemberNoLabel").textContent=String(picked.no||memberNoInput.value);
+    document.getElementById("sheetMemberCapLabel").textContent=perfCurrency(res.memberCap);
+    document.getElementById("sheetTotalCapLabel").textContent=perfCurrency(res.totalCap);
+    document.getElementById("sheetReturnLabel").textContent=perfPctPlain(r);
+    document.getElementById("sheetScaleLabel").textContent=perfPctPlain(scale);
+    document.getElementById("sheetMonthsLabel").textContent=months+" сар";
+    if(eqBtn)eqBtn.classList.toggle("active",type==="equal"); if(wtBtn)wtBtn.classList.toggle("active",type==="weighted");
+    if(modeA)modeA.classList.toggle("active",closeMode==="a"); if(modeB)modeB.classList.toggle("active",closeMode==="b");
+    if(closeRow)closeRow.classList.toggle("is-hidden",type==="weighted");
+    var calcLabel=type==="weighted"?"Тооцоолуур 2 · нийт капиталд эзлэх хувь":"Тооцоолуур 1 · ижил дүнтэй бүлэг";
+    out.innerHTML=[
+      '<div class="sheet-proj-card main"><span>Хасалтын дараах гишүүний харах дүн</span><b>'+perfCurrency(res.net)+'</b><small>Нийт зураглалаас 5% гүйцэтгэлийн урамшуулал хассан net дүн.</small></div>',
+      '<div class="sheet-proj-card cyan"><span>Өөрийн капитал / эзлэх хувь</span><b>'+perfCurrency(res.memberCap)+' · '+perfPctPlain(res.share)+'</b><small>'+calcLabel+' · нийт '+perfCurrency(res.totalCap)+' / '+res.n+' гишүүн.</small></div>',
+      '<div class="sheet-proj-card"><span>Сар бүр нийт авах боломж</span><b>'+perfCurrency(res.totalMonthly)+'</b><small>1-р сар '+perfCurrency(res.first)+' · сүүлийн сар '+perfCurrency(res.last)+'.</small></div>',
+      '<div class="sheet-proj-card gold"><span>Данс хаах үед авах</span><b>'+perfCurrency(res.close)+'</b><small>'+(type==="weighted"?'Капитал + ашгийн хувийн жин.':(closeMode==="a"?'А · данс тэнцүү хуваах.':'Б · капитал + ашгийн хувь.'))+'</small></div>',
+      '<div class="sheet-proj-card red"><span>Гүйцэтгэлийн урамшуулал '+perfPctPlain(res.incentivePct)+'</span><b>−'+perfCurrency(res.fee)+'</b><small>Энэ нь гишүүнд очих мөнгө биш, хасагдах урамшууллын зураглал.</small></div>',
+      '<div class="sheet-proj-card"><span>Хасахаас өмнөх нийт зураглал</span><b>'+perfCurrency(res.grossTotal)+'</b><small>Сарын мөнгөн урсгал + данс хаах үеийн дүн.</small></div>'
+    ].join('');
+    table.innerHTML='<table><thead><tr><th>Сар</th><th>Эхний balance</th><th>Нийт ашиг</th><th>Дансанд үлдэх</th><th>Гишүүнд ногдох</th></tr></thead><tbody>'+res.rows.map(function(x){return '<tr><td>'+x.m+'</td><td class="num cyan">'+perfCurrency(x.balance)+'</td><td class="num">'+perfCurrency(x.gross)+'</td><td class="num">'+perfCurrency(x.scaleUp)+'</td><td class="num green">'+perfCurrency(x.memberMonthly)+'</td></tr>';}).join('')+'</tbody></table>';
+    if(note)note.textContent= liveMember ? ('Live Sheet: '+(liveMember.display_name||('Гишүүн '+picked.no))+' · '+perfCurrency(res.memberCap)+' · эзлэх хувь '+perfPctPlain(res.share)+'. Сарын өгөөж / хугацаа / scale-up-г өөрчилж зураглалаа шалгаж болно.') : (type==="weighted" ? 'Гишүүний дугаар болон access code оруулаад Sheet-ээс татна. Тухайн гишүүний капитал / нийт капитал = эзлэх хувь; сарын мөнгөн урсгал болон данс хаах үеийн дүн энэ хувиар бодогдоно.' : 'Ижил дүнтэй бүлэг дээр Sheet-ийн нийт капитал болон гишүүдийн тоонд суурилж нэг гишүүний тэнцүү капитал бодогдоно. Данс хаах А/Б сонголт том тооцоолууртай адил.');
+  }
+  function lookupLiveMember(){
+    if(!fetchBtn||!accessInput)return;
+    var no=String(memberNoInput.value||'').trim();
+    var code=String(getAccessCode?getAccessCode():(accessInput?accessInput.value:'' )).trim();
+    if(!no||!code){ if(status)status.textContent='Дугаар болон access code оруулна'; return; }
+    fetchBtn.disabled=true; fetchBtn.textContent='Татаж байна...';
+    if(status)status.textContent='Sheet API руу холбогдож байна...';
+    sheetFetchJson(sheetBuildMemberUrl(no,code)).then(function(resp){
+      if(!resp||!resp.ok)throw new Error(resp&&resp.error?resp.error:'lookup_failed');
+      window.__sheetLiveMember=resp.member||null;
+      window.__sheetLiveCampaign=resp.campaign||null;
+      var camp=window.__sheetLiveCampaign||{}, mem=window.__sheetLiveMember||{};
+      if(camp.model_type)window.__sheetCalcType=String(camp.model_type).toLowerCase()==='equal'?'equal':'weighted';
+      if(camp.close_method)window.__sheetCloseMode=String(camp.close_method).toLowerCase()==='a'?'a':'b';
+      if(mem.member_no)memberNoInput.value=mem.member_no;
+      if(mem.capital)capInput.value=perfNumber(mem.capital);
+      if(camp.total_capital)totalInput.value=perfNumber(camp.total_capital);
+      if(camp.monthly_roi!==undefined)retInput.value=Math.max(2,Math.min(20,Math.round(sheetPlainPct(camp.monthly_roi,10))));
+      if(camp.scaleup_pct!==undefined)scaleInput.value=Math.max(50,Math.min(70,Math.round(sheetPlainPct(camp.scaleup_pct,50)/5)*5));
+      if(camp.months!==undefined)monthsInput.value=Math.max(1,Math.min(36,Math.round(perfNumber(camp.months)||12)));
+      if(status)status.textContent='Live Sheet: '+(mem.display_name||('Гишүүн '+no))+' татагдлаа';
+      recalc();
+    }).catch(function(err){
+      console.warn('member lookup failed',err);
+      window.__sheetLiveMember=null; window.__sheetLiveCampaign=null;
+      capInput.disabled=false; totalInput.disabled=false;
+      if(status)status.textContent='Access code эсвэл дугаар таарахгүй байна';
+      if(note)note.textContent='Sheet API хариу: '+(err&&err.message?err.message:'алдаа')+'. Дугаар, access code, members_model status=active эсэхийг шалгана.';
+      recalc();
+    }).finally(function(){
+      fetchBtn.disabled=false; fetchBtn.textContent='Sheet-ээс татах';
+    });
+  }
+  if(accessInput)accessInput.onkeydown=function(e){ if(e.key==='Enter')lookupLiveMember(); };
+  if(memberNoInput)memberNoInput.onchange=function(){ recalc(); };
+  if(fetchBtn)fetchBtn.onclick=lookupLiveMember;
+  [memberNoInput,retInput,scaleInput,monthsInput,totalInput].forEach(function(inp){inp.oninput=recalc;});
+  if(eqBtn)eqBtn.onclick=function(){window.__sheetCalcType="equal";recalc();};
+  if(wtBtn)wtBtn.onclick=function(){window.__sheetCalcType="weighted";recalc();};
+  if(modeA)modeA.onclick=function(){window.__sheetCloseMode="a";recalc();};
+  if(modeB)modeB.onclick=function(){window.__sheetCloseMode="b";recalc();};
+  recalc();
+}
+
+function renderHistory(rows){
+  var tbody=document.getElementById("perfHistoryBody"); if(!tbody)return;
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="7">Графикийн дата хоосон байна.</td></tr>';return;}
+  tbody.innerHTML=rows.map(function(r){
+    var link=r.statement_link||r.statement||"";
+    var statementCell=link?'<a class="perf-statement-btn" href="'+perfEscape(link)+'" target="_blank" rel="noopener">Тайлан</a>':'—';
+    return '<tr>'
+      +'<td data-label="7 хоног">7 хоног '+perfEscape(r.week_no)+'</td>'
+      +'<td data-label="Хаалтын өдөр">'+perfDate(r.period_end)+'</td>'
+      +'<td data-label="Хаалтын данс" class="num">'+perfCurrency(r.ending_balance)+'</td>'
+      +'<td data-label="Ашиг/алдагдал" class="num '+perfClass(r.weekly_pl_usd)+'">'+perfCurrency(r.weekly_pl_usd)+'</td>'
+      +'<td data-label="Өгөөж" class="num '+perfClass(r.weekly_pl_pct)+'">'+perfPct(r.weekly_pl_pct)+'</td>'
+      +'<td data-label="Их уналт" class="num perf-negative">'+perfPctPlain(r.max_drawdown_pct)+'</td>'
+      +'<td data-label="Тайлан">'+statementCell+'</td>'
+      +'</tr>';
+  }).join("");
+}
+(function(){
+  var btn=document.getElementById("perfReloadBtn");
+  if(btn)btn.onclick=function(){loadPerformanceDashboard(true);};
+})();
+
+window.addEventListener('DOMContentLoaded',function(){
+  try{ window.__perfReady=true; loadPerformanceDashboard(false); }catch(e){ console.warn(e); }
+});
+</script>
+</body>
+</html>
