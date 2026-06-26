@@ -2484,4 +2484,40 @@ fit();
   </div>
 </div>
 
+
+<script>
+(function(){
+  function modal(){ return document.getElementById('certModal'); }
+  window.openCertModal = function(event){
+    if(event){ event.preventDefault(); event.stopPropagation(); }
+    var m = modal();
+    if(!m) return false;
+    m.classList.add('is-open');
+    m.setAttribute('aria-hidden','false');
+    document.documentElement.classList.add('cert-lock');
+    document.body.classList.add('cert-lock');
+    return false;
+  };
+  window.closeCertModal = function(event){
+    if(event){ event.preventDefault(); event.stopPropagation(); }
+    var m = modal();
+    if(!m) return false;
+    m.classList.remove('is-open');
+    m.setAttribute('aria-hidden','true');
+    document.documentElement.classList.remove('cert-lock');
+    document.body.classList.remove('cert-lock');
+    return false;
+  };
+  document.addEventListener('click', function(e){
+    var m = modal();
+    if(m && m.classList.contains('is-open') && e.target === m){
+      window.closeCertModal(e);
+    }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') window.closeCertModal(e);
+  });
+})();
+</script>
+
 </body></html>
