@@ -249,6 +249,41 @@ body::before {
   filter:none !important;
 }
 
+
+
+/* ===== V40 ANDROID MODULE BACKGROUND LITE =====
+   Android / mobile module дотор canvas ба fixed background-ийг унтрааж static background хэрэглэнэ. */
+@media (max-width:900px), (pointer:coarse){
+  html,body{
+    background:#020608!important;
+    background-attachment:scroll!important;
+    overflow-x:hidden!important;
+  }
+  body:before{
+    content:""!important;
+    position:fixed!important;
+    inset:0!important;
+    z-index:-4!important;
+    background-image:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.18)),url('../aurora.jpg')!important;
+    background-repeat:no-repeat!important;
+    background-size:cover!important;
+    background-position:center center!important;
+    background-attachment:scroll!important;
+    filter:none!important;
+    transform:none!important;
+  }
+  #wbg{
+    display:none!important;
+    opacity:0!important;
+    visibility:hidden!important;
+  }
+  .appbar{
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+}
+/* ===== END V40 ANDROID MODULE BACKGROUND LITE ===== */
+
 </style>
 
 <style id="v13-aurora-exact-background">
@@ -326,6 +361,19 @@ body::before{background:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/
 #view-performance{background:radial-gradient(circle at 24% 8%,rgba(0,200,151,.10),transparent 34%),radial-gradient(circle at 76% 18%,rgba(79,195,247,.08),transparent 34%),linear-gradient(180deg,rgba(0,0,0,.38),rgba(0,0,0,.78))!important;}
 #wbg{position:fixed!important;inset:0!important;z-index:0!important;pointer-events:none!important;}
 </style>
+
+<script>
+(function(){
+  function isMobile(){
+    try{
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent||'') ||
+        (window.matchMedia && (window.matchMedia('(max-width: 900px)').matches || window.matchMedia('(pointer: coarse)').matches));
+    }catch(e){ return (window.innerWidth||0)<901; }
+  }
+  if(isMobile()) document.documentElement.classList.add('pcg-mobile-lite');
+})();
+</script>
+
 </head>
 <body>
 <canvas id="wbg" aria-hidden="true"></canvas>
@@ -927,6 +975,11 @@ body::before{background:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/
   }
 
   function frame(ts){
+    if(mobileBg){
+      if(!scrollStaticDrawn){ctx.clearRect(0,0,W,H);try{drawBgImage(ts||0);}catch(e){}scrollStaticDrawn=true;}
+      setTimeout(function(){requestAnimationFrame(frame);},260);
+      return;
+    }
     if(mobileBg && Date.now()<scrollPauseUntil){
       if(!scrollStaticDrawn){ctx.clearRect(0,0,W,H);try{drawBgImage(ts||0);}catch(e){}scrollStaticDrawn=true;}
       requestAnimationFrame(frame);return;
