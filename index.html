@@ -1340,38 +1340,6 @@ html,body{
   pointer-events:none !important;
 }
 </style>
-
-<style id="v41-android-single-bg-menu-lock">
-/* V41: Android дээр module background давхардах, canvas гацах, performance tab алга болохоос хамгаална. */
-@media (max-width: 820px), (pointer: coarse) {
-  #view-calc, #view-performance {
-    background: #020608 !important;
-    background-image: none !important;
-    filter: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  #calcframe, #performanceframe {
-    background: #020608 !important;
-  }
-  body.poi-module-open #wbg {
-    display: none !important;
-  }
-  .tabs {
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    scrollbar-width: none;
-  }
-  .tabs::-webkit-scrollbar { display:none; }
-  .tab[data-tab="perf"] {
-    display: inline-flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-}
-</style>
-
 </head>
 <body>
 <div class="site-copyright">© 2026 Enkhtuvshin Tserennadmid. All rights reserved.</div>
@@ -1992,7 +1960,6 @@ document.addEventListener("keydown",e=>{
 function setTab(name, reset){
   if(!SECTIONS[name])name="home";
   curSection=name;
-  try{document.body.classList.toggle("poi-module-open", name==="calc"||name==="perf");}catch(e){}
   document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===name));
   updateSectionStartButton();
   const isSlides=!!SECTIONS[name].slides;
@@ -2516,41 +2483,5 @@ fit();
     </div>
   </div>
 </div>
-
-
-<script>
-(function(){
-  function modal(){ return document.getElementById('certModal'); }
-  window.openCertModal = function(event){
-    if(event){ event.preventDefault(); event.stopPropagation(); }
-    var m = modal();
-    if(!m) return false;
-    m.classList.add('is-open');
-    m.setAttribute('aria-hidden','false');
-    document.documentElement.classList.add('cert-lock');
-    document.body.classList.add('cert-lock');
-    return false;
-  };
-  window.closeCertModal = function(event){
-    if(event){ event.preventDefault(); event.stopPropagation(); }
-    var m = modal();
-    if(!m) return false;
-    m.classList.remove('is-open');
-    m.setAttribute('aria-hidden','true');
-    document.documentElement.classList.remove('cert-lock');
-    document.body.classList.remove('cert-lock');
-    return false;
-  };
-  document.addEventListener('click', function(e){
-    var m = modal();
-    if(m && m.classList.contains('is-open') && e.target === m){
-      window.closeCertModal(e);
-    }
-  });
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape') window.closeCertModal(e);
-  });
-})();
-</script>
 
 </body></html>
