@@ -328,61 +328,63 @@ body::before{background:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/
 </style>
 
 
-<!-- V36 ORIGINAL-UPLOAD ANDROID CHILD SCROLL FIX: keep background/canvas, unlock the actual iframe document -->
-<style id="v36-original-android-child-scroll-fix">
-@media (max-width: 900px), (pointer: coarse){
-  html, body{
-    height:auto !important;
-    min-height:100dvh !important;
-    max-height:none !important;
-    overflow-x:hidden !important;
-    overflow-y:auto !important;
-    touch-action:pan-y !important;
-    -webkit-overflow-scrolling:touch !important;
-    overscroll-behavior-y:auto !important;
-    background:#040302 !important;
+<style id="v37-frame-embedded-mobile-scroll-bg">
+/* V37: iframe дотор Android дээр scroll түгжигдэхийг засна. */
+html.poi-embedded, html.poi-embedded body{
+  background:transparent!important;
+}
+html.poi-embedded body:before, html.poi-embedded body:after{
+  display:none!important;
+}
+html.poi-embedded #wbg{
+  display:none!important;
+}
+@media (max-width:900px), (pointer:coarse){
+  html,body{
+    height:auto!important;
+    min-height:100%!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+    touch-action:pan-y!important;
+    overscroll-behavior-y:contain!important;
   }
-  body{
-    position:relative !important;
-  }
-  #wbg{
-    display:block !important;
-    position:fixed !important;
-    inset:0 !important;
-    pointer-events:none !important;
-    z-index:0 !important;
-    opacity:.96 !important;
-    filter:none !important;
-  }
-  #view-home,
-  #view-stage,
-  #view-calc,
-  #view-performance{
-    -webkit-overflow-scrolling:touch !important;
-    touch-action:pan-y !important;
-  }
-  #view-performance{
-    position:relative !important;
-    top:auto !important;
-    left:auto !important;
-    right:auto !important;
-    bottom:auto !important;
-    height:auto !important;
-    min-height:100dvh !important;
-    overflow-y:auto !important;
-    overflow-x:hidden !important;
-    padding-bottom:96px !important;
-  }
+  body{position:relative!important;}
+  body.cert-lock{overflow:hidden!important;}
+  #wbg{pointer-events:none!important;}
+  .appbar{position:sticky!important;top:0!important;z-index:1000!important;}
   .stage-wrap{
-    position:relative !important;
-    top:auto !important;
-    left:auto !important;
-    right:auto !important;
-    bottom:auto !important;
-    height:auto !important;
-    min-height:auto !important;
-    overflow:visible !important;
+    position:relative!important;
+    top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;
+    height:auto!important;
+    min-height:calc(100dvh - 138px)!important;
+    overflow:visible!important;
+    display:block!important;
+    padding:14px 0 96px!important;
   }
+  .stage{
+    width:100%!important;
+    height:auto!important;
+    min-height:calc(100dvh - 138px)!important;
+    transform:none!important;
+  }
+  .slide{
+    position:relative!important;
+    inset:auto!important;
+    min-height:calc(100dvh - 150px)!important;
+    height:auto!important;
+    overflow:visible!important;
+    padding:26px 16px 100px!important;
+  }
+  .slide.is-active{display:flex!important;}
+  #view-home,#view-calc,#view-performance,.view.active{
+    position:relative!important;
+    top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;
+    height:auto!important;
+    min-height:calc(100dvh - 58px)!important;
+    overflow:visible!important;
+  }
+  input,select,textarea,button{touch-action:manipulation;}
 }
 </style>
 
@@ -1009,22 +1011,41 @@ body::before{background:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/
 
 
 
-<script id="v36-original-android-child-height-ping">
+<script id="v37-frame-height-and-embedded-mode">
 (function(){
-  function h(){
-    var d=document.documentElement,b=document.body;
-    return Math.max(d?d.scrollHeight:0,d?d.offsetHeight:0,b?b.scrollHeight:0,b?b.offsetHeight:0,window.innerHeight||0);
+  var embedded = false;
+  try{ embedded = window.parent && window.parent !== window; }catch(e){ embedded=false; }
+  if(embedded){ document.documentElement.classList.add('poi-embedded'); }
+  function calcHeight(){
+    var d=document.documentElement, b=document.body;
+    return Math.max(
+      d ? d.scrollHeight : 0,
+      d ? d.offsetHeight : 0,
+      b ? b.scrollHeight : 0,
+      b ? b.offsetHeight : 0,
+      window.innerHeight || 0
+    );
   }
-  function ping(){
-    try{ if(parent && parent!==window) parent.postMessage({poiFrameHeight:h(),poiFramePath:location.pathname}, '*'); }catch(e){}
+  var last=0, timer=null;
+  function postSize(){
+    if(!embedded) return;
+    var h=calcHeight();
+    if(Math.abs(h-last)<4) return;
+    last=h;
+    try{ window.parent.postMessage({type:'poi-frame-size',height:h,path:location.pathname},'*'); }catch(e){}
   }
-  window.addEventListener('load', function(){ping();setTimeout(ping,300);setTimeout(ping,1200);}, {passive:true});
-  window.addEventListener('resize', ping, {passive:true});
-  window.addEventListener('orientationchange', function(){setTimeout(ping,350);}, {passive:true});
-  document.addEventListener('input', function(){setTimeout(ping,80);}, true);
-  document.addEventListener('click', function(){setTimeout(ping,120);}, true);
-  try{ new MutationObserver(function(){setTimeout(ping,60);}).observe(document.documentElement,{childList:true,subtree:true,attributes:true}); }catch(e){}
-  ping();
+  function schedule(){ clearTimeout(timer); timer=setTimeout(postSize,60); setTimeout(postSize,400); setTimeout(postSize,1200); }
+  window.addEventListener('load',schedule,{passive:true});
+  window.addEventListener('resize',schedule,{passive:true});
+  window.addEventListener('orientationchange',function(){setTimeout(schedule,320);},{passive:true});
+  document.addEventListener('input',schedule,true);
+  document.addEventListener('change',schedule,true);
+  document.addEventListener('click',schedule,true);
+  window.addEventListener('message',function(ev){ if(ev.data && ev.data.type==='poi-parent-ping') schedule(); },false);
+  if(window.ResizeObserver){
+    try{ new ResizeObserver(schedule).observe(document.body); }catch(e){}
+  }
+  schedule();
 })();
 </script>
 
