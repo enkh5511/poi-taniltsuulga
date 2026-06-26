@@ -1252,46 +1252,6 @@ body.cert-lock{overflow:hidden}
 }
 #calcframe{background:transparent!important;}
 
-
-
-/* ===== V40 ANDROID BACKGROUND LITE FIX =====
-   Android дээр background давхардах, fixed background jitter, canvas хоёр давхар ажиллахыг унтраана.
-   V31/V39 layout, menu, certificate logic-д гар хүрээгүй. */
-#view-calc{background:transparent!important;}
-#view-performance{background:transparent!important;}
-#calcframe,#performanceframe{background:#020608!important;}
-
-@media (max-width:900px), (pointer:coarse){
-  body.mobile-module-active #wbg{
-    display:none!important;
-    opacity:0!important;
-    visibility:hidden!important;
-  }
-  body.mobile-module-active #view-calc,
-  body.mobile-module-active #view-performance{
-    background:#020608!important;
-  }
-  body.mobile-module-active #view-calc::before,
-  body.mobile-module-active #view-calc::after,
-  body.mobile-module-active #view-performance::before,
-  body.mobile-module-active #view-performance::after{
-    content:none!important;
-    display:none!important;
-    background:none!important;
-    filter:none!important;
-    backdrop-filter:none!important;
-    -webkit-backdrop-filter:none!important;
-  }
-  body.mobile-module-active .appbar{
-    backdrop-filter:none!important;
-    -webkit-backdrop-filter:none!important;
-  }
-  #calcframe,#performanceframe{
-    background:#020608!important;
-  }
-}
-/* ===== END V40 ANDROID BACKGROUND LITE FIX ===== */
-
 </style>
 
 <style id="v13-aurora-exact-background">
@@ -1380,6 +1340,38 @@ html,body{
   pointer-events:none !important;
 }
 </style>
+
+<style id="v41-android-single-bg-menu-lock">
+/* V41: Android дээр module background давхардах, canvas гацах, performance tab алга болохоос хамгаална. */
+@media (max-width: 820px), (pointer: coarse) {
+  #view-calc, #view-performance {
+    background: #020608 !important;
+    background-image: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  #calcframe, #performanceframe {
+    background: #020608 !important;
+  }
+  body.poi-module-open #wbg {
+    display: none !important;
+  }
+  .tabs {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display:none; }
+  .tab[data-tab="perf"] {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="site-copyright">© 2026 Enkhtuvshin Tserennadmid. All rights reserved.</div>
@@ -1996,28 +1988,11 @@ document.addEventListener("keydown",e=>{
   if(e.key==="ArrowLeft"||e.key==="PageUp"){show(cur-1);e.preventDefault();}
 });
 
-
-
-// ===== V40 Android background mode =====
-function pcgMobileLike(){
-  try{
-    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent||'') ||
-      (window.matchMedia && (window.matchMedia('(max-width: 900px)').matches || window.matchMedia('(pointer: coarse)').matches));
-  }catch(e){ return (window.innerWidth||0)<901; }
-}
-function pcgSetMobileModuleMode(name){
-  try{
-    var on = pcgMobileLike() && (name === 'calc' || name === 'perf');
-    document.body.classList.toggle('mobile-module-active', !!on);
-  }catch(e){}
-}
-// ===== END V40 Android background mode =====
-
 // ---------- Sections / tabs ----------
 function setTab(name, reset){
   if(!SECTIONS[name])name="home";
   curSection=name;
-  pcgSetMobileModuleMode(name);
+  try{document.body.classList.toggle("poi-module-open", name==="calc"||name==="perf");}catch(e){}
   document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===name));
   updateSectionStartButton();
   const isSlides=!!SECTIONS[name].slides;
@@ -2499,10 +2474,6 @@ fit();
   }
 
   function frame(ts){
-    if(mobileBg && document.body && document.body.classList && document.body.classList.contains('mobile-module-active')){
-      setTimeout(function(){requestAnimationFrame(frame);},220);
-      return;
-    }
     if(mobileBg && Date.now()<scrollPauseUntil){
       if(!scrollStaticDrawn){ctx.clearRect(0,0,W,H);try{drawBgImage(ts||0);}catch(e){}scrollStaticDrawn=true;}
       requestAnimationFrame(frame);return;
@@ -2579,17 +2550,6 @@ fit();
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape') window.closeCertModal(e);
   });
-})();
-</script>
-
-
-<script>
-(function(){
-  function pcgRefreshMobileMode(){
-    try{ if(typeof pcgSetMobileModuleMode==='function') pcgSetMobileModuleMode(window.curSection || localStorage.getItem('fc_tab') || 'home'); }catch(e){}
-  }
-  window.addEventListener('resize', pcgRefreshMobileMode, {passive:true});
-  window.addEventListener('orientationchange', function(){setTimeout(pcgRefreshMobileMode,250);}, {passive:true});
 })();
 </script>
 

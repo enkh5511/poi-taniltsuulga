@@ -249,41 +249,6 @@ body::before {
   filter:none !important;
 }
 
-
-
-/* ===== V40 ANDROID MODULE BACKGROUND LITE =====
-   Android / mobile module дотор canvas ба fixed background-ийг унтрааж static background хэрэглэнэ. */
-@media (max-width:900px), (pointer:coarse){
-  html,body{
-    background:#020608!important;
-    background-attachment:scroll!important;
-    overflow-x:hidden!important;
-  }
-  body:before{
-    content:""!important;
-    position:fixed!important;
-    inset:0!important;
-    z-index:-4!important;
-    background-image:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.18)),url('../aurora.jpg')!important;
-    background-repeat:no-repeat!important;
-    background-size:cover!important;
-    background-position:center center!important;
-    background-attachment:scroll!important;
-    filter:none!important;
-    transform:none!important;
-  }
-  #wbg{
-    display:none!important;
-    opacity:0!important;
-    visibility:hidden!important;
-  }
-  .appbar{
-    backdrop-filter:none!important;
-    -webkit-backdrop-filter:none!important;
-  }
-}
-/* ===== END V40 ANDROID MODULE BACKGROUND LITE ===== */
-
 </style>
 
 <style id="v13-aurora-exact-background">
@@ -362,17 +327,43 @@ body::before{background:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/
 #wbg{position:fixed!important;inset:0!important;z-index:0!important;pointer-events:none!important;}
 </style>
 
-<script>
-(function(){
-  function isMobile(){
-    try{
-      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent||'') ||
-        (window.matchMedia && (window.matchMedia('(max-width: 900px)').matches || window.matchMedia('(pointer: coarse)').matches));
-    }catch(e){ return (window.innerWidth||0)<901; }
+<style id="v41-android-module-single-bg-lite">
+/* V41: Android/module дотор нэг л background үлдээнэ. Canvas aurora-г mobile дээр унтрааж гацалт, давхардлыг дарна. */
+@media (max-width: 820px), (pointer: coarse) {
+  html, body {
+    background-color: #020608 !important;
+    background-image: none !important;
+    background-attachment: scroll !important;
+    overflow-x: hidden !important;
   }
-  if(isMobile()) document.documentElement.classList.add('pcg-mobile-lite');
-})();
-</script>
+  body::before {
+    content: "" !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: -4 !important;
+    pointer-events: none !important;
+    background-image:
+      linear-gradient(180deg, rgba(2,6,8,.08), rgba(2,6,8,.16)),
+      url('../aurora.jpg') !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-attachment: scroll !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+  #wbg, canvas#wbg {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .perf-status.is-loading::before { animation: none !important; }
+}
+</style>
 
 </head>
 <body>
@@ -660,6 +651,9 @@ body::before{background:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/
 (function(){
   var cv=document.getElementById('wbg');
   if(!cv)return;
+  var __poiMobileLite=false;
+  try{__poiMobileLite=(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent||''))||(window.matchMedia&&window.matchMedia('(max-width: 820px)').matches)||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches);}catch(e){__poiMobileLite=(window.innerWidth||0)<821;}
+  if(__poiMobileLite){try{cv.style.display='none';}catch(e){} return;}
   var ctx=cv.getContext('2d');
   var W=0,H=0,dpr=1,t=0,ready=false;
   var bgImg=new Image();
@@ -975,11 +969,6 @@ body::before{background:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/
   }
 
   function frame(ts){
-    if(mobileBg){
-      if(!scrollStaticDrawn){ctx.clearRect(0,0,W,H);try{drawBgImage(ts||0);}catch(e){}scrollStaticDrawn=true;}
-      setTimeout(function(){requestAnimationFrame(frame);},260);
-      return;
-    }
     if(mobileBg && Date.now()<scrollPauseUntil){
       if(!scrollStaticDrawn){ctx.clearRect(0,0,W,H);try{drawBgImage(ts||0);}catch(e){}scrollStaticDrawn=true;}
       requestAnimationFrame(frame);return;
