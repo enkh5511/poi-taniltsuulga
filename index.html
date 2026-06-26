@@ -1342,115 +1342,121 @@ html,body{
 </style>
 
 
-<style id="v35-final-original-upload-bg-scroll-cert-fix">
-/* V35 FINAL: uploaded original file дээрх хамгийн сүүлчийн засвар.
-   Зорилго: background-г алга болгохгүй; iframe-үүд white болохгүй; Android scroll түгжигдэхгүй. */
-html{
-  min-height:100%;
-  background:#020608 !important;
-}
-body{
-  min-height:100vh !important;
-  background:#020608 !important;
-  color:var(--ink,#E0E8F0);
-}
-/* Root static safety background: canvas ачаалаагүй үед ч цагаан гарахгүй. */
-body::before{
-  content:"" !important;
-  position:fixed !important;
-  inset:0 !important;
-  z-index:-4 !important;
-  pointer-events:none !important;
-  background:
-    radial-gradient(circle at 22% 10%, rgba(0,200,151,.24), transparent 34%),
-    radial-gradient(circle at 78% 16%, rgba(79,195,247,.16), transparent 36%),
-    linear-gradient(180deg, rgba(2,6,8,.12), rgba(2,6,8,.78)),
-    url('aurora.jpg') center center / cover no-repeat fixed !important;
-  opacity:1 !important;
-  filter:none !important;
-}
-#wbg{
-  display:block !important;
-  visibility:visible !important;
-  position:fixed !important;
-  inset:0 !important;
-  z-index:0 !important;
-  opacity:1 !important;
-  pointer-events:none !important;
-}
-.appbar,.view,.deck-nav,.counter,.hint,.cert-modal,.img-modal{position:relative;z-index:2}
-.appbar{position:fixed!important;z-index:40!important}
-.deck-nav{position:fixed!important;z-index:25!important}
-.counter,.hint{position:fixed!important;z-index:26!important}
-/* Calculator / performance view-үүд өөрөө хар background авна. Iframe document ч бас өөрийн background-тэй. */
-#view-calc,#view-performance{
-  background:
-    radial-gradient(circle at 22% 10%, rgba(0,200,151,.18), transparent 34%),
-    radial-gradient(circle at 78% 16%, rgba(79,195,247,.12), transparent 36%),
-    linear-gradient(180deg, rgba(2,6,8,.22), rgba(2,6,8,.70)),
-    url('aurora.jpg') center center / cover no-repeat fixed !important;
-  background-color:#020608 !important;
-}
-#calcframe,#performanceframe,iframe{
-  background:#020608 !important;
-  color-scheme:dark !important;
-}
-/* Хуучин transparent override-ууд цагаан талбай үүсгэхээс хамгаална. */
-#view-calc::before,#view-performance::before,
-#view-calc::after,#view-performance::after{
-  pointer-events:none!important;
-}
-/* Батламж modal - функц нь доорх script-д орно. */
-.cert-modal{
-  display:none;
-  position:fixed!important;
-  inset:0!important;
-  z-index:9999!important;
-  background:rgba(1,6,10,.82)!important;
-  backdrop-filter:blur(12px)!important;
-  -webkit-backdrop-filter:blur(12px)!important;
-  padding:28px!important;
-  overflow:auto!important;
-}
-.cert-modal.open{display:block!important}
-.cert-dialog{max-width:980px;margin:30px auto;background:rgba(5,14,22,.92);border:1px solid rgba(244,210,118,.42);border-radius:22px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.60),0 0 32px rgba(0,200,151,.14)}
-.cert-img{display:block;width:min(900px,100%);height:auto;margin:0 auto;background:#fff;border-radius:14px;border:1px solid rgba(244,210,118,.36)}
-.cert-close{float:right;margin:0 0 10px 10px;width:40px;height:40px;border-radius:999px;border:1px solid rgba(244,210,118,.48);background:rgba(3,10,16,.92);color:#FFD37A;font-size:24px;cursor:pointer}
-@media (max-width:820px), (pointer:coarse){
-  html,body{
-    height:auto!important;
-    min-height:100%!important;
-    overflow-x:hidden!important;
-    overflow-y:auto!important;
-    touch-action:pan-y!important;
-    -webkit-overflow-scrolling:touch!important;
-    background-color:#020608!important;
+<!-- V36 ORIGINAL-UPLOAD ANDROID SCROLL FIX: keep original aurora/gold network, only unlock touch/scroll -->
+<style id="v36-original-android-scroll-fix">
+/* Desktop presentation remains as uploaded. This block only targets Android / touch screens. */
+@media (max-width: 900px), (pointer: coarse){
+  html, body{
+    height:auto !important;
+    min-height:100% !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    touch-action:pan-y !important;
+    -webkit-overflow-scrolling:touch !important;
+    overscroll-behavior-y:auto !important;
   }
-  body::before{background-attachment:scroll!important}
-  #view-home{position:relative!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;min-height:100vh!important;padding-top:78px!important;overflow:visible!important;background:transparent!important}
-  .stage-wrap{position:relative!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;min-height:calc(100vh - 72px)!important;height:auto!important;overflow:visible!important;padding-top:72px!important;padding-bottom:92px!important;align-items:flex-start!important}
-  .deck-nav{position:fixed!important;bottom:0!important;left:0!important;right:0!important}
-  #view-calc,#view-performance{
-    position:relative!important;
-    top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;
-    min-height:100vh!important;
-    height:auto!important;
-    overflow:visible!important;
-    padding-top:60px!important;
-    -webkit-overflow-scrolling:touch!important;
+  body{
+    position:relative !important;
+    background:#040302 !important;
   }
-  #calcframe,#performanceframe{
-    display:block!important;
-    width:100%!important;
-    min-height:calc(100vh - 60px)!important;
-    height:calc(100vh - 60px)!important;
-    border:0!important;
-    overflow:auto!important;
-    background:#020608!important;
+  #wbg{
+    display:block !important;
+    position:fixed !important;
+    inset:0 !important;
+    pointer-events:none !important;
+    z-index:0 !important;
+    opacity:.96 !important;
+    filter:none !important;
   }
-  #wbg{opacity:.88!important}
+  .appbar{
+    position:sticky !important;
+    top:0 !important;
+    left:auto !important;
+    right:auto !important;
+    height:58px !important;
+    z-index:60 !important;
+  }
+  .view{display:none !important;}
+  .view.active{display:block !important;}
+  #view-home,
+  #view-stage,
+  #view-calc,
+  #view-performance{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:calc(100dvh - 58px) !important;
+    overflow:visible !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:pan-y !important;
+    z-index:1 !important;
+  }
+  #view-home{
+    padding:18px 12px 92px !important;
+  }
+  #view-calc,
+  #view-performance{
+    padding:0 !important;
+  }
+  #calcframe,
+  #performanceframe{
+    display:block !important;
+    width:100% !important;
+    height:calc(100dvh - 58px) !important;
+    min-height:calc(100dvh - 58px) !important;
+    border:0 !important;
+    background:transparent !important;
+    overflow:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:pan-y !important;
+  }
+  .stage-wrap{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    height:auto !important;
+    min-height:calc(100dvh - 154px) !important;
+    overflow:visible !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    padding:8px 8px 96px !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:pan-y !important;
+  }
+  .stage{
+    width:100% !important;
+    height:auto !important;
+    min-height:calc(100dvh - 154px) !important;
+    transform:none !important;
+    zoom:1 !important;
+  }
+  .slide{
+    position:relative !important;
+    inset:auto !important;
+    min-height:auto !important;
+    overflow:visible !important;
+  }
+  .deck-nav{
+    position:sticky !important;
+    bottom:0 !important;
+    height:auto !important;
+    min-height:64px !important;
+    padding:8px 8px calc(8px + env(safe-area-inset-bottom)) !important;
+    background:rgba(3,8,15,.72) !important;
+    backdrop-filter:blur(10px) !important;
+    -webkit-backdrop-filter:blur(10px) !important;
+  }
+  .hint,.counter{display:none !important;}
+  .site-copyright{position:fixed !important;pointer-events:none !important;}
 }
 </style>
+
 </head>
 <body>
 <div class="site-copyright">© 2026 Enkhtuvshin Tserennadmid. All rights reserved.</div>
@@ -2597,59 +2603,52 @@ fit();
 
 
 
-<script id="v35-final-original-upload-js-fix">
+<script id="v36-original-android-iframe-scroll-bridge">
 (function(){
-  function isCoarse(){ return window.matchMedia && (matchMedia('(max-width:820px)').matches || matchMedia('(pointer:coarse)').matches); }
-  function fitFrame(frame){
-    if(!frame) return;
-    if(!isCoarse()) { frame.style.height='100%'; return; }
-    try{
-      var d=frame.contentDocument || frame.contentWindow.document;
-      if(!d) return;
-      var h=Math.max(
-        d.documentElement ? d.documentElement.scrollHeight : 0,
-        d.body ? d.body.scrollHeight : 0,
-        window.innerHeight-60,
-        900
-      );
-      frame.style.height=h+'px';
-    }catch(e){ frame.style.height='calc(100vh - 60px)'; }
+  var mq = window.matchMedia ? window.matchMedia('(max-width: 900px), (pointer: coarse)') : {matches:false};
+  function isMobile(){ return !!mq.matches; }
+  function frames(){
+    return [document.getElementById('calcframe'), document.getElementById('performanceframe')].filter(Boolean);
   }
-  function fitAll(){ fitFrame(document.getElementById('calcframe')); fitFrame(document.getElementById('performanceframe')); }
-  window.addEventListener('load', function(){
-    ['calcframe','performanceframe'].forEach(function(id){
-      var f=document.getElementById(id);
-      if(f){ f.addEventListener('load', function(){ setTimeout(fitAll,80); setTimeout(fitAll,600); }); }
+  function setFrameScrollAttrs(){
+    frames().forEach(function(f){
+      f.setAttribute('scrolling','yes');
+      f.style.webkitOverflowScrolling='touch';
+      f.style.overflow='auto';
+      if(isMobile()){
+        f.style.height='calc(100dvh - 58px)';
+        f.style.minHeight='calc(100dvh - 58px)';
+      }
     });
-    fitAll();
-  });
-  window.addEventListener('resize', function(){ setTimeout(fitAll,80); });
-  document.addEventListener('click', function(e){ if(e.target && e.target.closest && e.target.closest('.tab')) setTimeout(fitAll,120); }, true);
-
-  window.openCertModal=function(ev){
-    if(ev){ ev.preventDefault(); ev.stopPropagation(); }
-    var m=document.getElementById('certModal');
-    if(!m){
-      m=document.createElement('div'); m.id='certModal'; m.className='cert-modal';
-      m.innerHTML='<div class="cert-dialog"><button class="cert-close" type="button">×</button><img class="cert-img" src="myforexfunds_certificate.jpg" alt="MyForexFunds Professional Trader certificate"></div>';
-      document.body.appendChild(m);
-    }
-    var img=m.querySelector('img'); if(img && !img.getAttribute('src')) img.src='myforexfunds_certificate.jpg';
-    m.classList.add('open'); m.setAttribute('aria-hidden','false');
-    document.documentElement.style.overflow='hidden'; document.body.style.overflow='hidden';
-  };
-  window.closeCertModal=function(ev){
-    if(ev){ ev.preventDefault(); ev.stopPropagation(); }
-    var m=document.getElementById('certModal');
-    if(m){ m.classList.remove('open'); m.setAttribute('aria-hidden','true'); }
-    document.documentElement.style.overflow=''; document.body.style.overflow='';
-  };
-  document.addEventListener('click', function(e){
-    var m=document.getElementById('certModal');
-    if(!m || !m.classList.contains('open')) return;
-    if(e.target===m || (e.target && e.target.classList && e.target.classList.contains('cert-close'))) window.closeCertModal(e);
-  }, true);
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape') window.closeCertModal(e); });
+  }
+  function forceMobileScroll(){
+    if(!isMobile()) return;
+    try{
+      document.documentElement.style.overflowY='auto';
+      document.body.style.overflowY='auto';
+      document.body.style.touchAction='pan-y';
+    }catch(e){}
+    setFrameScrollAttrs();
+  }
+  window.addEventListener('message', function(ev){
+    if(!isMobile() || !ev.data || ev.data.poiFrameHeight == null) return;
+    var h = Math.max(window.innerHeight - 58, Math.ceil(Number(ev.data.poiFrameHeight) || 0));
+    frames().forEach(function(f){
+      if(f.contentWindow === ev.source){
+        /* Keep iframe viewport scrollable on Android; do not make it giant. */
+        f.style.height='calc(100dvh - 58px)';
+        f.style.minHeight='calc(100dvh - 58px)';
+        f.dataset.contentHeight=String(h);
+      }
+    });
+  }, false);
+  window.addEventListener('resize', forceMobileScroll, {passive:true});
+  window.addEventListener('orientationchange', function(){setTimeout(forceMobileScroll,350);}, {passive:true});
+  document.addEventListener('click', function(){setTimeout(forceMobileScroll,60);setTimeout(forceMobileScroll,450);}, true);
+  frames().forEach(function(f){f.addEventListener('load', function(){setTimeout(forceMobileScroll,80);setTimeout(forceMobileScroll,600);});});
+  forceMobileScroll();
+  setTimeout(forceMobileScroll,600);
 })();
 </script>
+
 </body></html>

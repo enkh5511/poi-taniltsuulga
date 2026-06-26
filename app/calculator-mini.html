@@ -328,69 +328,64 @@ body::before{background:url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/
 </style>
 
 
-<style id="v35-final-child-bg-scroll-fix">
-/* V35 FINAL child: calculator/performance iframe дотор өөрийн aurora + canvas background-тай, white талбайгүй. */
-html{
-  min-height:100%;
-  background:#020608 !important;
-}
-body{
-  min-height:100vh !important;
-  overflow-x:hidden !important;
-  overflow-y:auto !important;
-  background:
-    radial-gradient(circle at 22% 10%, rgba(0,200,151,.24), transparent 34%),
-    radial-gradient(circle at 78% 16%, rgba(79,195,247,.16), transparent 36%),
-    linear-gradient(180deg, rgba(2,6,8,.10), rgba(2,6,8,.76)),
-    url('../aurora.jpg') center center / cover no-repeat fixed !important;
-  background-color:#020608 !important;
-  color-scheme:dark !important;
-  -webkit-overflow-scrolling:touch !important;
-}
-body::before,body:before{
-  content:"" !important;
-  position:fixed !important;
-  inset:0 !important;
-  z-index:-3 !important;
-  pointer-events:none !important;
-  background:
-    radial-gradient(circle at 22% 10%, rgba(0,200,151,.20), transparent 34%),
-    radial-gradient(circle at 78% 16%, rgba(79,195,247,.12), transparent 36%),
-    linear-gradient(180deg, rgba(2,6,8,.08), rgba(2,6,8,.62)),
-    url('../aurora.jpg') center center / cover no-repeat fixed !important;
-  opacity:1 !important;
-  filter:none !important;
-}
-body::after,body:after{
-  pointer-events:none!important;
-}
-#wbg{
-  display:block !important;
-  visibility:visible !important;
-  position:fixed !important;
-  inset:0 !important;
-  z-index:0 !important;
-  opacity:.96 !important;
-  pointer-events:none !important;
-}
-body > *:not(#wbg){
-  position:relative;
-  z-index:1;
-}
-@media (max-width:820px), (pointer:coarse){
-  html,body{
-    height:auto!important;
-    min-height:100%!important;
-    overflow-y:auto!important;
-    overflow-x:hidden!important;
-    touch-action:pan-y!important;
-    -webkit-overflow-scrolling:touch!important;
-    background-attachment:scroll!important;
+<!-- V36 ORIGINAL-UPLOAD ANDROID CHILD SCROLL FIX: keep background/canvas, unlock the actual iframe document -->
+<style id="v36-original-android-child-scroll-fix">
+@media (max-width: 900px), (pointer: coarse){
+  html, body{
+    height:auto !important;
+    min-height:100dvh !important;
+    max-height:none !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    touch-action:pan-y !important;
+    -webkit-overflow-scrolling:touch !important;
+    overscroll-behavior-y:auto !important;
+    background:#040302 !important;
   }
-  body::before,body:before{background-attachment:scroll!important}
-  #wbg{opacity:.84!important}
+  body{
+    position:relative !important;
+  }
+  #wbg{
+    display:block !important;
+    position:fixed !important;
+    inset:0 !important;
+    pointer-events:none !important;
+    z-index:0 !important;
+    opacity:.96 !important;
+    filter:none !important;
+  }
+  #view-home,
+  #view-stage,
+  #view-calc,
+  #view-performance{
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:pan-y !important;
+  }
+  #view-performance{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    height:auto !important;
+    min-height:100dvh !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    padding-bottom:96px !important;
+  }
+  .stage-wrap{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    height:auto !important;
+    min-height:auto !important;
+    overflow:visible !important;
+  }
 }
 </style>
+
 </head>
 <body>
 <canvas id="wbg" aria-hidden="true"></canvas>
@@ -1009,6 +1004,27 @@ body > *:not(#wbg){
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
+})();
+</script>
+
+
+
+<script id="v36-original-android-child-height-ping">
+(function(){
+  function h(){
+    var d=document.documentElement,b=document.body;
+    return Math.max(d?d.scrollHeight:0,d?d.offsetHeight:0,b?b.scrollHeight:0,b?b.offsetHeight:0,window.innerHeight||0);
+  }
+  function ping(){
+    try{ if(parent && parent!==window) parent.postMessage({poiFrameHeight:h(),poiFramePath:location.pathname}, '*'); }catch(e){}
+  }
+  window.addEventListener('load', function(){ping();setTimeout(ping,300);setTimeout(ping,1200);}, {passive:true});
+  window.addEventListener('resize', ping, {passive:true});
+  window.addEventListener('orientationchange', function(){setTimeout(ping,350);}, {passive:true});
+  document.addEventListener('input', function(){setTimeout(ping,80);}, true);
+  document.addEventListener('click', function(){setTimeout(ping,120);}, true);
+  try{ new MutationObserver(function(){setTimeout(ping,60);}).observe(document.documentElement,{childList:true,subtree:true,attributes:true}); }catch(e){}
+  ping();
 })();
 </script>
 
