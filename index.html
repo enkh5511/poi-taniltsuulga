@@ -2602,6 +2602,40 @@ fit();
 </div>
 
 
+<script id="v38-certificate-modal-only-fix">
+(function(){
+  window.openCertModal = function(ev){
+    if(ev && ev.preventDefault) ev.preventDefault();
+    if(ev && ev.stopPropagation) ev.stopPropagation();
+    var m = document.getElementById('certModal');
+    if(!m) return false;
+    var img = m.querySelector('.cert-img');
+    if(img && !img.getAttribute('src')) img.setAttribute('src','myforexfunds_certificate.jpg');
+    m.classList.add('is-open');
+    m.setAttribute('aria-hidden','false');
+    document.body.classList.add('cert-lock');
+    return false;
+  };
+  window.closeCertModal = function(ev){
+    if(ev && ev.preventDefault) ev.preventDefault();
+    if(ev && ev.stopPropagation) ev.stopPropagation();
+    var m = document.getElementById('certModal');
+    if(!m) return false;
+    m.classList.remove('is-open');
+    m.setAttribute('aria-hidden','true');
+    document.body.classList.remove('cert-lock');
+    return false;
+  };
+  document.addEventListener('click', function(ev){
+    var m = document.getElementById('certModal');
+    if(m && ev.target === m) window.closeCertModal(ev);
+  }, true);
+  document.addEventListener('keydown', function(ev){
+    if(ev.key === 'Escape') window.closeCertModal(ev);
+  });
+})();
+</script>
+
 
 <script id="v36-original-android-iframe-scroll-bridge">
 (function(){
