@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>POI Capital Group · Жижиг тооцоолуур</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#020608; --panel:rgba(5,18,24,.78); --panel2:rgba(3,14,18,.86);
+  --line:rgba(79,195,247,.16); --line2:rgba(0,200,151,.20); --goldLine:rgba(255,199,93,.36);
+  --cyan:#4FC3F7; --cyan2:#8FEAFF; --green:#00C897; --green2:#00F0AE;
+  --gold:#D6A23A; --gold2:#FFD37A; --red:#FF6B6B; --red2:#FF9A8F;
+  --ink:#BFEFFF; --soft:#9BCFCB; --mut:#658B9E; --deep:#06121b;
+}
+html,body{min-height:100%;background:#020608}
+body{font-family:'Segoe UI',Arial,sans-serif;color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body:before{content:"";position:fixed;inset:0;z-index:-4;background:url('../aurora.jpg') center/cover no-repeat;opacity:.52;filter:saturate(1.18) brightness(.55) contrast(1.08)}
+body:after{content:"";position:fixed;inset:0;z-index:-3;background:radial-gradient(circle at 18% 14%,rgba(79,195,247,.12),transparent 32%),radial-gradient(circle at 80% 18%,rgba(0,200,151,.14),transparent 36%),linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.86));pointer-events:none}
+.stars{position:fixed;inset:0;z-index:-2;pointer-events:none;background-image:radial-gradient(circle,rgba(255,211,122,.55) 0 1px,transparent 1.6px),radial-gradient(circle,rgba(143,234,255,.32) 0 1px,transparent 1.8px);background-size:140px 140px,220px 220px;animation:drift 26s linear infinite;opacity:.35}
+@keyframes drift{to{background-position:140px 220px,-220px 140px}}
+.wrap{width:min(1180px,calc(100vw - 28px));margin:0 auto;padding:28px 0 34px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px;background:rgba(4,12,18,.62);border:1px solid rgba(79,195,247,.16);border-radius:18px;padding:14px 18px;backdrop-filter:blur(10px)}
+.brand-k{font-size:10px;letter-spacing:.20em;text-transform:uppercase;color:var(--gold2);font-weight:900}
+.brand-t{font-size:13px;color:var(--cyan2);font-weight:850;margin-top:4px;letter-spacing:.02em}
+.limit-chip{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.chip{font-size:11px;font-weight:900;color:var(--soft);border:1px solid rgba(0,200,151,.25);background:rgba(0,200,151,.08);border-radius:999px;padding:7px 10px}
+.chip.gold{color:var(--gold2);border-color:rgba(255,211,122,.32);background:rgba(255,211,122,.08)}
+.hero{padding:34px 0 20px}
+.kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);font-weight:950;margin-bottom:11px}
+h1{font-size:clamp(32px,5.2vw,58px);line-height:1;letter-spacing:-.045em;color:var(--cyan2);font-weight:950;text-shadow:0 0 20px rgba(79,195,247,.20);max-width:900px}
+.lead{margin-top:15px;color:var(--soft);font-size:15px;line-height:1.72;max-width:820px}
+.note-box{margin-top:18px;background:rgba(0,200,151,.06);border:1px solid rgba(0,200,151,.17);border-left:3px solid var(--green);border-radius:16px;padding:15px 17px;color:#AEE9DD;font-size:13px;line-height:1.65}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.choice,.panel,.card,.month,.tax-box,.warn-box,.member-row{position:relative;z-index:0;background:linear-gradient(180deg,rgba(6,22,28,.84),rgba(3,12,18,.92));border:1px solid var(--line);border-radius:22px;box-shadow:0 18px 46px rgba(0,0,0,.46),0 8px 20px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.032);overflow:visible;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+.choice:before,.panel:before,.card:before,.tax-box:before,.warn-box:before,.member-row:before{content:"";position:absolute;inset:-10px;border-radius:inherit;background:radial-gradient(circle at 50% 50%,rgba(0,200,151,.18),transparent 60%);opacity:0;filter:blur(18px);transition:opacity .18s ease;pointer-events:none;z-index:-1}
+.choice:after,.panel:after,.card:after,.tax-box:after,.warn-box:after,.member-row:after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1px solid rgba(0,240,174,.10);opacity:0;transition:opacity .18s ease;pointer-events:none}
+@media (hover:hover){
+  .choice:hover,.panel:hover,.card:hover,.tax-box:hover,.warn-box:hover,.member-row:hover{border-color:rgba(0,240,174,.28);box-shadow:0 28px 64px rgba(0,0,0,.52),0 12px 26px rgba(0,0,0,.34),0 0 30px rgba(0,200,151,.14),inset 0 1px 0 rgba(255,255,255,.042);transform:translateY(-0.4px)}
+  .choice:hover:before,.panel:hover:before,.card:hover:before,.tax-box:hover:before,.warn-box:hover:before,.member-row:hover:before,.choice:hover:after,.panel:hover:after,.card:hover:after,.tax-box:hover:after,.warn-box:hover:after,.member-row:hover:after{opacity:1}
+  .card.gold:hover,.tax-box:hover{border-color:rgba(255,211,122,.34);box-shadow:0 28px 64px rgba(0,0,0,.52),0 12px 26px rgba(0,0,0,.34),0 0 30px rgba(255,211,122,.15),inset 0 1px 0 rgba(255,255,255,.042)}
+  .card.cyan:hover{border-color:rgba(79,195,247,.32);box-shadow:0 28px 64px rgba(0,0,0,.52),0 12px 26px rgba(0,0,0,.34),0 0 30px rgba(79,195,247,.14),inset 0 1px 0 rgba(255,255,255,.042)}
+  .warn-box:hover{border-color:rgba(255,98,98,.34);box-shadow:0 28px 64px rgba(0,0,0,.52),0 12px 26px rgba(0,0,0,.34),0 0 30px rgba(255,90,90,.12),inset 0 1px 0 rgba(255,255,255,.042)}
+}
+.choice{padding:24px;cursor:pointer;min-height:295px}
+.choice-num{font-size:11px;font-weight:950;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;color:var(--cyan2)}
+.choice h2{font-size:25px;line-height:1.15;color:var(--gold2);font-weight:950;letter-spacing:-.02em}
+.choice-text{margin-top:12px;color:var(--soft);font-size:13.5px;line-height:1.62}
+.choice-list{display:grid;gap:8px;margin-top:16px}
+.choice-list span{display:flex;gap:8px;align-items:flex-start;color:#99DCD5;font-size:12.5px;line-height:1.42}
+.choice-list b{color:var(--green2)}
+.open-btn{margin-top:19px;border:none;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--cyan));color:#031016;font-weight:950;padding:12px 18px;font-size:12.5px;cursor:pointer;box-shadow:0 10px 36px rgba(0,200,151,.16)}
+.calc-view{display:none;margin-top:16px}
+.calc-view.active{display:block}
+.calc-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px}
+.back-btn{border:1px solid rgba(79,195,247,.25);background:rgba(79,195,247,.08);color:var(--cyan2);font-weight:900;border-radius:999px;padding:10px 13px;cursor:pointer;white-space:nowrap}
+.subnav-row{margin-top:10px;display:flex;justify-content:flex-start}
+.back-btn.subnav{padding:9px 13px;background:rgba(13,24,37,.88);border-color:rgba(79,195,247,.18)}
+.calc-title{font-size:30px;color:var(--cyan2);font-weight:950;letter-spacing:-.02em}
+.calc-sub{margin-top:6px;color:var(--soft);font-size:13px;line-height:1.6;max-width:850px}
+.calc-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:16px;align-items:start}
+.panel{padding:18px}
+.control{background:rgba(0,0,0,.20);border:1px solid rgba(79,195,247,.10);border-radius:16px;padding:13px;margin-bottom:11px}
+.control label{display:flex;justify-content:space-between;gap:10px;margin-bottom:9px;font-size:11px;letter-spacing:.065em;text-transform:uppercase;color:var(--mut);font-weight:950}
+.control label b{color:var(--green2);font-size:13px;letter-spacing:0;text-transform:none;white-space:nowrap}
+input[type=range]{width:100%;accent-color:var(--green);cursor:pointer}
+.small-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.mini-card{background:rgba(0,200,151,.06);border:1px solid rgba(0,200,151,.16);border-radius:15px;padding:13px}
+.mini-card span{display:block;font-size:10px;color:var(--mut);font-weight:950;text-transform:uppercase;letter-spacing:.055em;margin-bottom:5px}
+.mini-card b{font-size:20px;color:var(--green2);font-weight:950;line-height:1}
+.mini-card.gold{background:rgba(255,211,122,.06);border-color:rgba(255,211,122,.25)}.mini-card.gold b{color:var(--gold2)}
+.mini-card.red{margin-top:10px;background:rgba(255,107,107,.06);border-color:rgba(255,107,107,.30)}.mini-card.red b{color:var(--red2)}
+.mini-card.status-ok{margin-top:10px;background:rgba(0,200,151,.075);border-color:rgba(0,200,151,.34);box-shadow:0 0 22px rgba(0,200,151,.08)}.mini-card.status-ok b{color:var(--green2)}
+.mini-card.status-bad{margin-top:10px;background:rgba(255,107,107,.075);border-color:rgba(255,107,107,.36);box-shadow:0 0 22px rgba(255,107,107,.08)}.mini-card.status-bad b{color:var(--red2)}
+.mini-card.status-cap{margin-top:10px;background:rgba(255,211,122,.075);border-color:rgba(255,211,122,.34);box-shadow:0 0 22px rgba(255,211,122,.08)}.mini-card.status-cap b{color:var(--gold2)}
+.result-k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--green2);font-weight:950}
+.hero-pair{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:stretch;margin-top:12px;padding:15px;border-radius:20px;background:linear-gradient(180deg,rgba(0,200,151,.055),rgba(255,211,122,.040));border:1px solid rgba(0,200,151,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.hero-cell{min-width:0;border-radius:16px;padding:14px 15px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.055)}
+.hero-cell.invest{border-color:rgba(79,195,247,.24);background:rgba(79,195,247,.07)}
+.hero-cell.total{position:relative;overflow:hidden;isolation:isolate;border:1px solid rgba(0,200,151,.22);background:linear-gradient(180deg,rgba(0,200,151,.09),rgba(0,0,0,.18));text-align:right;box-shadow:0 10px 28px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.04)}
+.hero-cell.total > *{position:relative;z-index:2}
+.hero-cell.total:before{content:"";position:absolute;inset:-2px;border-radius:18px;padding:1.6px;background:conic-gradient(from 0deg, rgba(0,200,151,.10), rgba(84,255,203,.98), rgba(0,200,151,.12), rgba(84,255,203,.92), rgba(0,200,151,.10), rgba(84,255,203,.98), rgba(0,200,151,.10));-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:prizeSpin 4.6s linear infinite;z-index:0;pointer-events:none}
+.hero-cell.total:after{content:"";position:absolute;inset:0;border-radius:16px;box-shadow:0 0 14px rgba(0,200,151,.18),0 0 34px rgba(0,200,151,.12),inset 0 0 18px rgba(84,255,203,.06);animation:prizePulse 2.2s ease-in-out infinite;z-index:1;pointer-events:none}
+.hero-num{display:block;font-size:clamp(27px,3.8vw,44px);line-height:1;font-weight:980;letter-spacing:-.045em}
+.hero-cell.invest .hero-num{color:var(--cyan2);text-shadow:0 0 22px rgba(79,195,247,.18)}
+.hero-cell.invest .hero-lbl{color:#AEE8FF}
+.hero-cell.total .hero-num{color:transparent;background:linear-gradient(180deg,#C8FFF0 0%, #79FFD4 26%, #00C897 55%, #E0FFF7 78%, #00A97E 100%);-webkit-background-clip:text;background-clip:text;text-shadow:0 1px 0 rgba(2,76,55,.28),0 0 16px rgba(84,255,203,.16),0 0 26px rgba(0,200,151,.10);filter:drop-shadow(0 6px 14px rgba(0,200,151,.10))}
+.hero-lbl{display:block;margin-top:8px;font-size:12px;line-height:1.35;color:var(--soft);font-weight:900;letter-spacing:.01em}
+.hero-cell.total .hero-lbl{color:#A9F5DE}
+.hero-arrow{align-self:center;color:var(--cyan2);font-size:20px;font-weight:950;opacity:.72;text-shadow:0 0 18px rgba(79,195,247,.24)}
+.result-note{margin-top:10px;color:var(--soft);font-size:12.5px;line-height:1.6}
+@keyframes prizeSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes prizePulse{0%,100%{opacity:.88;filter:brightness(1)}50%{opacity:1;filter:brightness(1.12)}}
+@media (max-width:640px){.hero-pair{grid-template-columns:1fr;gap:10px}.hero-arrow{display:none}.hero-cell.total{text-align:left}}
+.you-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.you-chip,.others-chip{display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;font-size:11px;font-weight:950;letter-spacing:.02em}
+.you-chip{background:rgba(0,200,151,.10);border:1px solid rgba(0,200,151,.24);color:var(--green2)}
+.others-chip{background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.22);color:var(--cyan2)}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px}
+.card{padding:14px;border-radius:17px}
+.card span{display:block;color:var(--mut);font-size:10px;font-weight:950;letter-spacing:.055em;text-transform:uppercase;line-height:1.35;margin-bottom:7px}
+.card b{display:block;font-size:21px;line-height:1.05;color:var(--green2);font-weight:950;letter-spacing:-.02em}
+.card.gold{border-color:rgba(255,211,122,.22);background:rgba(255,211,122,.045)}.card.gold b{color:var(--gold2)}
+.card.cyan{border-color:rgba(79,195,247,.22);background:rgba(79,195,247,.045)}.card.cyan b{color:var(--cyan2)}
+.logic-box{margin-top:14px;background:linear-gradient(180deg,rgba(2,22,30,.78),rgba(3,13,18,.90));border:1px solid rgba(79,195,247,.18);border-left:3px solid var(--cyan);border-radius:16px;padding:15px;color:#AEE8FF;font-size:12.5px;line-height:1.58;position:relative;overflow:hidden}
+.logic-box:after{content:"";position:absolute;inset:auto -20% -35% -20%;height:95px;background:radial-gradient(circle,rgba(0,200,151,.11),transparent 64%);pointer-events:none}
+.logic-title{position:relative;z-index:1;font-size:12px;color:var(--cyan2);font-weight:950;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.logic-prose{position:relative;z-index:1;display:grid;gap:9px;color:var(--soft)}
+.logic-line{display:block}
+.logic-line .logic-num{display:inline-flex;align-items:center;margin:0 3px;padding:1px 7px;border-radius:999px;font-weight:950;white-space:nowrap;background:rgba(0,200,151,.075);border:1px solid rgba(0,200,151,.16);color:var(--green2);text-shadow:0 0 14px rgba(0,200,151,.15)}
+.logic-line .logic-num.gold{background:rgba(255,211,122,.07);border-color:rgba(255,211,122,.20);color:var(--gold2)}
+.logic-line .logic-num.cyan{background:rgba(79,195,247,.07);border-color:rgba(79,195,247,.18);color:var(--cyan2)}
+.logic-mini-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.logic-mini{background:rgba(0,0,0,.20);border:1px solid rgba(0,200,151,.13);border-radius:13px;padding:10px;min-height:72px}
+.logic-mini span{display:block;color:var(--mut);font-size:9.5px;font-weight:950;letter-spacing:.055em;text-transform:uppercase;line-height:1.3;margin-bottom:5px}
+.logic-mini b{display:block;color:var(--green2);font-size:16px;font-weight:950;line-height:1.05}
+.logic-mini.gold{border-color:rgba(255,211,122,.22);background:rgba(255,211,122,.045)}.logic-mini.gold b{color:var(--gold2)}
+.logic-mini.cyan{border-color:rgba(79,195,247,.20);background:rgba(79,195,247,.045)}.logic-mini.cyan b{color:var(--cyan2)}
+.logic-note{position:relative;z-index:1;margin-top:10px;border-left:2px solid rgba(0,200,151,.50);padding:9px 10px;background:rgba(0,200,151,.055);border-radius:0 10px 10px 0;color:#9FE8D6;font-size:12px;line-height:1.55}
+@media (max-width:640px){.logic-mini-grid{grid-template-columns:1fr}}
+.month-wrap{margin-top:16px}
+.table-title{font-size:13px;color:var(--gold2);font-weight:950;text-transform:uppercase;letter-spacing:.08em}
+.month-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.month{padding:11px;border-radius:14px;background:rgba(0,0,0,.20)}
+.month span{display:block;font-size:10px;color:var(--mut);font-weight:950;margin-bottom:5px}.month b{font-size:15px;color:var(--green2);font-weight:950}
+.tax-box{margin-top:16px;padding:16px;border-color:rgba(79,195,247,.22);background:linear-gradient(180deg,rgba(4,22,30,.82),rgba(3,12,18,.9))}
+.tax-main{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+.tax-title{font-size:13px;color:var(--cyan2);font-weight:950;letter-spacing:.08em;text-transform:uppercase}
+.tax-copy{margin-top:7px;color:var(--soft);font-size:12.5px;line-height:1.55}
+.tax-num{text-align:right;color:var(--gold2);font-weight:950;font-size:28px;white-space:nowrap}
+.tax-num span{display:block;font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;font-weight:950;margin-bottom:6px}
+.tax-toggle{margin-top:12px;border:1px solid rgba(255,211,122,.30);background:rgba(255,211,122,.07);color:var(--gold2);border-radius:999px;padding:9px 12px;font-weight:950;font-size:12px;cursor:pointer}
+.tax-detail{display:none;margin-top:12px;border-top:1px solid rgba(79,195,247,.12);padding-top:12px;color:var(--soft);font-size:12px;line-height:1.58}
+.tax-detail.open{display:block}
+.tax-detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}
+.tax-detail-grid div{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.055);border-radius:12px;padding:10px}
+.tax-detail-grid span{display:block;color:var(--mut);font-size:10px;font-weight:950;text-transform:uppercase;margin-bottom:5px}.tax-detail-grid b{color:var(--cyan2);font-size:16px}
+.warn-box{margin-top:16px;padding:15px;border-color:rgba(255,107,107,.32);background:rgba(34,8,10,.72)}
+.warn-title{font-size:13px;color:var(--red);font-weight:950;text-transform:uppercase;letter-spacing:.08em;margin-bottom:9px}
+.warn-text{color:#E9B4AE;font-size:12.6px;line-height:1.65}
+.footer-note{text-align:center;color:rgba(143,234,255,.35);font-size:10px;margin-top:24px}
+/* flexible member editor */
+.member-tools{margin-top:8px;display:grid;gap:9px}
+.member-row{padding:11px;border-radius:16px;background:rgba(0,0,0,.19);display:grid;grid-template-columns:56px 1fr 88px;gap:10px;align-items:center;cursor:pointer}
+.member-row.active,.member-row.self{border-color:rgba(0,200,151,.42);box-shadow:0 0 30px rgba(0,200,151,.10),inset 0 1px 0 rgba(255,255,255,.04)}
+.member-row.other{border-color:rgba(79,195,247,.16)}
+.mem-id{font-size:12px;font-weight:950;color:var(--cyan2);text-align:center;background:rgba(79,195,247,.10);border:1px solid rgba(79,195,247,.20);border-radius:10px;padding:7px 0}
+.member-row.self .mem-id{color:var(--green2);background:rgba(0,200,151,.12);border-color:rgba(0,200,151,.28)}
+.member-row.self .mem-main label{color:#c8f8e8}
+.member-row.self .mem-main label b{color:var(--green2)}
+.member-row.other .mem-main label b{color:var(--cyan2)}
+.member-row.other .mem-value{border-color:rgba(79,195,247,.22);background:rgba(79,195,247,.06);color:var(--cyan2)}
+.member-row.other .mem-step button{border-color:rgba(79,195,247,.18);background:rgba(79,195,247,.07);color:var(--cyan2)}
+.member-row.self .mem-step button{border-color:rgba(0,200,151,.24);background:rgba(0,200,151,.08);color:var(--green2)}
+.mem-main label{display:flex;justify-content:space-between;color:var(--mut);font-weight:950;font-size:10px;text-transform:uppercase;letter-spacing:.055em;margin-bottom:7px}
+.mem-main label b{color:var(--green2);font-size:12px;letter-spacing:0;text-transform:none}
+.mem-sliderline{display:grid;grid-template-columns:1fr 104px;gap:8px;align-items:center}
+.mem-value{height:30px;width:100%;border-radius:9px;border:1px solid rgba(0,200,151,.24);background:rgba(0,200,151,.07);color:var(--green2);font-size:12px;font-weight:950;text-align:right;padding:0 8px;outline:none;font-family:inherit}
+.mem-value:focus{border-color:rgba(255,211,122,.58);box-shadow:0 0 20px rgba(255,211,122,.12)}
+.mem-step{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.mem-step button{height:28px;border-radius:9px;border:1px solid rgba(79,195,247,.18);background:rgba(79,195,247,.07);color:var(--cyan2);font-size:11px;font-weight:950;cursor:pointer}
+.mem-step button.plus{border-color:rgba(0,200,151,.25);background:rgba(0,200,151,.09);color:var(--green2)}
+.selected-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+.sel-btn{border:1px solid rgba(79,195,247,.18);background:rgba(79,195,247,.07);color:var(--cyan2);border-radius:999px;padding:7px 10px;font-size:11px;font-weight:950;cursor:pointer}
+.sel-btn.active{background:rgba(0,200,151,.16);color:var(--green2);border-color:rgba(0,200,151,.44);box-shadow:0 0 20px rgba(0,200,151,.10)}
+.member-legend{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 4px}
+.member-legend span{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.01em}
+.member-legend .legend-you{background:rgba(0,200,151,.09);border:1px solid rgba(0,200,151,.24);color:var(--green2)}
+.member-legend .legend-others{background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.22);color:var(--cyan2)}
+.member-tip{margin:2px 0 6px;color:var(--mut2);font-size:11px;line-height:1.45}
+@media (max-width:900px){.choice-grid,.calc-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.wrap{width:min(100vw - 18px,1180px);padding-top:12px}.topbar{display:block}.limit-chip{justify-content:flex-start;margin-top:12px}h1{font-size:33px}.choice{padding:18px;min-height:auto}.calc-head{display:block}.back-btn{margin-bottom:12px}.calc-title{font-size:25px}.cards,.small-row,.month-grid,.tax-main,.tax-detail-grid{grid-template-columns:1fr}.tax-num{text-align:left}.member-row{grid-template-columns:44px 1fr;gap:9px}.mem-step{grid-column:1/-1}.mem-sliderline{grid-template-columns:1fr 96px}}
+@media (prefers-reduced-motion:reduce){.stars{animation:none}.choice,.panel,.card,.tax-box,.warn-box,.member-row{position:relative;z-index:0;transition:none!important}}
+
+
+/* --- V19 COMPACT RESULT + OLD TAX STYLE --- */
+.calc-grid{grid-template-columns:.98fr 1.02fr!important;gap:12px!important}
+.panel{padding:15px!important;border-radius:21px!important}
+.hero-pair{gap:10px!important;margin-top:9px!important;padding:11px!important;border-radius:18px!important}
+.hero-cell{padding:12px 13px!important;border-radius:15px!important}
+.cards{gap:8px!important;margin-top:11px!important}
+.card{padding:11px!important;border-radius:14px!important}
+.card b{font-size:19px!important}
+.logic-box{margin-top:11px!important;padding:13px!important;border-radius:14px!important}
+.logic-mini-grid{gap:7px!important;margin-top:10px!important}
+.logic-mini{min-height:auto!important;padding:9px!important}
+.month-wrap{margin-top:11px!important}
+.month-grid{grid-template-columns:repeat(6,1fr)!important;gap:6px!important;margin-top:8px!important}
+.month{padding:9px!important;border-radius:12px!important}
+.month b{font-size:14px!important}
+.tax-box{margin-top:11px!important;padding:14px!important;border-radius:16px!important;background:linear-gradient(180deg,rgba(9,18,30,.78),rgba(3,12,18,.92))!important;border:1px solid rgba(79,195,247,.18)!important;box-shadow:0 16px 42px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.035)!important}
+.tax-panel-title{font-size:13px;font-weight:950;color:#CADCFC;margin-bottom:10px;letter-spacing:.02em}
+.tax-note-old{font-size:12px;color:#8A9CC8;line-height:1.65;padding:12px;background:#0D1828;border-radius:12px;border:.5px solid rgba(79,195,247,.14)}
+.tax-note-old strong{color:#4FC3F7;display:block;margin-bottom:6px;font-size:12px}
+.tax-example-old{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.tex{position:relative;border-radius:12px;padding:13px 12px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,.05);transition:border-color .16s ease,box-shadow .16s ease,transform .12s ease;min-height:118px}
+.tex:hover{transform:translateY(-.5px)}
+.tex.t-fut{background:linear-gradient(180deg,rgba(0,200,151,.10),rgba(13,32,24,.82));border-color:rgba(0,200,151,.18)}
+.tex.t-ord{background:linear-gradient(180deg,rgba(255,181,71,.10),rgba(26,20,8,.82));border-color:rgba(255,181,71,.18)}
+.tex.open{box-shadow:0 12px 28px rgba(0,0,0,.26),0 0 22px rgba(79,195,247,.08)}
+.tex .tn{font-size:24px;font-weight:950;margin-bottom:4px;line-height:1;letter-spacing:-.03em}
+.tex.t-fut .tn{color:#00C897;text-shadow:0 0 18px rgba(0,200,151,.12)}
+.tex.t-ord .tn{color:#FFB547;text-shadow:0 0 18px rgba(255,181,71,.10)}
+.tex .tl{font-size:11px;color:#8A9CC8;line-height:1.45}
+.tex .tl strong{font-size:11px}
+.tex-arrow{position:absolute;right:10px;top:8px;color:#6f8aa2;font-size:10px}
+.tex.open .tex-arrow{transform:rotate(180deg)}
+.tax-detail{display:none;margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.06);text-align:left}
+.tex.open .tax-detail{display:block}
+.td-title{font-size:10px;color:#CADCFC;font-weight:950;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.td-row{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#8A9CC8;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.035)}
+.td-row span:last-child{color:#CADCFC;font-weight:900;white-space:nowrap}
+.tax-warn-old{font-size:11px;color:#FFB547;line-height:1.55;margin-top:10px;padding:9px 12px;background:#1A1408;border-radius:10px;border:1px solid rgba(255,181,71,.10)}
+.warn-box{margin-top:11px!important;padding:12px!important;border-radius:14px!important}
+.footer-note{margin-top:18px!important}
+@media (max-width:900px){.month-grid{grid-template-columns:repeat(3,1fr)!important}.tax-example-old{grid-template-columns:1fr}}
+@media (max-width:640px){.calc-grid{grid-template-columns:1fr!important}.month-grid{grid-template-columns:repeat(2,1fr)!important}.panel{padding:12px!important}.tax-box{padding:12px!important}.tex{min-height:auto}.hero-cell.total{text-align:left}}
+
+
+
+/* === V12 FIX: app pages always show the aurora background === */
+html, body {
+  background-color:#020608 !important;
+  background-image:
+    radial-gradient(circle at 24% 8%, rgba(0,200,151,.18), transparent 34%),
+    radial-gradient(circle at 76% 18%, rgba(79,195,247,.13), transparent 34%),
+    linear-gradient(rgba(2,6,8,.34), rgba(2,6,8,.82)),
+    url('../aurora.jpg') !important;
+  background-position:center center !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+  background-attachment:scroll !important;
+}
+body {
+  position:relative !important;
+  isolation:isolate !important;
+}
+body::before {
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:-1 !important;
+  pointer-events:none !important;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(0,200,151,.12), transparent 28%),
+    radial-gradient(circle at 78% 28%, rgba(79,195,247,.10), transparent 30%),
+    radial-gradient(circle at 50% 84%, rgba(255,181,71,.08), transparent 34%) !important;
+  opacity:1 !important;
+  filter:none !important;
+}
+
+</style>
+
+<style id="v13-aurora-exact-background">
+/* V13: exact POI aurora background for standalone app pages */
+html,body{
+  min-height:100% !important;
+  background:#020608 url('../aurora.jpg') center center/cover no-repeat scroll !important;
+}
+body::before{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:-10 !important;
+  background:url('../aurora.jpg') center center/cover no-repeat scroll !important;
+  opacity:1 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+body::after{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:-9 !important;
+  background:transparent !important;
+  opacity:0 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+#view-calc,#view-performance,.view,.site-view,.page-view,.calc-page,.perf-page{
+  background:transparent !important;
+  background-image:none !important;
+}
+#view-calc::before,#view-calc::after,#view-performance::before,#view-performance::after,
+.view::before,.view::after,.site-view::before,.site-view::after,.page-view::before,.page-view::after,
+.calc-page::before,.calc-page::after,.perf-page::before,.perf-page::after{
+  background:transparent !important;
+  background-image:none !important;
+  opacity:0 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+</style>
+
+
+
+<style id="v14-module-motion-bg-css">
+/* V14: main page-ийн aurora + twinkle stars + moving gold network effect-ийг module дотор сэргээв */
+html,body{
+  min-height:100% !important;
+  background:#020608 url('../aurora.jpg') center center/cover no-repeat scroll !important;
+}
+body{position:relative !important; overflow-x:hidden !important;}
+#wbg{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+  opacity:1 !important;
+  filter:none !important;
+}
+.wrap,#view-performance,.perf-wrap,main,.calc-view,.choice-grid,.topbar{
+  position:relative !important;
+  z-index:1 !important;
+}
+/* old static star layer duplicate үүсгэхгүй */
+.stars{display:none !important;}
+</style>
+
+
+<style id="v29-background-force">
+html,body{background:#020608 url('../aurora.jpg') center center/cover no-repeat scroll!important;}
+body::before{background:url('../aurora.jpg') center center/cover no-repeat scroll!important;opacity:.48!important;}
+#view-performance{background:radial-gradient(circle at 24% 8%,rgba(0,200,151,.10),transparent 34%),radial-gradient(circle at 76% 18%,rgba(79,195,247,.08),transparent 34%),linear-gradient(180deg,rgba(0,0,0,.38),rgba(0,0,0,.78))!important;}
+#wbg{position:fixed!important;inset:0!important;z-index:0!important;pointer-events:none!important;}
+</style>
+
+
+<!-- V36 ORIGINAL-UPLOAD ANDROID CHILD SCROLL FIX: keep background/canvas, unlock the actual iframe document -->
+<style id="v36-original-android-child-scroll-fix">
+@media (max-width: 900px), (pointer: coarse){
+  html, body{
+    height:auto !important;
+    min-height:100dvh !important;
+    max-height:none !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    touch-action:pan-y !important;
+    -webkit-overflow-scrolling:touch !important;
+    overscroll-behavior-y:auto !important;
+    background:#040302 !important;
+  }
+  body{
+    position:relative !important;
+  }
+  #wbg{
+    display:block !important;
+    position:fixed !important;
+    inset:0 !important;
+    pointer-events:none !important;
+    z-index:0 !important;
+    opacity:.96 !important;
+    filter:none !important;
+  }
+  #view-home,
+  #view-stage,
+  #view-calc,
+  #view-performance{
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:pan-y !important;
+  }
+  #view-performance{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    height:auto !important;
+    min-height:100dvh !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    padding-bottom:96px !important;
+  }
+  .stage-wrap{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    height:auto !important;
+    min-height:auto !important;
+    overflow:visible !important;
+  }
+}
+</style>
+
+
+<!-- POI V39.1 UNIFIED BACKGROUND: root/app/admin pages use the same aurora + network layer; no extra view background mismatch. -->
+<style id="poi-v39-1-unified-background">
+:root{--poi-bg-url:url('../aurora.jpg');}
+html,body{
+  background-color:#020608!important;
+  background-image:
+    radial-gradient(circle at 18% 8%,rgba(0,200,151,.11),transparent 30%),
+    radial-gradient(circle at 78% 14%,rgba(79,195,247,.09),transparent 32%),
+    linear-gradient(180deg,rgba(2,6,8,.30),rgba(2,6,8,.76)),
+    var(--poi-bg-url)!important;
+  background-size:auto,auto,auto,cover!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+  background-attachment:scroll!important;
+}
+body::before,body:before,body::after,body:after{
+  content:none!important;
+  display:none!important;
+  background:transparent!important;
+  background-image:none!important;
+  opacity:0!important;
+}
+#wbg,#calcWbg{
+  display:block!important;
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  pointer-events:none!important;
+  z-index:0!important;
+  opacity:.96!important;
+  filter:none!important;
+}
+#view-calc,#view-performance,#view-home,#view-stage{
+  background:transparent!important;
+  background-image:none!important;
+  filter:none!important;
+}
+#view-calc::before,#view-calc::after,#view-performance::before,#view-performance::after{
+  content:none!important;
+  display:none!important;
+  background:transparent!important;
+  background-image:none!important;
+}
+#calcframe,#performanceframe{
+  background:transparent!important;
+  color-scheme:dark;
+}
+.stars{display:none!important;}
+.appbar,.deck-nav,.home-inner,.stage,.slide,.main,.wrap,.header,.admin-gate,.admin-box{
+  position:relative;
+}
+@media (max-width:900px),(pointer:coarse){
+  html,body{
+    background-attachment:scroll!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+    touch-action:pan-y!important;
+    overscroll-behavior-y:auto!important;
+  }
+  #wbg,#calcWbg{opacity:.92!important;filter:none!important;}
+}
+</style>
+
+</head>
+<body>
+<canvas id="wbg" aria-hidden="true"></canvas>
+<div class="stars"></div>
+<main class="wrap">
+  <div class="topbar">
+    <div><div class="brand-k">POI Capital Group</div><div class="brand-t">Жижиг тооцоолуур · танилцуулгын харагдац</div></div>
+    <div class="limit-chip"><span class="chip gold">Эхлэх доод хэмжээ $100k</span><span class="chip">Нийт дээд хэмжээ $400k</span><span class="chip">10 гишүүн хүртэл</span></div>
+  </div>
+
+  <section id="landing" class="hero">
+    <div class="kicker">Оролцооны хэлбэрээ эхлээд сонгоно</div>
+    <h1>$100,000+ хамтын дансанд өөрийн боломжит үр дүнг харах</h1>
+    <p class="lead">Энэ жижиг тооцоолуур нь танилцуулгад зориулсан цэвэр зураглал. Хүн өөрийн оруулах дүн, гишүүдийн тоо, хугацаа, сард горилж буй өгөөжийг хөдөлгөж сар бүрийн мөнгөн урсгал, данс хаах үеийн дүн, нийт боломжит өгөөжөө харна.</p>
+    <div class="note-box">Хамтын данс эхлэх доод хэмжээ $100,000. Нийт бүрдэх хөрөнгө $400,000-оос хэтрэхгүй, гишүүдийн тоо 10-аас ихгүй байхаар тооцоолуур хязгаарлагдсан.</div>
+
+    <div class="choice-grid">
+      <article class="choice" data-open="equal">
+        <div class="choice-num">01 · Calculator 1</div>
+        <h2>Ижил дүнтэй бүлэг</h2>
+        <p class="choice-text">Бүх гишүүн адил хэмжээний капитал оруулж байгаа үед ашиглана. Жишээ нь 10 хүн × $10,000, 5 хүн × $20,000, 2 хүн × $50,000.</p>
+        <div class="choice-list"><span><b>•</b> Нэг гишүүний оруулах дүнг сонгоно</span><span><b>•</b> Гишүүдийн тоог 1–10 дотор хөдөлгөнө</span><span><b>•</b> Сарын хуваарилалт тэнцүү зарчмаар гарна</span></div>
+        <button class="open-btn">Энэ хувилбараар тооцох →</button>
+      </article>
+      <article class="choice" data-open="weighted">
+        <div class="choice-num">02 · Calculator 2</div>
+        <h2>Өөр өөр дүнтэй бүлэг</h2>
+        <p class="choice-text">Гишүүд өөр өөр дүнгээр оролцож байгаа үед ашиглана. Хүн бүрийн оруулах дүнг тус тусад нь оруулаад, өөрийн гишүүний дугаараа сонгож өөрт ногдох үр дүнгээ харна.</p>
+        <div class="choice-list"><span><b>•</b> 1–10 гишүүн тус бүрийн дүнг оруулна</span><span><b>•</b> Нийт хөрөнгө $400k хүртэл хязгаарлагдана</span><span><b>•</b> Өөрийн эзлэх хувиар ногдох дүн гарна</span></div>
+        <button class="open-btn">Энэ хувилбараар тооцох →</button>
+      </article>
+    </div>
+  </section>
+
+  <section id="equal" class="calc-view">
+    <div class="calc-head"><div><div class="calc-title">Ижил дүнтэй бүлгийн тооцоо</div><p class="calc-sub">Гишүүн бүр адил дүнгээр оролцож байгаа үед нэг гишүүнд ногдох сар бүрийн хуваарилалт, данс хаах үеийн дүн, нийт боломжит өгөөжийг харуулна.</p></div></div>
+    <div class="calc-grid">
+      <div class="panel controls">
+        <div class="control"><label>Нэг гишүүний оруулах дүн <b id="eqAmountLbl"></b></label><input id="eqAmount" type="range" min="5000" max="100000" step="1000" value="10000"></div>
+        <div class="control"><label>Гишүүдийн тоо <b id="eqMembersLbl"></b></label><input id="eqMembers" type="range" min="1" max="10" step="1" value="10"></div>
+        <div class="control"><label>Хугацаа <b id="eqMonthsLbl"></b></label><input id="eqMonths" type="range" min="3" max="24" step="1" value="12"></div>
+        <div class="control"><label>Сард горилж буй өгөөж <b id="eqRoiLbl"></b></label><input id="eqRoi" type="range" min="5" max="20" step="1" value="10"></div>
+        <div class="small-row"><div class="mini-card"><span>Хамтын дансны хэмжээ</span><b id="eqCapital"></b></div><div class="mini-card gold"><span>Дээд хязгаар</span><b>$400k / 10 хүн</b></div></div>
+        <div id="eqMinCard" class="mini-card status-bad"><span>Хамтын дансны төлөв</span><b id="eqMinText"></b></div>
+        <div class="subnav-row"><button class="back-btn subnav" data-back>‹ Сонголт руу буцах</button></div>
+      </div>
+      <div class="panel result"><div id="eqResult"></div></div>
+    </div>
+  </section>
+
+  <section id="weighted" class="calc-view">
+    <div class="calc-head"><div><div class="calc-title">Өөр өөр дүнтэй бүлгийн тооцоо</div><p class="calc-sub">Гишүүдийн оруулсан дүн өөр үед хүн бүрийн капитал тусдаа бүртгэгдэнэ. Өөрийн гишүүний дугаараа сонгоход зөвхөн өөрт ногдох сар бүрийн хуваарилалт, данс хаах үеийн дүн, нийт зураглал гарна.</p></div></div>
+    <div class="calc-grid">
+      <div class="panel controls">
+        <div class="control"><label>Гишүүдийн тоо <b id="wtMembersLbl"></b></label><input id="wtMembers" type="range" min="1" max="10" step="1" value="5"></div>
+        <div class="selected-row" id="selfButtons"></div>
+        <div class="member-legend"><span class="legend-you">Ногоон = таны оруулах дүн</span><span class="legend-others">Cyan = бусад гишүүд</span></div>
+        <div class="member-tip">Мөрөн дээр шууд дарж “Таны дүн”-гээ сольж болно.</div>
+        <div class="member-tools" id="memberTools"></div>
+        <div class="control"><label>Хугацаа <b id="wtMonthsLbl"></b></label><input id="wtMonths" type="range" min="3" max="24" step="1" value="12"></div>
+        <div class="control"><label>Сард горилж буй өгөөж <b id="wtRoiLbl"></b></label><input id="wtRoi" type="range" min="5" max="20" step="1" value="10"></div>
+        <div class="small-row"><div class="mini-card"><span>Нийт хөрөнгө</span><b id="wtTotal"></b></div><div class="mini-card gold"><span>Таны эзлэх хувь</span><b id="wtShare"></b></div></div>
+        <div id="wtMinCard" class="mini-card status-bad"><span>Хамтын дансны төлөв</span><b id="wtMinText"></b></div>
+        <div class="subnav-row"><button class="back-btn subnav" data-back>‹ Сонголт руу буцах</button></div>
+      </div>
+      <div class="panel result"><div id="wtResult"></div></div>
+    </div>
+  </section>
+
+  <div class="footer-note">POI Capital Group · Жижиг тооцоолуур · V15</div>
+</main>
+<script>
+(function(){
+  var fmt = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+  var MAX_CAPITAL=400000, MIN_CAMPAIGN=100000, MAX_MEMBERS=10, MIN_AMOUNT=5000, STEP=1000;
+  var memberAmounts=[20000,20000,20000,20000,20000,10000,10000,10000,10000,10000];
+  var selectedMember=0;
+  function money(n){return fmt.format(Math.round(Number(n)||0));}
+  function pct(n){return (Math.round(n*10)/10).toLocaleString('en-US')+'%';}
+  function byId(id){return document.getElementById(id);}
+  function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
+  function stepPct(n){n=Number(n)||1; if(n===1)return .50; if(n===2)return .40; if(n===3)return .30; if(n===4)return .25; return .20;}
+  function calcSeries(startCapital, months, roiPct){
+    var bal=Math.round(startCapital), rows=[], totalDist=0, totalCost=0, totalScale=0;
+    for(var m=1;m<=months;m++){
+      var start=bal, gross=Math.round(start*roiPct/100), cost=Math.round(gross*.02), scale=Math.round(gross*.50), dist=gross-cost-scale;
+      bal=start+scale; totalDist+=dist; totalCost+=cost; totalScale+=scale;
+      rows.push({m:m,start:start,gross:gross,cost:cost,scale:scale,dist:dist,end:bal});
+    }
+    return {rows:rows,finalBalance:bal,totalDist:totalDist,totalCost:totalCost,totalScale:totalScale};
+  }
+  function statusText(capital){
+    if(capital < MIN_CAMPAIGN) return 'Доод хэмжээ $100k хүрээгүй · одоо '+money(capital);
+    if(capital > MAX_CAPITAL) return 'Дээд хэмжээ $400k хэтэрсэн · одоо '+money(capital);
+    return 'Хамтын дансны хүрээнд байна · '+money(capital);
+  }
+  function statusClass(capital){
+    if(capital < MIN_CAMPAIGN) return 'mini-card status-bad';
+    if(capital > MAX_CAPITAL) return 'mini-card status-cap';
+    return 'mini-card status-ok';
+  }
+  function setCampaignStatus(cardId, textId, capital){
+    var card=byId(cardId), txt=byId(textId);
+    if(card) card.className=statusClass(capital);
+    if(txt) txt.textContent=statusText(capital);
+  }
+  function enforceEqualCap(){
+    var members=+byId('eqMembers').value;
+    var maxAmount=Math.floor(MAX_CAPITAL/members/STEP)*STEP;
+    var inp=byId('eqAmount'); inp.max=maxAmount;
+    if(+inp.value>maxAmount) inp.value=maxAmount;
+  }
+  function enforceWeightedCap(changedIndex){
+    var members=+byId('wtMembers').value;
+    if(selectedMember>=members) selectedMember=members-1;
+    for(var i=0;i<members;i++) memberAmounts[i]=clamp(Math.round((memberAmounts[i]||MIN_AMOUNT)/STEP)*STEP, MIN_AMOUNT, MAX_CAPITAL);
+    var total=memberAmounts.slice(0,members).reduce(function(a,b){return a+b;},0);
+    if(total>MAX_CAPITAL){
+      var idx=(typeof changedIndex==='number')?changedIndex:members-1;
+      var others=0; for(var j=0;j<members;j++) if(j!==idx) others+=memberAmounts[j];
+      memberAmounts[idx]=Math.max(MIN_AMOUNT, Math.floor((MAX_CAPITAL-others)/STEP)*STEP);
+      total=memberAmounts.slice(0,members).reduce(function(a,b){return a+b;},0);
+      if(total>MAX_CAPITAL){
+        for(var k=members-1;k>=0 && total>MAX_CAPITAL;k--){
+          var cut=Math.min(memberAmounts[k]-MIN_AMOUNT, total-MAX_CAPITAL);
+          cut=Math.ceil(cut/STEP)*STEP;
+          memberAmounts[k]=Math.max(MIN_AMOUNT,memberAmounts[k]-cut);
+          total=memberAmounts.slice(0,members).reduce(function(a,b){return a+b;},0);
+        }
+      }
+    }
+  }
+  function taxBox(annualIncome, memberCount, variant){
+    annualIncome=Math.max(0,Math.round(annualIncome||0));
+    memberCount=Math.max(1,Math.round(memberCount||1));
+    var futTax=Math.round(annualIncome*.60*.15 + annualIncome*.40*.22);
+    var ordTax=Math.round(annualIncome*.22);
+    var save=Math.max(0,ordTax-futTax);
+    var after=Math.max(0,annualIncome-futTax);
+    var allFut=futTax*memberCount;
+    var allOrd=ordTax*memberCount;
+    var allLabel = variant==='equal' ? `<div class="td-row" style="color:rgba(255,181,71,.72)"><span>Бүх ${memberCount} гишүүний нийт татвар</span><span>${money(allFut)}</span></div>` : ``;
+    var allOrdLabel = variant==='equal' ? `<div class="td-row" style="margin-top:4px;border-top:1px solid rgba(255,255,255,.05);padding-top:6px;color:rgba(255,181,71,.62)"><span>Бүх ${memberCount} гишүүний нийт татвар</span><span>${money(allOrd)}</span></div>` : ``;
+    return `<div class="tax-box"><div class="tax-panel-title">Татварын талаар — товч тайлбар</div>
+      <div class="tax-note-old"><strong>Фьючерс арилжааны ашигт АНУ-д тусгай дүрэм ногддог</strong>Ердийн ажил эсвэл хувьцааны орлоготой харьцуулахад фьючерсийн татварын зураглал өөр байж болно. Нийт ашгийн 60% нь урт хугацааны, 40% нь богино хугацааны хэсгээр тооцогдох боломжтой. Нарийвчлал нь таны мэдүүлгийн төрөл, нийт орлого, мужийн татвар болон тухайн жилийн нөхцөлөөс хамаарна.</div>
+      <div class="tax-example-old">
+        <div class="tex t-fut" data-tax-card><span class="tex-arrow">▼</span><div class="tn">${money(futTax)}</div><div class="tl"><strong style="color:#00C897">Фьючерс 60/40 дүрэм</strong><br>Сонгосон гишүүний жилийн татвар · дарж дэлгэрэнгүй харах</div><div class="tax-detail"><div class="td-title">Сонгосон гишүүний тооцоолол</div><div class="td-row"><span>Жилийн орлого</span><span>${money(annualIncome)}</span></div><div class="td-row"><span>60% × 15% (урт хугацааны)</span><span>${money(Math.round(annualIncome*.60*.15))}</span></div><div class="td-row"><span>40% × 22% (богино хугацааны)</span><span>${money(Math.round(annualIncome*.40*.22))}</span></div><div class="td-row" style="color:rgba(0,200,151,.86)"><span>Нэг гишүүний жилийн татвар</span><span>${money(futTax)}</span></div>${allLabel}<div class="td-row" style="margin-top:4px;border-top:1px solid rgba(255,255,255,.05);padding-top:6px"><span>Татварын дараах цэвэр орлого</span><span>${money(after)}</span></div></div></div>
+        <div class="tex t-ord" data-tax-card><span class="tex-arrow">▼</span><div class="tn">${money(ordTax)}</div><div class="tl"><strong style="color:#FFB547">Ердийн орлого 22%</strong><br>Нэг гишүүний жилийн татвар · харьцуулалт</div><div class="tax-detail"><div class="td-title">Харьцуулалт</div><div class="td-row"><span>Жилийн орлого</span><span>${money(annualIncome)}</span></div><div class="td-row"><span>Ердийн 22% татвар</span><span>${money(ordTax)}</span></div><div class="td-row"><span>Фьючерс 60/40 татвар</span><span style="color:#00C897">${money(futTax)}</span></div><div class="td-row" style="color:rgba(0,200,151,.86)"><span>Хэмнэлт</span><span>-${money(save)}</span></div>${allOrdLabel}</div></div>
+      </div></div>`;
+  }
+  function warnBox(){return `<div class="warn-box"><div class="warn-title">Анхааруулга</div><p class="warn-text">Энэ тооцоо нь хамгийн сайн гүйцэтгэлтэй хувилбарыг төсөөлсөн урьдчилсан зураглал бөгөөд өгөөжийн баталгаа биш. Зах зээл савлагаатай байдаг. Сарын ашиг буурах, хуваарилалтын хэмжээ багасах, данс өсгөх явц удаашрах, дансны түр бууралт үүсэх, зарим үед алдагдал хүлээх нөхцөл гарч болно.</p></div>`;}
+  function monthGrid(rows, calcRow){
+    var html=rows.map(function(r){return `<div class="month"><span>${r.m}-р сар</span><b>${money(calcRow(r))}</b></div>`;}).join('');
+    return `<div class="month-wrap"><div class="table-title">Сарын хуваарилалтын дэлгэрэнгүй</div><div class="month-grid">${html}</div></div>`;
+  }
+  function logicBoxHtml(d){
+    return `<div class="logic-box"><div class="logic-title">${d.logicTitle||'Хуваарилалтын логик'}</div>${d.logic}</div>`;
+  }
+  function equalLogicHtml(o){
+    return `<div class="logic-prose">
+      <span class="logic-line">${o.members} гишүүн тус бүр <span class="logic-num green">${money(o.amount)}</span> оруулснаар хамтын дансны нийт хэмжээ <span class="logic-num green">${money(o.capital)}</span> болно.</span>
+      <span class="logic-line">Сарын ашгийн <span class="logic-num gold">50%</span> нь дансанд үлдэж дараагийн сарын үндсэн хэмжээг нэмэгдүүлнэ. Ингэснээр дараагийн сарын боломжит өгөөж өссөн дансны дүн дээр тооцогдоно.</span>
+      <span class="logic-line">Мөн сарын ашгаас <span class="logic-num cyan">2% үйл ажиллагааны зардал</span> тусад нь тооцогдоно.</span>
+      <span class="logic-line">Энэ гишүүний сарын нийт хуваарилалт <span class="logic-num green">${money(o.monthlyTotal)}</span>. 1-р сард <span class="logic-num green">${money(o.first)}</span>, ${o.months}-р сард <span class="logic-num green">${money(o.last)}</span> гэж өсөлтийн дагуу өөрчлөгдөнө.</span>
+      <span class="logic-line">Данс хаах үед анхны капитал <span class="logic-num gold">${money(o.amount)}</span> буцаж, өсөлтийн ашгаас B шатлалын дагуу ногдох ашиг <span class="logic-num green">${money(o.closeProfit)}</span> нэмэгдэнэ.</span>
+      <div class="logic-mini-grid"><div class="logic-mini"><span>Сарын нийт</span><b>${money(o.monthlyTotal)}</b></div><div class="logic-mini gold"><span>Данс хаах үед</span><b>${money(o.closeTotal)}</b></div><div class="logic-mini cyan"><span>Нийт өгөөж</span><b>+${pct(o.roi)}</b></div></div>
+      <div class="logic-note">Өөрөөр хэлбэл, <b>${money(o.amount)}</b> оруулсан нэг гишүүн сар бүрийн мөнгөн урсгал болон данс хаах үеийн буцаалтаа нийлүүлээд <b style="color:var(--green2)">${money(o.total)}</b> авах боломжит зураглал харна.</div>
+    </div>`;
+  }
+  function weightedLogicHtml(o){
+    return `<div class="logic-prose">
+      <span class="logic-line"><span class="logic-num gold">${o.memberNo}-р гишүүн</span> <span class="logic-num green">${money(o.amount)}</span> оруулж, хамтын дансны нийт хэмжээ <span class="logic-num green">${money(o.totalCapital)}</span>-ийн <span class="logic-num green">${pct(o.share*100)}</span>-ийг бүрдүүлж байна.</span>
+      <span class="logic-line">Сарын ашгийн <span class="logic-num gold">50%</span> нь дансанд үлдэж дараагийн сарын үндсэн хэмжээг нэмэгдүүлнэ. Ингэснээр дараагийн сарын боломжит өгөөж өссөн дансны дүн дээр тооцогдоно.</span>
+      <span class="logic-line">Мөн сарын ашгаас <span class="logic-num cyan">2% үйл ажиллагааны зардал</span> тусад нь тооцогдоно. Үлдсэн хуваарилагдах дүнгээс тухайн гишүүний хэсэг нь нийт хөрөнгөд эзлэх хувиар бодогдоно.</span>
+      <span class="logic-line">Энэ гишүүний сарын нийт хуваарилалт <span class="logic-num green">${money(o.monthlyTotal)}</span>, 1-р сард <span class="logic-num green">${money(o.first)}</span>, ${o.months}-р сард <span class="logic-num green">${money(o.last)}</span>.</span>
+      <span class="logic-line">Данс хаах үед оруулсан капитал <span class="logic-num gold">${money(o.amount)}</span> буцаж, өсөлтийн ашгаас өөрийн хувь болох <span class="logic-num green">${money(o.closeProfit)}</span> нэмэгдэнэ.</span>
+      <div class="logic-mini-grid"><div class="logic-mini"><span>Миний хувь</span><b>${pct(o.share*100)}</b></div><div class="logic-mini"><span>Сарын нийт</span><b>${money(o.monthlyTotal)}</b></div><div class="logic-mini gold"><span>Данс хаах үед</span><b>${money(o.closeTotal)}</b></div></div>
+      <div class="logic-note">Өөрөөр хэлбэл, <b>${money(o.amount)}</b> оруулсан нэг гишүүн сар бүрийн мөнгөн урсгал болон данс хаах үеийн буцаалтаа нийлүүлээд <b style="color:var(--green2)">${money(o.total)}</b> авах боломжит зураглал харна.</div>
+    </div>`;
+  }
+  function resultHtml(d){
+    var intro = d.variant==='weighted'
+      ? `<div class="you-strip"><div class="you-chip">Таны оруулсан дүн · ${money(d.invest)}</div><div class="others-chip">Бусад гишүүдийн нийт · ${money(d.othersTotal||0)}</div></div>`
+      : '';
+    return `<div class="result-k">Гол зураглал</div>${intro}<div class="hero-pair"><div class="hero-cell invest"><span class="hero-num">${money(d.invest)}</span><span class="hero-lbl">Таны оруулсан анхны дүн</span></div><div class="hero-arrow">→</div><div class="hero-cell total"><span class="hero-num">${money(d.total)}</span><span class="hero-lbl">Нийт авах боломжит зураглал</span></div></div><p class="result-note">Сар бүрийн боломжит хуваарилалт + данс хаах үед авах үндсэн капитал болон ногдох ашгийн нийлбэр.</p><div class="cards"><div class="card"><span>Сар бүр дундаж авах</span><b>${money(d.avgMonthly)}</b></div><div class="card cyan"><span>Сарын нийт хуваарилалт</span><b>${money(d.monthlyTotal)}</b></div><div class="card"><span>1-р сарын хуваарилалт</span><b>${money(d.firstMonthly)}</b></div><div class="card"><span>Сүүлийн сарын хуваарилалт</span><b>${money(d.lastMonthly)}</b></div><div class="card gold"><span>Данс хаах үед авах</span><b>${money(d.closeTotal)}</b></div><div class="card gold"><span>Данс хаах үеийн ногдох ашиг</span><b>${money(d.closeProfit)}</b></div><div class="card cyan"><span>Нийт өгөөж</span><b>+${pct(d.roi)}</b></div><div class="card"><span>Хугацаа</span><b>${d.months} сар</b></div></div>${logicBoxHtml(d)}${monthGrid(d.rows,d.rowCalc)}${taxBox(d.taxAnnualIncome,d.members,d.variant)}${warnBox()}`;
+  }
+  function renderEqual(){
+    enforceEqualCap();
+    var amount=+byId('eqAmount').value, members=+byId('eqMembers').value, months=+byId('eqMonths').value, roi=+byId('eqRoi').value;
+    var capital=amount*members;
+    byId('eqAmountLbl').textContent=money(amount); byId('eqMembersLbl').textContent=members+' хүн'; byId('eqMonthsLbl').textContent=months+' сар'; byId('eqRoiLbl').textContent=roi+'% сар бүр'; byId('eqCapital').textContent=money(capital); setCampaignStatus('eqMinCard','eqMinText',capital);
+    var s=calcSeries(capital,months,roi), monthlyTotal=0, first=0,last=0;
+    var memberRows=s.rows.map(function(r){var v=Math.round(r.dist/(members+1)); if(r.m===1)first=v; if(r.m===months)last=v; monthlyTotal+=v; return Object.assign({memberMonthly:v},r);});
+    var growth=s.finalBalance-capital, opPct=stepPct(members), memberCloseProfit=Math.round((growth*(1-opPct))/members), closeTotal=amount+memberCloseProfit, total=monthlyTotal+closeTotal;
+    var equalRoi=((total-amount)/amount)*100;
+    var d={variant:'equal',invest:amount,total:total,avgMonthly:monthlyTotal/months,monthlyTotal:monthlyTotal,closeTotal:closeTotal,closeProfit:memberCloseProfit,firstMonthly:first,lastMonthly:last,roi:equalRoi,months:months,members:members,taxAnnualIncome:monthlyTotal/months*12,rows:memberRows,rowCalc:function(r){return r.memberMonthly;},logicTitle:'Хуваарилалтын логик — Ижил дүнтэй бүлэг',logic:equalLogicHtml({members:members,amount:amount,capital:capital,monthlyTotal:monthlyTotal,first:first,last:last,months:months,closeProfit:memberCloseProfit,closeTotal:closeTotal,total:total,roi:equalRoi})};
+    byId('eqResult').innerHTML=resultHtml(d);
+  }
+  function renderMemberTools(){
+    var members=+byId('wtMembers').value; if(selectedMember>=members)selectedMember=members-1; enforceWeightedCap();
+    var btns='', rows='', total=memberAmounts.slice(0,members).reduce(function(a,b){return a+b;},0);
+    for(var i=0;i<members;i++){
+      var share=total?memberAmounts[i]/total*100:0;
+      var isSelf=i===selectedMember;
+      btns+=`<button class="sel-btn ${isSelf?'active':''}" data-self="${i}">${isSelf?'Таны дүн':(i+1)+'-р гишүүн'}</button>`;
+      var remaining=MAX_CAPITAL-(total-memberAmounts[i]);
+      var max=Math.max(MIN_AMOUNT,Math.floor(remaining/STEP)*STEP);
+      rows+=`<div class="member-row ${isSelf?'active self':'other'}" data-row-idx="${i}"><div class="mem-id">${isSelf?'Таны дүн':(i+1)+'-р гишүүн'}</div><div class="mem-main"><label>${isSelf?'Таны оруулах дүн':'Бусад гишүүний дүн'} <b class="mem-stat">${money(memberAmounts[i])} · ${pct(share)}</b></label><div class="mem-sliderline"><input class="mem-range" data-idx="${i}" type="range" min="${MIN_AMOUNT}" max="${max}" step="${STEP}" value="${memberAmounts[i]}"><input class="mem-value" data-idx="${i}" type="number" min="${MIN_AMOUNT}" max="${max}" step="${STEP}" value="${memberAmounts[i]}" inputmode="numeric"></div></div><div class="mem-step"><button data-step="-1000" data-idx="${i}">−1k</button><button class="plus" data-step="1000" data-idx="${i}">+1k</button></div></div>`;
+    }
+    byId('selfButtons').innerHTML=btns; byId('memberTools').innerHTML=rows;
+  }
+  function updateMemberToolLabels(){
+    var members=+byId('wtMembers').value, total=memberAmounts.slice(0,members).reduce(function(a,b){return a+b;},0);
+    for(var i=0;i<members;i++){
+      var share=total?memberAmounts[i]/total*100:0;
+      var remaining=MAX_CAPITAL-(total-memberAmounts[i]);
+      var max=Math.max(MIN_AMOUNT,Math.floor(remaining/STEP)*STEP);
+      var row=document.querySelector('.member-row[data-row-idx="'+i+'"]');
+      if(!row) continue;
+      var isSelf=i===selectedMember;
+      row.classList.toggle('active',isSelf);
+      row.classList.toggle('self',isSelf);
+      row.classList.toggle('other',!isSelf);
+      var idBox=row.querySelector('.mem-id'); if(idBox) idBox.textContent=isSelf?'Таны дүн':(i+1)+'-р гишүүн';
+      var label=row.querySelector('.mem-main label'); if(label){ label.innerHTML=(isSelf?'Таны оруулах дүн':'Бусад гишүүний дүн')+' <b class="mem-stat">'+money(memberAmounts[i])+' · '+pct(share)+'</b>'; }
+      var stat=row.querySelector('.mem-stat'); if(stat) stat.textContent=money(memberAmounts[i])+' · '+pct(share);
+      var range=row.querySelector('.mem-range'); if(range){range.max=max; if(document.activeElement!==range) range.value=memberAmounts[i];}
+      var val=row.querySelector('.mem-value'); if(val){val.max=max; if(document.activeElement!==val) val.value=memberAmounts[i];}
+      var btn=document.querySelector('[data-self="'+i+'"]'); if(btn){ btn.classList.toggle('active',isSelf); btn.textContent=isSelf?'Таны дүн':(i+1)+'-р гишүүн'; }
+    }
+  }
+  function renderWeighted(keepTools){
+    var members=+byId('wtMembers').value; if(members>MAX_MEMBERS){members=MAX_MEMBERS;byId('wtMembers').value=members;} if(members<1){members=1;byId('wtMembers').value=1;}
+    enforceWeightedCap();
+    if(keepTools) updateMemberToolLabels(); else renderMemberTools();
+    var months=+byId('wtMonths').value, roi=+byId('wtRoi').value, total=memberAmounts.slice(0,members).reduce(function(a,b){return a+b;},0), amount=memberAmounts[selectedMember]||MIN_AMOUNT;
+    var share=total?amount/total:0, opPct=stepPct(members);
+    byId('wtMembersLbl').textContent=members+' хүн'; byId('wtMonthsLbl').textContent=months+' сар'; byId('wtRoiLbl').textContent=roi+'% сар бүр'; byId('wtTotal').textContent=money(total); byId('wtShare').textContent=pct(share*100); setCampaignStatus('wtMinCard','wtMinText',total);
+    var s=calcSeries(total,months,roi), monthlyTotal=0, first=0,last=0;
+    var memberRows=s.rows.map(function(r){var op=Math.round(r.dist*opPct); var pool=r.dist-op; var v=Math.round(pool*share); if(r.m===1)first=v; if(r.m===months)last=v; monthlyTotal+=v; return Object.assign({memberMonthly:v},r);});
+    var growth=s.finalBalance-total, closeProfit=Math.round(growth*(1-opPct)*share), closeTotal=amount+closeProfit, finalTotal=monthlyTotal+closeTotal;
+    var weightedRoi=((finalTotal-amount)/amount)*100;
+    var d={variant:'weighted',invest:amount,othersTotal:Math.max(0,total-amount),total:finalTotal,avgMonthly:monthlyTotal/months,monthlyTotal:monthlyTotal,closeTotal:closeTotal,closeProfit:closeProfit,firstMonthly:first,lastMonthly:last,roi:weightedRoi,months:months,members:members,taxAnnualIncome:monthlyTotal/months*12,rows:memberRows,rowCalc:function(r){return r.memberMonthly;},logicTitle:'Хуваарилалтын логик — Өөр өөр дүнтэй бүлэг',logic:weightedLogicHtml({memberNo:selectedMember+1,amount:amount,totalCapital:total,share:share,monthlyTotal:monthlyTotal,first:first,last:last,months:months,closeProfit:closeProfit,closeTotal:closeTotal,total:finalTotal,roi:weightedRoi})};
+    byId('wtResult').innerHTML=resultHtml(d);
+  }
+  function renderAll(){renderEqual();renderWeighted();}
+  document.addEventListener('input',function(e){
+    if(e.target && e.target.classList.contains('mem-range')){
+      var idx=+e.target.getAttribute('data-idx');
+      memberAmounts[idx]=Math.round((+e.target.value)/STEP)*STEP;
+      enforceWeightedCap(idx);
+      e.target.value=memberAmounts[idx];
+      renderWeighted(true);
+      return;
+    }
+    if(e.target && e.target.matches('input[type=range]')) renderAll();
+  });
+  document.addEventListener('change',function(e){
+    if(e.target && e.target.classList.contains('mem-value')){
+      var idx=+e.target.getAttribute('data-idx');
+      memberAmounts[idx]=Math.round((+e.target.value||MIN_AMOUNT)/STEP)*STEP;
+      enforceWeightedCap(idx);
+      renderWeighted(true);
+      return;
+    }
+  });
+  document.addEventListener('click',function(e){
+    var open=e.target.closest('[data-open]'); if(open){var id=open.getAttribute('data-open'); byId('landing').style.display='none'; document.querySelectorAll('.calc-view').forEach(function(v){v.classList.remove('active');}); byId(id).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); return;}
+    if(e.target.closest('[data-back]')){document.querySelectorAll('.calc-view').forEach(function(v){v.classList.remove('active');}); byId('landing').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); return;}
+    var self=e.target.closest('[data-self]'); if(self){selectedMember=+self.getAttribute('data-self'); renderWeighted(true); return;}
+    var step=e.target.closest('[data-step]'); if(step){var idx=+step.getAttribute('data-idx'), delta=+step.getAttribute('data-step'); memberAmounts[idx]=Math.round((memberAmounts[idx]+delta)/STEP)*STEP; enforceWeightedCap(idx); renderWeighted(true); return;}
+    var row=e.target.closest('[data-row-idx]'); if(row && !e.target.classList.contains('mem-range') && !e.target.classList.contains('mem-value')){selectedMember=+row.getAttribute('data-row-idx'); renderWeighted(true); return;}
+    var taxCard=e.target.closest('[data-tax-card]'); if(taxCard){taxCard.classList.toggle('open'); return;}
+    var tax=e.target.closest('[data-tax]'); if(tax){var detail=tax.parentElement.querySelector('.tax-detail'); detail.classList.toggle('open'); tax.textContent=detail.classList.contains('open')?'Тооцооны дэлгэрэнгүй нуух ▴':'Тооцооны дэлгэрэнгүй харах ▾'; return;}
+  });
+  /* V14: mouse-follow glow removed. Static card hover glow is handled by CSS. */
+  renderAll();
+})();
+</script>
+
+
+<script id="v14-poi-motion-background">
+// ---------- Background canvas (gold beams + stars) ----------
+(function(){
+  var cv=document.getElementById('wbg');
+  if(!cv)return;
+  var ctx=cv.getContext('2d');
+  var W=0,H=0,dpr=1,t=0,ready=false;
+  var bgImg=new Image();
+  var stars=[], nodes=[], pulses=[];
+  var reduce=false;
+  try{ reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var mobileBg=false,lastFrame=0,scrollPauseUntil=0,scrollStaticDrawn=false;
+  var fxc=document.createElement('canvas'),fxx=fxc.getContext('2d'),lastFx=-1e9,FX_MS=120;
+  function detectMobileBg(){
+    try{
+      mobileBg=(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent||'')) || (window.matchMedia&&window.matchMedia('(max-width: 820px)').matches) || (window.matchMedia&&window.matchMedia('(pointer: coarse)').matches);
+    }catch(e){mobileBg=(window.innerWidth||0)<821;}
+  }
+  function markBgScroll(){
+    if(!mobileBg)return;
+    scrollPauseUntil=Date.now()+850;
+    scrollStaticDrawn=false;
+  }
+  function bindBgScrollPause(){
+    try{
+      window.addEventListener('scroll',markBgScroll,{passive:true});
+      window.addEventListener('wheel',markBgScroll,{passive:true});
+      window.addEventListener('touchstart',markBgScroll,{passive:true});
+      window.addEventListener('touchmove',markBgScroll,{passive:true});
+    }catch(e){}
+  }
+
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+
+  function resize(){
+    detectMobileBg();
+    bindBgScrollPause();
+    dpr=mobileBg?1:Math.max(1,Math.min(1.35,window.devicePixelRatio||1));
+    W=window.innerWidth; H=window.innerHeight;
+    cv.width=Math.floor(W*dpr); cv.height=Math.floor(H*dpr);
+    cv.style.width=W+'px'; cv.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    fxc.width=cv.width; fxc.height=cv.height;
+    fxx.setTransform(dpr,0,0,dpr,0,0);
+    lastFx=-1e9;
+    buildScene();
+  }
+
+  function buildScene(){
+    stars=[]; nodes=[]; pulses=[];
+    var skyCount=mobileBg?(mobileBg?8:(reduce?10:18)):(reduce?45:70);
+    for(var i=0;i<skyCount;i++){
+      stars.push({
+        x:Math.random(),
+        y:Math.random()*0.48,
+        r:rand(0.45,1.6),
+        a:rand(0.22,0.95),
+        p:rand(0,Math.PI*2),
+        tw:rand(0.0007,0.0022),
+        cool:Math.random()>0.75
+      });
+    }
+    var rows=mobileBg?2:3, cols=mobileBg?Math.max(4,Math.round(W/360)):Math.max(6, Math.round(W/260));
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        nodes.push({
+          bx:(c+0.35+Math.random()*0.45)/cols,
+          by:0.78 + r*0.050 + rand(-0.010,0.010),
+          rx:mobileBg?rand(0.002,0.007):rand(0.006,0.020),
+          ry:mobileBg?rand(0.0005,0.0018):rand(0.0008,0.0032),
+          sp:mobileBg?rand(0.000035,0.000075):rand(0.00006,0.00016),
+          p:rand(0,Math.PI*2),
+          r:rand(1.2,2.6),
+          a:rand(0.45,1)
+        });
+      }
+    }
+    for(var p=0;p<(mobileBg?(reduce?0:3):(reduce?6:10));p++){
+      pulses.push({ edge:-1, prog:Math.random(), sp:mobileBg?rand(0.00035,0.00075):rand(0.00065,0.0017), a:mobileBg?rand(0.08,0.16):rand(0.14,0.30) });
+    }
+  }
+
+  bgImg.onload=function(){ ready=true; };
+  bgImg.src="../aurora.jpg";
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+
+  function drawBgImage(tm){
+    if(!ready){
+      ctx.fillStyle='#02070b';
+      ctx.fillRect(0,0,W,H);
+      return;
+    }
+    var iw=bgImg.naturalWidth||bgImg.width;
+    var ih=bgImg.naturalHeight||bgImg.height;
+    var cover=Math.max(W/iw,H/ih);
+    var scale=cover*1.03;
+    var driftX=Math.sin(tm*0.00006)*W*0.008;
+    var driftY=Math.cos(tm*0.00005)*H*0.006;
+    var dw=iw*scale, dh=ih*scale;
+    var ox=(W-dw)/2 + driftX;
+    var oy=(H-dh)/2 + driftY;
+    ctx.drawImage(bgImg, ox, oy, dw, dh);
+    var vign=ctx.createLinearGradient(0,0,0,H);
+    vign.addColorStop(0,'rgba(0,0,0,0.10)');
+    vign.addColorStop(0.68,'rgba(0,0,0,0.04)');
+    vign.addColorStop(1,'rgba(0,0,0,0.18)');
+    ctx.fillStyle=vign; ctx.fillRect(0,0,W,H);
+  }
+
+  function drawStars(tm){
+    for(var i=0;i<stars.length;i++){
+      var s=stars[i];
+      var x=s.x*W, y=s.y*H;
+      var tw=0.35+0.65*Math.abs(Math.sin(tm*s.tw+s.p));
+      var a=s.a*tw;
+      var r=s.r*(0.7+tw*0.6);
+      var hue=s.cool?'220,245,255':'255,245,220';
+      var g=ctx.createRadialGradient(x,y,0,x,y,r*8);
+      g.addColorStop(0,'rgba('+hue+','+(a*0.9)+')');
+      g.addColorStop(0.3,'rgba('+hue+','+(a*0.22)+')');
+      g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='rgba(255,255,255,'+(a*0.95)+')'; ctx.beginPath(); ctx.arc(x,y,Math.max(0.4,r*0.45),0,Math.PI*2); ctx.fill();
+      if(tw>0.84){
+        var fl=r*6.8;
+        ctx.strokeStyle='rgba(255,255,255,'+(a*0.34)+')';
+        ctx.lineWidth=0.45;
+        ctx.beginPath(); ctx.moveTo(x-fl,y); ctx.lineTo(x+fl,y); ctx.moveTo(x,y-fl*0.65); ctx.lineTo(x,y+fl*0.65); ctx.stroke();
+      }
+    }
+  }
+
+  function drawAurora(tm){
+    var bands=[
+      { x1:-0.08, x2:0.42, y1:0.40, y2:0.22, amp:0.032, speed:0.00014, width:0.22, alpha:0.21 },
+      { x1:0.18, x2:0.66, y1:0.34, y2:0.26, amp:0.020, speed:0.00012, width:0.16, alpha:0.11 },
+      { x1:0.50, x2:1.04, y1:0.23, y2:0.16, amp:0.042, speed:0.00013, width:0.26, alpha:0.23 },
+      { x1:0.60, x2:0.96, y1:0.31, y2:0.24, amp:0.024, speed:0.00015, width:0.17, alpha:0.12 }
+    ];
+    ctx.save();
+    ctx.globalCompositeOperation='screen';
+    for(var b=0;b<bands.length;b++){
+      var band=bands[b];
+      var top=[], bot=[];
+      var steps=mobileBg?28:56;
+      for(var i=0;i<=steps;i++){
+        var u=i/steps;
+        var x=(band.x1 + (band.x2-band.x1)*u)*W;
+        var baseY=(band.y1 + (band.y2-band.y1)*u)*H;
+        var wob=Math.sin(u*7.2 + tm*band.speed + b)*H*band.amp + Math.sin(u*13.2 - tm*band.speed*1.45 + b*1.3)*H*(band.amp*0.48);
+        var y=baseY+wob;
+        var th=H*band.width*(0.78+0.22*Math.sin(u*8.2 + tm*0.00024 + b));
+        top.push([x, y-th*0.5]);
+        bot.push([x, y+th*0.5]);
+      }
+      ctx.beginPath();
+      ctx.moveTo(top[0][0],top[0][1]);
+      for(var t1=1;t1<top.length;t1++) ctx.lineTo(top[t1][0],top[t1][1]);
+      for(var t2=bot.length-1;t2>=0;t2--) ctx.lineTo(bot[t2][0],bot[t2][1]);
+      ctx.closePath();
+      var grad=ctx.createLinearGradient(0, top[0][1], 0, bot[Math.floor(bot.length/2)][1]);
+      grad.addColorStop(0,'rgba(105,255,224,'+band.alpha+')');
+      grad.addColorStop(0.42,'rgba(42,240,205,'+(band.alpha*0.78)+')');
+      grad.addColorStop(0.76,'rgba(18,160,220,'+(band.alpha*0.46)+')');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      if('filter' in ctx) ctx.filter='blur('+ (mobileBg?8:(reduce?10:18)) +'px)';
+      ctx.fillStyle=grad;
+      ctx.fill();
+      if('filter' in ctx) ctx.filter='none';
+
+      // vertical curtain strands
+      if('filter' in ctx) ctx.filter='blur('+(mobileBg?3:(reduce?4:7))+'px)';
+      var strands=mobileBg?8:28;
+      for(var s=0;s<strands;s++){
+        var uu=s/(strands-1);
+        var sx=(band.x1 + (band.x2-band.x1)*uu)*W;
+        var sy=(band.y1 + (band.y2-band.y1)*uu)*H + Math.sin(uu*7.8 + tm*band.speed + b)*H*band.amp;
+        var len=H*(0.08 + 0.06*Math.abs(Math.sin(tm*0.00038 + uu*6 + b)));
+        ctx.strokeStyle='rgba(90,255,220,'+(band.alpha*0.18)+')';
+        ctx.lineWidth=1.2;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy-len*0.18);
+        ctx.quadraticCurveTo(sx+Math.sin(tm*0.00022+s)*10, sy+len*0.30, sx+Math.cos(tm*0.00016+s)*7, sy+len);
+        ctx.stroke();
+      }
+      if('filter' in ctx) ctx.filter='none';
+    }
+    ctx.restore();
+  }
+
+  function drawReflection(tm){
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0,H*0.60,W,H*0.40);
+    ctx.clip();
+    ctx.globalCompositeOperation='screen';
+    ctx.globalAlpha=0.30;
+    var bands=[
+      { x1:0.04, x2:0.48, y1:0.79, y2:0.69, amp:0.018, speed:0.00022, width:0.11, alpha:0.12 },
+      { x1:0.58, x2:0.96, y1:0.68, y2:0.74, amp:0.024, speed:0.00018, width:0.14, alpha:0.14 }
+    ];
+    for(var b=0;b<bands.length;b++){
+      var band=bands[b];
+      var top=[], bot=[];
+      var steps=mobileBg?22:36;
+      for(var i=0;i<=steps;i++){
+        var u=i/steps;
+        var x=(band.x1 + (band.x2-band.x1)*u)*W;
+        var baseY=(band.y1 + (band.y2-band.y1)*u)*H;
+        var wob=Math.sin(u*8.6 + tm*band.speed + b)*H*band.amp + Math.sin(u*14.5 - tm*band.speed*1.5)*H*(band.amp*0.35);
+        var y=baseY+wob;
+        var th=H*band.width*(0.72+0.28*Math.sin(u*7 + tm*0.0002));
+        top.push([x, y-th*0.42]);
+        bot.push([x, y+th*0.42]);
+      }
+      ctx.beginPath(); ctx.moveTo(top[0][0],top[0][1]);
+      for(var k=1;k<top.length;k++) ctx.lineTo(top[k][0],top[k][1]);
+      for(var q=bot.length-1;q>=0;q--) ctx.lineTo(bot[q][0],bot[q][1]);
+      ctx.closePath();
+      var grad=ctx.createLinearGradient(0, top[0][1], 0, bot[Math.floor(bot.length/2)][1]);
+      grad.addColorStop(0,'rgba(60,255,210,'+band.alpha+')');
+      grad.addColorStop(0.5,'rgba(30,170,220,'+(band.alpha*0.6)+')');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      if('filter' in ctx) ctx.filter='blur('+(mobileBg?6:(reduce?8:14))+'px)';
+      ctx.fillStyle=grad; ctx.fill();
+      if('filter' in ctx) ctx.filter='none';
+    }
+    // subtle shimmer lines
+    for(var y=H*0.64; y<H*0.95; y+=26){
+      ctx.strokeStyle='rgba(120,255,255,0.02)';
+      ctx.lineWidth=1;
+      ctx.beginPath();
+      ctx.moveTo(0,y);
+      ctx.bezierCurveTo(W*0.25,y+Math.sin(tm*0.0002+y)*2.4,W*0.75,y+Math.cos(tm*0.00018+y)*2.4,W,y+Math.sin(tm*0.00016+y)*2.0);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function updateNodes(tm){
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i];
+      n.x = n.bx + Math.sin(tm*n.sp + n.p)*n.rx;
+      n.y = n.by + Math.cos(tm*n.sp*0.9 + n.p)*n.ry;
+    }
+  }
+
+  function buildEdges(){
+    var edges=[];
+    var maxDist=Math.min(W,H)*(mobileBg?0.095:0.125);
+    for(var i=0;i<nodes.length;i++){
+      for(var j=i+1;j<nodes.length;j++){
+        var a=nodes[i], b=nodes[j];
+        var x1=a.x*W, y1=a.y*H, x2=b.x*W, y2=b.y*H;
+        var dx=x1-x2, dy=y1-y2;
+        var d=Math.sqrt(dx*dx+dy*dy);
+        if(d<maxDist) edges.push({a:i,b:j,d:d});
+      }
+    }
+    return edges;
+  }
+
+  function drawNetwork(tm){
+    updateNodes(tm);
+    var edges=buildEdges();
+    ctx.save();
+    ctx.globalCompositeOperation='screen';
+    for(var e=0;e<edges.length;e++){
+      var ed=edges[e], a=nodes[ed.a], b=nodes[ed.b];
+      var x1=a.x*W, y1=a.y*H, x2=b.x*W, y2=b.y*H;
+      var alpha=clamp(0.20 - ed.d/(Math.min(W,H)*1.0), 0.04, 0.14);
+      var grad=ctx.createLinearGradient(x1,y1,x2,y2);
+      grad.addColorStop(0,'rgba(255,182,60,'+(alpha*0.9)+')');
+      grad.addColorStop(0.5,'rgba(255,220,132,'+(alpha*0.55)+')');
+      grad.addColorStop(1,'rgba(255,182,60,'+(alpha*0.85)+')');
+      ctx.strokeStyle=grad;
+      ctx.lineWidth=0.75;
+      ctx.shadowColor='rgba(255,176,64,'+(alpha*0.55)+')';
+      ctx.shadowBlur=6;
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    }
+    // moving pulses along lines
+    for(var p=0;p<pulses.length && edges.length;p++){
+      var pulse=pulses[p];
+      if(pulse.edge<0 || pulse.edge>=edges.length) pulse.edge=Math.floor(Math.random()*edges.length);
+      pulse.prog += pulse.sp*(mobileBg?0.38:(reduce?0.55:0.72));
+      if(pulse.prog>1){ pulse.prog=0; pulse.edge=Math.floor(Math.random()*edges.length); }
+      var edg=edges[pulse.edge];
+      var aa=nodes[edg.a], bb=nodes[edg.b];
+      var sx=aa.x*W, sy=aa.y*H, ex=bb.x*W, ey=bb.y*H;
+      var px=sx+(ex-sx)*pulse.prog;
+      var py=sy+(ey-sy)*pulse.prog;
+      var tail=Math.max(0,pulse.prog-0.20);
+      var tx=sx+(ex-sx)*tail;
+      var ty=sy+(ey-sy)*tail;
+      var tg=ctx.createLinearGradient(tx,ty,px,py);
+      tg.addColorStop(0,'rgba(255,200,90,0)');
+      tg.addColorStop(1,'rgba(255,240,188,'+(pulse.a)+')');
+      ctx.strokeStyle=tg; ctx.lineWidth=1.15; ctx.shadowBlur=9; ctx.shadowColor='rgba(255,210,120,'+(pulse.a*0.52)+')';
+      ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(px,py); ctx.stroke();
+      var rg=ctx.createRadialGradient(px,py,0,px,py,8);
+      rg.addColorStop(0,'rgba(255,250,220,'+(pulse.a*1.08)+')');
+      rg.addColorStop(0.24,'rgba(255,205,92,'+(pulse.a*0.68)+')');
+      rg.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(px,py,10,0,Math.PI*2); ctx.fill();
+    }
+    // nodes
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i], x=n.x*W, y=n.y*H;
+      var tw=0.42+0.58*Math.abs(Math.sin(tm*0.0012+n.p));
+      var rr=n.r*(0.85+tw*0.5);
+      var glow=ctx.createRadialGradient(x,y,0,x,y,rr*8);
+      glow.addColorStop(0,'rgba(255,242,205,'+(n.a*tw*0.92)+')');
+      glow.addColorStop(0.28,'rgba(255,184,70,'+(n.a*tw*0.42)+')');
+      glow.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(x,y,rr*8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='rgba(255,228,160,'+(n.a*tw)+')'; ctx.beginPath(); ctx.arc(x,y,rr,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function frame(ts){
+    if(mobileBg && Date.now()<scrollPauseUntil){
+      if(!scrollStaticDrawn){ctx.clearRect(0,0,W,H);try{drawBgImage(ts||0);}catch(e){}scrollStaticDrawn=true;}
+      requestAnimationFrame(frame);return;
+    }
+    scrollStaticDrawn=false;
+    if(mobileBg && ts-lastFrame<100){requestAnimationFrame(frame);return;}
+    if(!mobileBg && ts-lastFrame<33){requestAnimationFrame(frame);return;}
+    lastFrame=ts||0;
+    t=ts||0;
+    ctx.clearRect(0,0,W,H);
+    drawBgImage(t);
+    if(mobileBg){
+      drawAurora(t);
+    }else{
+      if(t-lastFx>=FX_MS){
+        lastFx=t;
+        fxx.setTransform(dpr,0,0,dpr,0,0);
+        fxx.clearRect(0,0,W,H);
+        var _mainCtx=ctx; ctx=fxx;
+        try{ drawAurora(t); drawReflection(t); }finally{ ctx=_mainCtx; }
+      }
+      ctx.save();
+      ctx.globalCompositeOperation='screen';
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.drawImage(fxc,0,0);
+      ctx.restore();
+    }
+    drawStars(t);
+    drawNetwork(t);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+
+
+
+<script id="v36-original-android-child-height-ping">
+(function(){
+  function h(){
+    var d=document.documentElement,b=document.body;
+    return Math.max(d?d.scrollHeight:0,d?d.offsetHeight:0,b?b.scrollHeight:0,b?b.offsetHeight:0,window.innerHeight||0);
+  }
+  function ping(){
+    try{ if(parent && parent!==window) parent.postMessage({poiFrameHeight:h(),poiFramePath:location.pathname}, '*'); }catch(e){}
+  }
+  window.addEventListener('load', function(){ping();setTimeout(ping,300);setTimeout(ping,1200);}, {passive:true});
+  window.addEventListener('resize', ping, {passive:true});
+  window.addEventListener('orientationchange', function(){setTimeout(ping,350);}, {passive:true});
+  document.addEventListener('input', function(){setTimeout(ping,80);}, true);
+  document.addEventListener('click', function(){setTimeout(ping,120);}, true);
+  try{ new MutationObserver(function(){setTimeout(ping,60);}).observe(document.documentElement,{childList:true,subtree:true,attributes:true}); }catch(e){}
+  ping();
+})();
+</script>
+
+</body>
+</html>

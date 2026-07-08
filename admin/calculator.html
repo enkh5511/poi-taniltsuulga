@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Хөрөнгө Оруулалтын Тооцоолол</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:transparent;color:#E0E8F0;min-height:100vh;-webkit-font-smoothing:antialiased}
+.header{background:rgba(6,10,20,0.54);padding:1.4rem 2rem 1.15rem;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.65rem;text-align:center;border-bottom:1px solid rgba(255,255,255,.04)}
+.header-left{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.eyebrow{font-size:10px;letter-spacing:.15em;color:#FFB547;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+.header h1{font-size:20px;font-weight:700;color:#fff;line-height:1.2;margin:0;text-shadow:0 0 14px rgba(255,181,71,.12)}
+.header-right{display:none}
+.main{max-width:1100px;margin:0 auto;padding:1.5rem 1.5rem 3rem;position:relative;z-index:1}
+
+.panel,.choice-panel{position:relative;overflow:hidden;transform-style:preserve-3d;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;backdrop-filter:none;-webkit-backdrop-filter:none}
+.panel{background:rgba(8,16,26,0.66);border-radius:14px;border:0.5px solid rgba(79,195,247,.16);padding:1.5rem 2rem;margin-bottom:1.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem 2rem;box-shadow:0 8px 22px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.03)}
+.choice-panel{border-color:rgba(79,195,247,.16)!important;box-shadow:0 8px 22px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.03)}
+.panel.is-lit,.choice-panel.is-lit{border-color:rgba(79,195,247,.42)!important;box-shadow:0 18px 46px rgba(0,0,0,.32),0 0 34px rgba(79,195,247,.20),0 0 18px rgba(0,200,151,.10),inset 0 1px 0 rgba(255,255,255,.04)}
+.sg label{display:flex;justify-content:space-between;font-size:12px;color:#5A7A9A;margin-bottom:6px}
+.sg label span{font-size:14px;font-weight:700;color:#4FC3F7}
+input[type=range]{width:100%;accent-color:#4FC3F7;cursor:pointer}
+.chips{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.chip{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600}
+.chip-cost{background:rgba(255,255,255,.08);color:#888}
+.chip-scale{background:rgba(79,195,247,.15);color:#4FC3F7}
+.chip-share{background:rgba(0,200,151,.15);color:#00C897}
+
+.scenario-row{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center}
+.scen-label{font-size:12px;color:#5A7A9A}
+.scen-btn{font-size:12px;padding:6px 16px;border-radius:20px;border:1.5px solid rgba(0,200,151,.3);background:transparent;color:#5A7A9A;cursor:pointer;transition:all .2s}
+.scen-btn.active{background:#00C897;color:#060A14;border-color:#00C897;font-weight:700}
+.scen-btn:hover{border-color:#00C897;color:#00C897;box-shadow:0 0 14px rgba(0,200,151,.16);transform:translateY(-1px)}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
+.card{background:rgba(10,18,30,0.64);border-radius:12px;padding:1rem 1.25rem;border:0.5px solid rgba(255,255,255,.07);text-align:center}
+.card.hl-green{border:1.5px solid #00C897}
+.card.hl-amber{border:1.5px solid #FFB547}
+.card.dim{opacity:0.45}
+.card .num{font-size:20px;font-weight:700;margin-bottom:4px;line-height:1}
+.card .lbl{font-size:11px;color:#5A7A9A;line-height:1.4}
+
+.persons{display:flex;flex-direction:column;gap:1.25rem;margin-bottom:1.5rem}
+.pcard{background:rgba(10,18,30,0.64);border-radius:14px;padding:1.25rem;border:0.5px solid rgba(255,255,255,.07)}
+.pcard.member-card{background:#0F2A1E;border:2px solid #00C897;box-shadow:0 6px 28px rgba(0,200,151,.2)}
+.pcard.trader-card{background:rgba(13,21,32,0.82);border:0.5px solid rgba(255,255,255,.08)}
+.pc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.pc-who{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#5A7A9A}
+.member-card .pc-who{color:#4FC3F7}
+.pc-total{font-size:24px;font-weight:700;line-height:1}
+.pc-rows{border-top:1px solid rgba(255,255,255,.07);padding-top:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:4px 16px;margin-top:8px}
+.prow{display:flex;justify-content:space-between;font-size:12px;padding:2px 0;color:#5A7A9A}
+.member-card .prow{color:#CADCFC}
+.member-card .prow strong{color:#fff}
+.trader-card .prow strong{color:#8A9CC8}
+.prow strong{color:#C8D8E8;font-weight:600}
+.roi-badge{display:inline-block;margin-top:8px;font-size:13px;font-weight:700;padding:5px 16px;border-radius:20px;background:rgba(0,200,151,.18);color:#00C897;border:0.5px solid rgba(0,200,151,.3)}
+.member-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px}
+.mcard{background:rgba(255,255,255,.06);border-radius:10px;padding:.75rem 1rem}
+.mcard .mn{font-size:14px;font-weight:700;color:#4FC3F7}
+.mcard .ml{font-size:10px;color:#CADCFC;margin-top:2px}
+
+.trader-info{background:rgba(10,18,30,0.64);border-radius:12px;padding:1.25rem;border:0.5px solid rgba(79,195,247,.08);margin-top:10px}
+.trader-info .ti-title{font-size:11px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.ti-rows{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:6px}
+.ti-row{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:#8A9CC8;line-height:1.5}
+.ti-dot{width:4px;height:4px;border-radius:50%;background:#4FC3F7;margin-top:5px;flex-shrink:0}
+
+/* LOGIC — prose style */
+.logic-box{background:rgba(7,17,31,0.62);border:1px solid rgba(79,195,247,.2);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.logic-box .lb-title{font-size:11px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.logic-prose{font-size:13px;color:#CADCFC;line-height:2;display:flex;flex-wrap:wrap;gap:6px 0;align-items:baseline}
+.logic-prose .lt{color:#8A9CC8}
+.logic-prose .lv{color:#4FC3F7;font-weight:600;background:rgba(79,195,247,.1);padding:1px 8px;border-radius:6px;margin:0 3px}
+.logic-prose .lv.green{color:#00C897;background:rgba(0,200,151,.1)}
+.logic-prose .lv.amber{color:#FFB547;background:rgba(255,181,71,.1)}
+.logic-arrow{color:#5A7A9A;margin:0 4px}
+
+.dd-note{font-size:11px;color:#C8A050;margin-bottom:12px;padding:8px 12px;background:rgba(255,181,71,.06);border-radius:8px;border-left:2px solid #FFB547}
+
+.table-wrap{background:rgba(10,18,30,0.64);border:0.5px solid rgba(255,255,255,.06);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;overflow-x:auto}
+.table-wrap h3{font-size:13px;font-weight:700;color:#CADCFC;margin-bottom:4px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+th{font-size:11px;font-weight:600;color:#5A7A9A;text-align:right;padding:5px 8px;border-bottom:1.5px solid rgba(255,255,255,.08);white-space:nowrap}
+th:first-child{text-align:left}
+th.hl{color:#00C897;font-weight:700}
+td{padding:6px 8px;text-align:right;border-bottom:1px solid rgba(255,255,255,.04);color:#C8D8E8}
+td:first-child{text-align:left;color:#5A7A9A;font-weight:600}
+tr.tot td{font-weight:700;color:#4FC3F7;border-top:1.5px solid rgba(79,195,247,.25);border-bottom:none}
+tr.dans td{color:#00C897;font-weight:600;border-bottom:none}
+tr.final td{background:#0F1F4B;color:#fff;font-weight:700}
+tr.final td:first-child{border-radius:6px 0 0 6px}
+tr.final td:last-child{border-radius:0 6px 6px 0}
+
+/* TAX — simple */
+.tax-panel{background:rgba(10,18,30,0.64);border:0.5px solid rgba(255,255,255,.06);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem}
+.tax-panel h3{font-size:13px;font-weight:700;color:#CADCFC;margin-bottom:12px}
+.tax-note{font-size:12px;color:#8A9CC8;line-height:1.8;padding:1rem;background:#0D1828;border-radius:10px;border:0.5px solid rgba(79,195,247,.1)}
+.tax-note strong{color:#4FC3F7;display:block;margin-bottom:6px}
+.tax-example{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.tex{border-radius:10px;padding:1rem;text-align:center}
+.tex.t-fut{background:#0D2018}
+.tex.t-ord{background:#1A1408}
+.tex .tn{font-size:18px;font-weight:700;margin-bottom:3px}
+.tex.t-fut .tn{color:#00C897}
+.tex.t-ord .tn{color:#FFB547}
+.tex .tl{font-size:11px;color:#5A7A9A;line-height:1.5}
+.tax-warn{font-size:11px;color:#FFB547;line-height:1.6;margin-top:10px;padding:.75rem 1rem;background:#1A1408;border-radius:8px}
+
+#wbg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.warn-box{transition:transform .15s ease,box-shadow .15s ease}
+
+/* Tax accordion */
+.tex{cursor:pointer;position:relative;user-select:none}
+.tex-arrow{position:absolute;top:50%;right:1rem;transform:translateY(-50%);font-size:11px;color:rgba(201,168,76,.5);transition:transform .3s}
+.tex.open .tex-arrow{transform:translateY(-50%) rotate(180deg)}
+.tax-detail{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;padding:0 1rem;background:rgba(0,0,0,.2);border-top:0 solid rgba(201,168,76,.1)}
+.tex.open .tax-detail{max-height:300px;padding:.85rem 1rem;border-top:1px solid rgba(201,168,76,.1)}
+.td-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.td-row:last-child{border-bottom:none}
+.td-row span:first-child{color:rgba(150,170,165,.5)}
+.td-row span:last-child{font-weight:600;color:rgba(220,240,235,.7)}
+.td-title{font-size:10px;font-weight:700;color:rgba(201,168,76,.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+
+/* --- CALC BG VISIBILITY FINAL PATCH --- */
+html,body{background:transparent!important}
+#calcWbg{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:0!important;pointer-events:none!important}
+.header,.main{position:relative!important;z-index:1!important}
+body::before{display:none!important}
+.panel,.result-card,.result,.timeline-box,.tax-card,.controls,.summary,.member-result,.card{backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+
+
+/* --- ANDROID CALC PERFORMANCE PATCH --- */
+@media (max-width:820px), (pointer:coarse){
+  #calcWbg{opacity:.68!important;filter:brightness(.74) saturate(.84) contrast(.90)!important}
+  .panel,.summary,.member-result,.result-card,.card{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+}
+
+
+/* --- CALC SCROLL SMOOTH MOBILE PATCH --- */
+@media (max-width:820px), (pointer:coarse){
+  html,body{
+    overscroll-behavior-y:contain;
+    scroll-behavior:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  #calcWbg{contain:strict}
+  .main{transform:translateZ(0)}
+}
+
+
+
+/* --- FLEXIBLE MEMBER CONTRIBUTION MODULE --- */
+.flex-panel{background:rgba(8,16,26,0.66);border:0.5px solid rgba(79,195,247,.16);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;box-shadow:0 8px 22px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.03);position:relative;overflow:hidden}
+.flex-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.flex-title{font-size:12px;font-weight:800;color:#FFB547;text-transform:uppercase;letter-spacing:.08em}
+.flex-sub{font-size:12px;color:#8A9CC8;line-height:1.55;margin-top:6px;max-width:690px}
+.flex-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.flex-mode-btn{font-size:12px;padding:7px 14px;border-radius:999px;border:1px solid rgba(201,168,76,.34);background:rgba(201,168,76,.06);color:#C8A050;cursor:pointer;font-weight:800;font-family:inherit;transition:.18s}
+.flex-mode-btn.active{background:linear-gradient(180deg,#f2d47b,#b9862e);color:#07111c;border-color:#f2d47b;box-shadow:0 0 18px rgba(201,168,76,.18)}
+.flex-editor{display:none;margin-top:12px;border-top:1px solid rgba(255,255,255,.07);padding-top:12px}
+.flex-editor.open{display:block}
+.flex-topline{display:grid;grid-template-columns:minmax(180px,260px) 1fr;gap:10px;align-items:end;margin-bottom:12px}
+.flex-select-card,.flex-total-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:11px 12px}
+.flex-select-card label,.flex-total-card span{display:block;font-size:10px;font-weight:900;color:#7fa99d;text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px}
+.flex-select-card select{width:100%;background:#07111c;color:#E0E8F0;border:1px solid rgba(79,195,247,.24);border-radius:9px;padding:9px 10px;font-family:inherit;font-weight:800;outline:none}
+.flex-total-card b{display:block;font-size:21px;color:#00C897;line-height:1}
+.flex-rows{display:grid;gap:8px}
+.flex-row{display:grid;grid-template-columns:82px 1fr 88px;gap:9px;align-items:center;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:9px 10px}
+.flex-row.is-me{border-color:rgba(255,181,71,.42);background:rgba(255,181,71,.07)}
+.flex-row-name{font-size:11px;color:#CADCFC;font-weight:900}
+.flex-row input{width:100%;background:rgba(0,0,0,.22);border:1px solid rgba(79,195,247,.18);color:#fff;border-radius:9px;padding:9px 10px;font-family:inherit;font-weight:800;outline:none}
+.flex-row input:focus{border-color:rgba(79,195,247,.55);box-shadow:0 0 0 2px rgba(79,195,247,.08)}
+.flex-share{font-size:12px;color:#4FC3F7;text-align:right;font-weight:900}
+.flex-result{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.flex-result-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:13px;padding:12px;min-height:82px}
+.flex-result-card.main{grid-column:1/-1;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.25)}
+.flex-result-card.gold{background:rgba(255,181,71,.08);border-color:rgba(255,181,71,.25)}
+.flex-result-card span{display:block;color:#7fa99d;font-size:10.5px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px;line-height:1.35}
+.flex-result-card b{display:block;color:#fff;font-size:18px;line-height:1.05}
+.flex-result-card.main b{font-size:28px;color:#00C897}
+.flex-result-card.gold b{color:#FFB547}
+.flex-result-card small{display:block;color:#7e9d92;font-size:11px;line-height:1.38;margin-top:6px}
+.flex-equal-note{display:block;margin-top:10px;font-size:11.5px;line-height:1.55;color:#8A9CC8;background:rgba(79,195,247,.055);border-left:3px solid rgba(79,195,247,.45);border-radius:0 10px 10px 0;padding:9px 11px}
+@media (max-width:760px){.flex-panel{padding:1rem;border-radius:13px}.flex-head{display:block}.flex-tabs{margin-top:10px}.flex-mode-btn{font-size:11px;padding:8px 11px}.flex-topline{grid-template-columns:1fr}.flex-row{grid-template-columns:64px 1fr 68px;gap:7px;padding:8px}.flex-row-name{font-size:10.5px}.flex-row input{padding:8px 9px;font-size:13px}.flex-share{font-size:11px}.flex-result{grid-template-columns:1fr}.flex-result-card.main{grid-column:auto}.flex-result-card.main b{font-size:24px}}
+
+
+/* --- CALCULATOR MODE LANDING / CLEAN MODE PATCH --- */
+.mode-landing{max-width:1060px;margin:0 auto;padding:1.5rem 0 2.5rem}
+.mode-kicker{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;color:#FFB547;margin-bottom:10px;text-align:center}
+.mode-title{font-size:clamp(26px,4vw,42px);line-height:1.08;font-weight:900;color:#fff;text-align:center;letter-spacing:-.02em;text-shadow:0 0 22px rgba(255,181,71,.10)}
+.mode-sub{font-size:13.5px;color:#CADCFC;line-height:1.65;text-align:center;max-width:760px;margin:12px auto 0}
+.mode-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+.mode-choice-card{position:relative;min-height:230px;text-align:left;border-radius:18px;border:1px solid rgba(79,195,247,.18);background:linear-gradient(180deg,rgba(8,16,26,.78),rgba(6,12,21,.84));padding:22px 22px 74px;cursor:pointer;font-family:inherit;color:#E0E8F0;box-shadow:0 14px 38px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.035);transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;overflow:hidden}
+.mode-choice-card:before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:3px;border-radius:3px;background:#4FC3F7;opacity:.8}
+.mode-choice-card.custom:before{background:#00C897}
+.mode-choice-card:hover{transform:translateY(-3px);border-color:rgba(0,200,151,.42);box-shadow:0 22px 54px rgba(0,0,0,.34),0 0 30px rgba(0,200,151,.10),inset 0 1px 0 rgba(255,255,255,.05)}
+.mode-choice-num{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:950;background:rgba(79,195,247,.13);color:#4FC3F7;border:1px solid rgba(79,195,247,.26);margin-bottom:15px}
+.mode-choice-card.custom .mode-choice-num{background:rgba(0,200,151,.12);color:#00C897;border-color:rgba(0,200,151,.28)}
+.mode-choice-name{font-size:22px;font-weight:900;color:#fff;line-height:1.16;margin-bottom:10px}
+.mode-choice-copy{font-size:13px;color:#9fb8c9;line-height:1.65}
+.mode-choice-points{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.mode-pill{font-size:10.5px;font-weight:850;color:#8ee8ff;border:1px solid rgba(79,195,247,.18);background:rgba(79,195,247,.07);border-radius:999px;padding:5px 8px}
+.mode-choice-card.custom .mode-pill{color:#99ffe1;border-color:rgba(0,200,151,.20);background:rgba(0,200,151,.075)}
+.mode-choice-action{position:absolute;left:22px;bottom:20px;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:950;color:#06121e;background:#00C897;border-radius:999px;padding:10px 14px;box-shadow:0 0 20px rgba(0,200,151,.18)}
+.mode-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:1rem;background:rgba(8,16,26,.66);border:1px solid rgba(79,195,247,.14);border-radius:14px;padding:12px 14px}
+.mode-banner-title{font-size:12px;font-weight:900;color:#fff;line-height:1.35}
+.mode-banner-copy{font-size:11.5px;color:#8A9CC8;line-height:1.45;margin-top:2px}
+.mode-back-btn{border:1px solid rgba(0,200,151,.30);background:rgba(0,200,151,.09);color:#bffff0;border-radius:999px;padding:8px 12px;font-size:11px;font-weight:900;font-family:inherit;cursor:pointer}
+.mode-back-btn:hover{background:#00C897;color:#06121e;border-color:#00C897}
+body.mode-landing-active .calc-work{display:none!important}
+body.mode-equal #flexPanel{display:none!important}
+body.mode-custom #equalInvGroup{display:none!important}
+body.mode-custom #closeChoiceRow, body.mode-custom #closeChoiceSep{display:none!important}
+body.mode-custom #btn-a{display:none!important}
+body.mode-custom #btn-b{pointer-events:none}
+body.mode-custom #tipGroup{display:none!important}
+.flex-incentive-line{display:grid;grid-template-columns:132px minmax(0,1fr) 44px;gap:8px;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.055)}
+.flex-incentive-label{font-size:10px;color:#C8A050;font-weight:900;text-transform:uppercase;letter-spacing:.04em;line-height:1.2}
+.flex-incentive-value{font-size:12px;color:#FFB547;font-weight:950;text-align:right;white-space:nowrap}
+.flex-tip-slider{-webkit-appearance:none;appearance:none;width:100%;height:30px;background:transparent;cursor:pointer;touch-action:pan-y;margin:0;padding:0}
+.flex-tip-slider::-webkit-slider-runnable-track{height:9px;border-radius:999px;background:linear-gradient(90deg,rgba(255,181,71,.65),rgba(0,200,151,.58));box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
+.flex-tip-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;background:#FFF6D8;border:3px solid #FFB547;margin-top:-8.5px;box-shadow:0 3px 12px rgba(0,0,0,.42),0 0 14px rgba(255,181,71,.24)}
+.flex-tip-slider::-moz-range-track{height:9px;border-radius:999px;background:linear-gradient(90deg,rgba(255,181,71,.65),rgba(0,200,151,.58));box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
+.flex-tip-slider::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#FFF6D8;border:3px solid #FFB547;box-shadow:0 3px 12px rgba(0,0,0,.42),0 0 14px rgba(255,181,71,.24)}
+.member-mini-click{cursor:pointer;transition:transform .14s ease,border-color .14s ease,background .14s ease}
+.member-mini-click:hover{transform:translateY(-1px);border-color:rgba(255,181,71,.42)!important;background:rgba(255,181,71,.08)!important}
+@media (max-width:760px){.flex-incentive-line{grid-template-columns:1fr;gap:5px}.flex-incentive-value{text-align:left}.flex-tip-slider{height:36px}.flex-tip-slider::-webkit-slider-runnable-track{height:11px}.flex-tip-slider::-webkit-slider-thumb{width:30px;height:30px;margin-top:-9.5px}.flex-tip-slider::-moz-range-track{height:11px}.flex-tip-slider::-moz-range-thumb{width:30px;height:30px}}
+
+.flex-editor.open{display:block!important}
+.flex-editor{display:none}
+.flex-row{grid-template-columns:74px 1fr 82px!important;align-items:center;gap:12px!important;padding:11px 12px!important}
+.flex-row .flex-amount-box{min-width:0}
+.flex-amount-line{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.flex-amount-value{font-size:13px;font-weight:950;color:#fff;white-space:nowrap}
+.flex-control-line{display:grid;grid-template-columns:54px minmax(0,1fr) 54px;gap:9px;align-items:center}
+.flex-step-btn{height:40px;border-radius:12px;border:1px solid rgba(0,200,151,.28);background:rgba(0,200,151,.10);color:#bffff0;font-size:12px;font-weight:950;font-family:inherit;cursor:pointer;touch-action:manipulation;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.flex-step-btn:hover{background:rgba(0,200,151,.20);border-color:rgba(0,200,151,.55)}
+.flex-row.is-me .flex-step-btn{border-color:rgba(255,181,71,.32);background:rgba(255,181,71,.10);color:#ffd88a}
+.flex-row input[type=range].flex-amount-slider{-webkit-appearance:none;appearance:none;width:100%;height:42px;background:transparent;cursor:pointer;touch-action:pan-y;margin:0;padding:0}
+.flex-row input[type=range].flex-amount-slider::-webkit-slider-runnable-track{height:13px;border-radius:999px;background:linear-gradient(90deg,rgba(0,200,151,.78),rgba(79,195,247,.78));box-shadow:inset 0 0 0 1px rgba(255,255,255,.10),0 0 12px rgba(0,200,151,.12)}
+.flex-row input[type=range].flex-amount-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:34px;height:34px;border-radius:50%;background:#EFFFF9;border:3px solid #00C897;margin-top:-10.5px;box-shadow:0 4px 16px rgba(0,0,0,.45),0 0 18px rgba(0,200,151,.30)}
+.flex-row input[type=range].flex-amount-slider::-moz-range-track{height:13px;border-radius:999px;background:linear-gradient(90deg,rgba(0,200,151,.78),rgba(79,195,247,.78));box-shadow:inset 0 0 0 1px rgba(255,255,255,.10),0 0 12px rgba(0,200,151,.12)}
+.flex-row input[type=range].flex-amount-slider::-moz-range-thumb{width:34px;height:34px;border-radius:50%;background:#EFFFF9;border:3px solid #00C897;box-shadow:0 4px 16px rgba(0,0,0,.45),0 0 18px rgba(0,200,151,.30)}
+.flex-row.is-me input[type=range].flex-amount-slider::-webkit-slider-thumb{border-color:#FFB547;box-shadow:0 4px 16px rgba(0,0,0,.45),0 0 20px rgba(255,181,71,.36)}
+.flex-row.is-me input[type=range].flex-amount-slider::-moz-range-thumb{border-color:#FFB547;box-shadow:0 4px 16px rgba(0,0,0,.45),0 0 20px rgba(255,181,71,.36)}
+.flex-share{font-weight:950;color:#00C897!important;text-align:right}
+@media (max-width:760px){
+  .mode-choice-grid{grid-template-columns:1fr;gap:12px;margin-top:20px}.mode-choice-card{min-height:auto;padding:18px 18px 66px}.mode-choice-name{font-size:19px}.mode-sub{font-size:12.5px}.mode-banner{padding:10px 11px}.flex-row{grid-template-columns:54px 1fr 64px!important;gap:8px!important}.flex-row input[type=range].flex-amount-slider{height:48px}.flex-row input[type=range].flex-amount-slider::-webkit-slider-runnable-track{height:15px}.flex-row input[type=range].flex-amount-slider::-webkit-slider-thumb{width:38px;height:38px;margin-top:-11.5px}.flex-row input[type=range].flex-amount-slider::-moz-range-track{height:15px}.flex-row input[type=range].flex-amount-slider::-moz-range-thumb{width:38px;height:38px}.flex-amount-value{font-size:12.5px}.flex-control-line{grid-template-columns:46px minmax(0,1fr) 46px;gap:6px}.flex-step-btn{height:44px;border-radius:11px;font-size:11px;padding:0}.flex-share{font-size:11px!important}
+}
+
+
+
+/* --- ALWAYS VISIBLE BACK BUTTON PATCH --- */
+
+
+/* --- MODE BANNER CENTER NAV PATCH --- */
+.mode-banner{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  justify-items:center!important;
+  text-align:center!important;
+  gap:10px!important;
+}
+.mode-banner-title{font-size:13px!important;color:#fff!important}
+.mode-banner-copy{max-width:760px;margin:3px auto 0!important}
+.mode-nav-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:2px;
+}
+.mode-back-btn,.mode-switch-btn{
+  border-radius:999px;
+  padding:9px 13px;
+  min-height:36px;
+  font-size:11.5px;
+  font-weight:950;
+  font-family:inherit;
+  cursor:pointer;
+  transition:.16s ease;
+  border:1px solid rgba(255,181,71,.32);
+  background:rgba(255,181,71,.075);
+  color:#ffd27a;
+  white-space:nowrap;
+}
+.mode-back-btn:hover,.mode-switch-btn:hover{
+  background:rgba(255,181,71,.16);
+  border-color:rgba(255,181,71,.58);
+  transform:translateY(-1px);
+}
+.mode-switch-btn.active{
+  background:linear-gradient(180deg,#f2d47b,#b9862e);
+  color:#07111c;
+  border-color:#f2d47b;
+  box-shadow:0 0 18px rgba(201,168,76,.20);
+}
+.mode-switch-btn:not(.active){border-color:rgba(0,200,151,.25);background:rgba(0,200,151,.07);color:#bffff0}
+.mode-switch-btn:not(.active):hover{background:rgba(0,200,151,.14);border-color:rgba(0,200,151,.50)}
+@media (max-width:760px){
+  .mode-banner{padding:11px 10px!important;gap:9px!important}
+  .mode-nav-row{gap:6px;width:100%}
+  .mode-back-btn,.mode-switch-btn{font-size:10.5px;padding:8px 10px;min-height:34px;flex:1 1 auto;min-width:96px}
+}
+
+/* --- COMPACT MEMBER INCENTIVE BUTTONS PATCH --- */
+.member-incentive-compact{margin-top:10px;background:rgba(0,0,0,.14);border:1px solid rgba(255,181,71,.22);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.member-incentive-compact span{font-size:10.5px;font-weight:950;color:#FFB547;text-transform:uppercase;letter-spacing:.055em}
+.member-incentive-buttons{display:flex;gap:6px;flex-wrap:wrap}
+.member-incentive-btn{border:1px solid rgba(255,181,71,.32);background:rgba(255,181,71,.08);color:#FFD47A;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:950;font-family:inherit;cursor:pointer;min-width:44px}
+.member-incentive-btn.active{background:#FFB547;color:#06121e;border-color:#FFB547;box-shadow:0 0 16px rgba(255,181,71,.22)}
+.member-incentive-compact small{flex-basis:100%;color:#9AB7B0;font-size:10.5px;line-height:1.35}
+.member-mini-click{cursor:pointer;transition:transform .12s ease,border-color .12s ease,background .12s ease}
+.member-mini-click:hover{transform:translateY(-1px);border-color:rgba(0,200,151,.36)!important}
+@media (max-width:760px){.member-incentive-compact{align-items:flex-start}.member-incentive-btn{padding:7px 11px;min-width:48px}}
+
+/* --- PUBLIC TEXT CLEANUP PATCH --- */
+#tipGroup{display:none!important}
+.logic-public-note{display:block;width:100%;margin-top:10px;padding:10px 12px;border-left:3px solid rgba(255,181,71,.42);border-radius:0 10px 10px 0;background:rgba(255,181,71,.055);color:#BFD6D0;font-size:11.5px;line-height:1.65}
+.logic-prose .logic-public-note .em{color:#FFB547;font-weight:850}
+.logic-final-summary{display:block;width:100%;margin-top:12px;padding:12px 14px;border:1px solid rgba(0,200,151,.30);border-left:4px solid rgba(0,200,151,.85);border-radius:0 12px 12px 0;background:rgba(0,200,151,.105);color:#D8FFF2;font-size:12.5px;line-height:1.75;box-shadow:0 0 18px rgba(0,200,151,.08)}
+.logic-final-summary .em{color:#00C897;font-weight:900}
+.logic-final-summary .num{color:#fff;font-weight:900;background:rgba(0,200,151,.16);padding:1px 7px;border-radius:7px;margin:0 2px}
+
+
+
+
+/* --- OLD CALCULATOR CONTROL CHIP STYLE PATCH --- */
+#mainControlPanel .chips{gap:6px!important;margin-top:8px!important}
+#mainControlPanel .chip{white-space:normal;line-height:1.25}
+#mainControlPanel .chip-share{max-width:100%}
+
+
+
+/* --- ADMIN GATE PATCH V39 --- */
+body.admin-locked{overflow:hidden!important}
+body.admin-locked > :not(#adminGate){filter:blur(9px);pointer-events:none;user-select:none;opacity:.42}
+.admin-gate{position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;padding:22px;background:radial-gradient(circle at 50% 24%,rgba(0,200,151,.14),transparent 36%),linear-gradient(180deg,rgba(2,6,8,.78),rgba(2,6,8,.94));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.admin-box{width:min(460px,100%);border-radius:20px;background:rgba(7,17,27,.88);border:1px solid rgba(79,195,247,.28);box-shadow:0 24px 70px rgba(0,0,0,.50),0 0 44px rgba(0,200,151,.12);padding:26px 26px 22px;text-align:left}
+.admin-kicker{font-size:10px;letter-spacing:.18em;color:#00C897;font-weight:950;text-transform:uppercase;margin-bottom:9px}
+.admin-title{font-size:27px;line-height:1.12;font-weight:950;color:#fff;margin-bottom:10px}
+.admin-copy{font-size:13px;line-height:1.6;color:#9BCFCB;margin-bottom:18px}
+.admin-field{display:grid;grid-template-columns:1fr auto;gap:10px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:10px}
+.admin-field input{min-width:0;background:#06111c;border:1px solid rgba(79,195,247,.22);border-radius:11px;color:#fff;padding:12px 13px;font-size:15px;font-weight:800;outline:none;font-family:inherit}
+.admin-field input:focus{border-color:rgba(0,200,151,.62);box-shadow:0 0 0 3px rgba(0,200,151,.10)}
+.admin-field button{border:none;border-radius:11px;background:linear-gradient(135deg,#00C897,#4FC3F7);color:#041015;font-weight:950;font-family:inherit;padding:0 18px;cursor:pointer}
+.admin-error{min-height:18px;margin-top:10px;font-size:12px;color:#FF9A8F;font-weight:800}
+.admin-note{margin-top:12px;font-size:11px;line-height:1.45;color:#5A7A9A}
+.admin-topbar{position:fixed;right:14px;bottom:14px;z-index:50;display:flex;gap:8px;align-items:center;background:rgba(6,10,20,.70);border:1px solid rgba(79,195,247,.18);border-radius:999px;padding:7px 9px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.admin-topbar a,.admin-topbar button{font-size:11px;font-weight:900;color:#bffff0;text-decoration:none;background:rgba(0,200,151,.08);border:1px solid rgba(0,200,151,.24);border-radius:999px;padding:7px 10px;font-family:inherit;cursor:pointer}
+@media(max-width:760px){.admin-box{padding:22px 18px}.admin-title{font-size:23px}.admin-field{grid-template-columns:1fr}.admin-field button{height:44px}.admin-topbar{left:10px;right:10px;justify-content:center}}
+
+</style>
+
+<!-- POI V39.1 UNIFIED BACKGROUND: root/app/admin pages use the same aurora + network layer; no extra view background mismatch. -->
+<style id="poi-v39-1-unified-background">
+:root{--poi-bg-url:url('../aurora.jpg');}
+html,body{
+  background-color:#020608!important;
+  background-image:
+    radial-gradient(circle at 18% 8%,rgba(0,200,151,.11),transparent 30%),
+    radial-gradient(circle at 78% 14%,rgba(79,195,247,.09),transparent 32%),
+    linear-gradient(180deg,rgba(2,6,8,.30),rgba(2,6,8,.76)),
+    var(--poi-bg-url)!important;
+  background-size:auto,auto,auto,cover!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+  background-attachment:fixed!important;
+}
+body::before,body:before,body::after,body:after{
+  content:none!important;
+  display:none!important;
+  background:transparent!important;
+  background-image:none!important;
+  opacity:0!important;
+}
+#wbg,#calcWbg{
+  display:block!important;
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  pointer-events:none!important;
+  z-index:0!important;
+  opacity:.96!important;
+  filter:none!important;
+}
+#view-calc,#view-performance,#view-home,#view-stage{
+  background:transparent!important;
+  background-image:none!important;
+  filter:none!important;
+}
+#view-calc::before,#view-calc::after,#view-performance::before,#view-performance::after{
+  content:none!important;
+  display:none!important;
+  background:transparent!important;
+  background-image:none!important;
+}
+#calcframe,#performanceframe{
+  background:transparent!important;
+  color-scheme:dark;
+}
+.stars{display:none!important;}
+.appbar,.deck-nav,.home-inner,.stage,.slide,.main,.wrap,.header,.admin-gate,.admin-box{
+  position:relative;
+}
+@media (max-width:900px),(pointer:coarse){
+  html,body{
+    background-attachment:scroll!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+    touch-action:pan-y!important;
+    overscroll-behavior-y:auto!important;
+  }
+  #wbg,#calcWbg{opacity:.92!important;filter:none!important;}
+}
+</style>
+
+</head>
+<body class="admin-locked">
+
+<div id="adminGate" class="admin-gate" role="dialog" aria-modal="true">
+  <div class="admin-box">
+    <div class="admin-kicker">POI Capital Group · Admin</div>
+    <div class="admin-title">Үндсэн тооцоолуур</div>
+    <div class="admin-copy">Дотоод хэрэглээний calculator. Operator-visible logic, equal болон flexible хувилбарууд энд бүрэн хэвээр орсон.</div>
+    <form class="admin-field" onsubmit="return adminUnlock(event)">
+      <input id="adminPass" type="password" autocomplete="current-password" inputmode="text" placeholder="Admin code" aria-label="Admin code">
+      <button type="submit">Нэвтрэх</button>
+    </form>
+    <div id="adminError" class="admin-error"></div>
+    <div class="admin-note">Cloudflare Access тавих хүртэлх түр client-side gate. Жинхэнэ хамгаалалтыг Cloudflare Access-аар /admin/* дээр тавина.</div>
+  </div>
+</div>
+<div class="admin-topbar" id="adminTopbar" style="display:none">
+  <a href="../index.html#calc">Public calculator</a>
+  <a href="../index.html#perf">Performance</a>
+  <button type="button" onclick="adminLock()">Lock</button>
+</div>
+
+
+<canvas id="calcWbg" aria-hidden="true"></canvas>
+<div class="header">
+  <div class="header-left">
+    <div class="eyebrow">Хөрөнгө оруулалтын тооцоолол</div>
+    <h1>Фьючерс арилжааны хамтын ажиллагаа</h1>
+  </div>
+  <div class="header-right" id="hdr-right"></div>
+</div>
+
+<div class="main">
+
+  <div class="mode-landing" id="modeLanding">
+    <div class="mode-kicker">Тооцоолуурын төрөл</div>
+    <div class="mode-title">Хөрөнгө оруулалтын хэлбэрээ сонгоно уу</div>
+    <div class="mode-sub">Эхлээд гишүүд ижил дүнгээр орж байгаа эсэх, эсвэл хүн бүр өөрийн дүнгээр орж байгаа эсэхийг сонгоно. Сонгосон хэлбэрээс хамаарч сарын хуваарилалт, данс хаах үеийн буцаалт тусдаа тооцогдоно.</div>
+    <div class="mode-choice-grid">
+      <button class="mode-choice-card equal" type="button" onclick="chooseMainMode('equal')">
+        <div class="mode-choice-num">01</div>
+        <div class="mode-choice-name">Ижил дүнгээр хөрөнгө оруулсан гишүүд</div>
+        <div class="mode-choice-copy">Бүх гишүүн нэг ижил хэмжээний капитал оруулсан үед хэрэглэнэ. Хуучин тооцоолуурын А болон Б данс хаах хувилбарууд хэвээр ажиллана.</div>
+        <div class="mode-choice-points"><span class="mode-pill">хуучин logic</span><span class="mode-pill">А / Б хувилбар</span><span class="mode-pill">нэг гишүүний дүн</span></div>
+        <div class="mode-choice-action">Энэ тооцоолуурыг нээх →</div>
+      </button>
+      <button class="mode-choice-card custom" type="button" onclick="chooseMainMode('custom')">
+        <div class="mode-choice-num">02</div>
+        <div class="mode-choice-name">Өөрийн дүнгээр хөрөнгө оруулсан гишүүд</div>
+        <div class="mode-choice-copy">Гишүүн бүр өөр өөр дүнгээр орсон үед хэрэглэнэ. Default жишээ нь 5 гишүүнээр эхэлнэ. Сарын хуваарилалт болон данс хаах үеийн ашиг нь тухайн гишүүний нийт капиталд эзлэх хувиар бодогдоно.</div>
+        <div class="mode-choice-points"><span class="mode-pill">weighted logic</span><span class="mode-pill">том slider</span><span class="mode-pill">гишүүн бүрийн хувь</span></div>
+        <div class="mode-choice-action">Flexible тооцоолуур нээх →</div>
+      </button>
+    </div>
+  </div>
+  <div class="calc-work" id="calcWork" style="display:none">
+    <div class="mode-banner" id="modeBanner"></div>
+  <div class="panel" id="mainControlPanel">
+    <div class="sg">
+      <label>Гишүүдийн тоо <span id="n-lbl">2</span></label>
+      <input type="range" id="n" min="1" max="10" value="2" step="1">
+    </div>
+    <div class="sg" id="equalInvGroup">
+      <label>Нэг гишүүний хөрөнгө <span id="inv-lbl">$50,000</span></label>
+      <input type="range" id="inv" min="5000" max="100000" value="50000" step="5000">
+    </div>
+    <div class="sg">
+      <label>Сарын өгөөж <span id="rate-lbl">10%</span></label>
+      <input type="range" id="rate" min="2" max="20" value="10" step="1">
+    </div>
+    <div class="sg">
+      <label>Өсгөх хувь <span id="sup-lbl">50%</span></label>
+      <input type="range" id="sup" min="50" max="70" value="50" step="5">
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="sg">
+      <label>Хугацаа <span id="mo-lbl">12 сар</span></label>
+      <input type="range" id="months" min="6" max="36" value="12" step="1">
+    </div>
+    <div class="sg" id="tipGroup">
+      <label>Данс удирдагчийн гүйцэтгэлийн урамшуулал <span id="tip-lbl">5%</span></label>
+      <input type="range" id="tip" min="5" max="20" value="5" step="1">
+      <div class="chips"><span class="chip chip-share">Гишүүний нийт авах дүнгээс</span></div>
+    </div>
+  </div>
+
+  <div class="choice-panel" id="choicePanel" style="background:rgba(13,21,32,0.82);border-radius:14px;border:0.5px solid rgba(79,195,247,.15);padding:1.25rem 1.5rem;margin-bottom:1.5rem">
+    <div id="closeChoiceRow" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:1rem">
+      <span style="font-size:10px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:.1em;min-width:120px">Данс хаах хувилбар</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="scen-btn" id="btn-a" onclick="setDans('a')" style="padding:6px 16px;border-radius:20px">А — Тэнцүү хуваана</button>
+        <button class="scen-btn active" id="btn-b" onclick="setDans('b')" style="padding:6px 16px;border-radius:20px">Б — Анхны мөнгө буцааж · үлдсэн ашгийг хувьчилсан хуваалтаар</button>
+      </div>
+    </div>
+    <div id="closeChoiceSep" style="height:0.5px;background:rgba(255,255,255,.08);margin-bottom:1rem"></div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:10px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:.1em;min-width:120px">Өгөөжийн жишээ</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="scen-btn rate-btn" onclick="setRate(7,this)" style="padding:6px 16px;border-radius:20px">Бага — 7%</button>
+        <button class="scen-btn rate-btn active" onclick="setRate(10,this)" style="padding:6px 16px;border-radius:20px">Дунд — 10%</button>
+        <button class="scen-btn rate-btn" onclick="setRate(15,this)" style="padding:6px 16px;border-radius:20px">Өндөр — 15%</button>
+        <button class="scen-btn rate-btn" onclick="setRate(20,this)" style="padding:6px 16px;border-radius:20px">Хамгийн өндөр — 20%</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="flex-panel" id="flexPanel">
+    <div class="flex-head">
+      <div>
+        <div class="flex-title">Гишүүдийн оруулсан дүн</div>
+        <div class="flex-sub">Хүн бүр өөрийн оруулсан дүнгээс хамаарч нийт капиталд эзлэх хувь, сарын авах дүн, данс хаагдахад буцах үндсэн капитал болон ашгийн хувийг харуулна.</div>
+      </div>
+      <div class="flex-tabs">
+        <button class="flex-mode-btn" id="flexModeEqual" type="button" onclick="chooseMainMode('equal')">Ижил дүнгийн тооцоолуур</button>
+        <button class="flex-mode-btn active" id="flexModeCustom" type="button" onclick="chooseMainMode('custom')">Өөрийн дүнгийн тооцоолуур</button>
+      </div>
+    </div>
+    <div class="flex-editor" id="flexEditor">
+      <div class="flex-topline">
+        <div class="flex-select-card">
+          <label>Миний тооцоо</label>
+          <select id="flexMyIndex" onchange="setFlexMyIndex(this.value)"></select>
+        </div>
+        <div class="flex-total-card">
+          <span>Нийт бүрдсэн капитал</span>
+          <b id="flexTotalCap">$100,000</b>
+        </div>
+      </div>
+      <div class="flex-rows" id="flexRows"></div>
+    </div>
+    <div class="flex-result" id="flexResult"></div>
+  </div>
+
+  <div class="cards" id="summary"></div>
+  <div class="persons" id="persons"></div>
+  <div class="table-wrap">
+    <h3>Сар бүрийн дэлгэрэнгүй</h3>
+    <div class="dd-note" id="dd-note"></div>
+    <table><thead><tr>
+      <th>Сар</th><th>Капитал ($)</th><th>Нийт ашиг ($)</th>
+      <th>Зардал 2%</th><th>Өсгөх хэмжээ</th>
+      <th>Данс удирдагч</th><th class="hl" id="member-col-head">Нэг гишүүн</th>
+      <th>Уналтын хязгаар</th>
+    </tr></thead>
+    <tbody id="tbl"></tbody></table>
+  </div>
+
+  <div class="logic-box" id="logic-box"></div>
+
+  <div class="tax-panel">
+    <h3>Татварын талаар — товч тайлбар</h3>
+    <div class="tax-note">
+      <strong>Фьючерс арилжааны ашигт АНУ-д тусгай дүрэм ногддог</strong>
+      Ердийн ажил эсвэл хувьцааны орлогтой харьцуулбал фьючерсийн татвар хөнгөн. Яагаад гэвэл нийт ашгийн 60% нь хөнгөлөлттэй хувиар тооцогддог — хэр удаан арилжаа хийсэн хамаагүй. Нарийвчлал нь таны статус, нийт орлогоос хамаарна тул CPA буюу татварын мэргэжилтэнтэй заавал зөвлөлд.
+    </div>
+    <div class="tax-example" id="tax-ex"></div>
+    <div class="tax-warn">АНУ-д татварын үүрэг байгаа эсэхийг мэргэжилтэнтэй тодруулах хэрэгтэй.</div>
+  </div>
+
+  <div class="warn-box" style="margin-bottom:1.5rem;padding:1rem 1.25rem;background:rgba(26,13,13,0.82);border-radius:12px;border:1px solid rgba(232,93,93,.25);font-size:12px;color:#C87070;line-height:1.8">
+    <strong style="color:#E85D5D;display:block;margin-bottom:6px">⚠ Анхааруулга — тооцооллын хязгаарлалт</strong>
+    Дээрх тоонууд нь <strong style="color:#E8A0A0">хамгийн сайн үр дүнд суурилсан тооцоолол</strong> — сар бүр тогтмол өгөөж гарна гэж үзсэн. Бодит арилжаанд зарим сард ашиг багасах, зарим сард алдагдал гарах боломжтой. Зах зээлийн хэлбэлзэл тооцоолоогүй тул бодит үр дүн дээрх тооноос бага байж болно. Энэ тооцоолол нь боломжийн дүр зургийг харуулах зорилготой — баталгаа биш.</div>
+  </div>
+</div>
+
+<script>
+
+
+
+const fmt=n=>'$'+Math.round(n).toLocaleString('en-US');
+const FLEX_MIN_AMOUNT=5000;
+const FLEX_MAX_AMOUNT=200000;
+const FLEX_SLIDER_STEP=1000;
+const FLEX_BUTTON_STEP=5000;
+const INCENTIVE_MIN_PCT=5;
+const INCENTIVE_MAX_PCT=20;
+const INCENTIVE_DEFAULT_PCT=5;
+const PUBLIC_HIDE_OPERATOR_AMOUNTS=false; // LOGIC TEST: operator amount visible. Final public file дээр true болгоно.
+
+let dansMode="b";
+let calcMode="equal";
+let mainMode=null;
+let flexAmounts=[];
+let flexTipRates=[];
+let equalTipRates=[];
+let flexMyIndex=0;
+let flexSeeded=false;
+
+function clampNum(v,min,max){
+  v=Number(v);
+  if(!isFinite(v))v=min;
+  return Math.max(min,Math.min(max,v));
+}
+function normalizeFlexAmount(v){
+  v=clampNum(v,FLEX_MIN_AMOUNT,FLEX_MAX_AMOUNT);
+  return Math.round(v/FLEX_SLIDER_STEP)*FLEX_SLIDER_STEP;
+}
+function normalizeIncentivePct(v){
+  v=clampNum(v,INCENTIVE_MIN_PCT,INCENTIVE_MAX_PCT);
+  return Math.round(v);
+}
+function ensureFlexAmounts(n,inv){
+  while(flexAmounts.length<n) flexAmounts.push(normalizeFlexAmount(inv));
+  if(flexAmounts.length>n) flexAmounts=flexAmounts.slice(0,n);
+  flexAmounts=flexAmounts.map(v=>normalizeFlexAmount(v));
+  while(flexTipRates.length<n) flexTipRates.push(INCENTIVE_DEFAULT_PCT);
+  if(flexTipRates.length>n) flexTipRates=flexTipRates.slice(0,n);
+  flexTipRates=flexTipRates.map(v=>normalizeIncentivePct(v));
+  if(flexMyIndex>=n) flexMyIndex=0;
+}
+function ensureEqualTipRates(n){
+  while(equalTipRates.length<n) equalTipRates.push(INCENTIVE_DEFAULT_PCT);
+  if(equalTipRates.length>n) equalTipRates=equalTipRates.slice(0,n);
+  equalTipRates=equalTipRates.map(v=>normalizeIncentivePct(v));
+  if(flexMyIndex>=n) flexMyIndex=0;
+}
+function chooseMainMode(m){
+  mainMode=m;
+  calcMode=(m==="custom")?"custom":"equal";
+  if(m==="equal"){
+    dansMode="b";
+    var nEl=document.getElementById('n'); if(nEl)nEl.value=2;
+    var invEl=document.getElementById('inv'); if(invEl)invEl.value=50000;
+    ensureEqualTipRates(2);
+    if(flexMyIndex>1) flexMyIndex=0;
+  }else{
+    dansMode="b";
+    var nEl2=document.getElementById('n'); if(nEl2)nEl2.value=5;
+    if(!flexSeeded){ flexAmounts=[5000,10000,17000,28000,40000]; flexTipRates=[5,5,5,5,5]; flexMyIndex=4; flexSeeded=true; }
+  }
+  document.body.classList.remove('mode-landing-active','mode-equal','mode-custom');
+  document.body.classList.add(m==="custom"?'mode-custom':'mode-equal');
+  var land=document.getElementById('modeLanding'); if(land)land.style.display='none';
+  var work=document.getElementById('calcWork'); if(work)work.style.display='block';
+  render();
+  setTimeout(function(){window.scrollTo({top:0,behavior:'smooth'});},20);
+}
+function goBackToModes(){
+  mainMode=null;
+  document.body.classList.remove('mode-equal','mode-custom');
+  document.body.classList.add('mode-landing-active');
+  var land=document.getElementById('modeLanding'); if(land)land.style.display='block';
+  var work=document.getElementById('calcWork'); if(work)work.style.display='none';
+  setTimeout(function(){window.scrollTo({top:0,behavior:'smooth'});},20);
+}
+function setCalcMode(m){
+  chooseMainMode(m);
+}
+function setFlexMyIndex(v){
+  flexMyIndex=Math.round(clampNum(v,0,99));
+  render();
+}
+function setFlexAmount(i,v){
+  flexAmounts[i]=normalizeFlexAmount(v);
+  render();
+}
+function adjustFlexAmount(i,delta){
+  const current=Number(flexAmounts[i]||FLEX_MIN_AMOUNT);
+  setFlexAmount(i,current+Number(delta||0));
+}
+function setFlexAmountLive(i,v,el){
+  flexAmounts[i]=normalizeFlexAmount(v);
+  if(el && Number(el.value)!==flexAmounts[i]) el.value=flexAmounts[i];
+  const row=el ? el.closest('.flex-row') : null;
+  if(row){
+    const valueEl=row.querySelector('.flex-amount-value');
+    if(valueEl)valueEl.textContent=fmt(flexAmounts[i]);
+  }
+  renderFlexSharesLight();
+}
+function setFlexTipRateLive(i,v,el){
+  flexTipRates[i]=normalizeIncentivePct(v);
+  if(el && Number(el.value)!==flexTipRates[i]) el.value=flexTipRates[i];
+  const row=el ? el.closest('.flex-row') : null;
+  if(row){
+    const valueEl=row.querySelector('.flex-incentive-value');
+    if(valueEl)valueEl.textContent=flexTipRates[i]+'%';
+  }
+}
+function setFlexTipRate(i,v){
+  flexTipRates[i]=normalizeIncentivePct(v);
+  render();
+}
+function incentiveButtonsForMember(i){
+  const current=normalizeIncentivePct(flexTipRates[i]||INCENTIVE_DEFAULT_PCT);
+  return [5,10,15,20].map(function(v){
+    return '<button class="member-incentive-btn '+(current===v?'active':'')+'" type="button" onclick="event.stopPropagation();setFlexTipRate('+i+','+v+')">'+v+'%</button>';
+  }).join('');
+}
+function setEqualTipRate(v){
+  const nEl=document.getElementById('n');
+  const n=nEl?+nEl.value:1;
+  ensureEqualTipRates(n);
+  equalTipRates[flexMyIndex]=normalizeIncentivePct(v);
+  const el=document.getElementById('tip');
+  if(el) el.value=equalTipRates[flexMyIndex];
+  render();
+}
+function equalIncentiveButtons(){
+  const nEl=document.getElementById('n');
+  const n=nEl?+nEl.value:1;
+  ensureEqualTipRates(n);
+  const current=normalizeIncentivePct(equalTipRates[flexMyIndex]||INCENTIVE_DEFAULT_PCT);
+  return [5,10,15,20].map(function(v){
+    return '<button class="member-incentive-btn '+(current===v?'active':'')+'" type="button" onclick="event.stopPropagation();setEqualTipRate('+v+')">'+v+'%</button>';
+  }).join('');
+}
+function renderFlexSharesLight(){
+  const nEl=document.getElementById('n');
+  const n=nEl?+nEl.value:flexAmounts.length;
+  const total=flexAmounts.slice(0,n).reduce((a,b)=>a+Number(b||0),0);
+  const totalEl=document.getElementById('flexTotalCap');
+  if(totalEl)totalEl.textContent=fmt(total);
+  document.querySelectorAll('.flex-row[data-flex-index]').forEach(row=>{
+    const i=Number(row.getAttribute('data-flex-index'));
+    const sh=total>0?Number(flexAmounts[i]||0)/total:0;
+    const shareEl=row.querySelector('.flex-share');
+    if(shareEl)shareEl.textContent=(sh*100).toFixed(2)+'%';
+  });
+}
+
+function updateModeBanner(usingFlex,n,inv){
+  var b=document.getElementById('modeBanner'); if(!b)return;
+  var equalActive = !usingFlex ? 'active' : '';
+  var customActive = usingFlex ? 'active' : '';
+  var nav='<div class="mode-nav-row">'
+    +'<button class="mode-back-btn" type="button" onclick="goBackToModes()">‹ Сонголт</button>'
+    +'<button class="mode-switch-btn '+equalActive+'" type="button" onclick="chooseMainMode(\'equal\')">‹ Ижил дүн</button>'
+    +'<button class="mode-switch-btn '+customActive+'" type="button" onclick="chooseMainMode(\'custom\')">Өөрийн дүн ›</button>'
+    +'</div>';
+  if(usingFlex){
+    b.innerHTML='<div><div class="mode-banner-title">Өөрийн дүнгээр хөрөнгө оруулсан гишүүд</div><div class="mode-banner-copy">Хүн бүрийн дүнг 5k–200k хооронд $1,000 нарийвчлалтай slider-аар өөрчилнө. −5k / +5k товчоор хурдан алгасаж болно.</div></div>'+nav;
+  }else{
+    b.innerHTML='<div><div class="mode-banner-title">Ижил дүнгээр хөрөнгө оруулсан гишүүд</div><div class="mode-banner-copy">Хуучин тооцоолуур хэвээр: '+n+' гишүүн × '+fmt(inv)+'. Данс хаах А/Б хувилбар ажиллана.</div></div>'+nav;
+  }
+}
+
+function monthlyOperatorPctRule(n){
+  // Сарын хуваарилалт: идэвхтэй арилжаа, өдөр тутмын хяналт, тайлангийн ажиллагааны суурь хувь.
+  if(n===1) return 0.50;
+  if(n===2) return 0.40;
+  return 0.30;
+}
+function closeProfitOperatorPct(n){
+  // Данс хаах B / weighted close profit шатлал:
+  // 1 гишүүн = 50 / 50
+  // 2 гишүүн = 40 / 30 / 30
+  // 3 гишүүн = данс удирдагч 30%
+  // 4 гишүүн = данс удирдагч 25%
+  // 5+ гишүүн = данс удирдагч 20%
+  // Performance incentive тусдаа 5–20% тул олон гишүүнтэй close profit дээр 20% нь үндсэн шударга шатлал.
+  if(n===1) return 0.50;
+  if(n===2) return 0.40;
+  if(n===3) return 0.30;
+  if(n===4) return 0.25;
+  return 0.20;
+}
+function equalBOperatorPct(n){
+  return closeProfitOperatorPct(n);
+}
+function flexibleCloseOperatorPct(n){
+  return closeProfitOperatorPct(n);
+}
+function monthlyTraderPct(n){
+  return monthlyOperatorPctRule(n);
+}
+function equalAOperatorPct(n){
+  // А хувилбар: сарын тараах дүн болон данс хаах final balance
+  // бүх оролцогчдод тэнцүү хуваагдана.
+  // n гишүүн + 1 данс удирдагч = нийт (n+1) тал.
+  return 1/(n+1);
+}
+function setDans(m){
+  dansMode=m;
+  document.getElementById("btn-a").classList.toggle("active",m==="a");
+  document.getElementById("btn-b").classList.toggle("active",m==="b");
+  render();
+}
+function setRate(v,btn){
+  document.getElementById('rate').value=v;
+  document.getElementById('rate-lbl').textContent=v+'%';
+  document.querySelectorAll('.rate-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function closeOperatorPct(n,usingFlex){ return usingFlex ? flexibleCloseOperatorPct(n) : equalBOperatorPct(n); }
+function monthlyOperatorPct(n){ return monthlyTraderPct(n); }
+function approxEqual(a,b,tol){ return Math.abs(Number(a)-Number(b)) <= (tol||2); }
+function validateCalculation(data){
+  const errors=[];
+  const sum=arr=>arr.reduce((a,b)=>a+Number(b||0),0);
+  const roundingTol=Math.max(4,data.memberCount*data.months*3);
+  if(!approxEqual(sum(data.memberContributions),data.totalCapital,2)) errors.push('memberContribution нийлбэр totalCapital-тай таарахгүй');
+  if(!approxEqual(sum(data.memberShares),1,0.0005)) errors.push('memberShare нийлбэр 100% биш');
+  if(!approxEqual(data.operatorMonthlyTotal+sum(data.memberMonthlyTotals),data.totalMonthlyDistribution,roundingTol)) errors.push('Сарын хуваарилалтын нийлбэр monthlyDistributionPool-той таарахгүй');
+  if(data.closeMode!=='a'){
+    if(!approxEqual(data.operatorCloseProfit+sum(data.memberCloseProfits),data.growth,Math.max(3,data.memberCount*3))) errors.push('Данс хаах ашгийн хуваалт growth-тэй таарахгүй');
+  }
+  if(!approxEqual(sum(data.memberBaseTotals),sum(data.memberMonthlyTotals)+sum(data.memberCloseTotals),roundingTol)) errors.push('memberBaseCampaignTotal дотоод нийлбэр алдаатай');
+  if(!approxEqual(data.operatorFinalTotal,data.operatorBaseTotal+sum(data.memberIncentives),roundingTol)) errors.push('operatorFinalTotal incentive-тэй таарахгүй');
+  if(!approxEqual(sum(data.memberFinalTotals)+data.operatorFinalTotal,sum(data.memberBaseTotals)+data.operatorBaseTotal,roundingTol)) errors.push('Final totals balance алдаатай');
+  return {ok:errors.length===0,errors};
+}
+function renderValidationError(errors){
+  const html='<div class="logic-box"><div class="lb-title" style="color:#E85D5D">Validation fail</div><div class="logic-prose"><span class="lt">Тооцооллын нийлбэр зөрсөн тул UI дээр дүн гаргахгүй.</span><span class="logic-public-note" style="border-left-color:#E85D5D;color:#E8A0A0">'+errors.join('<br>')+'</span></div></div>';
+  ['summary','persons','logic-box','flexResult'].forEach(id=>{const el=document.getElementById(id); if(el)el.innerHTML=html;});
+  const tbl=document.getElementById('tbl'); if(tbl)tbl.innerHTML='<tr><td colspan="8" style="color:#E85D5D;text-align:left">Validation fail — тооцооллыг шалгана уу.</td></tr>';
+  console.warn('Calculator validation failed:',errors);
+}
+
+function render(){
+  if(!mainMode){document.body.classList.add('mode-landing-active');}
+  const n=+document.getElementById('n').value;
+  const inv=+document.getElementById('inv').value;
+  const rate=+document.getElementById('rate').value/100;
+  const sup=+document.getElementById('sup').value/100;
+  const months=+document.getElementById('months').value;
+  let tipPct=normalizeIncentivePct(document.getElementById('tip').value)/100;
+
+  document.getElementById('n-lbl').textContent=n+' хүн';
+  document.getElementById('inv-lbl').textContent=fmt(inv);
+  document.getElementById('rate-lbl').textContent=Math.round(rate*100)+'%';
+  document.getElementById('sup-lbl').textContent=Math.round(sup*100)+'%';
+  document.getElementById('mo-lbl').textContent=months+' сар';
+  document.getElementById('tip-lbl').textContent=Math.round(tipPct*100)+'%';
+  document.getElementById('tip').value=Math.round(tipPct*100);
+
+  ensureFlexAmounts(n,inv);
+  ensureEqualTipRates(n);
+  const cost=0.02;
+  const usingFlex=(calcMode==="custom");
+  if(usingFlex){ dansMode="b"; }
+  if(!usingFlex){ tipPct=normalizeIncentivePct(equalTipRates[flexMyIndex]||INCENTIVE_DEFAULT_PCT)/100; }
+  document.getElementById('tip-lbl').textContent=Math.round(tipPct*100)+'%';
+  document.getElementById('tip').value=Math.round(tipPct*100);
+  updateModeBanner(usingFlex,n,inv);
+  const memberColHead=document.getElementById('member-col-head');
+  if(memberColHead) memberColHead.textContent = usingFlex ? ((flexMyIndex+1)+'-р гишүүн') : ((flexMyIndex+1)+'-р гишүүн');
+  const flexTotal=flexAmounts.slice(0,n).reduce((a,b)=>a+Number(b||0),0);
+  const totalCap=usingFlex ? flexTotal : inv*n;
+  const myInv=usingFlex ? Number(flexAmounts[flexMyIndex]||0) : inv;
+  const myShare=totalCap>0 ? myInv/totalCap : 0;
+  const distPct=1-cost-sup;
+  const tp=closeOperatorPct(n,usingFlex);
+  // Тооцоолуур 1 (ижил дүн) дээр сарын хуваарилалт A/B аль алинд нь n+1 талд тэнцүү.
+  // B-ийн close profit шатлал зөвхөн данс хаах үед орно.
+  const mtp=(!usingFlex) ? equalAOperatorPct(n) : monthlyOperatorPct(n);
+  const mp=(1-tp)/n;
+  const monthlyMemberPct=(1-mtp)/n;
+  const share=usingFlex ? myShare : mp;
+
+  document.getElementById('hdr-right').innerHTML='';
+
+  const equalSharePct = ((1-mtp)/Math.max(1,n))*100;
+  const closeMemberPct = ((1-tp)/Math.max(1,n))*100;
+  const controlShareChip = usingFlex
+    ? 'Гишүүдийн хуваарилалт: капиталын жингээр'
+    : (dansMode==="a"
+        ? 'Бүх хуваалт: '+(n+1)+' тал тэнцүү'
+        : 'Сарын хуваалт: '+(n+1)+' тал тэнцүү · Данс хаах B шатлалтай');
+  document.getElementById('chips').innerHTML=
+    `<span class="chip chip-cost">Зардал 2%</span><span class="chip chip-scale">Өсгөх ${Math.round(sup*100)}%</span><span class="chip chip-share">${controlShareChip}</span>`;
+
+  let cap=totalCap;
+  const rows=[];
+  let tT=0,tM=0,tS=0,tC=0;
+
+  for(let m=1;m<=months;m++){
+    const profit=Math.round(cap*rate);
+    const cAmt=Math.round(profit*cost);
+    const scUp=Math.round(profit*sup);
+    const dist=Math.round(profit*distPct);
+    const tr=Math.round(dist*mtp);
+    const memberPool=Math.max(0,dist-tr);
+    const mb=Math.round(memberPool/n);
+    const dd=Math.round(cap*0.20);
+    tT+=tr; tM+=mb; tS+=scUp; tC+=cAmt;
+    rows.push({m,cap:Math.round(cap),profit,cAmt,scUp,dist,tr,memberPool,mb,dd});
+    cap+=scUp;
+  }
+
+  const finalCap=Math.round(totalCap+tS);
+  const grossProfit=Math.max(0,finalCap-totalCap);
+  let dansTrader=0, dansMember=0, trTotal=0, mbTotal=0, mbROI=0;
+  if(dansMode==="a"){
+    // А: нийт данс ÷ (n+1) — бүгдийг тэнцүү хуваана
+    const dansEachA=Math.round(finalCap/(n+1));
+    dansTrader=dansEachA;
+    dansMember=dansEachA;
+  } else {
+    // Б: анхны мөнгө буцааж, үлдсэн өсөлтийн ашгийг close profit шатлалаар бодно.
+    // 1 гишүүн 50/50, 2 гишүүн 40/30/30, 3 гишүүн operator 30%, 4 гишүүн 25%, 5+ гишүүн 20%.
+    // Flexible: адил close profit шатлалыг капиталын жингээр гишүүдэд хуваана.
+    dansTrader=Math.round(grossProfit*tp);
+    dansMember=Math.round(inv+(grossProfit-dansTrader)/n);
+  }
+  trTotal=tT+dansTrader;
+  mbTotal=tM+dansMember;
+
+  const memberContributions = usingFlex
+    ? flexAmounts.slice(0,n).map(v=>Number(v||0))
+    : Array.from({length:n},()=>inv);
+  const memberShares = memberContributions.map(v=>totalCap>0?v/totalCap:0);
+  const selectedShare = memberShares[flexMyIndex] || 0;
+  const selectedContribution = memberContributions[flexMyIndex] || 0;
+  const memberMonthlyPool = rows.reduce((a,r)=>a+Number(r.memberPool||0),0);
+  const totalMonthlyDistribution = rows.reduce((a,r)=>a+Number(r.dist||0),0);
+  const memberMonthlyTotals = memberShares.map(sh=>rows.reduce((a,r)=>a+Math.round(r.memberPool*sh),0));
+  const memberFirstMonthAmounts = memberShares.map(sh=>Math.round(rows[0].memberPool*sh));
+  const memberLastMonthAmounts = memberShares.map(sh=>Math.round(rows[rows.length-1].memberPool*sh));
+  const memberCloseProfitPool=Math.max(0,grossProfit-dansTrader);
+  const memberCloseProfits = memberContributions.map((amt,i)=>dansMode==="a"?Math.round(dansMember-amt):Math.round(memberCloseProfitPool*(memberShares[i]||0)));
+  const memberCloseTotals = memberContributions.map((amt,i)=>dansMode==="a"?dansMember:Math.round(amt+memberCloseProfits[i]));
+  const memberTotalsBeforeTip = memberContributions.map((_,i)=>Math.round(memberMonthlyTotals[i]+memberCloseTotals[i]));
+  const memberTipRates = usingFlex
+    ? flexTipRates.slice(0,n).map(v=>normalizeIncentivePct(v)/100)
+    : equalTipRates.slice(0,n).map(v=>normalizeIncentivePct(v)/100);
+  const memberTips = memberTotalsBeforeTip.map((v,i)=>Math.round(v*(memberTipRates[i]||tipPct)));
+  const tipPool = memberTips.reduce((a,b)=>a+b,0);
+  const selectedTip = memberTips[flexMyIndex]||0;
+  const selectedTipPct = memberTipRates[flexMyIndex]||tipPct;
+  const trTotalBeforeTip = trTotal;
+  trTotal = trTotalBeforeTip + tipPool;
+  const memberFinalTotals = memberTotalsBeforeTip.map((v,i)=>Math.max(0,v-memberTips[i]));
+
+  const displayMemberTotalBeforeTip=memberTotalsBeforeTip[flexMyIndex]||0;
+  const displayMemberTotal=memberFinalTotals[flexMyIndex]||0;
+  const displayDansMember=memberCloseTotals[flexMyIndex]||0;
+  const displayMonthlyTotal=memberMonthlyTotals[flexMyIndex]||0;
+  const displayROIBase=selectedContribution;
+  mbROI=Math.round((displayMemberTotal/Math.max(1,displayROIBase)-1)*100);
+  const m1=memberFirstMonthAmounts[flexMyIndex]||0, mL=memberLastMonthAmounts[flexMyIndex]||0;
+  const m1t=rows[0].tr, mLt=rows[rows.length-1].tr;
+  const flexMonthlyTotal=displayMonthlyTotal;
+  const flexFirstMonth=m1;
+  const flexLastMonth=mL;
+  const flexCloseProfit=memberCloseProfits[flexMyIndex]||0;
+  const flexCloseTotal=displayDansMember;
+  const flexTotalReturn=displayMemberTotalBeforeTip;
+
+  const validation=validateCalculation({
+    memberCount:n,months,totalCapital:totalCap,memberContributions,memberShares,
+    operatorMonthlyTotal:tT,memberMonthlyTotals,totalMonthlyDistribution,
+    closeMode:dansMode,operatorCloseProfit:dansTrader,memberCloseProfits,growth:grossProfit,
+    memberBaseTotals:memberTotalsBeforeTip,memberCloseTotals,
+    operatorBaseTotal:trTotalBeforeTip,operatorFinalTotal:trTotal,memberIncentives:memberTips,memberFinalTotals
+  });
+  if(!validation.ok){ renderValidationError(validation.errors); return; }
+
+  renderFlexModule(n,inv,totalCap,selectedContribution,selectedShare,flexMonthlyTotal,flexFirstMonth,flexLastMonth,flexCloseProfit,flexCloseTotal,flexTotalReturn,mbROI,usingFlex,selectedTip,displayMemberTotal,selectedTipPct,tipPool);
+
+  // Summary
+  document.getElementById('summary').innerHTML=`
+    <div class="card"><div class="num" style="color:#4FC3F7">${fmt(totalCap)}</div><div class="lbl">Нийт эхлэх капитал</div></div>
+    <div class="card"><div class="num" style="color:#CADCFC">${fmt(finalCap)}</div><div class="lbl">${months} сарын дараа капитал</div></div>
+    ${PUBLIC_HIDE_OPERATOR_AMOUNTS?'':`<div class="card dim"><div class="num" style="color:#3A4A5A">${fmt(trTotal)}</div><div class="lbl">Данс удирдагчийн нийт авах</div></div>`}
+    <div class="card hl-green"><div class="num" style="color:#00C897">${fmt(displayMemberTotal)}</div><div class="lbl">${usingFlex?"Сонгосон гишүүний нийт авах":"Нэг гишүүний нийт авах"}</div></div>
+    <div class="card hl-amber"><div class="num" style="color:#FFB547">${usingFlex?"5–20%":Math.round(tipPct*100)+"%"}</div><div class="lbl">Данс удирдагчийн гүйцэтгэлийн урамшууллын хувь</div></div>
+    <div class="card hl-amber"><div class="num" style="color:#FFB547">+${mbROI}%</div><div class="lbl">${usingFlex?"Сонгосон гишүүний өгөөж":"Гишүүний өгөөж"}</div></div>
+    <div class="card"><div class="num" style="color:#333">${fmt(tC)}</div><div class="lbl">Нийт арилжааны зардал</div></div>
+  `;
+
+  // Member grid
+  let mg='';
+  for(let i=1;i<=n;i++){
+    const rowInv=usingFlex?Number(flexAmounts[i-1]||0):inv;
+    const rowShare=totalCap>0?rowInv/totalCap:0;
+    const rowMonthly=memberMonthlyTotals[i-1]||0;
+    const rowCloseProfit=memberCloseProfits[i-1]||0;
+    const rowClose=memberCloseTotals[i-1]||0;
+    const rowTotalBeforeTip=memberTotalsBeforeTip[i-1]||0;
+    const rowTipRate=memberTipRates[i-1]||tipPct;
+    const rowTip=memberTips[i-1]||0;
+    const rowTotal=memberFinalTotals[i-1]||0;
+    mg+=`<div class="mcard member-mini-click" onclick="setFlexMyIndex(${i-1})" style="background:${i-1===flexMyIndex?'rgba(255,181,71,.09)':'rgba(255,255,255,.06)'};border:${i-1===flexMyIndex?'1px solid rgba(255,181,71,.35)':'1px solid rgba(255,255,255,.04)'};border-radius:10px;padding:.75rem 1rem">
+      <div style="font-size:10px;color:#8ABACD;margin-bottom:5px;font-weight:600">${i}-р гишүүн · ${(rowShare*100).toFixed(1)}%</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0"><span style="color:#CADCFC">Оруулсан</span><span style="font-weight:600;color:#8ABACD">${fmt(rowInv)}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0"><span style="color:#CADCFC">Сарын нийт</span><span style="font-weight:600;color:#4FC3F7">${fmt(rowMonthly)}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0"><span style="color:#CADCFC">Данснаас авах</span><span style="font-weight:600;color:#00C897">${fmt(rowClose)}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;padding:2px 0"><span style="color:#CADCFC">Урамшуулал ${Math.round(rowTipRate*100)}%</span><span style="font-weight:600;color:#FFB547">−${fmt(rowTip)}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0 0;margin-top:4px;border-top:0.5px solid rgba(255,255,255,.1)"><span style="color:#CADCFC">Эцсийн авах</span><span style="font-weight:700;color:#00C897">${fmt(rowTotal)}</span></div>
+    </div>`;
+  }
+  // Бүх гишүүнийг бүрэн харуулна. +N / “Мөн адил тооцоо” placeholder ашиглахгүй,
+  // учир нь гишүүн бүрийн incentive хувь тусдаа сонгогдож болно.
+
+  // Persons
+  document.getElementById('persons').innerHTML=`
+    <div class="pcard trader-card">
+      <div class="pc-header">
+        <div><div class="pc-who">Данс удирдагч</div><div class="pc-total" style="color:#5A7A9A">${PUBLIC_HIDE_OPERATOR_AMOUNTS?'Дотоод тооцоо':fmt(trTotal)}</div></div>
+        <div style="text-align:right">
+          <div style="font-size:10px;color:#5A7A9A">1-р сард</div>
+          <div style="font-size:13px;font-weight:700;color:#8A9CC8">${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':fmt(m1t)+'/сар'}</div>
+          <div style="font-size:10px;color:#5A7A9A;margin-top:3px">${months}-р сард</div>
+          <div style="font-size:13px;font-weight:700;color:#8A9CC8">${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':fmt(mLt)+'/сар'}</div>
+        </div>
+      </div>
+      <div class="pc-rows">
+        <div class="prow"><span>Сарын орлого нийт</span><strong>${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':fmt(tT)}</strong></div>
+        <div class="prow"><span>Данснаас авах</span><strong>${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':'+'+fmt(dansTrader)}</strong></div>
+        <div class="prow"><span>Данс удирдагчийн гүйцэтгэлийн урамшуулал</span><strong style="color:#FFB547">${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':'+'+fmt(tipPool)}</strong></div>
+        <div class="prow"><span>Нийт авах</span><strong>${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':fmt(trTotal)}</strong></div>
+      </div>
+      <div class="trader-info">
+        <div class="ti-title">Данс удирдагч юу хийдэг вэ</div>
+        <div class="ti-rows">
+          <div class="ti-row"><span class="ti-dot"></span><span>Өдөр бүр зах зээлийг уншиж орох гарах шийдвэр гаргана</span></div>
+          <div class="ti-row"><span class="ti-dot"></span><span>Арилжааны стратеги, эрсдэлийн хяналтыг бүрэн хариуцна</span></div>
+          <div class="ti-row"><span class="ti-dot"></span><span>Алдагдал хязгаарт хүрвэл шууд зогсооно</span></div>
+          <div class="ti-row"><span class="ti-dot"></span><span>Сар бүр бичгийн тайлан гаргаж бүх гишүүнд хүргэнэ</span></div>
+          <div class="ti-row"><span class="ti-dot"></span><span>Мөнгөн хөрөнгөгүй — цаг, чадвар, хариуцлагаараа оролцоно</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="pcard member-card">
+      <div class="pc-header">
+        <div><div class="pc-who">${"Сонгосон гишүүн · "+(flexMyIndex+1)+"-р гишүүн"}</div><div class="pc-total" style="color:#00C897">${fmt(displayMemberTotal)}</div></div>
+        <div style="text-align:right">
+          <div style="font-size:10px;color:#CADCFC">1-р сард</div>
+          <div style="font-size:13px;font-weight:700;color:#4FC3F7">${fmt(m1)}/сар</div>
+          <div style="font-size:10px;color:#CADCFC;margin-top:3px">${months}-р сард</div>
+          <div style="font-size:13px;font-weight:700;color:#00C897">${fmt(mL)}/сар</div>
+        </div>
+      </div>
+      <div class="pc-rows">
+        <div class="prow"><span>Сарын орлого нийт</span><strong>${fmt(displayMonthlyTotal)}</strong></div>
+        <div class="prow"><span>Данснаас авах</span><strong>+${fmt(displayDansMember)}</strong></div>
+        <div class="prow"><span>Оруулсан капитал</span><strong>${fmt(displayROIBase)}</strong></div>
+        <div class="prow"><span>Данс удирдагчийн гүйцэтгэлийн урамшуулал</span><strong style="color:#FFB547">−${fmt(selectedTip)}</strong></div>
+        <div class="prow"><span>Эцсийн авах</span><strong style="color:#00C897">${fmt(displayMemberTotal)}</strong></div>
+      </div>
+      <div class="roi-badge">Өгөөж +${mbROI}%</div>
+      <div class="member-incentive-compact"><span>Данс удирдагчийн гүйцэтгэлийн урамшуулал</span><div class="member-incentive-buttons">${usingFlex?incentiveButtonsForMember(flexMyIndex):equalIncentiveButtons()}</div><small>Энэ хувь нь тухайн гишүүний эцсийн авах дүнгээс тооцогдож, данс удирдагчийн арилжааны гүйцэтгэл, өдөр тутмын хяналт, эрсдэлийн удирдлага, тайлангийн ажиллагааны урамшуулалд нэмэгдэнэ.</small></div>
+      <div class="member-grid">${mg}</div>
+    </div>
+  `;
+
+  // Logic — public prose style
+  const selectedMemberLabel=usingFlex ? ((flexMyIndex+1)+'-р гишүүн') : 'Нэг гишүүн';
+  const publicMemberIntro = usingFlex
+    ? `<span class="lt">${n} гишүүний нийт оруулсан капитал</span>
+       <span class="lv">${fmt(totalCap)}</span>
+       <span class="lt">. ${selectedMemberLabel} оруулсан дүн</span>
+       <span class="lv amber">${fmt(selectedContribution)}</span>
+       <span class="lt">бол нийт капиталын</span>
+       <span class="lv">${(selectedShare*100).toFixed(2)}%</span>
+       <span class="lt">юм.</span>`
+    : `<span class="lt">${n} гишүүн тус бүр</span>
+       <span class="lv">${fmt(inv)}</span>
+       <span class="lt">оруулснаар нийт капитал</span>
+       <span class="lv">${fmt(totalCap)}</span>
+       <span class="lt">болно.</span>`;
+  const publicMonthlyText = usingFlex
+    ? `<span class="lt">Сарын гишүүдэд хуваарилагдах дүн нь тухайн гишүүний нийт капиталд эзлэх хувиар бодогдоно. ${selectedMemberLabel}-ийн сарын нийт хуваарилалт</span>
+       <span class="lv green">${fmt(displayMonthlyTotal)}</span>
+       <span class="lt">болно.</span>`
+    : (dansMode==="a"
+       ? `<span class="lt">А хувилбар дээр сарын тараах дүн нь ${n} гишүүн + данс удирдагч гэсэн нийт</span>
+       <span class="lv amber">${n+1} талд</span>
+       <span class="lt">тэнцүү хуваагдана. Нэг гишүүний сарын нийт хуваарилалт</span>
+       <span class="lv green">${fmt(displayMonthlyTotal)}</span>
+       <span class="lt">болно.</span>`
+       : `<span class="lt">Б хувилбар дээр сарын тараах дүн нь ${n} гишүүн + данс удирдагч гэсэн нийт</span>
+       <span class="lv amber">${n+1} талд</span>
+       <span class="lt">тэнцүү хуваагдана. Нэг гишүүний сарын нийт хуваарилалт</span>
+       <span class="lv green">${fmt(displayMonthlyTotal)}</span>
+       <span class="lt">болно.</span>`);
+  const publicCloseText = usingFlex
+    ? `<span class="lt">Данс хаагдах үед ${selectedMemberLabel}-ийн оруулсан капитал</span>
+       <span class="lv amber">${fmt(selectedContribution)}</span>
+       <span class="lt">буцаж, данс хаах үеийн ашиг нь close profit шатлалын дараа тухайн гишүүний капиталын хувиар тооцогдоно. Данс хаагдахад авах дүн</span>
+       <span class="lv green">${fmt(displayDansMember)}</span>
+       <span class="lt">. Данс удирдагчийн гүйцэтгэлийн урамшууллын дараах эцсийн авах:</span>
+       <span class="lv green">${fmt(displayMemberTotal)}</span>
+       <span class="lt">—</span>
+       <span class="lv amber">+${mbROI}% өгөөж.</span>`
+    : (dansMode==="a"
+       ? `<span class="lt">Данс хаагдах үед final balance мөн нийт</span>
+       <span class="lv amber">${n+1} талд</span>
+       <span class="lt">тэнцүү хуваагдана. Нэг гишүүний данс хаах үеийн дүн</span>
+       <span class="lv green">${fmt(displayDansMember)}</span>
+       <span class="lt">. Данс удирдагчийн гүйцэтгэлийн урамшууллын дараах эцсийн авах:</span>
+       <span class="lv green">${fmt(displayMemberTotal)}</span>
+       <span class="lt">—</span>
+       <span class="lv amber">+${mbROI}% өгөөж.</span>`
+       : `<span class="lt">Данс хаагдах үед гишүүний анхны капитал</span>
+       <span class="lv amber">${fmt(inv)}</span>
+       <span class="lt">буцна. Үлдсэн өсөлтийн ашиг нь close profit шатлалаар бодогдоно:</span>
+       <span class="lv amber">1 хүн 50/50 · 2 хүн 40/30/30 · 3 хүн 30% · 4 хүн 25% · 5+ хүн 20%</span>
+       <span class="lt">. Нэг гишүүний данс хаах үеийн дүн</span>
+       <span class="lv green">${fmt(displayDansMember)}</span>
+       <span class="lt">. Данс удирдагчийн гүйцэтгэлийн урамшууллын дараах эцсийн авах:</span>
+       <span class="lv green">${fmt(displayMemberTotal)}</span>
+       <span class="lt">—</span>
+       <span class="lv amber">+${mbROI}% өгөөж.</span>`);
+  const incentivePublicText = selectedTipPct>0
+    ? `<span class="logic-public-note"><span class="em">Данс удирдагчийн гүйцэтгэлийн урамшуулал</span> нь тухайн гишүүний эцсийн авах дүнгээс тооцогдож, арилжааны гүйцэтгэл, өдөр тутмын хяналт, эрсдэлийн удирдлага, тайлангийн ажиллагааны урамшуулалд нэмэгдэнэ.</span>`
+    : '';
+  const finalProfitAfterIncentive=Math.max(0,displayMemberTotal-displayROIBase);
+  const finalPublicSummary=`<span class="logic-final-summary"><span class="em">Өөрөөр хэлбэл</span>, та анх <span class="num">${fmt(displayROIBase)}</span> оруулаад <span class="num">${months} сарын</span> хугацааны эцэст сарын <span class="num">${Math.round(rate*100)}%</span> урьдчилсан өсөлтөөр <span class="num">${fmt(finalProfitAfterIncentive)}</span> ашиг хүртэж, нийт <span class="num">${fmt(displayMemberTotal)}</span> авах боломжтой. Энэ нь <span class="num">+${mbROI}% өгөөж</span>.</span>`;
+  document.getElementById('logic-box').innerHTML=`
+    <div class="lb-title">Хуваалтын логик — ${usingFlex?'Өөр өөр дүнгээр · '+selectedMemberLabel:(dansMode==="a"?"А: Бүх хуваалт тэнцүү":"Б: Анхны капитал + өсөлтийн ашгийн хуваалт")}</div>
+    <div class="logic-prose">
+      ${publicMemberIntro}
+      <span class="lt">Сарын ашгаас</span>
+      <span class="lv">2% зардал</span>
+      <span class="lt">болон</span>
+      <span class="lv">${Math.round(sup*100)}% өсгөх хэмжээ</span>
+      <span class="lt">хасагдана.</span>
+      ${publicMonthlyText}
+      ${publicCloseText}
+      ${incentivePublicText}
+      ${finalPublicSummary}
+    </div>
+  `;
+
+  // DD note
+  document.getElementById('dd-note').textContent=
+    `Уналтын хязгаар нь капиталтай хамт өснө — данс томрох тусам хамгаалалтын зай нэмэгдэнэ. 1-р сард ${fmt(rows[0].dd)}, ${months}-р сард ${fmt(rows[rows.length-1].dd)}.`;
+
+  // Table
+  const tbody=document.getElementById('tbl');
+  tbody.innerHTML=rows.map(r=>`<tr>
+    <td>${r.m}-р сар</td><td>${fmt(r.cap)}</td><td>${fmt(r.profit)}</td>
+    <td>${fmt(r.cAmt)}</td><td>${fmt(r.scUp)}</td>
+    <td>${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':fmt(r.tr)}</td>
+    <td style="color:#00C897;font-weight:600">${fmt(Math.round(r.memberPool*selectedShare))}</td>
+    <td>${fmt(r.dd)}</td>
+  </tr>`).join('')+`
+    <tr class="tot">
+      <td>${months} сарын хуваарилалт нийт</td><td>${fmt(finalCap)}</td><td>—</td>
+      <td>${fmt(tC)}</td><td>${fmt(tS)}</td>
+      <td>${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':fmt(tT)}</td><td>${fmt(displayMonthlyTotal)}</td><td>—</td>
+    </tr>
+    <tr class="dans">
+      <td>+ Данс хаах үеийн авах дүн</td>
+      <td colspan="4" style="text-align:right">${usingFlex
+        ? ((flexMyIndex+1)+"-р гишүүн: үндсэн "+fmt(selectedContribution)+" + хаалтын ашгийн хувь "+fmt(flexCloseProfit)+" = "+fmt(displayDansMember))
+        : (dansMode==="a"?"А хувилбар: сарын тараах дүн болон final balance бүх оролцогчдод тэнцүү хуваагдана · нийт "+(n+1)+" тал":"Б хувилбар: сарын тараах дүн "+(n+1)+" талд тэнцүү. Данс хаах үед үндсэн капитал буцаж, өсөлтийн ашиг 1 хүн 50/50, 2 хүн 40/30/30, 3 хүн 30%, 4 хүн 25%, 5+ хүн 20% шатлалаар хуваагдана")}</td>
+      <td>${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':'+'+fmt(dansTrader)}</td><td>+${fmt(displayDansMember)}</td><td>—</td>
+    </tr>
+    <tr class="dans" style="color:#FFB547">
+      <td>Данс удирдагчийн гүйцэтгэлийн урамшуулал</td>
+      <td colspan="4" style="text-align:right">${usingFlex
+        ? ((flexMyIndex+1)+"-р гишүүн: base total × "+Math.round(selectedTipPct*100)+"% → гишүүнээс хасагдана")
+        : ((flexMyIndex+1)+"-р гишүүн: base total × "+Math.round(selectedTipPct*100)+"% → гишүүнээс хасагдана")}</td>
+      <td>${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':'+'+fmt(tipPool)}</td><td>−${fmt(selectedTip)}</td><td>—</td>
+    </tr>
+    <tr class="final">
+      <td>ЭЦСИЙН НИЙТ АВАХ</td><td colspan="4" style="text-align:right">Сарын хуваарилалт + данс хаах дүн − урамшуулал</td>
+      <td>${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':fmt(trTotal)}</td><td>${fmt(displayMemberTotal)}</td><td>—</td>
+    </tr>
+    <tr><td colspan="8" style="padding:8px 10px;font-size:11px;color:#8A9CC8;line-height:1.55;background:rgba(79,195,247,.045);font-style:normal">
+      ${usingFlex
+        ? ((flexMyIndex+1)+"-р гишүүний тайлбар: оруулсан "+fmt(selectedContribution)+" · нийт капитал дахь хувь "+(selectedShare*100).toFixed(2)+"%. Энэ баганад зөвхөн сонгосон гишүүний сарын хуваарилалт, данс хаах үед авах дүн, урамшууллын хасалт, эцсийн авах дүн гарч байна. Данс удирдагч баганад test зорилгоор дотоод тооцооны дүн харагдаж байна.")
+        : (dansMode==="a"
+          ? ((flexMyIndex+1)+"-р гишүүний тайлбар: А хувилбар дээр сарын тараах дүн, данс хаах final balance бүгд "+(n+1)+" талд тэнцүү хуваагдана. Данс удирдагч баганад test зорилгоор дотоод тооцооны дүн харагдаж байна.")
+          : ((flexMyIndex+1)+"-р гишүүний тайлбар: Б хувилбар дээр close profit шатлал нь 1 хүн 50/50, 2 хүн 40/30/30, 3 хүн operator 30%, 4 хүн 25%, 5+ хүн 20%. Сарын хуваарилалт дээр 3+ гишүүнтэй үед operator 30%, гишүүдийн хэсэг тэнцүү сууриар бодогдоно. Данс удирдагч баганад test зорилгоор дотоод тооцооны дүн харагдаж байна."))}
+    </td></tr>`;
+
+  // Tax — жишээ тооцоолол
+  const annInc=displayMonthlyTotal/months*12;
+  const futTax=annInc*0.6*0.15 + annInc*0.4*0.22;
+  const ordTax=annInc*0.22;
+  document.getElementById('tax-ex').innerHTML=`
+    <div class="tex t-fut" onclick="toggleTax(this)">
+      <span class="tex-arrow">▼</span>
+      <div class="tn">${fmt(Math.round(futTax))}</div>
+      <div class="tl"><strong style="color:#00C897">Фьючерс 60/40 дүрэм</strong><br>${usingFlex?"Сонгосон гишүүний жилийн татвар":"Нэг гишүүний жилийн татвар"} · дарж дэлгэрэнгүй харах</div>
+      <div class="tax-detail">
+        <div class="td-title">${usingFlex?"Сонгосон гишүүний тооцоолол":"Нэг гишүүний тооцоолол"}</div>
+        <div class="td-row"><span>Жилийн орлого</span><span>${fmt(Math.round(annInc))}</span></div>
+        <div class="td-row"><span>60% × 15% (урт хугацааны)</span><span>${fmt(Math.round(annInc*.6*.15))}</span></div>
+        <div class="td-row"><span>40% × 22% (богино хугацааны)</span><span>${fmt(Math.round(annInc*.4*.22))}</span></div>
+        <div class="td-row" style="color:rgba(0,200,151,.8)"><span>${usingFlex?"Сонгосон гишүүний жилийн татвар":"Нэг гишүүний жилийн татвар"}</span><span>${fmt(Math.round(futTax))}</span></div>
+        <div class="td-row" style="color:rgba(255,181,71,.7)"><span>Бүх ${n} гишүүний нийт татвар</span><span>${fmt(Math.round(futTax*n))}</span></div>
+        <div class="td-row" style="margin-top:4px;border-top:1px solid rgba(255,255,255,.05);padding-top:6px"><span>Татварын дараах цэвэр орлого</span><span>${fmt(Math.round(annInc-futTax))}</span></div>
+      </div>
+    </div>
+    <div class="tex t-ord" onclick="toggleTax(this)">
+      <span class="tex-arrow">▼</span>
+      <div class="tn">${fmt(Math.round(ordTax))}</div>
+      <div class="tl"><strong style="color:#FFB547">Ердийн орлого 22%</strong><br>${usingFlex?"Сонгосон гишүүний жилийн татвар":"Нэг гишүүний жилийн татвар"} · харьцуулалт</div>
+      <div class="tax-detail">
+        <div class="td-title">Харьцуулалт</div>
+        <div class="td-row"><span>Жилийн орлого</span><span>${fmt(Math.round(annInc))}</span></div>
+        <div class="td-row"><span>${usingFlex?"Ердийн 22% татвар (сонгосон гишүүн)":"Ердийн 22% татвар (нэг гишүүн)"}</span><span>${fmt(Math.round(ordTax))}</span></div>
+        <div class="td-row"><span>${usingFlex?"Фьючерс 60/40 татвар (сонгосон гишүүн)":"Фьючерс 60/40 татвар (нэг гишүүн)"}</span><span style="color:#00C897">${fmt(Math.round(futTax))}</span></div>
+        <div class="td-row" style="color:rgba(0,200,151,.8)"><span>${usingFlex?"Хэмнэлт (сонгосон гишүүн)":"Хэмнэлт (нэг гишүүн)"}</span><span>-${fmt(Math.round(ordTax-futTax))}</span></div>
+        <div class="td-row" style="margin-top:4px;border-top:1px solid rgba(255,255,255,.05);padding-top:6px;color:rgba(255,181,71,.6)"><span>Бүх ${n} гишүүний нийт татвар</span><span>${fmt(Math.round(ordTax*n))}</span></div>
+      </div>
+    </div>
+  `;
+}
+
+
+function renderFlexModule(n,inv,totalCap,selectedContribution,selectedShare,flexMonthlyTotal,flexFirstMonth,flexLastMonth,flexCloseProfit,flexCloseTotal,flexTotalReturn,mbROI,usingFlex,selectedTip,displayMemberTotal,tipPct,tipPool){
+  const eqBtn=document.getElementById('flexModeEqual');
+  const cuBtn=document.getElementById('flexModeCustom');
+  const editor=document.getElementById('flexEditor');
+  if(eqBtn)eqBtn.classList.toggle('active',!usingFlex);
+  if(cuBtn)cuBtn.classList.toggle('active',usingFlex);
+  if(editor)editor.classList.toggle('open',usingFlex);
+
+  const mySel=document.getElementById('flexMyIndex');
+  if(mySel){
+    mySel.innerHTML=Array.from({length:n},(_,i)=>`<option value="${i}" ${i===flexMyIndex?'selected':''}>${i+1}-р гишүүн</option>`).join('');
+  }
+  const totalEl=document.getElementById('flexTotalCap');
+  if(totalEl)totalEl.textContent=fmt(totalCap);
+
+  const rowsEl=document.getElementById('flexRows');
+  if(rowsEl){
+    rowsEl.innerHTML=Array.from({length:n},(_,i)=>{
+      const amt=Number(flexAmounts[i]||0);
+      const sh=totalCap>0?amt/totalCap:0;
+      return `<div class="flex-row ${i===flexMyIndex?'is-me':''}" data-flex-index="${i}" onclick="if(!event.target.closest('input,button,select')) setFlexMyIndex(${i})">
+        <div class="flex-row-name">${i+1}-р</div>
+        <div class="flex-amount-box">
+          <div class="flex-amount-line"><span style="font-size:10.5px;color:#7fa99d;font-weight:900">Оруулсан дүн</span><span class="flex-amount-value">${fmt(amt)}</span></div>
+          <div class="flex-control-line">
+            <button class="flex-step-btn" type="button" onclick="adjustFlexAmount(${i},-FLEX_BUTTON_STEP)">−5k</button>
+            <input class="flex-amount-slider" type="range" min="${FLEX_MIN_AMOUNT}" max="${FLEX_MAX_AMOUNT}" step="${FLEX_SLIDER_STEP}" value="${Math.round(amt)}" oninput="setFlexAmountLive(${i},this.value,this)" onchange="render()">
+            <button class="flex-step-btn" type="button" onclick="adjustFlexAmount(${i},FLEX_BUTTON_STEP)">+5k</button>
+          </div>
+        </div>
+        <div class="flex-share">${(sh*100).toFixed(2)}%</div>
+      </div>`;
+    }).join('');
+  }
+
+  const res=document.getElementById('flexResult');
+  if(!res)return;
+  if(!usingFlex){
+    const equalMonthly=(document.getElementById('tbl')&&document.getElementById('tbl').children.length)?'' : '';
+    res.innerHTML=`
+      <div class="flex-result-card main"><span>Одоогийн горим</span><b>${n} хүн × ${fmt(inv)}</b><small>Нийт капитал: ${fmt(totalCap)}. Бүх гишүүн ижил дүнгээр орж байгаа тул нэг гишүүний тооцоо үндсэн хэсэгт харагдана.</small></div>
+      <div class="flex-result-card"><span>Нэг гишүүний хувь</span><b>${(100/n).toFixed(2)}%</b></div>
+      <div class="flex-result-card"><span>Нэг гишүүний оруулсан дүн</span><b>${fmt(inv)}</b></div>
+      <div class="flex-result-card gold"><span>Данс удирдагчийн гүйцэтгэлийн урамшуулал</span><b>${Math.round(tipPct*100)}%</b><small>Гишүүний эцсийн авах дүнгээс тооцогдож данс удирдагчийн гүйцэтгэлийн урамшуулалд нэмэгдэнэ.</small></div>`;
+    return;
+  }
+  res.innerHTML=`
+    <div class="flex-result-card main"><span>${flexMyIndex+1}-р гишүүний нийт авах тооцоо</span><b>${fmt(displayMemberTotal)}</b><small>Сарын хуваарилалт + данс хаагдахад авах дүн − данс удирдагчийн гүйцэтгэлийн урамшуулал ${fmt(selectedTip)}.</small></div>
+    <div class="flex-result-card"><span>Миний оруулсан дүн</span><b>${fmt(selectedContribution)}</b><small>Нийт капитал дахь хувь: ${(selectedShare*100).toFixed(2)}%</small></div>
+    <div class="flex-result-card"><span>Сард авах жишээ</span><b>${fmt(flexFirstMonth)} → ${fmt(flexLastMonth)}</b><small>1-р сараас ${document.getElementById('months').value}-р сар хүртэл.</small></div>
+    <div class="flex-result-card"><span>Сарын нийт хуваарилалт</span><b>${fmt(flexMonthlyTotal)}</b><small>Нийт гишүүдэд очих сарын дүнгээс миний хувь.</small></div>
+    <div class="flex-result-card gold"><span>Данс удирдагчийн гүйцэтгэлийн урамшуулал</span><b>${Math.round(tipPct*100)}%</b><small>Гишүүний эцсийн авах дүнгээс тооцогдож данс удирдагчийн гүйцэтгэлийн урамшуулалд нэмэгдэнэ.</small></div>
+    <div class="flex-result-card"><span>Данс хаагдахад</span><b>${fmt(flexCloseTotal)}</b><small>Үндсэн капитал ${fmt(selectedContribution)} + ашгийн хувь ${fmt(flexCloseProfit)}.</small></div>
+    <div class="flex-result-card"><span>Өгөөж</span><b>+${mbROI}%</b><small>Миний оруулсан дүнтэй харьцуулсан нийт тооцоо.</small></div>`;
+}
+
+function toggleTax(el){
+  el.classList.toggle('open');
+}
+
+['n','inv','rate','sup','months','tip'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+goBackToModes();
+
+
+(function(){
+  var cv=document.getElementById('calcWbg');
+  if(!cv)return;
+  var ctx=cv.getContext('2d');
+  var W=0,H=0,dpr=1,t=0,ready=false;
+  var bgImg=new Image();
+  var stars=[], nodes=[], pulses=[];
+  var reduce=false;
+  try{ reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var mobileBg=false,lastFrame=0,scrollPauseUntil=0,scrollStaticDrawn=false;
+  function detectMobileBg(){
+    try{
+      mobileBg=(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent||'')) || (window.matchMedia&&window.matchMedia('(max-width: 820px)').matches) || (window.matchMedia&&window.matchMedia('(pointer: coarse)').matches);
+    }catch(e){mobileBg=(window.innerWidth||0)<821;}
+  }
+  function markBgScroll(){
+    if(!mobileBg)return;
+    scrollPauseUntil=Date.now()+850;
+    scrollStaticDrawn=false;
+  }
+  function bindBgScrollPause(){
+    try{
+      window.addEventListener('scroll',markBgScroll,{passive:true});
+      window.addEventListener('wheel',markBgScroll,{passive:true});
+      window.addEventListener('touchstart',markBgScroll,{passive:true});
+      window.addEventListener('touchmove',markBgScroll,{passive:true});
+    }catch(e){}
+  }
+
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+
+  function resize(){
+    detectMobileBg();
+    bindBgScrollPause();
+    dpr=mobileBg?1:Math.max(1,Math.min(1.35,window.devicePixelRatio||1));
+    W=window.innerWidth; H=window.innerHeight;
+    cv.width=Math.floor(W*dpr); cv.height=Math.floor(H*dpr);
+    cv.style.width=W+'px'; cv.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    buildScene();
+  }
+
+  function buildScene(){
+    stars=[]; nodes=[]; pulses=[];
+    var skyCount=mobileBg?(mobileBg?8:(reduce?10:18)):(reduce?45:70);
+    for(var i=0;i<skyCount;i++){
+      stars.push({
+        x:Math.random(),
+        y:Math.random()*0.48,
+        r:rand(0.45,1.6),
+        a:rand(0.22,0.95),
+        p:rand(0,Math.PI*2),
+        tw:rand(0.0007,0.0022),
+        cool:Math.random()>0.75
+      });
+    }
+    var rows=mobileBg?2:3, cols=mobileBg?Math.max(4,Math.round(W/360)):Math.max(6, Math.round(W/260));
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        nodes.push({
+          bx:(c+0.35+Math.random()*0.45)/cols,
+          by:0.78 + r*0.050 + rand(-0.010,0.010),
+          rx:mobileBg?rand(0.002,0.007):rand(0.006,0.020),
+          ry:mobileBg?rand(0.0005,0.0018):rand(0.0008,0.0032),
+          sp:mobileBg?rand(0.000035,0.000075):rand(0.00006,0.00016),
+          p:rand(0,Math.PI*2),
+          r:rand(1.2,2.6),
+          a:rand(0.45,1)
+        });
+      }
+    }
+    for(var p=0;p<(mobileBg?(reduce?0:3):(reduce?6:10));p++){
+      pulses.push({ edge:-1, prog:Math.random(), sp:mobileBg?rand(0.00035,0.00075):rand(0.00065,0.0017), a:mobileBg?rand(0.08,0.16):rand(0.14,0.30) });
+    }
+  }
+
+  bgImg.onload=function(){ ready=true; };
+  bgImg.src="../aurora.jpg";
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+
+  function drawBgImage(tm){
+    if(!ready){
+      ctx.fillStyle='#02070b';
+      ctx.fillRect(0,0,W,H);
+      return;
+    }
+    var iw=bgImg.naturalWidth||bgImg.width;
+    var ih=bgImg.naturalHeight||bgImg.height;
+    var cover=Math.max(W/iw,H/ih);
+    var scale=cover*1.03;
+    var driftX=Math.sin(tm*0.00006)*W*0.008;
+    var driftY=Math.cos(tm*0.00005)*H*0.006;
+    var dw=iw*scale, dh=ih*scale;
+    var ox=(W-dw)/2 + driftX;
+    var oy=(H-dh)/2 + driftY;
+    ctx.drawImage(bgImg, ox, oy, dw, dh);
+    var vign=ctx.createLinearGradient(0,0,0,H);
+    vign.addColorStop(0,'rgba(0,0,0,0.10)');
+    vign.addColorStop(0.68,'rgba(0,0,0,0.04)');
+    vign.addColorStop(1,'rgba(0,0,0,0.18)');
+    ctx.fillStyle=vign; ctx.fillRect(0,0,W,H);
+  }
+
+  function drawStars(tm){
+    for(var i=0;i<stars.length;i++){
+      var s=stars[i];
+      var x=s.x*W, y=s.y*H;
+      var tw=0.35+0.65*Math.abs(Math.sin(tm*s.tw+s.p));
+      var a=s.a*tw;
+      var r=s.r*(0.7+tw*0.6);
+      var hue=s.cool?'220,245,255':'255,245,220';
+      var g=ctx.createRadialGradient(x,y,0,x,y,r*8);
+      g.addColorStop(0,'rgba('+hue+','+(a*0.9)+')');
+      g.addColorStop(0.3,'rgba('+hue+','+(a*0.22)+')');
+      g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,r*8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='rgba(255,255,255,'+(a*0.95)+')'; ctx.beginPath(); ctx.arc(x,y,Math.max(0.4,r*0.45),0,Math.PI*2); ctx.fill();
+      if(tw>0.84){
+        var fl=r*6.8;
+        ctx.strokeStyle='rgba(255,255,255,'+(a*0.34)+')';
+        ctx.lineWidth=0.45;
+        ctx.beginPath(); ctx.moveTo(x-fl,y); ctx.lineTo(x+fl,y); ctx.moveTo(x,y-fl*0.65); ctx.lineTo(x,y+fl*0.65); ctx.stroke();
+      }
+    }
+  }
+
+  function drawAurora(tm){
+    var bands=[
+      { x1:-0.08, x2:0.42, y1:0.40, y2:0.22, amp:0.032, speed:0.00014, width:0.22, alpha:0.21 },
+      { x1:0.18, x2:0.66, y1:0.34, y2:0.26, amp:0.020, speed:0.00012, width:0.16, alpha:0.11 },
+      { x1:0.50, x2:1.04, y1:0.23, y2:0.16, amp:0.042, speed:0.00013, width:0.26, alpha:0.23 },
+      { x1:0.60, x2:0.96, y1:0.31, y2:0.24, amp:0.024, speed:0.00015, width:0.17, alpha:0.12 }
+    ];
+    ctx.save();
+    ctx.globalCompositeOperation='screen';
+    for(var b=0;b<bands.length;b++){
+      var band=bands[b];
+      var top=[], bot=[];
+      var steps=mobileBg?28:56;
+      for(var i=0;i<=steps;i++){
+        var u=i/steps;
+        var x=(band.x1 + (band.x2-band.x1)*u)*W;
+        var baseY=(band.y1 + (band.y2-band.y1)*u)*H;
+        var wob=Math.sin(u*7.2 + tm*band.speed + b)*H*band.amp + Math.sin(u*13.2 - tm*band.speed*1.45 + b*1.3)*H*(band.amp*0.48);
+        var y=baseY+wob;
+        var th=H*band.width*(0.78+0.22*Math.sin(u*8.2 + tm*0.00024 + b));
+        top.push([x, y-th*0.5]);
+        bot.push([x, y+th*0.5]);
+      }
+      ctx.beginPath();
+      ctx.moveTo(top[0][0],top[0][1]);
+      for(var t1=1;t1<top.length;t1++) ctx.lineTo(top[t1][0],top[t1][1]);
+      for(var t2=bot.length-1;t2>=0;t2--) ctx.lineTo(bot[t2][0],bot[t2][1]);
+      ctx.closePath();
+      var grad=ctx.createLinearGradient(0, top[0][1], 0, bot[Math.floor(bot.length/2)][1]);
+      grad.addColorStop(0,'rgba(105,255,224,'+band.alpha+')');
+      grad.addColorStop(0.42,'rgba(42,240,205,'+(band.alpha*0.78)+')');
+      grad.addColorStop(0.76,'rgba(18,160,220,'+(band.alpha*0.46)+')');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      if('filter' in ctx) ctx.filter='blur('+ (mobileBg?8:(reduce?10:18)) +'px)';
+      ctx.fillStyle=grad;
+      ctx.fill();
+      if('filter' in ctx) ctx.filter='none';
+
+      // vertical curtain strands
+      var strands=mobileBg?8:28;
+      for(var s=0;s<strands;s++){
+        var uu=s/(strands-1);
+        var sx=(band.x1 + (band.x2-band.x1)*uu)*W;
+        var sy=(band.y1 + (band.y2-band.y1)*uu)*H + Math.sin(uu*7.8 + tm*band.speed + b)*H*band.amp;
+        var len=H*(0.08 + 0.06*Math.abs(Math.sin(tm*0.00038 + uu*6 + b)));
+        ctx.strokeStyle='rgba(90,255,220,'+(band.alpha*0.18)+')';
+        ctx.lineWidth=1.2;
+        if('filter' in ctx) ctx.filter='blur('+(mobileBg?3:(reduce?4:7))+'px)';
+        ctx.beginPath();
+        ctx.moveTo(sx, sy-len*0.18);
+        ctx.quadraticCurveTo(sx+Math.sin(tm*0.00022+s)*10, sy+len*0.30, sx+Math.cos(tm*0.00016+s)*7, sy+len);
+        ctx.stroke();
+        if('filter' in ctx) ctx.filter='none';
+      }
+    }
+    ctx.restore();
+  }
+
+  function drawReflection(tm){
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0,H*0.60,W,H*0.40);
+    ctx.clip();
+    ctx.globalCompositeOperation='screen';
+    ctx.globalAlpha=0.30;
+    var bands=[
+      { x1:0.04, x2:0.48, y1:0.79, y2:0.69, amp:0.018, speed:0.00022, width:0.11, alpha:0.12 },
+      { x1:0.58, x2:0.96, y1:0.68, y2:0.74, amp:0.024, speed:0.00018, width:0.14, alpha:0.14 }
+    ];
+    for(var b=0;b<bands.length;b++){
+      var band=bands[b];
+      var top=[], bot=[];
+      var steps=mobileBg?22:36;
+      for(var i=0;i<=steps;i++){
+        var u=i/steps;
+        var x=(band.x1 + (band.x2-band.x1)*u)*W;
+        var baseY=(band.y1 + (band.y2-band.y1)*u)*H;
+        var wob=Math.sin(u*8.6 + tm*band.speed + b)*H*band.amp + Math.sin(u*14.5 - tm*band.speed*1.5)*H*(band.amp*0.35);
+        var y=baseY+wob;
+        var th=H*band.width*(0.72+0.28*Math.sin(u*7 + tm*0.0002));
+        top.push([x, y-th*0.42]);
+        bot.push([x, y+th*0.42]);
+      }
+      ctx.beginPath(); ctx.moveTo(top[0][0],top[0][1]);
+      for(var k=1;k<top.length;k++) ctx.lineTo(top[k][0],top[k][1]);
+      for(var q=bot.length-1;q>=0;q--) ctx.lineTo(bot[q][0],bot[q][1]);
+      ctx.closePath();
+      var grad=ctx.createLinearGradient(0, top[0][1], 0, bot[Math.floor(bot.length/2)][1]);
+      grad.addColorStop(0,'rgba(60,255,210,'+band.alpha+')');
+      grad.addColorStop(0.5,'rgba(30,170,220,'+(band.alpha*0.6)+')');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      if('filter' in ctx) ctx.filter='blur('+(mobileBg?6:(reduce?8:14))+'px)';
+      ctx.fillStyle=grad; ctx.fill();
+      if('filter' in ctx) ctx.filter='none';
+    }
+    // subtle shimmer lines
+    for(var y=H*0.64; y<H*0.95; y+=26){
+      ctx.strokeStyle='rgba(120,255,255,0.02)';
+      ctx.lineWidth=1;
+      ctx.beginPath();
+      ctx.moveTo(0,y);
+      ctx.bezierCurveTo(W*0.25,y+Math.sin(tm*0.0002+y)*2.4,W*0.75,y+Math.cos(tm*0.00018+y)*2.4,W,y+Math.sin(tm*0.00016+y)*2.0);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function updateNodes(tm){
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i];
+      n.x = n.bx + Math.sin(tm*n.sp + n.p)*n.rx;
+      n.y = n.by + Math.cos(tm*n.sp*0.9 + n.p)*n.ry;
+    }
+  }
+
+  function buildEdges(){
+    var edges=[];
+    var maxDist=Math.min(W,H)*(mobileBg?0.095:0.125);
+    for(var i=0;i<nodes.length;i++){
+      for(var j=i+1;j<nodes.length;j++){
+        var a=nodes[i], b=nodes[j];
+        var x1=a.x*W, y1=a.y*H, x2=b.x*W, y2=b.y*H;
+        var dx=x1-x2, dy=y1-y2;
+        var d=Math.sqrt(dx*dx+dy*dy);
+        if(d<maxDist) edges.push({a:i,b:j,d:d});
+      }
+    }
+    return edges;
+  }
+
+  function drawNetwork(tm){
+    updateNodes(tm);
+    var edges=buildEdges();
+    ctx.save();
+    ctx.globalCompositeOperation='screen';
+    for(var e=0;e<edges.length;e++){
+      var ed=edges[e], a=nodes[ed.a], b=nodes[ed.b];
+      var x1=a.x*W, y1=a.y*H, x2=b.x*W, y2=b.y*H;
+      var alpha=clamp(0.20 - ed.d/(Math.min(W,H)*1.0), 0.04, 0.14);
+      var grad=ctx.createLinearGradient(x1,y1,x2,y2);
+      grad.addColorStop(0,'rgba(255,182,60,'+(alpha*0.9)+')');
+      grad.addColorStop(0.5,'rgba(255,220,132,'+(alpha*0.55)+')');
+      grad.addColorStop(1,'rgba(255,182,60,'+(alpha*0.85)+')');
+      ctx.strokeStyle=grad;
+      ctx.lineWidth=0.75;
+      ctx.shadowColor='rgba(255,176,64,'+(alpha*0.55)+')';
+      ctx.shadowBlur=6;
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    }
+    // moving pulses along lines
+    for(var p=0;p<pulses.length && edges.length;p++){
+      var pulse=pulses[p];
+      if(pulse.edge<0 || pulse.edge>=edges.length) pulse.edge=Math.floor(Math.random()*edges.length);
+      pulse.prog += pulse.sp*(mobileBg?0.38:(reduce?0.55:0.72));
+      if(pulse.prog>1){ pulse.prog=0; pulse.edge=Math.floor(Math.random()*edges.length); }
+      var edg=edges[pulse.edge];
+      var aa=nodes[edg.a], bb=nodes[edg.b];
+      var sx=aa.x*W, sy=aa.y*H, ex=bb.x*W, ey=bb.y*H;
+      var px=sx+(ex-sx)*pulse.prog;
+      var py=sy+(ey-sy)*pulse.prog;
+      var tail=Math.max(0,pulse.prog-0.20);
+      var tx=sx+(ex-sx)*tail;
+      var ty=sy+(ey-sy)*tail;
+      var tg=ctx.createLinearGradient(tx,ty,px,py);
+      tg.addColorStop(0,'rgba(255,200,90,0)');
+      tg.addColorStop(1,'rgba(255,240,188,'+(pulse.a)+')');
+      ctx.strokeStyle=tg; ctx.lineWidth=1.15; ctx.shadowBlur=9; ctx.shadowColor='rgba(255,210,120,'+(pulse.a*0.52)+')';
+      ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(px,py); ctx.stroke();
+      var rg=ctx.createRadialGradient(px,py,0,px,py,8);
+      rg.addColorStop(0,'rgba(255,250,220,'+(pulse.a*1.08)+')');
+      rg.addColorStop(0.24,'rgba(255,205,92,'+(pulse.a*0.68)+')');
+      rg.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(px,py,10,0,Math.PI*2); ctx.fill();
+    }
+    // nodes
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i], x=n.x*W, y=n.y*H;
+      var tw=0.42+0.58*Math.abs(Math.sin(tm*0.0012+n.p));
+      var rr=n.r*(0.85+tw*0.5);
+      var glow=ctx.createRadialGradient(x,y,0,x,y,rr*8);
+      glow.addColorStop(0,'rgba(255,242,205,'+(n.a*tw*0.92)+')');
+      glow.addColorStop(0.28,'rgba(255,184,70,'+(n.a*tw*0.42)+')');
+      glow.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(x,y,rr*8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='rgba(255,228,160,'+(n.a*tw)+')'; ctx.beginPath(); ctx.arc(x,y,rr,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function frame(ts){
+    if(mobileBg && Date.now()<scrollPauseUntil){
+      if(!scrollStaticDrawn){ctx.clearRect(0,0,W,H);try{drawBgImage(ts||0);}catch(e){}scrollStaticDrawn=true;}
+      requestAnimationFrame(frame);return;
+    }
+    scrollStaticDrawn=false;
+    if(mobileBg && ts-lastFrame<100){requestAnimationFrame(frame);return;}
+    lastFrame=ts||0;
+    t=ts||0;
+    ctx.clearRect(0,0,W,H);
+    drawBgImage(t);
+    drawAurora(t);
+    if(!mobileBg)drawReflection(t);
+    drawStars(t);
+    drawNetwork(t);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+
+
+
+
+// 3D hover — event delegation, render() дараа ч ажиллана
+(function(){
+  var CLASSES=['panel','choice-panel','card','pcard','logic-box','table-wrap','tax-panel','toggle-box','warn-box'];
+  var current=null;
+  var touchTimer=null;
+
+  function getTarget(el){
+    while(el && el!==document.body){
+      for(var i=0;i<CLASSES.length;i++){
+        if(el.classList && el.classList.contains(CLASSES[i])) return el;
+      }
+      el=el.parentElement;
+    }
+    return null;
+  }
+
+  function clearEl(el){
+    if(!el)return;
+    el.style.transform='';
+    el.style.boxShadow='';
+    el.style.borderColor='';
+    el.classList.remove('is-lit');
+  }
+
+  function applyEl(el, clientX, clientY){
+    if(!el)return;
+    if(current && current!==el)clearEl(current);
+    current=el;
+    el.classList.add('is-lit');
+    el.style.transition='transform .14s ease,box-shadow .14s ease';
+    var r=el.getBoundingClientRect();
+    var x=(clientX-r.left)/r.width-0.5;
+    var y=(clientY-r.top)/r.height-0.5;
+    var isPrimary=el.classList.contains('panel')||el.classList.contains('choice-panel');
+    var maxDeg=isPrimary?2.0:2.4;
+    var lift=isPrimary?1.8:2.0;
+    var depth=isPrimary?4:2;
+    el.style.transform='perspective(650px) rotateX('+(-y*maxDeg)+'deg) rotateY('+(x*maxDeg)+'deg) translateY(-'+lift+'px) translateZ('+depth+'px)';
+    var green=el.classList.contains('member-card')||el.classList.contains('hl-green');
+    var amber=el.classList.contains('hl-amber');
+    if(isPrimary) el.style.borderColor='rgba(79,195,247,.42)';
+    el.style.boxShadow=isPrimary
+      ?'0 18px 46px rgba(0,0,0,.32),0 0 34px rgba(79,195,247,.20),0 0 18px rgba(0,200,151,.10),inset 0 1px 0 rgba(255,255,255,.04)'
+      :(green
+        ?'0 8px 18px rgba(0,200,151,.16),0 0 12px rgba(0,200,151,.08),inset 0 0 0 1px rgba(0,200,151,.18)'
+        :(amber
+          ?'0 8px 18px rgba(201,168,76,.14),0 0 12px rgba(201,168,76,.08),inset 0 0 0 1px rgba(201,168,76,.16)'
+          :'0 8px 18px rgba(201,168,76,.12),0 0 10px rgba(201,168,76,.06),inset 0 0 0 1px rgba(201,168,76,.14)'));
+  }
+
+  document.addEventListener('mousemove',function(e){
+    var el=getTarget(e.target);
+    if(!el){clearEl(current);current=null;return;}
+    applyEl(el,e.clientX,e.clientY);
+  });
+  document.addEventListener('mouseleave',function(){clearEl(current);current=null;});
+  document.addEventListener('touchstart',function(e){
+    var t=e.touches&&e.touches[0]; if(!t)return;
+    var el=getTarget(e.target); if(!el)return;
+    applyEl(el,t.clientX,t.clientY);
+    clearTimeout(touchTimer);
+  },{passive:true});
+  document.addEventListener('touchend',function(){
+    clearTimeout(touchTimer);
+    touchTimer=setTimeout(function(){clearEl(current);current=null;},180);
+  },{passive:true});
+})();
+
+
+
+
+
+
+/* --- ADMIN GATE SCRIPT V39 --- */
+(function(){
+  window.POI_ADMIN_CODE = 'poi2026';
+  function showUnlocked(){
+    document.body.classList.remove('admin-locked');
+    var g=document.getElementById('adminGate'); if(g) g.style.display='none';
+    var t=document.getElementById('adminTopbar'); if(t) t.style.display='flex';
+  }
+  function showLocked(){
+    document.body.classList.add('admin-locked');
+    var g=document.getElementById('adminGate'); if(g) g.style.display='flex';
+    var t=document.getElementById('adminTopbar'); if(t) t.style.display='none';
+    setTimeout(function(){var p=document.getElementById('adminPass'); if(p) p.focus();},80);
+  }
+  window.adminUnlock=function(ev){
+    if(ev && ev.preventDefault) ev.preventDefault();
+    var p=document.getElementById('adminPass');
+    var e=document.getElementById('adminError');
+    var v=(p&&p.value?p.value:'').trim();
+    if(v===window.POI_ADMIN_CODE){
+      try{sessionStorage.setItem('poi_admin_unlocked','1');}catch(_e){}
+      showUnlocked();
+      return false;
+    }
+    if(e) e.textContent='Admin code буруу байна.';
+    if(p){p.value='';p.focus();}
+    return false;
+  };
+  window.adminLock=function(){
+    try{sessionStorage.removeItem('poi_admin_unlocked');}catch(_e){}
+    showLocked();
+  };
+  document.addEventListener('DOMContentLoaded',function(){
+    var ok=false; try{ok=sessionStorage.getItem('poi_admin_unlocked')==='1';}catch(_e){}
+    if(ok) showUnlocked(); else showLocked();
+  });
+})();
+</script>
+</body>
+</html>
