@@ -425,12 +425,15 @@ body::before,body:before,body::after,body:after{
 
 <div id="adminGate" class="admin-gate" role="dialog" aria-modal="true">
   <div class="admin-box">
-    <div class="admin-title">PCG Admin</div>
+    <div class="admin-kicker">POI Capital Group · Admin</div>
+    <div class="admin-title">Үндсэн тооцоолуур</div>
+    <div class="admin-copy">Дотоод хэрэглээний calculator. Operator-visible logic, equal болон flexible хувилбарууд энд бүрэн хэвээр орсон.</div>
     <form class="admin-field" onsubmit="return adminUnlock(event)">
       <input id="adminPass" type="password" autocomplete="current-password" inputmode="text" placeholder="Admin code" aria-label="Admin code">
       <button type="submit">Нэвтрэх</button>
     </form>
     <div id="adminError" class="admin-error"></div>
+    <div class="admin-note">Cloudflare Access тавих хүртэлх түр client-side gate. Жинхэнэ хамгаалалтыг Cloudflare Access-аар /admin/* дээр тавина.</div>
   </div>
 </div>
 <div class="admin-topbar" id="adminTopbar" style="display:none">
