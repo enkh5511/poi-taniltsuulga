@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="mn">
 <head>
+<meta name="color-scheme" content="dark">
+<script>(function(){try{if(window.self!==window.top)document.documentElement.className+=' poi-embedded';}catch(e){document.documentElement.className+=' poi-embedded';}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>POI Capital Group · Жижиг тооцоолуур</title>
@@ -465,6 +467,9 @@ body::before,body:before,body::after,body:after{
   background-position:center center;
   background-repeat:no-repeat;}
 html,body{background:#020608!important;background-image:none!important;}
+html.poi-embedded,html.poi-embedded body{background:transparent!important;background-image:none!important;}
+html.poi-embedded .poi-bg-fixed{display:none!important;}
+html.poi-embedded #wbg{display:none!important;}
 </style>
 </head>
 <body>
@@ -752,6 +757,7 @@ html,body{background:#020608!important;background-image:none!important;}
 // ---------- Background canvas (gold beams + stars) ----------
 (function(){
   var cv=document.getElementById('wbg');
+  if(document.documentElement.className.indexOf('poi-embedded')>-1){ if(cv&&cv.parentNode)cv.parentNode.removeChild(cv); return; }
   if(!cv)return;
   var ctx=cv.getContext('2d');
   var W=0,H=0,dpr=1,t=0,ready=false;
