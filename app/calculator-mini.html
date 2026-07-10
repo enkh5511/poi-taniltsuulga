@@ -546,7 +546,7 @@ html.poi-embedded #wbg{display:none!important;}
 <script>
 (function(){
   var fmt = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
-  var MAX_CAPITAL=400000, MIN_CAMPAIGN=100000, MAX_MEMBERS=10, MIN_AMOUNT=5000, STEP=1000;
+  var MAX_CAPITAL=400000, MIN_CAMPAIGN=100000, MAX_MEMBERS=10, MIN_AMOUNT=5000, STEP=1000, MAX_PER_MEMBER=100000;
   var memberAmounts=[20000,20000,20000,20000,20000,10000,10000,10000,10000,10000];
   var selectedMember=0;
   function money(n){return fmt.format(Math.round(Number(n)||0));}
@@ -580,14 +580,14 @@ html.poi-embedded #wbg{display:none!important;}
   }
   function enforceEqualCap(){
     var members=+byId('eqMembers').value;
-    var maxAmount=Math.floor(MAX_CAPITAL/members/STEP)*STEP;
+    var maxAmount=Math.min(MAX_PER_MEMBER,Math.floor(MAX_CAPITAL/members/STEP)*STEP);
     var inp=byId('eqAmount'); inp.max=maxAmount;
     if(+inp.value>maxAmount) inp.value=maxAmount;
   }
   function enforceWeightedCap(changedIndex){
     var members=+byId('wtMembers').value;
     if(selectedMember>=members) selectedMember=members-1;
-    for(var i=0;i<members;i++) memberAmounts[i]=clamp(Math.round((memberAmounts[i]||MIN_AMOUNT)/STEP)*STEP, MIN_AMOUNT, MAX_CAPITAL);
+    for(var i=0;i<members;i++) memberAmounts[i]=clamp(Math.round((memberAmounts[i]||MIN_AMOUNT)/STEP)*STEP, MIN_AMOUNT, MAX_PER_MEMBER);
     var total=memberAmounts.slice(0,members).reduce(function(a,b){return a+b;},0);
     if(total>MAX_CAPITAL){
       var idx=(typeof changedIndex==='number')?changedIndex:members-1;
@@ -678,7 +678,7 @@ html.poi-embedded #wbg{display:none!important;}
       var isSelf=i===selectedMember;
       btns+=`<button class="sel-btn ${isSelf?'active':''}" data-self="${i}">${isSelf?'Таны дүн':(i+1)+'-р гишүүн'}</button>`;
       var remaining=MAX_CAPITAL-(total-memberAmounts[i]);
-      var max=Math.max(MIN_AMOUNT,Math.floor(remaining/STEP)*STEP);
+      var max=Math.max(MIN_AMOUNT,Math.min(MAX_PER_MEMBER,Math.floor(remaining/STEP)*STEP));
       rows+=`<div class="member-row ${isSelf?'active self':'other'}" data-row-idx="${i}"><div class="mem-id">${isSelf?'Таны дүн':(i+1)+'-р гишүүн'}</div><div class="mem-main"><label>${isSelf?'Таны оруулах дүн':'Бусад гишүүний дүн'} <b class="mem-stat">${money(memberAmounts[i])} · ${pct(share)}</b></label><div class="mem-sliderline"><input class="mem-range" data-idx="${i}" type="range" min="${MIN_AMOUNT}" max="${max}" step="${STEP}" value="${memberAmounts[i]}"><input class="mem-value" data-idx="${i}" type="number" min="${MIN_AMOUNT}" max="${max}" step="${STEP}" value="${memberAmounts[i]}" inputmode="numeric"></div></div><div class="mem-step"><button data-step="-1000" data-idx="${i}">−1k</button><button class="plus" data-step="1000" data-idx="${i}">+1k</button></div></div>`;
     }
     byId('selfButtons').innerHTML=btns; byId('memberTools').innerHTML=rows;
@@ -688,7 +688,7 @@ html.poi-embedded #wbg{display:none!important;}
     for(var i=0;i<members;i++){
       var share=total?memberAmounts[i]/total*100:0;
       var remaining=MAX_CAPITAL-(total-memberAmounts[i]);
-      var max=Math.max(MIN_AMOUNT,Math.floor(remaining/STEP)*STEP);
+      var max=Math.max(MIN_AMOUNT,Math.min(MAX_PER_MEMBER,Math.floor(remaining/STEP)*STEP));
       var row=document.querySelector('.member-row[data-row-idx="'+i+'"]');
       if(!row) continue;
       var isSelf=i===selectedMember;
@@ -1105,7 +1105,7 @@ html.poi-embedded #wbg{display:none!important;}
     ctx.clearRect(0,0,W,H);
     drawBgImage(t);
     if(mobileBg){
-      drawAurora(t);
+      // aurora wave disabled on mobile: iOS lacks canvas filter blur, causing harsh shapes vs Android
     }else{
       if(t-lastFx>=FX_MS){
         lastFx=t;

@@ -3848,7 +3848,7 @@ window.addEventListener('DOMContentLoaded',function(){
     ctx.clearRect(0,0,W,H);
     drawBgImage(t);
     if(mobileBg){
-      drawAurora(t);
+      // aurora wave disabled on mobile: iOS lacks canvas filter blur, causing harsh shapes vs Android
     }else{
       if(t-lastFx>=FX_MS){
         lastFx=t;
