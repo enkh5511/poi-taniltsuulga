@@ -3331,9 +3331,14 @@ function renderSheetMemberModule(data){
       var revisedGross=Math.max(targetGross,currentGross);
       var thanks=Math.round(revisedGross*pct);
       var revisedNet=Math.max(currentNet,Math.max(0,revisedGross-thanks));
-      var progressPct=targetNet?currentNet/targetNet*100:0;
+      // Progress = profit progress. Baseline = payout with zero profit (capital minus thanks),
+      // so returned capital no longer counts as "progress".
+      var baselineNet=Math.round(memberCap*(1-pct));
+      var currentProfit=Math.max(0,currentNet-baselineNet);
+      var targetProfit=Math.max(0,targetNet-baselineNet);
+      var progressPct=targetProfit?currentProfit/targetProfit*100:0;
 
-      return {pct:pct,projected:projected,targetNet:targetNet,targetGross:targetGross,currentGross:currentGross,currentThanks:currentThanks,currentNet:currentNet,currentExtra:currentExtra,revisedGross:revisedGross,thanks:thanks,revisedNet:revisedNet,progressPct:progressPct};
+      return {pct:pct,projected:projected,targetNet:targetNet,targetGross:targetGross,currentGross:currentGross,currentThanks:currentThanks,currentNet:currentNet,currentExtra:currentExtra,revisedGross:revisedGross,thanks:thanks,revisedNet:revisedNet,progressPct:progressPct,currentProfit:currentProfit,targetProfit:targetProfit};
     }
     var view=calcProjectionView(incentive*100);
     var pos=sheetCampaignPositionFromPerf(perf,months);
@@ -3358,12 +3363,12 @@ function renderSheetMemberModule(data){
           '</div>',
           '<div class="sheet-proj-col gold">',
             '<h4>Урьдчилсан тооцооллоор</h4>',
-            '<div class="sheet-proj-metric"><span>Campaign явцаар шинэчилсэн боломжит дүн</span><b id="sheetNetProjection">'+perfCurrency(view.revisedNet)+'</b><small>'+(view.currentExtra>0?('Одоогийн явц суурь зорилтоос '+perfCurrency(view.currentExtra)+' давж байна.'):('Одоогийн явцаар '+perfCurrency(view.currentNet)+' түвшинд байна.'))+'</small></div>',
+            '<div class="sheet-proj-metric"><span>Campaign явцаар шинэчилсэн боломжит дүн</span><b id="sheetNetProjection">'+perfCurrency(view.revisedNet)+'</b><small>'+(view.currentExtra>0?('Одоогийн явц суурь зорилтоос '+perfCurrency(view.currentExtra)+' давж байна.'):('Одоогийн бодит өгөөж '+perfCurrency(view.currentProfit)+' түвшинд байна.'))+'</small></div>',
             '<div class="sheet-proj-metric"><span>Энэ сарын бодит өгөөжөөр авах боломжит хуваарилалт</span><b>'+perfCurrency(actualMember)+'</b><small>Ашгийн '+perfPctPlain(scale)+' дансанд үлдэнэ · '+perfPctPlain(cost)+' зардал · үлдэх хэсэг хуваарилалтын бүтцээр тооцогдоно.</small></div>',
             '<div class="sheet-proj-metric"><span>Энэ сарын бодит ROI</span><b>'+perfPctPlain(perf.monthlyRoi)+'</b><small>Сарын хаалттай гүйцэтгэлийн үр дүнд үндэслэсэн.</small></div>',
           '</div>',
         '</div>',
-        '<div class="sheet-proj-card goal"><span>'+months+' сарын таны хувийн campaign явц</span><b><span id="sheetMemberProgressCurrent">'+perfCurrency(view.currentNet)+'</span> / <span id="sheetMemberProgressTarget">'+perfCurrency(view.targetNet)+'</span></b><div class="sheet-goal-line"><div id="sheetMemberProgressFill" class="sheet-goal-fill '+(view.progressPct>100?'over':'')+'" style="width:'+Math.min(100,Math.max(0,view.progressPct)).toFixed(1)+'%"></div></div><small id="sheetMemberProgressNote">'+sheetProgressNote(view)+'</small></div>',
+        '<div class="sheet-proj-card goal"><span>'+months+' сарын таны хувийн campaign явц — бодит өгөөж / зорилтот өгөөж</span><b><span id="sheetMemberProgressCurrent">'+perfCurrency(view.currentProfit)+'</span> / <span id="sheetMemberProgressTarget">'+perfCurrency(view.targetProfit)+'</span></b><div class="sheet-goal-line"><div id="sheetMemberProgressFill" class="sheet-goal-fill '+(view.progressPct>100?'over':'')+'" style="width:'+Math.min(100,Math.max(0,view.progressPct)).toFixed(1)+'%"></div></div><small id="sheetMemberProgressNote">'+sheetProgressNote(view)+'</small></div>',
         '<div class="sheet-proj-card risk"><span>Эрсдэлийн санамж</span><b>Урьдчилсан тооцоолол</b><small>Бодит үр дүн нь зах зээлийн нөхцөл, drawdown, арилжааны идэвх болон эрсдэлийн удирдлагаас хамаарч өөрчлөгдөнө.</small></div>',
         '<div class="perf-projection-note" id="perfMemberProjectionNote">Ногоон багана талархлын дараах хүлээгдэж буй дүнг, шар багана бодит явцаар шинэчилсэн боломжит дүнг харуулна.</div>'
       ].join('');
@@ -3395,8 +3400,8 @@ function renderSheetMemberModule(data){
           if(baseEl)baseEl.textContent=perfCurrency(nv.targetNet);
           if(grossEl)grossEl.textContent=perfCurrency(nv.revisedGross);
           if(roiEl)roiEl.textContent=perfPctPlain(memberCap?(nv.revisedNet/memberCap-1):0);
-          if(pc)pc.textContent=perfCurrency(nv.currentNet);
-          if(pt)pt.textContent=perfCurrency(nv.targetNet);
+          if(pc)pc.textContent=perfCurrency(nv.currentProfit);
+          if(pt)pt.textContent=perfCurrency(nv.targetProfit);
           if(pp)pp.textContent=Math.max(0,nv.progressPct).toFixed(1)+'%';
           if(pf){pf.style.width=Math.min(100,Math.max(0,nv.progressPct)).toFixed(1)+'%';pf.classList.toggle('over',nv.progressPct>100);}
           if(pn)pn.textContent=sheetProgressNote(nv);
