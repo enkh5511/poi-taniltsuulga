@@ -1495,6 +1495,13 @@ body{position:relative !important; overflow-x:hidden !important;}
 .sheet-login-loading b{font-weight:900;color:#cffff7}.sheet-login-loading small{display:block;color:#8ecbc3;font-size:12px;margin-left:auto}
 .sheet-login-error{margin-top:12px;color:#ff8a8a;font-weight:800;font-size:13px;min-height:18px}
 .sheet-note.muted{color:#96bcb5;border-top:1px solid rgba(255,255,255,.07);padding-top:12px;margin-top:12px}
+.perf-member-memos{margin-top:12px;border-left:3px solid rgba(0,200,151,.55);background:rgba(0,200,151,.06);border-radius:0 12px 12px 0;padding:11px 14px}
+.perf-member-memos .pmm-head{color:#8ff5d2;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin:0 0 6px}
+.perf-member-memos .pmm-item{margin:0 0 10px}
+.perf-member-memos .pmm-item:last-child{margin-bottom:0}
+.perf-member-memos .pmm-title{color:#ffd36a;font-weight:600;font-size:13.5px;margin:0 0 3px}
+.perf-member-memos .pmm-msg{color:#c8fff0;font-size:13px;line-height:1.65;white-space:pre-line;overflow-wrap:anywhere;word-break:break-word;margin:0}
+.perf-member-memos .pmm-empty{color:#96bcb5;font-size:12.5px;margin:0}
 .sheet-welcome-card{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;border:1px solid rgba(0,200,151,.24);background:linear-gradient(135deg,rgba(0,200,151,.12),rgba(79,195,247,.055));border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:0 18px 50px rgba(0,200,151,.07)}
 .sheet-login-status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}.sheet-mini-btn{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#bfffee;border-radius:999px;padding:8px 12px;font-weight:900;cursor:pointer}.sheet-mini-btn:hover{border-color:rgba(79,195,247,.45);color:#fff}
 .sheet-profile-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}.sheet-profile-card{border:1px solid rgba(79,195,247,.14);background:rgba(6,20,22,.72);border-radius:14px;padding:13px}.sheet-profile-card span{display:block;color:#7fc6bd;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}.sheet-profile-card b{display:block;color:#eafffb;font-size:20px;margin-top:5px}.sheet-profile-card.green b{color:#00e6b0}.sheet-profile-card.gold b{color:#ffd66b}.sheet-profile-card.cyan b{color:#61d7ff}
@@ -2147,6 +2154,7 @@ html.poi-embedded #wbg{display:none!important;}
         <div class="perf-kicker">Тэмдэглэл</div>
         <div class="perf-title" style="font-size:25px" id="perfOperatorHeadline">—</div>
         <p class="perf-sub" id="perfOperatorNote">Бүртгэл дээрх operator_note энд харагдана.</p>
+        <div id="perfMemberMemos" class="perf-member-memos" hidden></div>
       </div>
     </div>
 
@@ -2523,6 +2531,7 @@ function renderPerformanceDashboard(data){
   bindForecastMethodToggle();
   renderMemberExpectation(m,cfg,chart,d);
   renderSheetMemberModule(data);
+  try{ renderMemberMemos(data); }catch(e){}
   renderHistory(chart);
 }
 function normalizeMembers(rows,cfg){
@@ -3201,6 +3210,40 @@ function sheetCampaignPositionFromPerf(perf,months){
   currentMonth=Math.max(1,Math.min(Math.max(1,months||12),currentMonth));
   return {week:weekCount,month:currentMonth};
 }
+function renderMemberMemos(data){
+  try{
+    var box=document.getElementById('perfMemberMemos');
+    if(!box)return;
+    var mem=(data&&data.member)||window.__sheetLiveMember||null;
+    if(!mem){ box.hidden=true; return; }
+    var memos=(data&&Array.isArray(data.member_memos))?data.member_memos:[];
+    var name=mem&&mem.display_name?String(mem.display_name):'';
+    while(box.firstChild)box.removeChild(box.firstChild);
+    var head=document.createElement('div');
+    head.className='pmm-head';
+    head.textContent=name?('Танд зориулсан тэмдэглэл — '+name):'Танд зориулсан тэмдэглэл';
+    box.appendChild(head);
+    var shown=0;
+    for(var i=0;i<memos.length;i++){
+      var m=memos[i]||{};
+      var msg=String(m.message==null?'':m.message);
+      if(!msg.trim())continue;
+      var item=document.createElement('div'); item.className='pmm-item';
+      var t=String(m.title==null?'':m.title);
+      if(t.trim()){
+        var tt=document.createElement('div'); tt.className='pmm-title'; tt.textContent=t; item.appendChild(tt);
+      }
+      var body=document.createElement('p'); body.className='pmm-msg'; body.textContent=msg; item.appendChild(body);
+      box.appendChild(item); shown++;
+    }
+    if(!shown){
+      var empty=document.createElement('p'); empty.className='pmm-empty';
+      empty.textContent='Танд хаяглагдсан шинэ тэмдэглэл ирмэгц энд харагдана.';
+      box.appendChild(empty);
+    }
+    box.hidden=false;
+  }catch(e){}
+}
 function renderSheetMemberModule(data){
   var box=document.getElementById("perfSheetMemberModule"); if(!box)return;
   var memberNoInput=document.getElementById("sheetMemberNo"), accessInput=document.getElementById("sheetAccessCode"), accessToggle=document.getElementById("sheetAccessToggle"), fetchBtn=document.getElementById("sheetFetchBtn");
@@ -3297,11 +3340,13 @@ function renderSheetMemberModule(data){
     if(status)status.textContent='Нэвтэрсэн · '+calcLabel;
     if(profileGrid){
       profileGrid.innerHTML=[
-        '<div class="sheet-profile-card hero capital"><span>Таны оруулсан капитал</span><b>'+perfCurrency(memberCap)+'</b><small>Бүртгэлийн сан дээр хадгалсан таны үндсэн оролцоо.</small></div>',
-        '<div class="sheet-profile-card hero expected"><span>Хүлээгдэж буй хувийн өгөөж</span><b id="sheetTopExpectedNet">'+perfCurrency(adjustedNet)+'</b><small>Таны капитал, эзлэх хувь, campaign тохиргоо болон талархлын сонголтоор бодсон зураглал.</small></div>',
+        '<div class="sheet-profile-card hero capital"><span>1 · Таны үндсэн капитал</span><b>'+perfCurrency(memberCap)+'</b><small>Бүртгэлийн сан дээр хадгалсан таны үндсэн оролцоо — campaign төгсгөлд буцаан тооцогдоно.</small></div>',
+        '<div class="sheet-profile-card compact cyan"><span>2 · Хүлээгдэж буй ашиг</span><b id="sheetTopExpectedProfit">'+perfCurrency(Math.max(0,adjustedNet-memberCap))+'</b></div>',
+        '<div class="sheet-profile-card hero expected"><span>3 · Campaign төгсгөлд авах боломжит нийт дүн</span><b id="sheetTopExpectedNet">'+perfCurrency(adjustedNet)+'</b><small>Үндсэн капитал + хүлээгдэж буй ашиг: сарын хуваарилалт болон хаалтын дүнгээс талархал хасагдсан нийлбэр зураглал.</small></div>',
+        '<div class="sheet-profile-card compact gold"><span>4 · Өгөөжийн хувь</span><b id="sheetTopExpectedRoi">'+(adjustedRoi>=0?'+':'')+(adjustedRoi*100).toFixed(1)+'%</b></div>',
         '<div class="sheet-profile-card compact cyan"><span>Хувь нийлүүлэгчдийн нийт хөрөнгөд таны эзлэх хувь</span><b>'+perfPctPlain(res.share)+'</b></div>',
         '<div class="sheet-profile-card compact gold"><span>Хамрагдсан бүлэг</span><b>'+n+' гишүүн</b></div>',
-        '<div class="sheet-profile-card compact"><span>Тооцооллын загвар</span><b>'+calcLabel+'</b></div>',
+        '<div class="sheet-profile-card compact" style="display:none"><span>Тооцооллын загвар</span><b>'+calcLabel+'</b></div>',
         '<div class="sheet-profile-card compact"><span>Хугацаа</span><b>'+months+' сар</b></div>'
       ].join('');
     }
@@ -3397,6 +3442,10 @@ function renderSheetMemberModule(data){
           if(thanksEl)thanksEl.textContent=perfCurrency(nv.thanks);
           if(netEl)netEl.textContent=perfCurrency(nv.revisedNet);
           if(topNetEl)topNetEl.textContent=perfCurrency(nv.revisedNet);
+          var topProfitEl=document.getElementById('sheetTopExpectedProfit');
+          if(topProfitEl)topProfitEl.textContent=perfCurrency(Math.max(0,nv.revisedNet-memberCap));
+          var topRoiEl=document.getElementById('sheetTopExpectedRoi');
+          if(topRoiEl){ var _roi=memberCap?(nv.revisedNet/memberCap-1):0; topRoiEl.textContent=(_roi>=0?'+':'')+(_roi*100).toFixed(1)+'%'; }
           if(baseEl)baseEl.textContent=perfCurrency(nv.targetNet);
           if(grossEl)grossEl.textContent=perfCurrency(nv.revisedGross);
           if(roiEl)roiEl.textContent=perfPctPlain(memberCap?(nv.revisedNet/memberCap-1):0);
@@ -3443,6 +3492,7 @@ function renderSheetMemberModule(data){
       }).catch(function(snapshotErr){
         console.warn('protected snapshot failed, fallback to member lookup only',snapshotErr);
         renderMemberDashboard(resp);
+        try{ renderMemberMemos(resp); }catch(e){}
         perfSetStatus('Нэвтэрсэн. Live performance snapshot татахад алдаа гарлаа, “Дата шинэчлэх” дарж дахин татна уу.',false,'stale');
       });
     }).catch(function(err){
