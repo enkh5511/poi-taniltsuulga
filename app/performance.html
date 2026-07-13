@@ -2442,14 +2442,25 @@ function perfFetchJsonp(url){
 }
 function perfReadLocalCache(){
   try{localStorage.removeItem("fc_perf_cache_v5_live");}catch(e){}
+  try{localStorage.removeItem("fc_perf_cache_v6_protected");}catch(e){} // migration: private data never persists across sessions
   try{
-    var raw=localStorage.getItem("fc_perf_cache_v6_protected");
+    var raw=sessionStorage.getItem("fc_perf_cache_v6_protected");
     if(!raw)return null;
-    return JSON.parse(raw);
+    var wrapped=JSON.parse(raw);
+    if(!wrapped || typeof wrapped.ts!=='number' || !wrapped.data){
+      try{sessionStorage.removeItem("fc_perf_cache_v6_protected");}catch(e){}
+      return null; // legacy/unknown format: never restore
+    }
+    if(Date.now()-wrapped.ts>PERF_CACHE_TTL_MS){
+      try{sessionStorage.removeItem("fc_perf_cache_v6_protected");}catch(e){}
+      return null; // expired: ignore, clear, auth state will show
+    }
+    return wrapped.data;
   }catch(e){return null;}
 }
+var PERF_CACHE_TTL_MS=60*60*1000; // 60 min: cache restoration window only, not an auto-lock
 function perfWriteLocalCache(data){
-  try{localStorage.setItem("fc_perf_cache_v6_protected",JSON.stringify(data));}catch(e){}
+  try{sessionStorage.setItem("fc_perf_cache_v6_protected",JSON.stringify({ts:Date.now(),data:data}));}catch(e){}
 }
 function perfIsChatGPTPreview(){
   try{
@@ -2462,6 +2473,7 @@ function perfIsChatGPTPreview(){
 function loadPerformanceDashboard(force){
   if(force){
     __perfDataCache=null;
+    try{sessionStorage.removeItem("fc_perf_cache_v6_protected");}catch(e){}
     try{localStorage.removeItem("fc_perf_cache_v6_protected");}catch(e){}
   }
   var instant=force?null:(__perfDataCache||perfReadLocalCache());
@@ -3225,12 +3237,18 @@ function sheetCampaignPositionFromPerf(perf,months){
   currentMonth=Math.max(1,Math.min(Math.max(1,months||12),currentMonth));
   return {week:weekCount,month:currentMonth};
 }
+function clearMemberMemos(){
+  var box=document.getElementById('perfMemberMemos');
+  if(!box)return;
+  while(box.firstChild)box.removeChild(box.firstChild);
+  box.hidden=true;
+}
 function renderMemberMemos(data){
   try{
     var box=document.getElementById('perfMemberMemos');
     if(!box)return;
-    var mem=(data&&data.member)||window.__sheetLiveMember||null;
-    if(!mem){ box.hidden=true; return; }
+    var mem=data&&data.member?data.member:null;
+    if(!mem){ clearMemberMemos(); return; }
     var memos=(data&&Array.isArray(data.member_memos))?data.member_memos:[];
     var name=mem&&mem.display_name?String(mem.display_name):'';
     while(box.firstChild)box.removeChild(box.firstChild);
@@ -3282,7 +3300,7 @@ function renderSheetMemberModule(data){
   function setError(msg){ if(errBox)errBox.textContent=msg||''; }
   function showAuth(){
     var tm=document.getElementById('sheetThanksCompactMount'); if(tm){tm.classList.remove('is-visible');tm.innerHTML='';}
-    var mm=document.getElementById('perfMemberMemos'); if(mm){ while(mm.firstChild)mm.removeChild(mm.firstChild); mm.hidden=true; }
+    try{ clearMemberMemos(); }catch(e){}
     if(authView)authView.classList.remove('is-hidden');
     if(dashView)dashView.classList.add('is-hidden');
     if(status)status.textContent='Нэвтрэх шаардлагатай';
@@ -3497,6 +3515,7 @@ function renderSheetMemberModule(data){
     var code=String(getAccessCode?getAccessCode():(accessInput?accessInput.value:'' )).trim();
     setError('');
     if(!no||!code){ setError('Гишүүний дугаар болон нэвтрэх кодоо оруулна уу.'); return; }
+    try{ clearMemberMemos(); }catch(e){}
     setLoading(true,'Нэвтэрч байна...');
     if(status)status.textContent='Нэвтрэх мэдээлэл шалгаж байна...';
 
@@ -3523,6 +3542,10 @@ function renderSheetMemberModule(data){
     }).catch(function(err){
       console.warn('member lookup failed',err);
       window.__sheetLiveMember=null; window.__sheetLiveCampaign=null; window.__sheetLastCredentials=__sheetLastCredentials=null;
+      __perfDataCache=null;
+      try{sessionStorage.removeItem('fc_perf_cache_v6_protected');}catch(e){}
+      try{localStorage.removeItem('fc_perf_cache_v6_protected');}catch(e){}
+      try{ clearMemberMemos(); }catch(e){}
       if(status)status.textContent='Нэвтрэх мэдээлэл таарсангүй';
       setError('Гишүүний дугаар эсвэл нэвтрэх код таарахгүй байна. Кодоо мартсан бол удирдагчтай холбогдож шинэ код авна уу.');
       showAuth();
@@ -3533,7 +3556,7 @@ function renderSheetMemberModule(data){
   if(accessInput)accessInput.onkeydown=function(e){ if(e.key==='Enter')lookupLiveMember(); };
   if(memberNoInput)memberNoInput.onkeydown=function(e){ if(e.key==='Enter')lookupLiveMember(); };
   if(fetchBtn)fetchBtn.onclick=lookupLiveMember;
-  if(logoutBtn)logoutBtn.onclick=function(){ window.__sheetLiveMember=null; window.__sheetLiveCampaign=null; window.__sheetLastCredentials=__sheetLastCredentials=null; __perfDataCache=null; try{localStorage.removeItem('fc_perf_cache_v6_protected');}catch(e){} setError(''); showAuth(); };
+  if(logoutBtn)logoutBtn.onclick=function(){ window.__sheetLiveMember=null; window.__sheetLiveCampaign=null; window.__sheetLastCredentials=__sheetLastCredentials=null; __perfDataCache=null; try{sessionStorage.removeItem('fc_perf_cache_v6_protected');}catch(e){} try{localStorage.removeItem('fc_perf_cache_v6_protected');}catch(e){} setError(''); showAuth(); };
   if(window.__sheetLiveMember&&window.__sheetLiveCampaign){
     renderMemberDashboard({ok:true,member:window.__sheetLiveMember,campaign:window.__sheetLiveCampaign});
   }else{
