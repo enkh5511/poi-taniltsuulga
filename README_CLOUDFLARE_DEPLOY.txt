@@ -3,7 +3,7 @@ POI CAPITAL GROUP — V39.2.3 CLOUDFLARE DEPLOY
 ЗААВАЛ БАРИМТЛАХ ФАЙЛЫН БҮТЭЦ (яг ийм байрлалтай upload хийнэ):
 
   /index.html
-  /aurora.jpg
+  /aurora-v2.jpg
   /myforexfunds_certificate.jpg
   /CNAME
   /robots.txt

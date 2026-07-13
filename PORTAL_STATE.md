@@ -3,7 +3,7 @@
 ## Хостинг: Cloudflare (poicapitalgroup.com) · GitHub push → auto deploy → Purge Everything
 
 > **Энэ файлын зорилго:** Шинэ chat эхлүүлэхдээ энэ zip-ийг хавсаргаад
-> "PORTAL_STATE.md-г уншаад эхэл" гэхэд Claude бүх context-ийг сэргээнэ.
+> "PORTAL_STATE.md-г уншаад эхэл" гэхэд AI assistant бүх context-ийг сэргээнэ.
 
 ---
 
@@ -65,9 +65,9 @@
 ## 3. НЭЭЛТТЭЙ АСУУЛТУУД (эзэн шийдээгүй)
 - Сарын operator % зөрүү: mini-weighted 20-25% vs admin-flex 30% (n≥4) — аль нь спек?
 - Нүүрийн quick-calc: 31%/1%/15% vs бусад 30%/2%/10% — нэг мөр болгох эсэх?
-- ADAPTIVE vs STATIC — аль нь эцсийн production? (одоогоор STATIC deploy хийгдсэн байх магадлалтай)
+- [ШИЙДЭГДСЭН] Энэ багц = ADAPTIVE хувилбар; V39.8.3-аас хойш production candidate нь эзний deploy сонголтоор тодорхойлогдоно (o1 final audit: ADAPTIVE дээр хийгдсэн).
 
-## 4. АЖЛЫН ГОРИМ (Claude-д зориулсан)
+## 4. АЖЛЫН ГОРИМ (AI assistant бүрд: Fable / Claude / o1 / Gemini)
 1. Энэ файлыг уншсаны дараа асуулт асуухаасаа өмнө холбогдох файлын бодит кодыг унш.
 2. Засвар бүрийн өмнө: assert-тэй string replace, дараа нь node --check syntax, jsdom тест.
 3. Математикт хүрэхгүй — зөвхөн эзний тодорхой зөвшөөрлөөр.
