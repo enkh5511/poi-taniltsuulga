@@ -1509,6 +1509,11 @@ body{position:relative !important; overflow-x:hidden !important;}
 .sheet-projection{margin-top:14px}.sheet-proj-card.member-main{grid-column:span 2;background:linear-gradient(180deg,rgba(0,200,151,.18),rgba(0,200,151,.06));border-color:rgba(0,200,151,.30)}
 .sheet-brief-card{border:1px solid rgba(79,195,247,.18);background:rgba(4,16,21,.78);border-radius:16px;padding:15px;margin-top:14px}.sheet-brief-card h4{margin:0 0 8px;color:#8be7ff}.sheet-brief-card p{margin:0;color:#b7ddd8;line-height:1.65;font-size:13px}.sheet-brief-card .brief-note{margin-top:10px;color:#ffdf8c;border-top:1px solid rgba(255,255,255,.07);padding-top:10px}
 .sheet-month-table{margin-top:14px}.sheet-month-table table{font-size:12px}
+.sheet-month-caption{color:#9ef5e3;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px}
+.sheet-month-table td.gold{color:#ffd66b}
+.sheet-month-summary{margin-top:10px;color:#c9f5ef;font-size:12.5px;line-height:1.6;border-top:1px solid rgba(255,255,255,.08);padding-top:10px}
+.sheet-month-summary b{color:#eafffb}
+.sheet-month-disclaimer{margin-top:8px;color:#96bcb5;font-size:11.5px;line-height:1.55}
 
 /* V16 two-step flow: performance цэс = эхлээд нэвтрэх нүүр, дараа нь үндсэн dashboard */
 body.perf-auth-gate #view-performance{display:flex!important;align-items:flex-start;justify-content:center;padding-top:clamp(28px,7vh,72px)}
@@ -1629,6 +1634,16 @@ body.perf-member-authed .sheet-profile-grid{
   background:linear-gradient(180deg,rgba(79,195,247,.14),rgba(5,18,27,.84));
   border-color:rgba(79,195,247,.34);
 }
+.sheet-profile-card.hero.profit{
+  background:linear-gradient(180deg,rgba(97,215,255,.13),rgba(5,18,27,.84));
+  border-color:rgba(97,215,255,.32);
+}
+.sheet-profile-card.hero.profit b{color:#61d7ff}
+.sheet-profile-card.hero.roi{
+  background:linear-gradient(180deg,rgba(255,214,107,.13),rgba(24,18,6,.82));
+  border-color:rgba(255,214,107,.32);
+}
+.sheet-profile-card.hero.roi b{color:#ffd66b}
 .sheet-profile-card.hero span{font-size:12px;color:#9ef5e3}
 .sheet-profile-card.hero b{font-size:clamp(30px,3.3vw,44px);letter-spacing:-.035em;line-height:1.02}
 .sheet-profile-card.hero small{display:block;margin-top:8px;color:#94beb8;font-size:12px;line-height:1.45;font-weight:700}
@@ -3341,9 +3356,9 @@ function renderSheetMemberModule(data){
     if(profileGrid){
       profileGrid.innerHTML=[
         '<div class="sheet-profile-card hero capital"><span>1 · Таны үндсэн капитал</span><b>'+perfCurrency(memberCap)+'</b><small>Бүртгэлийн сан дээр хадгалсан таны үндсэн оролцоо — campaign төгсгөлд буцаан тооцогдоно.</small></div>',
-        '<div class="sheet-profile-card compact cyan"><span>2 · Хүлээгдэж буй ашиг</span><b id="sheetTopExpectedProfit">'+perfCurrency(Math.max(0,adjustedNet-memberCap))+'</b></div>',
+        '<div class="sheet-profile-card hero profit"><span>2 · Хүлээгдэж буй ашиг</span><b id="sheetTopExpectedProfit">'+perfCurrency(Math.max(0,adjustedNet-memberCap))+'</b><small>Campaign-ийн туршид таны үндсэн капитал дээр нэмж олох зорилтот цэвэр ашиг — сарын хуваарилалтууд болон хаалтын ашгийн нийлбэр, талархал хасагдсан дүнгээр.</small></div>',
         '<div class="sheet-profile-card hero expected"><span>3 · Campaign төгсгөлд авах боломжит нийт дүн</span><b id="sheetTopExpectedNet">'+perfCurrency(adjustedNet)+'</b><small>Үндсэн капитал + хүлээгдэж буй ашиг: сарын хуваарилалт болон хаалтын дүнгээс талархал хасагдсан нийлбэр зураглал.</small></div>',
-        '<div class="sheet-profile-card compact gold"><span>4 · Өгөөжийн хувь</span><b id="sheetTopExpectedRoi">'+(adjustedRoi>=0?'+':'')+(adjustedRoi*100).toFixed(1)+'%</b></div>',
+        '<div class="sheet-profile-card hero roi"><span>4 · Өгөөжийн хувь</span><b id="sheetTopExpectedRoi">'+(adjustedRoi>=0?'+':'')+(adjustedRoi*100).toFixed(1)+'%</b><small>Хүлээгдэж буй ашгийг үндсэн капиталтай харьцуулсан '+months+' сарын нийт өгөөжийн хувь.</small></div>',
         '<div class="sheet-profile-card compact cyan"><span>Хувь нийлүүлэгчдийн нийт хөрөнгөд таны эзлэх хувь</span><b>'+perfPctPlain(res.share)+'</b></div>',
         '<div class="sheet-profile-card compact gold"><span>Хамрагдсан бүлэг</span><b>'+n+' гишүүн</b></div>',
         '<div class="sheet-profile-card compact" style="display:none"><span>Тооцооллын загвар</span><b>'+calcLabel+'</b></div>',
@@ -3393,9 +3408,13 @@ function renderSheetMemberModule(data){
       progressBox.style.display='none';
     }
     function sheetProgressNote(v){
-      return v.progressPct>100
-        ? ('Таны хувийн campaign явц зорилтот өгөөжөөс '+(v.progressPct-100).toFixed(1)+'% давж байна. Илүү гарсан боломжит хэсэг ойролцоогоор '+perfCurrency(v.currentExtra)+' байна.')
-        : ('Таны хувийн campaign явц зорилтын '+Math.max(0,v.progressPct).toFixed(1)+'% дээр байна.');
+      var p=Math.max(0,v.progressPct);
+      var base=months+' сарын зорилтот ашиг '+perfCurrency(v.targetProfit)+' — үүнээс одоогоор '+perfCurrency(v.currentProfit)+' буюу '+p.toFixed(1)+'% нь биелээд байна. ';
+      if(v.progressPct>100)
+        return base+'Зорилт биелж, илүү гарсан ашиг нэмэгдэж байна — зорилтоос '+(v.progressPct-100).toFixed(1)+'% давсан, илүү хэсэг ойролцоогоор '+perfCurrency(v.currentExtra)+'.';
+      if(p<5) return base+'Campaign эхлэлийн үе шатандаа явж байна.';
+      if(p<50) return base+'Явц зорилтот чиглэлдээ урагшилж байна.';
+      return base+'Зорилтын талаас илүү хувь биелсэн, төгсгөлийн үе шат руу дөхөж байна.';
     }
     if(out){
       out.innerHTML=[
@@ -3413,9 +3432,9 @@ function renderSheetMemberModule(data){
             '<div class="sheet-proj-metric"><span>Энэ сарын бодит ROI</span><b>'+perfPctPlain(perf.monthlyRoi)+'</b><small>Сарын хаалттай гүйцэтгэлийн үр дүнд үндэслэсэн.</small></div>',
           '</div>',
         '</div>',
-        '<div class="sheet-proj-card goal"><span>'+months+' сарын таны хувийн campaign явц — бодит өгөөж / зорилтот өгөөж</span><b><span id="sheetMemberProgressCurrent">'+perfCurrency(view.currentProfit)+'</span> / <span id="sheetMemberProgressTarget">'+perfCurrency(view.targetProfit)+'</span></b><div class="sheet-goal-line"><div id="sheetMemberProgressFill" class="sheet-goal-fill '+(view.progressPct>100?'over':'')+'" style="width:'+Math.min(100,Math.max(0,view.progressPct)).toFixed(1)+'%"></div></div><small id="sheetMemberProgressNote">'+sheetProgressNote(view)+'</small></div>',
+        '<div class="sheet-proj-card goal"><span>Таны бодит ашгийн явц</span><b><span id="sheetMemberProgressCurrent">'+perfCurrency(view.currentProfit)+'</span> / <span id="sheetMemberProgressTarget">'+perfCurrency(view.targetProfit)+'</span></b><div class="sheet-goal-line"><div id="sheetMemberProgressFill" class="sheet-goal-fill '+(view.progressPct>100?'over':'')+'" style="width:'+Math.min(100,Math.max(0,view.progressPct)).toFixed(1)+'%"></div></div><small id="sheetMemberProgressNote">'+sheetProgressNote(view)+'</small></div>',
         '<div class="sheet-proj-card risk"><span>Эрсдэлийн санамж</span><b>Урьдчилсан тооцоолол</b><small>Бодит үр дүн нь зах зээлийн нөхцөл, drawdown, арилжааны идэвх болон эрсдэлийн удирдлагаас хамаарч өөрчлөгдөнө.</small></div>',
-        '<div class="perf-projection-note" id="perfMemberProjectionNote">Ногоон багана талархлын дараах хүлээгдэж буй дүнг, шар багана бодит явцаар шинэчилсэн боломжит дүнг харуулна.</div>'
+        '<div class="perf-projection-note" id="perfMemberProjectionNote">Ногоон тоо — сар бүр танд төлөвлөгдсөн хуваарилалт, алтлаг тоо — эхнээс хуримтлагдсан нийлбэр.</div>'
       ].join('');
       var thanksMount=document.getElementById('sheetThanksCompactMount');
       if(thanksMount){
@@ -3458,7 +3477,12 @@ function renderSheetMemberModule(data){
       }
     }
     if(table){
-      table.innerHTML='<table><thead><tr><th>Сар</th><th>Төлөвлөж буй сарын ашиг</th><th>Дансанд үлдэх өсөлт</th><th>Сард танд төлөвлөгдсөн хуваарилалт</th></tr></thead><tbody>'+view.projected.rows.map(function(x){return '<tr><td>'+x.m+'-р сар</td><td class="num cyan">'+perfCurrency(x.gross)+'<small>Төлөвлөж буй сарын нийт ашиг</small></td><td class="num">'+perfCurrency(x.scaleUp)+'<small>'+perfPctPlain(scale)+' нь дансанд үлдэж, дараагийн өсөлтөд ажиллана</small></td><td class="num green">'+perfCurrency(x.memberMonthly)+'<small>Сард танд төлөвлөгдөж буй ашиг</small></td></tr>';}).join('')+'</tbody></table>';
+      var __cum=0;
+      var __rowsHtml=view.projected.rows.map(function(x){ __cum+=x.memberMonthly; return '<tr><td>'+x.m+'-р сар</td><td class="num green">'+perfCurrency(x.memberMonthly)+'<small>Танд төлөвлөгдсөн сарын хуваарилалт</small></td><td class="num gold">'+perfCurrency(__cum)+'<small>Эхнээс хуримтлагдсан нийлбэр</small></td></tr>'; }).join('');
+      table.innerHTML='<div class="sheet-month-caption">Сар бүрийн урьдчилсан зураглал — танд төлөвлөгдсөн хуваарилалт</div>'
+        +'<table><thead><tr><th>Сар</th><th>Танд төлөвлөгдсөн хуваарилалт</th><th>Өссөн нийлбэр</th></tr></thead><tbody>'+__rowsHtml+'</tbody></table>'
+        +'<div class="sheet-month-summary">'+months+' сарын төлөвлөгдсөн хуваарилалтын нийлбэр: <b>'+perfCurrency(__cum)+'</b>. Үүн дээр campaign хаалтын дүн нэмэгдэж, талархал хамгийн сүүлд хасагдсанаар таны нийт зорилтот дүн <b>'+perfCurrency(view.targetNet)+'</b> болно.</div>'
+        +'<div class="sheet-month-disclaimer">Энэ бол campaign setting дээрх зорилтот өгөөжид суурилсан урьдчилсан төлөвлөгөө — сар бүрийн бодит хуваарилалт бодит гүйцэтгэлээс хамаарч үүнээс өндөр эсвэл бага байж болно.</div>';
     }
     if(brief){
       var marketBrief=sheetMarketBriefFromResponse(resp,camp);
