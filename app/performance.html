@@ -3282,6 +3282,7 @@ function renderSheetMemberModule(data){
   function setError(msg){ if(errBox)errBox.textContent=msg||''; }
   function showAuth(){
     var tm=document.getElementById('sheetThanksCompactMount'); if(tm){tm.classList.remove('is-visible');tm.innerHTML='';}
+    var mm=document.getElementById('perfMemberMemos'); if(mm){ while(mm.firstChild)mm.removeChild(mm.firstChild); mm.hidden=true; }
     if(authView)authView.classList.remove('is-hidden');
     if(dashView)dashView.classList.add('is-hidden');
     if(status)status.textContent='Нэвтрэх шаардлагатай';
