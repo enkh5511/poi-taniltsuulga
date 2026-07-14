@@ -1,5 +1,5 @@
 # POI CAPITAL GROUP — PORTAL STATE
-## Хувилбар: V39.10_PHASE1_ADMIN (2026-07-13) — Phase 1 Алхам 1 (admin табууд + Fund Simulator) ДУУССАН
+## Хувилбар: V39.10.1_PHASE1_ADMIN (2026-07-13) — Алхам 1 + UI бүрэн МОНГОЛ, задаргаат гаралт
 ## Хостинг: Cloudflare (poicapitalgroup.com) · GitHub push → auto deploy → Purge Everything
 
 > **Энэ файлын зорилго:** Шинэ chat эхлүүлэхдээ энэ zip-ийг хавсаргаад
@@ -121,7 +121,8 @@
 - operatorPct(n) helper: ≤1→50%, 2→40%, 3+→30% — шинэ кодын нэгдсэн эх сурвалж.
 
 ### PHASE 1 ЯВЦ
-- **Алхам 1 [ДУУССАН — V39.10]:** admin/calculator.html — таб бүтэц (Model A / Model B), Fund Simulator (амьд уншилт, debounce 200ms, 7/10/15 scenario, lock/deployable бар + 12 сарын мини chart, 4 зорилтын progress, admin-only surprise блок, гишүүн бүрийн хүснэгт), Model B (5 slider, 3 давхаргын дүүргэлт, milestone timeline, 7/10/15 харьцуулалт, сарын хураангуй). Одоогийн Calc1/Calc2 хөдөлгүүрт НЭГ Ч мөр өөрчлөлт ороогүй — add-on script блок. Тест: node --check OK; хөдөлгүүр n=1..10 × 7/10/15 (консерваци, нөөцийн cap, Бүс2 идэвхжилт, settlement нийлбэр, surprise=0@10%) БҮГД PASS.
+- **UI ДҮРЭМ (эзний шаардлага, V39.10.1):** Бүх харагдах текст МОНГОЛООР. Англи нэршил (Fund Simulator, waterfall, surprise, milestone, lock/deployable, scenario г.м.) UI-д ХОРИОТОЙ — монгол нэршил: Сангийн тооцооллын загварчлал, шат дараалсан хуваарилалт, зорилтоос давсан илүүдэл, босго цэг, түгжигдсэн/идэвхтэй, хувилбар. Эзний өөрийн нэршил (payout, Google Sheet, compound, C0 тэмдэглэгээ) хэвээр. Англи хувилбар хожим, тусдаа. Гаралт бүр тооцооллоо ӨӨРӨӨ тайлбарлана: сар бүрийн урсгал мөр мөрөөр, данс хаах хуваарилалт алхам алхмаар, илүүдэл суутгалын хүснэгтээр.
+- **Алхам 1 [ДУУССАН — V39.10.1]:** admin/calculator.html — таб бүтэц (Model A / Model B), Fund Simulator (амьд уншилт, debounce 200ms, 7/10/15 scenario, lock/deployable бар + 12 сарын мини chart, 4 зорилтын progress, admin-only surprise блок, гишүүн бүрийн хүснэгт), Model B (5 slider, 3 давхаргын дүүргэлт, milestone timeline, 7/10/15 харьцуулалт, сарын хураангуй). Одоогийн Calc1/Calc2 хөдөлгүүрт НЭГ Ч мөр өөрчлөлт ороогүй — add-on script блок. Тест: node --check OK; хөдөлгүүр n=1..10 × 7/10/15 (консерваци, нөөцийн cap, Бүс2 идэвхжилт, settlement нийлбэр, surprise=0@10%) БҮГД PASS.
 - **Алхам 2 [ХҮЛЭЭГДЭЖ БАЙНА]:** app/calculator-mini.html — stepPct 25/20 → 50/40/30, Model A default өгүүлэмж (зөвшөөрөгдсөн payout wording), нөөцийн зорилтын харагдац, settlement projection.
 
 ### PHASE 1 ДААЛГАВАР (шинэ chat-аас эхлүүлнэ)
