@@ -1859,7 +1859,7 @@ const SLIDES=[
       ["50%","scale-up","cyan"],
       ["12 сар","хугацаа","white"]],
     cards:[
-      ["Сар бүр","Ашгаас 1% зардал сууж, 50% нь данс өсгөх хэсэгт үлдэнэ."],
+      ["Сар бүр","Ашгаас 2% зардал сууж, 50% нь данс өсгөх хэсэгт үлдэнэ."],
       ["Хугацааны эцэс","Анхны капитал буцаж, өссөн хэсгийг тохирсон хувиар хуваана."],
       ["Үндсэн дүн","Нэг гишүүний нийт авах $136,594. Өгөөж +173%.","green"]],
     note:"Энэ default жишээ нэг гишүүний авах мөнгө ба өгөөжийн хувийг төвд нь харуулна."},
@@ -2229,11 +2229,11 @@ window.addEventListener('message', function(ev){
 function goCalc(){setTab("calc",true);}
 
 function hqFmt(n){return "$"+Math.round(n).toLocaleString("en-US");}
-function hqTraderPct(n){if(n===1)return .50;if(n===2)return .40;if(n===3)return .31;if(n===4)return .25;return .20;}
+function hqTraderPct(n){if(n===1)return .50;if(n===2)return .40;return .30;}
 function hqRender(){
   const invEl=document.getElementById("hq-inv"), nEl=document.getElementById("hq-n");
   if(!invEl||!nEl)return;
-  const inv=+invEl.value, n=+nEl.value, rate=.15, sup=.50, cost=.01, months=12;
+  const inv=+invEl.value, n=+nEl.value, rate=.15, sup=.50, cost=.02, months=12;
   const totalCap=inv*n, distPct=1-cost-sup, tp=hqTraderPct(n);
   let cap=totalCap, tM=0, tS=0;
   for(let m=1;m<=months;m++){
@@ -2273,7 +2273,7 @@ stage.addEventListener("touchend",function(e){
   touchX=null; touchY=null;
 },{passive:true});
 
-let initTab="home";try{const hv=(location.hash||"").replace("#","");const tv=localStorage.getItem("fc_tab");if(hv&&SECTIONS[hv])initTab=hv;else if(tv&&SECTIONS[tv])initTab=tv;}catch(e){}
+let initTab="home";try{const hv=(location.hash||"").replace("#","");if(hv&&SECTIONS[hv])initTab=hv;}catch(e){}
 // calculator module loader
 (function(){
   function loadCalc(){

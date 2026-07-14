@@ -435,6 +435,58 @@ body::before,body:before,body::after,body:after{
   background-repeat:no-repeat;}
 html,body{background:#020608!important;background-image:none!important;}
 </style>
+<style id="pcg-phase1-styles">
+.pcg-tabs{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap}
+.pcg-tab{padding:10px 22px;border-radius:12px;border:1px solid rgba(79,195,247,.25);background:rgba(13,21,32,.82);color:#7FA8C0;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.03em}
+.pcg-tab.active{background:rgba(79,195,247,.12);color:#4FC3F7;border-color:rgba(79,195,247,.55)}
+.pcg-sim{background:rgba(13,21,32,.82);border:0.5px solid rgba(79,195,247,.15);border-radius:14px;padding:1.5rem;margin:1.5rem 0}
+.pcg-sim h3{margin:0 0 4px;font-size:15px;color:#E8F4FD}
+.pcg-kicker{font-size:10px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.pcg-note{font-size:12px;color:#9FB8CC;line-height:1.7;margin:10px 0 14px;padding:10px 14px;background:rgba(79,195,247,.06);border-left:2px solid rgba(79,195,247,.4);border-radius:0 8px 8px 0}
+.pcg-status{font-size:10px;color:#5C7A90;margin-left:auto}
+.pcg-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:10px 0}
+.pcg-lbl{font-size:10px;font-weight:700;color:#4FC3F7;text-transform:uppercase;letter-spacing:.1em;min-width:150px}
+.pcg-bar-wrap{margin:14px 0}
+.pcg-bar{display:flex;height:26px;border-radius:8px;overflow:hidden;border:0.5px solid rgba(255,255,255,.08)}
+.pcg-bar .seg-res{background:linear-gradient(180deg,#8A6D1F,#6B5518);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#FFE9A8;min-width:0}
+.pcg-bar .seg-act{background:linear-gradient(180deg,#1E5F8A,#164A6E);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#BDE4FF;min-width:0}
+.pcg-legend{display:flex;gap:16px;font-size:10px;color:#7FA8C0;margin-top:6px}
+.pcg-dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.pcg-mini{display:flex;align-items:flex-end;gap:4px;height:70px;margin-top:12px;padding-top:8px;border-top:0.5px dashed rgba(255,255,255,.07)}
+.pcg-mini .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:1px}
+.pcg-mini .c-res{background:#8A6D1F;border-radius:2px 2px 0 0}
+.pcg-mini .c-act{background:#1E5F8A;border-radius:2px 2px 0 0}
+.pcg-mini .m-lbl{font-size:8px;color:#5C7A90;text-align:center;margin-top:3px}
+.pcg-goal{margin:8px 0}
+.pcg-goal .g-head{display:flex;justify-content:space-between;font-size:11px;color:#9FB8CC;margin-bottom:4px}
+.pcg-goal .g-track{height:8px;border-radius:4px;background:rgba(255,255,255,.06);overflow:hidden}
+.pcg-goal .g-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#2E86C1,#4FC3F7)}
+.pcg-goal.done .g-fill{background:linear-gradient(90deg,#1E8449,#2ECC71)}
+.pcg-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:9px;font-weight:700;letter-spacing:.05em;background:rgba(46,204,113,.12);color:#2ECC71;border:1px solid rgba(46,204,113,.35)}
+.pcg-surprise{margin-top:16px;padding:14px 16px;border-radius:12px;background:rgba(26,20,8,.85);border:1px solid rgba(212,175,55,.35)}
+.pcg-surprise .s-title{font-size:11px;font-weight:800;color:#D4AF37;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.pcg-surprise .s-formula{font-size:10px;color:#8C7A4E;margin-bottom:10px;line-height:1.7}
+.pcg-surprise table{width:100%;border-collapse:collapse;font-size:11px}
+.pcg-surprise td{padding:4px 8px;color:#C9B77E;border-bottom:0.5px solid rgba(212,175,55,.12)}
+.pcg-surprise td.v{text-align:right;font-weight:700;color:#EBD9A2}
+.pcg-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:12px}
+.pcg-tbl th{padding:8px;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#4FC3F7;border-bottom:1px solid rgba(79,195,247,.25);text-align:right}
+.pcg-tbl th:first-child{text-align:left}
+.pcg-tbl td{padding:7px 8px;color:#C4D8E8;border-bottom:0.5px solid rgba(255,255,255,.05);text-align:right}
+.pcg-tbl td:first-child{text-align:left;color:#E8F4FD;font-weight:600}
+.pcg-neg{color:#E85D5D!important;font-weight:700}
+.pcg-pos{color:#2ECC71!important;font-weight:700}
+.pcg-b-banner{padding:12px 16px;border-radius:12px;margin-bottom:1.25rem;background:rgba(40,15,10,.85);border:1px solid rgba(232,93,93,.4);color:#E8A87C;font-size:12px;font-weight:700;letter-spacing:.03em}
+.pcg-b-banner b{color:#E85D5D}
+.pcg-sg{margin:10px 0}
+.pcg-sg label{display:flex;justify-content:space-between;font-size:11px;color:#9FB8CC;margin-bottom:5px}
+.pcg-sg label span{color:#4FC3F7;font-weight:700}
+.pcg-sg input[type=range]{width:100%}
+.pcg-layers{margin:16px 0}
+.pcg-timeline{font-size:11px;color:#9FB8CC;line-height:2;margin-top:10px}
+.pcg-timeline b{color:#4FC3F7}
+@media(max-width:640px){.pcg-lbl{min-width:100%}.pcg-tbl{font-size:10px}.pcg-tbl th,.pcg-tbl td{padding:5px 4px}}
+</style>
 </head>
 <body class="admin-locked">
 <div class="poi-bg-fixed" aria-hidden="true"></div>
@@ -466,6 +518,13 @@ html,body{background:#020608!important;background-image:none!important;}
 </div>
 
 <div class="main">
+
+  <div class="pcg-tabs" role="tablist">
+    <button class="pcg-tab active" id="pcgTabA" type="button" onclick="pcgSwitchTab('a')">Model A — 12 сар</button>
+    <button class="pcg-tab" id="pcgTabB" type="button" onclick="pcgSwitchTab('b')">Model B — 24 сар · scenario</button>
+  </div>
+
+  <div id="tabModelA">
 
   <div class="mode-landing" id="modeLanding">
     <div class="mode-kicker">Тооцоолуурын төрөл</div>
@@ -596,6 +655,73 @@ html,body{background:#020608!important;background-image:none!important;}
   <div class="warn-box" style="margin-bottom:1.5rem;padding:1rem 1.25rem;background:rgba(26,13,13,0.82);border-radius:12px;border:1px solid rgba(232,93,93,.25);font-size:12px;color:#C87070;line-height:1.8">
     <strong style="color:#E85D5D;display:block;margin-bottom:6px">⚠ Анхааруулга — тооцооллын хязгаарлалт</strong>
     Дээрх тоонууд нь <strong style="color:#E8A0A0">хамгийн сайн үр дүнд суурилсан тооцоолол</strong> — сар бүр тогтмол өгөөж гарна гэж үзсэн. Бодит арилжаанд зарим сард ашиг багасах, зарим сард алдагдал гарах боломжтой. Зах зээлийн хэлбэлзэл тооцоолоогүй тул бодит үр дүн дээрх тооноос бага байж болно. Энэ тооцоолол нь боломжийн дүр зургийг харуулах зорилготой — баталгаа биш.</div>
+  </div>
+
+  <!-- ================= FUND SIMULATOR — MODEL A (PHASE 1) ================= -->
+  <div class="pcg-sim" id="fundSim">
+    <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+      <div>
+        <div class="pcg-kicker">Admin · Fund Simulator</div>
+        <h3>Model A — 12 сарын бодит campaign</h3>
+      </div>
+      <div class="pcg-status" id="fsStatus"></div>
+    </div>
+    <div class="pcg-note">Эхлээд бодит ашиг үүсгэнэ. Үүссэн ашгийн тодорхой хэсгээр хамгаалалтын нөөц бүрдүүлнэ. Campaign-ийн төгсгөлд хуримтлагдсан үр дүнгээр хуваарилалт хийнэ. Сар бүр тогтмол payout амлахгүй — хуримтлагдсан үр дүн campaign-ийн зорилтот түвшинд хугацаанаасаа өмнө хүрвэл ашгийн хуваарилалт хийх боломж нээгдэнэ. Хуваарилалтын хувь, дүн Google Sheet дээрээс удирдагдана. Хамгаалалтын нөөц = DD buffer / risk reserve (100% капитал хамгаалалт БИШ). Тооцоолуурын одоогийн байдлыг (гишүүд, дүн, горим) амьд уншина.</div>
+    <div class="pcg-row">
+      <span class="pcg-lbl">ROI scenario</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="scen-btn fs-scen" data-r="7" type="button" onclick="pcgSetScen(7,this)" style="padding:6px 16px;border-radius:20px">7%</button>
+        <button class="scen-btn fs-scen active" data-r="10" type="button" onclick="pcgSetScen(10,this)" style="padding:6px 16px;border-radius:20px">10% — зорилтот суурь</button>
+        <button class="scen-btn fs-scen" data-r="15" type="button" onclick="pcgSetScen(15,this)" style="padding:6px 16px;border-radius:20px">15%</button>
+      </div>
+    </div>
+    <div class="pcg-row">
+      <span class="pcg-lbl">Reserve need (admin)</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="scen-btn fs-rn active" data-rn="30" type="button" onclick="pcgSetRN(30,this)" style="padding:6px 16px;border-radius:20px">30% үндсэн хамгаалалтын нөөц</button>
+        <button class="scen-btn fs-rn" data-rn="50" type="button" onclick="pcgSetRN(50,this)" style="padding:6px 16px;border-radius:20px">50% өргөтгөсөн хамгаалалтын нөөц</button>
+      </div>
+    </div>
+    <div class="pcg-row" style="align-items:flex-start">
+      <span class="pcg-lbl">Active base req. (admin)</span>
+      <div style="flex:1;min-width:220px">
+        <input type="range" id="fsBase" min="0" max="100" value="0" step="5" style="width:100%" oninput="pcgRefresh()">
+        <div style="display:flex;gap:8px;margin-top:6px;align-items:center;flex-wrap:wrap">
+          <button class="scen-btn" type="button" onclick="pcgBasePreset(0)" style="padding:3px 12px;border-radius:14px;font-size:10px">$0</button>
+          <button class="scen-btn" type="button" onclick="pcgBasePreset(50)" style="padding:3px 12px;border-radius:14px;font-size:10px">50% C0</button>
+          <button class="scen-btn" type="button" onclick="pcgBasePreset(100)" style="padding:3px 12px;border-radius:14px;font-size:10px">100% C0</button>
+          <span style="font-size:11px;color:#4FC3F7;font-weight:700" id="fsBaseLbl">$0</span>
+        </div>
+      </div>
+    </div>
+    <div id="fsOut"></div>
+  </div>
+  </div><!-- /tabModelA -->
+
+  <!-- ================= MODEL B — 24 САРЫН ADMIN SCENARIO ================= -->
+  <div id="tabModelB" style="display:none">
+    <div class="pcg-b-banner">⚠ <b>Admin simulation — public promise БИШ.</b> Энэ нь 24 сарын admin scenario simulation. Сар бүр тогтмол payout амлахгүй. Хуваарилалтын горим нь тухайн campaign-ийн шийдвэр, Google Sheet-ийн тохиргооноос хамаарна.</div>
+    <div class="pcg-sim" id="modelB">
+      <div class="pcg-kicker">Admin · Long-term scenario</div>
+      <h3>Model B — 24 сар · Capital Protection Waterfall</h3>
+      <div class="pcg-note">Ашиг active дансанд compound болно. Active данс тогтоосон үржвэрээс (cap multiple × C0) давах бүрд илүүдлээс skim хийж, waterfall дарааллаар асгана: ① капитал хамгаалалтын нөөц → ② expected return давхарга → ③ admin-only surprise/freedom давхарга. Бүх утга admin туршилтын placeholder — тогтмол амлалт биш.</div>
+      <div class="pcg-row">
+        <span class="pcg-lbl">ROI scenario</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="scen-btn b-scen" data-r="7" type="button" onclick="pcgBSetScen(7,this)" style="padding:6px 16px;border-radius:20px">7%</button>
+          <button class="scen-btn b-scen active" data-r="10" type="button" onclick="pcgBSetScen(10,this)" style="padding:6px 16px;border-radius:20px">10%</button>
+          <button class="scen-btn b-scen" data-r="15" type="button" onclick="pcgBSetScen(15,this)" style="padding:6px 16px;border-radius:20px">15%</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:14px 0">
+        <div class="pcg-sg"><label>Active cap multiple <span id="bCapLbl">2.0×</span></label><input type="range" id="bCap" min="1.2" max="4" value="2" step="0.1" oninput="pcgBRefresh()"></div>
+        <div class="pcg-sg"><label>Skim rate <span id="bSkimLbl">100%</span></label><input type="range" id="bSkim" min="10" max="100" value="100" step="5" oninput="pcgBRefresh()"></div>
+        <div class="pcg-sg"><label>Protection target (C0-ийн %) <span id="bProtLbl">100%</span></label><input type="range" id="bProt" min="10" max="100" value="100" step="5" oninput="pcgBRefresh()"></div>
+        <div class="pcg-sg"><label>Expected return давхарга (C0-ийн %) <span id="bExpLbl">20%</span></label><input type="range" id="bExp" min="0" max="100" value="20" step="5" oninput="pcgBRefresh()"></div>
+        <div class="pcg-sg"><label>Surprise threshold (C0-ийн %) <span id="bSurLbl">0%</span></label><input type="range" id="bSur" min="0" max="100" value="0" step="5" oninput="pcgBRefresh()"></div>
+      </div>
+      <div id="bOut"></div>
+    </div>
   </div>
 </div>
 
@@ -778,18 +904,14 @@ function monthlyOperatorPctRule(n){
   return 0.30;
 }
 function closeProfitOperatorPct(n){
-  // Данс хаах B / weighted close profit шатлал:
-  // 1 гишүүн = 50 / 50
-  // 2 гишүүн = 40 / 30 / 30
-  // 3 гишүүн = данс удирдагч 30%
-  // 4 гишүүн = данс удирдагч 25%
-  // 5+ гишүүн = данс удирдагч 20%
-  // Performance incentive тусдаа 5–20% тул олон гишүүнтэй close profit дээр 20% нь үндсэн шударга шатлал.
+  // Данс хаах B / Calc2 close profit шатлал (LOCKED 2026-07-13, бүх горимд):
+  // Капитал эхлээд буцна, шатлал ЗӨВХӨН ашиг дээр:
+  // 1 гишүүн = 50/50 · 2 гишүүн = operator 40%, гишүүд 30/30
+  // 3+ гишүүн = operator 30%, үлдсэн 70% гишүүдэд (ижил дүнд тэнцүү, Calc2-т жингээр)
+  // Хуучин 25%/20% сүүл ХҮЧИНГҮЙ (V39.9 спек, Хэсэг 5).
   if(n===1) return 0.50;
   if(n===2) return 0.40;
-  if(n===3) return 0.30;
-  if(n===4) return 0.25;
-  return 0.20;
+  return 0.30;
 }
 function equalBOperatorPct(n){
   return closeProfitOperatorPct(n);
@@ -926,7 +1048,7 @@ function render(){
     dansMember=dansEachA;
   } else {
     // Б: анхны мөнгө буцааж, үлдсэн өсөлтийн ашгийг close profit шатлалаар бодно.
-    // 1 гишүүн 50/50, 2 гишүүн 40/30/30, 3 гишүүн operator 30%, 4 гишүүн 25%, 5+ гишүүн 20%.
+    // 1 гишүүн 50/50, 2 гишүүн 40/30/30, 3+ гишүүн operator 30% — үлдсэн 70% гишүүдэд (LOCKED V39.9.1).
     // Flexible: адил close profit шатлалыг капиталын жингээр гишүүдэд хуваана.
     dansTrader=Math.round(grossProfit*tp);
     dansMember=Math.round(inv+(grossProfit-dansTrader)/n);
@@ -1124,7 +1246,7 @@ function render(){
        : `<span class="lt">Данс хаагдах үед гишүүний анхны капитал</span>
        <span class="lv amber">${fmt(inv)}</span>
        <span class="lt">буцна. Үлдсэн өсөлтийн ашиг нь close profit шатлалаар бодогдоно:</span>
-       <span class="lv amber">1 хүн 50/50 · 2 хүн 40/30/30 · 3 хүн 30% · 4 хүн 25% · 5+ хүн 20%</span>
+       <span class="lv amber">1 хүн 50/50 · 2 хүн 40/30/30 · 3+ хүн operator 30%, үлдсэн 70% гишүүдэд</span>
        <span class="lt">. Нэг гишүүний данс хаах үеийн дүн</span>
        <span class="lv green">${fmt(displayDansMember)}</span>
        <span class="lt">. Данс удирдагчийн гүйцэтгэлийн урамшууллын дараах эцсийн авах:</span>
@@ -1174,7 +1296,7 @@ function render(){
       <td>+ Данс хаах үеийн авах дүн</td>
       <td colspan="4" style="text-align:right">${usingFlex
         ? ((flexMyIndex+1)+"-р гишүүн: үндсэн "+fmt(selectedContribution)+" + хаалтын ашгийн хувь "+fmt(flexCloseProfit)+" = "+fmt(displayDansMember))
-        : (dansMode==="a"?"А хувилбар: сарын тараах дүн болон final balance бүх оролцогчдод тэнцүү хуваагдана · нийт "+(n+1)+" тал":"Б хувилбар: сарын тараах дүн "+(n+1)+" талд тэнцүү. Данс хаах үед үндсэн капитал буцаж, өсөлтийн ашиг 1 хүн 50/50, 2 хүн 40/30/30, 3 хүн 30%, 4 хүн 25%, 5+ хүн 20% шатлалаар хуваагдана")}</td>
+        : (dansMode==="a"?"А хувилбар: сарын тараах дүн болон final balance бүх оролцогчдод тэнцүү хуваагдана · нийт "+(n+1)+" тал":"Б хувилбар: сарын тараах дүн "+(n+1)+" талд тэнцүү. Данс хаах үед үндсэн капитал буцаж, өсөлтийн ашиг 1 хүн 50/50, 2 хүн 40/30/30, 3+ хүн operator 30% (үлдсэн 70% гишүүдэд) шатлалаар хуваагдана")}</td>
       <td>${PUBLIC_HIDE_OPERATOR_AMOUNTS?'—':'+'+fmt(dansTrader)}</td><td>+${fmt(displayDansMember)}</td><td>—</td>
     </tr>
     <tr class="dans" style="color:#FFB547">
@@ -1193,7 +1315,7 @@ function render(){
         ? ((flexMyIndex+1)+"-р гишүүний тайлбар: оруулсан "+fmt(selectedContribution)+" · нийт капитал дахь хувь "+(selectedShare*100).toFixed(2)+"%. Энэ баганад зөвхөн сонгосон гишүүний сарын хуваарилалт, данс хаах үед авах дүн, урамшууллын хасалт, эцсийн авах дүн гарч байна. Данс удирдагч баганад test зорилгоор дотоод тооцооны дүн харагдаж байна.")
         : (dansMode==="a"
           ? ((flexMyIndex+1)+"-р гишүүний тайлбар: А хувилбар дээр сарын тараах дүн, данс хаах final balance бүгд "+(n+1)+" талд тэнцүү хуваагдана. Данс удирдагч баганад test зорилгоор дотоод тооцооны дүн харагдаж байна.")
-          : ((flexMyIndex+1)+"-р гишүүний тайлбар: Б хувилбар дээр close profit шатлал нь 1 хүн 50/50, 2 хүн 40/30/30, 3 хүн operator 30%, 4 хүн 25%, 5+ хүн 20%. Сарын хуваарилалт дээр 3+ гишүүнтэй үед operator 30%, гишүүдийн хэсэг тэнцүү сууриар бодогдоно. Данс удирдагч баганад test зорилгоор дотоод тооцооны дүн харагдаж байна."))}
+          : ((flexMyIndex+1)+"-р гишүүний тайлбар: Б хувилбар дээр close profit шатлал нь 1 хүн 50/50, 2 хүн 40/30/30, 3+ хүн operator 30% (үлдсэн 70% гишүүдэд). Сарын хуваарилалт дээр 3+ гишүүнтэй үед operator 30%, гишүүдийн хэсэг тэнцүү сууриар бодогдоно. Данс удирдагч баганад test зорилгоор дотоод тооцооны дүн харагдаж байна."))}
     </td></tr>`;
 
   // Tax — жишээ тооцоолол
@@ -1412,6 +1534,248 @@ goBackToModes();
     if(ok) showUnlocked(); else showLocked();
   });
 })();
+</script>
+<script id="pcg-phase1-engine">
+/* ============================================================
+   PHASE 1 — Fund Simulator (Model A) + Model B scenario
+   Add-on давхарга: одоогийн тооцоолуурын хөдөлгүүрт ХҮРЭХГҮЙ,
+   зөвхөн уншина. LOCKED шийдвэрүүд: PORTAL_STATE.md Хэсэг 5.1.
+   ============================================================ */
+function operatorPct(investorCount){
+  investorCount = Number(investorCount) || 1;
+  if (investorCount <= 1) return 0.50;
+  if (investorCount === 2) return 0.40;
+  return 0.30;
+}
+function pcgFmt(x){ const neg=x<0?'−':''; return neg+'$'+Math.abs(Math.round(x)).toLocaleString('en-US'); }
+function pcgPct(x){ return (x*100).toFixed(1)+'%'; }
+
+/* ---------- Тооцоолуурын одоогийн байдлыг унших ---------- */
+function pcgMembers(){
+  const n=Math.max(1,+(document.getElementById('n')||{value:2}).value||2);
+  const flex=(typeof mainMode!=='undefined' && mainMode==='custom');
+  let caps=[];
+  const invDefault=+(document.getElementById('inv')||{value:50000}).value||50000;
+  if(flex && typeof flexAmounts!=='undefined'){
+    caps=flexAmounts.slice(0,n).map(Number);
+    while(caps.length<n) caps.push(invDefault);
+  } else {
+    caps=Array(n).fill(invDefault);
+  }
+  const C0=caps.reduce((a,b)=>a+b,0)||1;
+  const dm=(typeof dansMode!=='undefined')?dansMode:'b';
+  const mode= flex ? 'flex' : (dm==='a'?'equalA':'equalB');
+  return {n,flex,mode,caps,C0,weights:caps.map(c=>c/C0)};
+}
+
+/* ---------- Model A хөдөлгүүр: 12 сар, гурван бүсийн нөөц ----------
+   LOCK: Бүс1 = net 100% нөөц рүү 30%×C0 хүртэл (cap-тай);
+   Бүс2 = 30-50% хооронд, сүүлийн 3 ХААГДСАН сарын дундаж net ROI ≥12% үед net×30% (50% cap);
+   Бүс3 = юүлэлт зогсоно. Нөөц ROI авахгүй, active л өснө.
+   Виртуал хуримтлал = settlement preview (cashflow биш). */
+function pcgSimulate(C0, roiPct, months){
+  const r=roiPct/100;
+  let active=C0, reserve=0;
+  const R30=.30*C0, R50=.50*C0, netHist=[], rows=[];
+  for(let m=1;m<=months;m++){
+    const gross=active*r, cost=gross*.02, net=gross-cost;
+    const netROI=active>0?net/active:0;
+    let moved=0, zone=3;
+    if(reserve<R30){ zone=1; moved=Math.min(net, R30-reserve); }
+    else if(reserve<R50){
+      zone=2;
+      const h=netHist.slice(-3);
+      const avg3=h.length===3 ? h.reduce((a,b)=>a+b,0)/3 : 0;
+      if(avg3>=.12) moved=Math.min(net*.30, R50-reserve);
+    }
+    reserve+=moved; active+=net-moved;
+    netHist.push(netROI);
+    rows.push({m,gross,cost,net,moved,active,reserve,zone});
+  }
+  return {C0,active,reserve,totalValue:active+reserve,rows,R30,R50};
+}
+
+/* ---------- Settlement хуваалт (одоогийн горимын дүрмээр) ---------- */
+function pcgSettlement(totalValue, C0, mem){
+  const profit=totalValue-C0;
+  if(mem.mode==='equalA'){
+    const each=totalValue/(mem.n+1);
+    return {operator:each, profit, members:mem.caps.map((c,i)=>({cap:c,w:mem.weights[i],settle:each}))};
+  }
+  const op=operatorPct(mem.n);
+  const opAmt=profit*op, pool=profit-opAmt;
+  if(mem.mode==='equalB'){
+    return {operator:opAmt, profit, members:mem.caps.map((c,i)=>({cap:c,w:mem.weights[i],settle:c+pool/mem.n}))};
+  }
+  return {operator:opAmt, profit, members:mem.caps.map((c,i)=>({cap:c,w:mem.weights[i],settle:c+pool*mem.weights[i]}))};
+}
+
+/* ---------- Fund Simulator төлөв + render ---------- */
+let pcgScen=10, pcgRN=30;
+function pcgSetScen(r,btn){ pcgScen=r; document.querySelectorAll('.fs-scen').forEach(b=>b.classList.toggle('active',b===btn)); pcgRefresh(); }
+function pcgSetRN(v,btn){ pcgRN=v; document.querySelectorAll('.fs-rn').forEach(b=>b.classList.toggle('active',b===btn)); pcgRefresh(); }
+function pcgBasePreset(v){ const el=document.getElementById('fsBase'); if(el){ el.value=v; pcgRefresh(); } }
+
+function pcgRefresh(){
+  const out=document.getElementById('fsOut'); if(!out) return;
+  const mem=pcgMembers();
+  const sim=pcgSimulate(mem.C0, pcgScen, 12);
+  const tgt=pcgSimulate(mem.C0, 10, 12);
+  const tgtSet=pcgSettlement(tgt.totalValue, mem.C0, mem);
+  const scnSet=pcgSettlement(sim.totalValue, mem.C0, mem);
+  const basePct=+(document.getElementById('fsBase')||{value:0}).value||0;
+  const activeBase=basePct/100*mem.C0;
+  const bl=document.getElementById('fsBaseLbl'); if(bl) bl.textContent=pcgFmt(activeBase)+(basePct>0?' ('+basePct+'% C0)':'');
+  const reserveNeed=pcgRN/100*mem.C0;
+  /* Surprise (LOCKED томьёо): totalValue − C0 − зорилтот settlement(profit) − reserveNeed − activeBase */
+  const surprise=Math.max(0, sim.totalValue - mem.C0 - tgtSet.profit - reserveNeed - activeBase);
+  const opSur=surprise*operatorPct(mem.n), poolSur=surprise-opSur;
+
+  /* 1) Lock / deployable */
+  const rp=sim.reserve/sim.totalValue*100, ap=100-rp;
+  const maxV=Math.max(...sim.rows.map(x=>x.active+x.reserve));
+  const mini=sim.rows.map(x=>{
+    const h=64;
+    return '<div class="col"><div class="c-res" style="height:'+(x.reserve/maxV*h)+'px"></div><div class="c-act" style="height:'+(x.active/maxV*h)+'px"></div><div class="m-lbl">'+x.m+'</div></div>';
+  }).join('');
+  let h='<div class="pcg-bar-wrap"><div class="pcg-kicker">1 · Lock / Deployable задаргаа — '+pcgScen+'% scenario</div>'
+    +'<div class="pcg-bar">'
+    +(sim.reserve>0?'<div class="seg-res" style="width:'+rp+'%">'+pcgFmt(sim.reserve)+'</div>':'')
+    +'<div class="seg-act" style="width:'+ap+'%">'+pcgFmt(sim.active)+'</div></div>'
+    +'<div class="pcg-legend"><span><i class="pcg-dot" style="background:#8A6D1F"></i>Нөөц — түгжигдсэн, ROI авахгүй</span><span><i class="pcg-dot" style="background:#1E5F8A"></i>Active данс — deployable, campaign капитал (surprise БИШ)</span><span style="margin-left:auto">Нийт: <b style="color:#E8F4FD">'+pcgFmt(sim.totalValue)+'</b></span></div>'
+    +'<div class="pcg-mini">'+mini+'</div></div>';
+
+  /* 2) Зорилт бүрдэлтийн progress */
+  const goals=[
+    {t:'Нөөц — Бүс1 зорилт (30% C0 = '+pcgFmt(sim.R30)+')', v:Math.min(1,sim.reserve/sim.R30), done:sim.reserve>=sim.R30-1, badge:'үндсэн нөөц бүрдлээ'},
+    {t:'Нөөц — Бүс2 зорилт (50% C0 = '+pcgFmt(sim.R50)+')', v:Math.min(1,sim.reserve/sim.R50), done:sim.reserve>=sim.R50-1, badge:'өргөтгөсөн нөөц бүрдлээ'},
+    {t:'Нийт зорилт (C0 + зорилтот settlement + reserve need + active base = '+pcgFmt(mem.C0+tgtSet.profit+reserveNeed+activeBase)+')', v:Math.min(1,sim.totalValue/(mem.C0+tgtSet.profit+reserveNeed+activeBase)), done:sim.totalValue>=(mem.C0+tgtSet.profit+reserveNeed+activeBase), badge:'бүх зорилт бүрдсэн'},
+    {t:'Surprise хил — зорилтоос хойшхи илүүдэл', v:surprise>0?1:0, done:surprise>0, badge:'илүүдэл гарсан'}
+  ];
+  h+='<div style="margin-top:16px"><div class="pcg-kicker">2 · Зорилт бүрдэлтийн явц</div>'
+    +goals.map(g=>'<div class="pcg-goal'+(g.done?' done':'')+'"><div class="g-head"><span>'+g.t+'</span><span>'+(g.done?'<span class="pcg-badge">'+g.badge+'</span>':Math.round(g.v*100)+'%')+'</span></div><div class="g-track"><div class="g-fill" style="width:'+(g.v*100)+'%"></div></div></div>').join('')
+    +'</div>';
+
+  /* 3) Admin-only surprise блок */
+  h+='<div class="pcg-surprise"><div class="s-title">3 · Admin-only — Surprise / Excess (public-д ХАРАГДАХГҮЙ)</div>'
+    +'<div class="s-formula">surprise = totalValue '+pcgFmt(sim.totalValue)+' − C0 '+pcgFmt(mem.C0)+' − зорилтот settlement '+pcgFmt(tgtSet.profit)+' − reserve need '+pcgFmt(reserveNeed)+' − active base '+pcgFmt(activeBase)+'</div>';
+  if(surprise>0){
+    h+='<table><tr><td>Нийт илүүдэл</td><td class="v">'+pcgFmt(surprise)+'</td></tr>'
+      +'<tr><td>Operator ('+Math.round(operatorPct(mem.n)*100)+'%)</td><td class="v">'+pcgFmt(opSur)+'</td></tr>'
+      +'<tr><td>Investor pool — капиталын жингээр</td><td class="v">'+pcgFmt(poolSur)+'</td></tr></table>';
+  } else {
+    h+='<div style="font-size:11px;color:#8C7A4E">Илүүдэл алга — нийт зорилт бүрэн бүрдээгүй тул surprise давхарга хоосон. Active данс өөрөө surprise БИШ.</div>';
+  }
+  h+='</div>';
+
+  /* 4) Гишүүн бүрийн хүснэгт */
+  const modeName=mem.mode==='flex'?'Calc2 — жингээр':(mem.mode==='equalA'?'Calc1-А — бүгд тэнцүү':'Calc1-Б — капитал + ашгийн шатлал');
+  h+='<div style="margin-top:16px"><div class="pcg-kicker">4 · Гишүүн бүрийн зорилтот тооцоо — горим: '+modeName+'</div>'
+    +'<table class="pcg-tbl"><thead><tr><th>Гишүүн</th><th>Капитал</th><th>Жин %</th><th>Зорилтот тооцоо (10%)</th><th>Scenario дүн ('+pcgScen+'%)</th><th>Зөрүү</th><th>Surprise хувь</th></tr></thead><tbody>';
+  for(let i=0;i<mem.n;i++){
+    const t=tgtSet.members[i].settle, sc=scnSet.members[i].settle, d=sc-t;
+    const sShare=poolSur*mem.weights[i];
+    h+='<tr><td>Гишүүн '+(i+1)+'</td><td>'+pcgFmt(mem.caps[i])+'</td><td>'+pcgPct(mem.weights[i])+'</td><td>'+pcgFmt(t)+'</td><td>'+pcgFmt(sc)+'</td>'
+      +'<td class="'+(d<-0.5?'pcg-neg':(d>0.5?'pcg-pos':''))+'">'+(d>0.5?'+':'')+pcgFmt(d)+'</td>'
+      +'<td>'+(surprise>0?pcgFmt(sShare):'—')+'</td></tr>';
+  }
+  const dOp=scnSet.operator-tgtSet.operator;
+  h+='<tr><td>Operator (дотоод)</td><td>—</td><td>—</td><td>'+pcgFmt(tgtSet.operator)+'</td><td>'+pcgFmt(scnSet.operator)+'</td>'
+    +'<td class="'+(dOp<-0.5?'pcg-neg':(dOp>0.5?'pcg-pos':''))+'">'+(dOp>0.5?'+':'')+pcgFmt(dOp)+'</td>'
+    +'<td>'+(surprise>0?pcgFmt(opSur):'—')+'</td></tr>';
+  h+='</tbody></table><div style="font-size:10px;color:#5C7A90;margin-top:8px">Зорилтот тооцоо = ижил хөдөлгүүр, 10% default ROI, 2% зардал, 12 сар, одоогийн жин + operator дүрэм (50/40/30). Виртуал хуримтлал = settlement preview — double counting ХОРИОТОЙ.</div></div>';
+
+  out.innerHTML=h;
+  const st=document.getElementById('fsStatus');
+  if(st) st.textContent='Шинэчилсэн '+new Date().toLocaleTimeString('en-GB');
+}
+
+/* ---------- Model B: 24 сар, milestone skim waterfall ---------- */
+let pcgBScen=10;
+function pcgBSetScen(r,btn){ pcgBScen=r; document.querySelectorAll('.b-scen').forEach(b=>b.classList.toggle('active',b===btn)); pcgBRefresh(); }
+function pcgSimB(C0, roiPct, months, capMult, skimRate, protPct, expPct, surPct){
+  let active=C0, prot=0, exp=0, sur=0;
+  const rows=[], ms={};
+  const protT=protPct/100*C0, expT=expPct/100*C0, surT=surPct/100*C0, cap=capMult*C0;
+  for(let m=1;m<=months;m++){
+    const gross=active*(roiPct/100), cost=gross*.02, net=gross-cost;
+    active+=net;
+    if(active>cap){
+      let skim=(active-cap)*(skimRate/100);
+      active-=skim;
+      const toProt=Math.min(skim, Math.max(0, protT-prot)); prot+=toProt; skim-=toProt;
+      const toExp=Math.min(skim, Math.max(0, expT-exp)); exp+=toExp; skim-=toExp;
+      sur+=skim;
+      if(!ms.cap) ms.cap=m;
+      if(protT>0 && prot>=protT-0.5 && !ms.prot) ms.prot=m;
+      if(expT>0 && exp>=expT-0.5 && !ms.exp) ms.exp=m;
+      if(surT>0 && sur>=surT-0.5 && !ms.sur) ms.sur=m;
+    }
+    rows.push({m,active,prot,exp,sur});
+  }
+  return {C0,active,prot,exp,sur,rows,ms,protT,expT,surT,cap};
+}
+function pcgBRefresh(){
+  const out=document.getElementById('bOut'); if(!out) return;
+  const mem=pcgMembers();
+  const capM=+(document.getElementById('bCap')||{value:2}).value;
+  const skim=+(document.getElementById('bSkim')||{value:100}).value;
+  const prot=+(document.getElementById('bProt')||{value:100}).value;
+  const expP=+(document.getElementById('bExp')||{value:20}).value;
+  const surP=+(document.getElementById('bSur')||{value:0}).value;
+  const L=(id,t)=>{const e=document.getElementById(id); if(e)e.textContent=t;};
+  L('bCapLbl',capM.toFixed(1)+'×'); L('bSkimLbl',skim+'%'); L('bProtLbl',prot+'%'); L('bExpLbl',expP+'%'); L('bSurLbl',surP+'%');
+  const r=pcgSimB(mem.C0, pcgBScen, 24, capM, skim, prot, expP, surP);
+  const cmp=[7,10,15].map(x=>({r:x, s:pcgSimB(mem.C0,x,24,capM,skim,prot,expP,surP)}));
+  const layer=(name,v,t,color)=>{
+    const p=t>0?Math.min(1,v/t):0;
+    return '<div class="pcg-goal'+(t>0&&v>=t-0.5?' done':'')+'"><div class="g-head"><span>'+name+' — '+pcgFmt(v)+(t>0?' / '+pcgFmt(t):'')+'</span><span>'+(t>0?Math.round(p*100)+'%':'хязгааргүй')+'</span></div><div class="g-track"><div class="g-fill" style="width:'+(t>0?p*100:(v>0?100:0))+'%;background:'+color+'"></div></div></div>';
+  };
+  let h='<div class="pcg-layers"><div class="pcg-kicker">Гурван давхаргын дүүргэлт — '+pcgBScen+'% scenario</div>'
+    +layer('① Капитал хамгаалалтын нөөц', r.prot, r.protT,'linear-gradient(90deg,#8A6D1F,#D4AF37)')
+    +layer('② Expected return давхарга', r.exp, r.expT,'linear-gradient(90deg,#2E86C1,#4FC3F7)')
+    +layer('③ Surprise / freedom (admin-only)', r.sur, r.surT,'linear-gradient(90deg,#1E8449,#2ECC71)')
+    +'</div>';
+  h+='<div class="pcg-timeline"><div class="pcg-kicker">Milestone timeline</div>'
+    +(r.ms.cap?('Active данс cap ('+capM.toFixed(1)+'× = '+pcgFmt(r.cap)+') анх давсан: <b>'+r.ms.cap+'-р сар</b><br>'):'Active данс 24 сард cap-д хүрээгүй — skim огт хийгдээгүй.<br>')
+    +(r.ms.prot?('① Protection бүрдсэн: <b>'+r.ms.prot+'-р сар</b><br>'):'')
+    +(r.ms.exp?('② Expected return бүрдсэн: <b>'+r.ms.exp+'-р сар</b><br>'):'')
+    +(r.ms.sur?('③ Surprise threshold давсан: <b>'+r.ms.sur+'-р сар</b><br>'):'')
+    +'</div>';
+  h+='<div style="margin-top:14px"><div class="pcg-kicker">7 / 10 / 15% харьцуулалт (24 сарын эцэс)</div>'
+    +'<table class="pcg-tbl"><thead><tr><th>Scenario</th><th>Active данс</th><th>① Protection</th><th>② Expected</th><th>③ Surprise</th><th>Нийт үнэ цэн</th></tr></thead><tbody>'
+    +cmp.map(x=>'<tr'+(x.r===pcgBScen?' style="background:rgba(79,195,247,.05)"':'')+'><td>'+x.r+'%</td><td>'+pcgFmt(x.s.active)+'</td><td>'+pcgFmt(x.s.prot)+'</td><td>'+pcgFmt(x.s.exp)+'</td><td>'+pcgFmt(x.s.sur)+'</td><td>'+pcgFmt(x.s.active+x.s.prot+x.s.exp+x.s.sur)+'</td></tr>').join('')
+    +'</tbody></table>';
+  const step=Math.max(1,Math.floor(24/8));
+  h+='<div style="margin-top:14px"><div class="pcg-kicker">Сарын хураангуй ('+pcgBScen+'%)</div>'
+    +'<table class="pcg-tbl"><thead><tr><th>Сар</th><th>Active</th><th>① Prot</th><th>② Exp</th><th>③ Sur</th></tr></thead><tbody>'
+    +r.rows.filter(x=>x.m%step===0||x.m===1||x.m===24).map(x=>'<tr><td>'+x.m+'</td><td>'+pcgFmt(x.active)+'</td><td>'+pcgFmt(x.prot)+'</td><td>'+pcgFmt(x.exp)+'</td><td>'+pcgFmt(x.sur)+'</td></tr>').join('')
+    +'</tbody></table></div>';
+  h+='<div style="font-size:10px;color:#5C7A90;margin-top:10px">Нийт campaign үнэ цэн = active + бүх давхарга. Settlement нийт үнэ цэнээс НЭГ удаа бодогдоно — double counting хориотой. Model B бол public default биш, ирээдүйн урт хугацааны simulation.</div>';
+  out.innerHTML=h;
+}
+
+/* ---------- Таб солилт + амьд шинэчлэлт ---------- */
+function pcgSwitchTab(t){
+  const a=document.getElementById('tabModelA'), b=document.getElementById('tabModelB');
+  const ta=document.getElementById('pcgTabA'), tb=document.getElementById('pcgTabB');
+  if(!a||!b) return;
+  a.style.display=(t==='a')?'':'none';
+  b.style.display=(t==='b')?'':'none';
+  ta.classList.toggle('active',t==='a');
+  tb.classList.toggle('active',t==='b');
+  if(t==='a') pcgRefresh(); else pcgBRefresh();
+}
+let pcgDeb=null;
+function pcgQueueRefresh(){
+  clearTimeout(pcgDeb);
+  pcgDeb=setTimeout(function(){ pcgRefresh(); pcgBRefresh(); },200);
+}
+document.addEventListener('input', pcgQueueRefresh, {passive:true});
+document.addEventListener('click', function(e){
+  if(e.target && e.target.closest && e.target.closest('.scen-btn,.mode-choice-card,.flex-mode-btn,#btn-a,#btn-b')) pcgQueueRefresh();
+}, {passive:true});
+window.addEventListener('load', function(){ setTimeout(function(){ pcgRefresh(); pcgBRefresh(); },300); });
 </script>
 </body>
 </html>
