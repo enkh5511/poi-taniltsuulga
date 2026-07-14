@@ -485,19 +485,20 @@ html.poi-embedded #wbg{display:none!important;}
   <section id="landing" class="hero">
     <div class="kicker">Оролцооны хэлбэрээ эхлээд сонгоно</div>
     <h1>$100,000+ хамтын дансанд өөрийн боломжит үр дүнг харах</h1>
-    <p class="lead">Энэ жижиг тооцоолуур нь танилцуулгад зориулсан цэвэр зураглал. Хүн өөрийн оруулах дүн, гишүүдийн тоо, хугацаа, сард горилж буй өгөөжийг хөдөлгөж сар бүрийн мөнгөн урсгал, данс хаах үеийн дүн, нийт боломжит өгөөжөө харна.</p>
+    <p class="lead">Энэ жижиг тооцоолуур нь танилцуулгад зориулсан цэвэр зураглал. Хүн өөрийн оруулах дүн, гишүүдийн тоо, хугацаа, сард горилж буй өгөөжийг хөдөлгөж сар бүрийн виртуал хуримтлал, данс хаах үеийн эцсийн тооцоо, нийт боломжит өгөөжөө харна.</p>
     <div class="note-box">Хамтын данс эхлэх доод хэмжээ $100,000. Нийт бүрдэх хөрөнгө $400,000-оос хэтрэхгүй, гишүүдийн тоо 10-аас ихгүй байхаар тооцоолуур хязгаарлагдсан.</div>
+    <div class="note-box" style="border-color:rgba(255,211,122,.25)">Сар бүр тогтмол payout амлахгүй. Сарын хуримтлал таны нэр дээр виртуал бүртгэгдэж, кампанийн төгсгөлд нэг удаагийн эцсийн тооцоогоор олгогдоно. Хуримтлагдсан үр дүн кампанийн зорилтот түвшинд хугацаанаасаа өмнө хүрвэл ашгийн хуваарилалт хийх боломж нээгдэнэ — хуваарилалтын хувь, дүн Google Sheet дээрээс удирдагдана.</div>
 
     <div class="choice-grid">
       <article class="choice" data-open="equal">
-        <div class="choice-num">01 · Calculator 1</div>
+        <div class="choice-num">01 · Тооцоолуур 1</div>
         <h2>Ижил дүнтэй бүлэг</h2>
         <p class="choice-text">Бүх гишүүн адил хэмжээний капитал оруулж байгаа үед ашиглана. Жишээ нь 10 хүн × $10,000, 5 хүн × $20,000, 2 хүн × $50,000.</p>
         <div class="choice-list"><span><b>•</b> Нэг гишүүний оруулах дүнг сонгоно</span><span><b>•</b> Гишүүдийн тоог 1–10 дотор хөдөлгөнө</span><span><b>•</b> Сарын хуваарилалт тэнцүү зарчмаар гарна</span></div>
         <button class="open-btn">Энэ хувилбараар тооцох →</button>
       </article>
       <article class="choice" data-open="weighted">
-        <div class="choice-num">02 · Calculator 2</div>
+        <div class="choice-num">02 · Тооцоолуур 2</div>
         <h2>Өөр өөр дүнтэй бүлэг</h2>
         <p class="choice-text">Гишүүд өөр өөр дүнгээр оролцож байгаа үед ашиглана. Хүн бүрийн оруулах дүнг тус тусад нь оруулаад, өөрийн гишүүний дугаараа сонгож өөрт ногдох үр дүнгээ харна.</p>
         <div class="choice-list"><span><b>•</b> 1–10 гишүүн тус бүрийн дүнг оруулна</span><span><b>•</b> Нийт хөрөнгө $400k хүртэл хязгаарлагдана</span><span><b>•</b> Өөрийн эзлэх хувиар ногдох дүн гарна</span></div>
@@ -541,7 +542,7 @@ html.poi-embedded #wbg{display:none!important;}
     </div>
   </section>
 
-  <div class="footer-note">POI Capital Group · Жижиг тооцоолуур · V15</div>
+  <div class="footer-note">POI Capital Group · Жижиг тооцоолуур · V16 — Загвар A</div>
 </main>
 <script>
 (function(){
@@ -553,7 +554,7 @@ html.poi-embedded #wbg{display:none!important;}
   function pct(n){return (Math.round(n*10)/10).toLocaleString('en-US')+'%';}
   function byId(id){return document.getElementById(id);}
   function clamp(v,min,max){return Math.max(min,Math.min(max,v));}
-  function stepPct(n){n=Number(n)||1; if(n===1)return .50; if(n===2)return .40; if(n===3)return .30; if(n===4)return .25; return .20;}
+  function stepPct(n){n=Number(n)||1; if(n===1)return .50; if(n===2)return .40; return .30;} /* LOCKED 50/40/30 — 25/20 сүүл хүчингүй (V39.11) */
   function calcSeries(startCapital, months, roiPct){
     var bal=Math.round(startCapital), rows=[], totalDist=0, totalCost=0, totalScale=0;
     for(var m=1;m<=months;m++){
@@ -622,10 +623,11 @@ html.poi-embedded #wbg{display:none!important;}
         <div class="tex t-ord" data-tax-card><span class="tex-arrow">▼</span><div class="tn">${money(ordTax)}</div><div class="tl"><strong style="color:#FFB547">Ердийн орлого 22%</strong><br>Нэг гишүүний жилийн татвар · харьцуулалт</div><div class="tax-detail"><div class="td-title">Харьцуулалт</div><div class="td-row"><span>Жилийн орлого</span><span>${money(annualIncome)}</span></div><div class="td-row"><span>Ердийн 22% татвар</span><span>${money(ordTax)}</span></div><div class="td-row"><span>Фьючерс 60/40 татвар</span><span style="color:#00C897">${money(futTax)}</span></div><div class="td-row" style="color:rgba(0,200,151,.86)"><span>Хэмнэлт</span><span>-${money(save)}</span></div>${allOrdLabel}</div></div>
       </div></div>`;
   }
+  function protectBox(){return `<div class="logic-box" style="border-left-color:rgba(255,211,122,.55)"><div class="logic-title" style="color:var(--gold2)">Хамгаалалтын нөөц ба эцсийн тооцоо</div><div class="logic-prose"><span class="logic-line">Кампанийн ашгаас эхний ээлжинд <span class="logic-num gold">хамгаалалтын нөөц</span> бүрдүүлнэ — зорилт: анхны нийт капиталын <span class="logic-num gold">30%</span>, хүчтэй гүйцэтгэлтэй үед <span class="logic-num gold">50%</span> хүртэл. Энэ нь уналтыг тэсвэрлэх эрсдэлийн нөөц бөгөөд капиталын 100% хамгаалалт биш.</span><span class="logic-line">Сар бүр тогтмол payout амлахгүй. Сарын хуримтлал таны нэр дээр <span class="logic-num cyan">виртуал</span> бүртгэгдэж, кампанийн төгсгөлд данс хаах дүнтэй хамт <span class="logic-num green">нэг удаагийн эцсийн тооцоогоор</span> олгогдоно — давхар нэмэгдэх тусдаа мөнгө биш.</span><span class="logic-line">Хуримтлагдсан үр дүн кампанийн зорилтот түвшинд хугацаанаасаа өмнө хүрвэл ашгийн хуваарилалт хийх боломж нээгдэнэ. Хуваарилалтын хувь, дүн Google Sheet дээрээс удирдагдана.</span></div></div>`;}
   function warnBox(){return `<div class="warn-box"><div class="warn-title">Анхааруулга</div><p class="warn-text">Энэ тооцоо нь хамгийн сайн гүйцэтгэлтэй хувилбарыг төсөөлсөн урьдчилсан зураглал бөгөөд өгөөжийн баталгаа биш. Зах зээл савлагаатай байдаг. Сарын ашиг буурах, хуваарилалтын хэмжээ багасах, данс өсгөх явц удаашрах, дансны түр бууралт үүсэх, зарим үед алдагдал хүлээх нөхцөл гарч болно.</p></div>`;}
   function monthGrid(rows, calcRow){
     var html=rows.map(function(r){return `<div class="month"><span>${r.m}-р сар</span><b>${money(calcRow(r))}</b></div>`;}).join('');
-    return `<div class="month-wrap"><div class="table-title">Сарын хуваарилалтын дэлгэрэнгүй</div><div class="month-grid">${html}</div></div>`;
+    return `<div class="month-wrap"><div class="table-title">Сарын виртуал хуримтлалын дэлгэрэнгүй</div><div class="month-grid">${html}</div></div>`;
   }
   function logicBoxHtml(d){
     return `<div class="logic-box"><div class="logic-title">${d.logicTitle||'Хуваарилалтын логик'}</div>${d.logic}</div>`;
@@ -635,9 +637,9 @@ html.poi-embedded #wbg{display:none!important;}
       <span class="logic-line">${o.members} гишүүн тус бүр <span class="logic-num green">${money(o.amount)}</span> оруулснаар хамтын дансны нийт хэмжээ <span class="logic-num green">${money(o.capital)}</span> болно.</span>
       <span class="logic-line">Сарын ашгийн <span class="logic-num gold">50%</span> нь дансанд үлдэж дараагийн сарын үндсэн хэмжээг нэмэгдүүлнэ. Ингэснээр дараагийн сарын боломжит өгөөж өссөн дансны дүн дээр тооцогдоно.</span>
       <span class="logic-line">Мөн сарын ашгаас <span class="logic-num cyan">2% үйл ажиллагааны зардал</span> тусад нь тооцогдоно.</span>
-      <span class="logic-line">Энэ гишүүний сарын нийт хуваарилалт <span class="logic-num green">${money(o.monthlyTotal)}</span>. 1-р сард <span class="logic-num green">${money(o.first)}</span>, ${o.months}-р сард <span class="logic-num green">${money(o.last)}</span> гэж өсөлтийн дагуу өөрчлөгдөнө.</span>
-      <span class="logic-line">Данс хаах үед анхны капитал <span class="logic-num gold">${money(o.amount)}</span> буцаж, өсөлтийн ашгаас B шатлалын дагуу ногдох ашиг <span class="logic-num green">${money(o.closeProfit)}</span> нэмэгдэнэ.</span>
-      <div class="logic-mini-grid"><div class="logic-mini"><span>Сарын нийт</span><b>${money(o.monthlyTotal)}</b></div><div class="logic-mini gold"><span>Данс хаах үед</span><b>${money(o.closeTotal)}</b></div><div class="logic-mini cyan"><span>Нийт өгөөж</span><b>+${pct(o.roi)}</b></div></div>
+      <span class="logic-line">Энэ гишүүний сарын виртуал хуримтлал нийтдээ <span class="logic-num green">${money(o.monthlyTotal)}</span>. 1-р сард <span class="logic-num green">${money(o.first)}</span>, ${o.months}-р сард <span class="logic-num green">${money(o.last)}</span> гэж өсөлтийн дагуу өөрчлөгдөнө.</span>
+      <span class="logic-line">Данс хаах үед анхны капитал <span class="logic-num gold">${money(o.amount)}</span> буцаж, өсөлтийн ашгаас Б шатлалын дагуу ногдох ашиг <span class="logic-num green">${money(o.closeProfit)}</span> нэмэгдэнэ.</span>
+      <div class="logic-mini-grid"><div class="logic-mini"><span>Виртуал хуримтлал</span><b>${money(o.monthlyTotal)}</b></div><div class="logic-mini gold"><span>Данс хаах үед</span><b>${money(o.closeTotal)}</b></div><div class="logic-mini cyan"><span>Нийт өгөөж</span><b>+${pct(o.roi)}</b></div></div>
       <div class="logic-note">Өөрөөр хэлбэл, <b>${money(o.amount)}</b> оруулсан нэг гишүүн сар бүрийн мөнгөн урсгал болон данс хаах үеийн буцаалтаа нийлүүлээд <b style="color:var(--green2)">${money(o.total)}</b> авах боломжит зураглал харна.</div>
     </div>`;
   }
@@ -646,9 +648,9 @@ html.poi-embedded #wbg{display:none!important;}
       <span class="logic-line"><span class="logic-num gold">${o.memberNo}-р гишүүн</span> <span class="logic-num green">${money(o.amount)}</span> оруулж, хамтын дансны нийт хэмжээ <span class="logic-num green">${money(o.totalCapital)}</span>-ийн <span class="logic-num green">${pct(o.share*100)}</span>-ийг бүрдүүлж байна.</span>
       <span class="logic-line">Сарын ашгийн <span class="logic-num gold">50%</span> нь дансанд үлдэж дараагийн сарын үндсэн хэмжээг нэмэгдүүлнэ. Ингэснээр дараагийн сарын боломжит өгөөж өссөн дансны дүн дээр тооцогдоно.</span>
       <span class="logic-line">Мөн сарын ашгаас <span class="logic-num cyan">2% үйл ажиллагааны зардал</span> тусад нь тооцогдоно. Үлдсэн хуваарилагдах дүнгээс тухайн гишүүний хэсэг нь нийт хөрөнгөд эзлэх хувиар бодогдоно.</span>
-      <span class="logic-line">Энэ гишүүний сарын нийт хуваарилалт <span class="logic-num green">${money(o.monthlyTotal)}</span>, 1-р сард <span class="logic-num green">${money(o.first)}</span>, ${o.months}-р сард <span class="logic-num green">${money(o.last)}</span>.</span>
+      <span class="logic-line">Энэ гишүүний сарын виртуал хуримтлал нийтдээ <span class="logic-num green">${money(o.monthlyTotal)}</span>, 1-р сард <span class="logic-num green">${money(o.first)}</span>, ${o.months}-р сард <span class="logic-num green">${money(o.last)}</span>.</span>
       <span class="logic-line">Данс хаах үед оруулсан капитал <span class="logic-num gold">${money(o.amount)}</span> буцаж, өсөлтийн ашгаас өөрийн хувь болох <span class="logic-num green">${money(o.closeProfit)}</span> нэмэгдэнэ.</span>
-      <div class="logic-mini-grid"><div class="logic-mini"><span>Миний хувь</span><b>${pct(o.share*100)}</b></div><div class="logic-mini"><span>Сарын нийт</span><b>${money(o.monthlyTotal)}</b></div><div class="logic-mini gold"><span>Данс хаах үед</span><b>${money(o.closeTotal)}</b></div></div>
+      <div class="logic-mini-grid"><div class="logic-mini"><span>Миний хувь</span><b>${pct(o.share*100)}</b></div><div class="logic-mini"><span>Виртуал хуримтлал</span><b>${money(o.monthlyTotal)}</b></div><div class="logic-mini gold"><span>Данс хаах үед</span><b>${money(o.closeTotal)}</b></div></div>
       <div class="logic-note">Өөрөөр хэлбэл, <b>${money(o.amount)}</b> оруулсан нэг гишүүн сар бүрийн мөнгөн урсгал болон данс хаах үеийн буцаалтаа нийлүүлээд <b style="color:var(--green2)">${money(o.total)}</b> авах боломжит зураглал харна.</div>
     </div>`;
   }
@@ -656,7 +658,7 @@ html.poi-embedded #wbg{display:none!important;}
     var intro = d.variant==='weighted'
       ? `<div class="you-strip"><div class="you-chip">Таны оруулсан дүн · ${money(d.invest)}</div><div class="others-chip">Бусад гишүүдийн нийт · ${money(d.othersTotal||0)}</div></div>`
       : '';
-    return `<div class="result-k">Гол зураглал</div>${intro}<div class="hero-pair"><div class="hero-cell invest"><span class="hero-num">${money(d.invest)}</span><span class="hero-lbl">Таны оруулсан анхны дүн</span></div><div class="hero-arrow">→</div><div class="hero-cell total"><span class="hero-num">${money(d.total)}</span><span class="hero-lbl">Нийт авах боломжит зураглал</span></div></div><p class="result-note">Сар бүрийн боломжит хуваарилалт + данс хаах үед авах үндсэн капитал болон ногдох ашгийн нийлбэр.</p><div class="cards"><div class="card"><span>Сар бүр дундаж авах</span><b>${money(d.avgMonthly)}</b></div><div class="card cyan"><span>Сарын нийт хуваарилалт</span><b>${money(d.monthlyTotal)}</b></div><div class="card"><span>1-р сарын хуваарилалт</span><b>${money(d.firstMonthly)}</b></div><div class="card"><span>Сүүлийн сарын хуваарилалт</span><b>${money(d.lastMonthly)}</b></div><div class="card gold"><span>Данс хаах үед авах</span><b>${money(d.closeTotal)}</b></div><div class="card gold"><span>Данс хаах үеийн ногдох ашиг</span><b>${money(d.closeProfit)}</b></div><div class="card cyan"><span>Нийт өгөөж</span><b>+${pct(d.roi)}</b></div><div class="card"><span>Хугацаа</span><b>${d.months} сар</b></div></div>${logicBoxHtml(d)}${monthGrid(d.rows,d.rowCalc)}${taxBox(d.taxAnnualIncome,d.members,d.variant)}${warnBox()}`;
+    return `<div class="result-k">Гол зураглал</div>${intro}<div class="hero-pair"><div class="hero-cell invest"><span class="hero-num">${money(d.invest)}</span><span class="hero-lbl">Таны оруулсан анхны дүн</span></div><div class="hero-arrow">→</div><div class="hero-cell total"><span class="hero-num">${money(d.total)}</span><span class="hero-lbl">Нийт авах боломжит зураглал</span></div></div><p class="result-note">Сар бүрийн виртуал хуримтлал + данс хаах үеийн үндсэн капитал болон ногдох ашиг — бүгд кампанийн төгсгөлд нэг удаагийн эцсийн тооцоогоор олгогдох боломжит зураглал.</p><div class="cards"><div class="card"><span>Сарын дундаж хуримтлал</span><b>${money(d.avgMonthly)}</b></div><div class="card cyan"><span>Нийт виртуал хуримтлал</span><b>${money(d.monthlyTotal)}</b></div><div class="card"><span>1-р сарын хуримтлал</span><b>${money(d.firstMonthly)}</b></div><div class="card"><span>Сүүлийн сарын хуримтлал</span><b>${money(d.lastMonthly)}</b></div><div class="card gold"><span>Данс хаах үед авах — эцсийн тооцоо</span><b>${money(d.closeTotal)}</b></div><div class="card gold"><span>Данс хаах үеийн ногдох ашиг</span><b>${money(d.closeProfit)}</b></div><div class="card cyan"><span>Нийт өгөөж</span><b>+${pct(d.roi)}</b></div><div class="card"><span>Хугацаа</span><b>${d.months} сар</b></div></div>${logicBoxHtml(d)}${monthGrid(d.rows,d.rowCalc)}${taxBox(d.taxAnnualIncome,d.members,d.variant)}${protectBox()}${warnBox()}`;
   }
   function renderEqual(){
     enforceEqualCap();
