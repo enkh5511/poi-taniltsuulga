@@ -2269,6 +2269,7 @@ html.poi-embedded #wbg{display:none!important;}
 
           <div class="sheet-profile-grid" id="sheetProfileGrid"></div>
           <div class="sheet-progress-card member-target" id="sheetCampaignProgress"></div>
+          <div class="sheet-progress-card" id="sheetPayoutCard" style="display:none"></div>
           <div class="sheet-projection" id="sheetMemberProjection"></div>
           <div class="sheet-month-table" id="sheetMonthTable"></div>
           <div class="sheet-brief-card" id="sheetMarketBrief"></div>
@@ -2686,13 +2687,13 @@ function renderBarChart(id,rows,key,labelId,formatter){
   }
 }
 
-function perfTraderPctHidden(n){
-  if(n===1)return 0.50;
-  if(n===2)return 0.40;
-  if(n===3)return 0.30;
-  if(n===4)return 0.25;
-  return 0.20;
+function perfOperatorPct(investorCount){
+  investorCount = Math.round(Number(investorCount) || 1);
+  if (investorCount <= 1) return 0.50;
+  if (investorCount === 2) return 0.40;
+  return 0.30;
 }
+function perfTraderPctHidden(n){ return perfOperatorPct(n); }
 function perfMonthKey(v){var d=perfDate(v);return d?d.slice(0,7):"";}
 function perfMonthlyRoiSeries(rows){
   var groups={};
@@ -2837,13 +2838,7 @@ function renderMemberExpectation(m,cfg,chart,d){
   var out=document.getElementById("perfMemberProjection");
   if(!capInput||!retInput||!monthsInput||!countInput||!scaleInput||!incentiveInput||!out)return;
 
-  function traderPct(n){
-    if(n===1)return 0.50;
-    if(n===2)return 0.40;
-    if(n===3)return 0.30;
-    if(n===4)return 0.25;
-    return 0.20;
-  }
+  function traderPct(n){ return perfOperatorPct(n); }
   function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
   function roundStep(v,step){return Math.round(perfNumber(v)/step)*step;}
   function equalMonthlyShare(dist,n){return Math.round(dist/(n+1));}
@@ -3180,7 +3175,7 @@ function sheetMemberRowsFromData(data){
   out.forEach(function(r){r.share=total?r.capital/total:0;});
   return out;
 }
-function sheetTraderPct(n){n=Math.round(n||1); if(n===1)return .50;if(n===2)return .40;if(n===3)return .30;if(n===4)return .25;return .20;}
+function sheetTraderPct(n){ return perfOperatorPct(n); }
 function sheetProjectionStep(balance,r,scale,cost){
   var gross=Math.round(balance*r), costAmt=Math.round(gross*cost), scaleUp=Math.round(gross*scale), dist=Math.max(0,gross-costAmt-scaleUp);
   return {gross:gross,cost:costAmt,scaleUp:scaleUp,dist:dist};
@@ -3277,6 +3272,46 @@ function renderMemberMemos(data){
     box.hidden=false;
   }catch(e){}
 }
+function renderSheetPayout(resp){
+  /* Payout харагдац — Sheet талбарууд СОНГОЛТТОЙ: байхгүй бол default (хаалттай төлөв).
+     innerHTML огт хэрэглэхгүй — бүх текст textContent. member_memos-т ХАМААГҮЙ. */
+  try{
+    var card=document.getElementById('sheetPayoutCard'); if(!card)return;
+    var pdata=window.__sheetPerformanceData||{};
+    var cfg=pdata.web_config||{};
+    var camp=(resp&&resp.campaign)||{}, memb=(resp&&resp.member)||{};
+    function pv(key,def){
+      var v=perfRawValue(camp,key,null);
+      if(v===null||v===undefined||v==='')v=perfRawValue(memb,key,null);
+      if(v===null||v===undefined||v==='')v=perfRawValue(cfg,key,def);
+      return (v===null||v===undefined||v==='')?def:v;
+    }
+    var enabled=false;
+    try{ enabled=(typeof perfTruthy==='function')?perfTruthy(pv('payout_enabled',false)):!!pv('payout_enabled',false); }catch(e){ enabled=false; }
+    var ratePct=perfNumber(pv('payout_rate_pct',0))||0;
+    var availTotal=perfNumber(pv('payout_available_total',0))||0;
+    var note=String(pv('payout_note','')||'');
+    while(card.firstChild)card.removeChild(card.firstChild);
+    function line(tag,txt,style){
+      var el=document.createElement(tag); el.textContent=txt;
+      if(style)el.setAttribute('style',style);
+      card.appendChild(el); return el;
+    }
+    if(!enabled || availTotal<=0){
+      line('div','Ашгийн хуваарилалт','font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#4FC3F7;margin-bottom:8px');
+      line('div','Сар бүр тогтмол payout амлахгүй.','font-size:12.5px;color:#AEC9DB;line-height:1.7');
+      line('div','Хуримтлагдсан үр дүн campaign-ийн зорилтот түвшинд хүрч, хамгаалалтын нөөц бүрдсэний дараа ашгийн хуваарилалт хийх боломж нээгдэнэ.','font-size:12.5px;color:#AEC9DB;line-height:1.7;margin-top:4px');
+      line('div','Хуваарилалтын хувь, дүн Google Sheet-ийн тохиргооноос хамаарна.','font-size:12.5px;color:#7FA8C0;line-height:1.7;margin-top:4px');
+    } else {
+      line('div','Ашгийн хуваарилалт нээгдсэн','font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#00C897;margin-bottom:8px');
+      line('div','Campaign-ийн зорилтот үр дүн биелсэн тул ашгийн хуваарилалт хийх боломж нээгдлээ.','font-size:12.5px;color:#AEC9DB;line-height:1.7');
+      line('div','Танд хуваарилах боломжтой дүн: '+perfCurrency(availTotal),'font-size:14px;font-weight:800;color:#00C897;margin-top:8px');
+      line('div','Хуваарилалтын хувь: '+(Math.round(ratePct*10)/10)+'%','font-size:12.5px;color:#AEC9DB;margin-top:2px');
+    }
+    if(note){ line('div',note,'font-size:11.5px;color:#7FA8C0;line-height:1.6;margin-top:8px;border-top:1px solid rgba(255,255,255,.06);padding-top:8px'); }
+    card.style.display='';
+  }catch(e){ /* payout харагдац алдвал самбарын бусад хэсэгт нөлөөлөхгүй */ }
+}
 function renderSheetMemberModule(data){
   var box=document.getElementById("perfSheetMemberModule"); if(!box)return;
   var memberNoInput=document.getElementById("sheetMemberNo"), accessInput=document.getElementById("sheetAccessCode"), accessToggle=document.getElementById("sheetAccessToggle"), fetchBtn=document.getElementById("sheetFetchBtn");
@@ -3330,6 +3365,7 @@ function renderSheetMemberModule(data){
     return {d:d,m:m,chart:chart,latest:latest,monthlyRoi:monthlyRoi,operatorNote:op,update:update};
   }
   function renderMemberDashboard(resp){
+    try{renderSheetPayout(resp);}catch(e){}
     var mem=resp.member||{}, camp=resp.campaign||{}, perf=currentPerformance();
     var name=mem.display_name||('Гишүүн '+(mem.member_no||''));
     var type=String(camp.model_type||'weighted').toLowerCase()==='equal'?'equal':'weighted';
