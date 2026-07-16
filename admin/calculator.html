@@ -5,7 +5,7 @@
 <meta name="color-scheme" content="dark">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POI Capital Group · Админ удирдлагын төв · V39.16.9</title>
+<title>POI Capital Group · Админ удирдлагын төв · V39.16.10</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:transparent;color:#E0E8F0;min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -1126,7 +1126,7 @@ html,body{background:#020608!important;background-image:none!important;}
 
 <script>
 window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwLSwH10mdlkwxkFICWEeE8wLCzY8VQj-C0p05a4LlFSu0GSfYWSvRs/exec";
-/* --- V39.16.9 MODEL A LIVE ENGINE + SHEET BACKEND --- */
+/* --- V39.16.10 MODEL A LIVE ENGINE + SHEET BACKEND --- */
 (function(){
   const $=id=>document.getElementById(id);
   const money=n=>{
@@ -1735,7 +1735,7 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
 
 
 
-  /* ================= V39.16.9 GOOGLE SHEET 2-WAY CONNECTION ================= */
+  /* ================= V39.16.10 GOOGLE SHEET 2-WAY CONNECTION ================= */
   const BACKEND_URL=window.POI_BACKEND_URL||'';
   let backendBusy=false;
   let backendSessionToken='';
@@ -1793,7 +1793,7 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
   function collectBackendState(){
     adminccStageMemberEdit();
     const projectClose=computeProjectClose();
-    return {version:'V39.16.9',savedAt:new Date().toISOString(),ui:collectUiFields(),members:clonePlain(members),weeklyRecords:clonePlain(weeklyRecords),monthlyCloseRecords:clonePlain(monthlyCloseRecords),adminExpenseLedger:clonePlain(adminExpenseLedger),accountAdjustmentLedger:clonePlain(accountAdjustmentLedger),projectCloseStatus:projectClosePrepared?'prepared':'projection',projectClose:clonePlain(projectClose)};
+    return {version:'V39.16.10',savedAt:new Date().toISOString(),ui:collectUiFields(),members:clonePlain(members),weeklyRecords:clonePlain(weeklyRecords),monthlyCloseRecords:clonePlain(monthlyCloseRecords),adminExpenseLedger:clonePlain(adminExpenseLedger),accountAdjustmentLedger:clonePlain(accountAdjustmentLedger),projectCloseStatus:projectClosePrepared?'prepared':'projection',projectClose:clonePlain(projectClose)};
   }
   function replaceArray(target,source){target.splice(0,target.length,...(Array.isArray(source)?clonePlain(source):[]));}
   function normalizeLoadedMembers(rows){
@@ -1846,10 +1846,10 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
   };
   window.adminccPreviewMember=function(){const no=val('previewMemberNo');if(!no){setStatus('publishStatusMsg','Эхлээд гишүүн сонгоно уу.');return;}window.open('../app/performance.html','_blank','noopener,noreferrer');setStatus('publishStatusMsg','Гишүүний page шинэ цонхонд нээгдлээ. Нийтэлсэн мэдээллийг тухайн гишүүний кодоор шалгана.');};
   window.adminccPreviewMemberNo=function(no){const sel=$('previewMemberNo');if(sel)sel.value=String(no);adminccOpen('publish');adminccPreviewMember();};
-  /* ================= END V39.16.9 CONNECTION ================= */
+  /* ================= END V39.16.10 CONNECTION ================= */
 
 
-  /* ================= V39.16.9 SAFETY / LEDGER / CLOSE LOCK PATCH ================= */
+  /* ================= V39.16.10 SAFETY / LEDGER / CLOSE LOCK PATCH ================= */
   const capitalTransactionLedgerV39165=[];
   const earlyDistributionLedgerV39165=[];
 
@@ -1969,13 +1969,13 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
   window.adminccStageProjectClose=function(prepare){const p=adminccProjectCloseCalc();if(!p.list.length){setStatus('projectCloseStatusMsg','Тооцоо хийх гишүүн алга байна.');return false;}if(!p.actualDiffOk||Math.abs(p.monthlyLedgerDiff)>=1||Math.abs(p.reconcile)>=1||p.totalOverpaid>=1){setStatus('projectCloseStatusMsg','Зөрүү $0 болоогүй эсвэл өмнөх олголт хэтэрсэн тул хаалтад бэлтгэх боломжгүй.');return false;}if(prepare){projectClosePrepared=true;adminccProjectCloseCalc();setStatus('projectCloseStatusMsg','Төслийн хаалтын эцсийн тооцоо бэлтгэгдлээ. “Нийтлэх” үед гишүүний хаалтын карт идэвхжинэ.');}else setStatus('projectCloseStatusMsg','Төслийн хаалтын тооцоо урьдчилж шалгахад бэлэн боллоо.');return true;};
 
   const __v39165CollectBackendState=collectBackendState;
-  collectBackendState=function(){const state=__v39165CollectBackendState();state.version='V39.16.9';state.capitalTransactionLedger=clonePlain(capitalTransactionLedgerV39165);state.earlyDistributionLedger=clonePlain(earlyDistributionLedgerV39165);return state;};
+  collectBackendState=function(){const state=__v39165CollectBackendState();state.version='V39.16.10';state.capitalTransactionLedger=clonePlain(capitalTransactionLedgerV39165);state.earlyDistributionLedger=clonePlain(earlyDistributionLedgerV39165);return state;};
   const __v39165ApplyBackendState=applyBackendState;
   applyBackendState=function(state){replaceArray(capitalTransactionLedgerV39165,state&&state.capitalTransactionLedger);replaceArray(earlyDistributionLedgerV39165,state&&state.earlyDistributionLedger);__v39165ApplyBackendState(state);ensureMemberUidsV39165();rebuildMemberMonthlyDividendsV39165();window.adminccRenderMembers();adminccRenderCapitalTransactionsV39165();adminccRenderEarlyDistributionLedgerV39165();adminccEarlyDistributionPreview();adminccProjectCloseCalc();};
 
   document.addEventListener('DOMContentLoaded',function(){ensureMemberUidsV39165();const today=isoToday();if($('capitalTxnDate'))$('capitalTxnDate').value=today;if($('capitalTxnMonth'))$('capitalTxnMonth').value=monthKey(today);if($('earlyDistDate'))$('earlyDistDate').value=today;window.adminccRenderMembers();adminccUpdateCapitalLockV39165();adminccCapitalTxnPreview();adminccEarlyDistributionPreview();adminccRenderCapitalTransactionsV39165();adminccRenderEarlyDistributionLedgerV39165();});
 
-  /* ================= V39.16.9 CONSERVATION / CHAIN / SERVER-RECHECK PATCH ================= */
+  /* ================= V39.16.10 CONSERVATION / CHAIN / SERVER-RECHECK PATCH ================= */
   const POI_PROJECT_TIMEZONE_V39166='America/Denver';
   let legacyLedgerReviewRequiredV39166=false;
 
@@ -2150,7 +2150,7 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
   window.adminccApplyEarlyDistribution=function(){const p=adminccEarlyDistributionPreview();if(!p||!p.ok)return false;const ok=__v39166ApplyEarly();if(!ok)return false;const r=earlyDistributionLedgerV39165[earlyDistributionLedgerV39165.length-1];if(r)r.eligibilitySnapshot={reserveReady:!!p.elig.reserveReady,goalReady:!!p.elig.goalReady,diffOk:!!p.elig.diffOk,actualReserve:Number(p.elig.b.actual.reserve)||0,outstandingCapital:outstandingCapitalV39166(),reserveTargetPct:Number(num('ccReserveTarget'))||30,reserveTarget:Number(p.elig.live.target)||0,preDistributionTotal:Number(p.elig.actualTotal)||0,targetTotal:Number(p.elig.targetTotal)||0,accountAvailable:Number(p.accountAvailable)||0,entitlementAvailable:Number(p.entitlementAvailable)||0};return true;};
 
   const __v39166Collect=collectBackendState;
-  collectBackendState=function(){const state=__v39166Collect();state.version='V39.16.9';state.ui=state.ui||{};state.ui.ccMonths='12';return state;};
+  collectBackendState=function(){const state=__v39166Collect();state.version='V39.16.10';state.ui=state.ui||{};state.ui.ccMonths='12';return state;};
   const __v39166Apply=applyBackendState;
   applyBackendState=function(state){
     state=clonePlain(state||{});let legacy=false;
@@ -2182,9 +2182,9 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
     if($('wkEndDate'))$('wkEndDate').value=today;if($('wkStartDate'))$('wkStartDate').value=start.toISOString().slice(0,10);
     if(new URLSearchParams(location.search).get('audit')==='1')window.__POI_AUDIT_V39166={strictIsoDateV39166,exactWholeAllocationV39166,splitMonthlyPool,splitClosingPool,allocationAmounts,outstandingCapitalV39166,projectMonthLimitV39166,weeklySafetyV39166,state:()=>clonePlain({members,weeklyRecords,monthlyCloseRecords,adminExpenseLedger,accountAdjustmentLedger,capitalTransactionLedger:capitalTransactionLedgerV39165,earlyDistributionLedger:earlyDistributionLedgerV39165})};
   });
-  /* ================= END V39.16.9 PATCH ================= */
+  /* ================= END V39.16.10 PATCH ================= */
 
-  /* ================= END V39.16.9 SAFETY PATCH ================= */
+  /* ================= END V39.16.10 SAFETY PATCH ================= */
 
 
   document.addEventListener('DOMContentLoaded',function(){
@@ -2276,7 +2276,7 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
     touchTimer=setTimeout(function(){clearEl(current);current=null;},180);
   },{passive:true});
 
-  /* ================= V39.16.9 OPENING / SNAPSHOT / CLOSE-DATE MONTH / SERVER-AUTHORITY PATCH ================= */
+  /* ================= V39.16.10 OPENING / SNAPSHOT / CLOSE-DATE MONTH / SERVER-AUTHORITY PATCH ================= */
   const projectOpeningV39167={confirmed:false,startDate:'',endDate:'',active:0,reserve:0,monthly:0,total:0,confirmedAt:'',memberSnapshot:[]};
   const __v39169ProjectStartedBase=projectStartedV39165;
   projectStartedV39165=function(){return __v39169ProjectStartedBase()||!!projectOpeningV39167.confirmed;};
@@ -2367,12 +2367,12 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
 
   // Persist opening state and keep ledgers immutable.
   const __v39167Collect=collectBackendState;
-  collectBackendState=function(){const state=__v39167Collect();state.version='V39.16.9';state.projectOpening=clonePlain(projectOpeningV39167);return state;};
+  collectBackendState=function(){const state=__v39167Collect();state.version='V39.16.10';state.projectOpening=clonePlain(projectOpeningV39167);return state;};
   const __v39167Apply=applyBackendState;
   applyBackendState=function(state){if(state&&state.projectOpening)Object.assign(projectOpeningV39167,state.projectOpening);__v39167Apply(state);applyOpeningUiV39167();};
 
-  /* ================= V39.16.9 FINAL WHOLE-DOLLAR SETTLEMENT ================= */
-  const POI_FINAL_VERSION_V39168='V39.16.9';
+  /* ================= V39.16.10 FINAL WHOLE-DOLLAR SETTLEMENT ================= */
+  const POI_FINAL_VERSION_V39168='V39.16.10';
   const POI_TAX_RATE_V39168=0.178;
   const confirmedExpenseIdsV39168=new Set();
 
@@ -2444,9 +2444,9 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
     const restore=removable.reduce((s,r)=>s+wholeMoneyV39168(r.amount),0),ids=new Set(removable.map(expenseIdV39168));for(let i=adminExpenseLedger.length-1;i>=0;i--)if(ids.has(expenseIdV39168(adminExpenseLedger[i])))adminExpenseLedger.splice(i,1);
     $('rsActive').value=wholeMoneyV39168(num('rsActive')+restore);$('acActualActive').value=wholeMoneyV39168(num('acActualActive')+restore);projectClosePrepared=false;adminccExpenseRefresh();adminccGenerateReports();adminccAccountControlCalc();adminccProjectCloseCalc();setStatus('expenseStatusMsg','Хадгалаагүй зардлыг буцааж, идэвхтэй дансанд '+money(restore)+' сэргээв.');return true;
   };
-  /* ================= END V39.16.9 FINAL SETTLEMENT ================= */
+  /* ================= END V39.16.10 FINAL SETTLEMENT ================= */
 
-  /* ================= V39.16.9 OPENING / IMMUTABLE HISTORY LOCK ================= */
+  /* ================= V39.16.10 OPENING / IMMUTABLE HISTORY LOCK ================= */
   function openingMemberSnapshotV39169(){
     const delta={};capitalTransactionLedgerV39165.forEach(t=>{const no=String(t&&t.memberNo||'');delta[no]=(delta[no]||0)+(Number(t&&t.signedAmount)||0);});
     return members.filter(m=>m&&m.created).map(m=>({no:Number(m.no)||0,uid:memberUidV39165(m),capital:Math.max(0,Math.round((Number(m.capital)||0)-(delta[String(m.no)]||0)))})).sort((a,b)=>a.no-b.no);
@@ -2455,16 +2455,16 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
     if(projectOpeningV39167.confirmed&&(!Array.isArray(projectOpeningV39167.memberSnapshot)||!projectOpeningV39167.memberSnapshot.length))projectOpeningV39167.memberSnapshot=openingMemberSnapshotV39169();
   }
   const __v39169Collect=collectBackendState;
-  collectBackendState=function(){ensureOpeningMemberSnapshotV39169();const state=__v39169Collect();state.version='V39.16.9';state.projectOpening=clonePlain(projectOpeningV39167);return state;};
+  collectBackendState=function(){ensureOpeningMemberSnapshotV39169();const state=__v39169Collect();state.version='V39.16.10';state.projectOpening=clonePlain(projectOpeningV39167);return state;};
   const __v39169Apply=applyBackendState;
   applyBackendState=function(state){__v39169Apply(state);ensureOpeningMemberSnapshotV39169();adminccUpdateCapitalLockV39165();};
-  /* ================= END V39.16.9 OPENING / IMMUTABLE HISTORY LOCK ================= */
+  /* ================= END V39.16.10 OPENING / IMMUTABLE HISTORY LOCK ================= */
 
   // Audit exposure.
   document.addEventListener('DOMContentLoaded',function(){applyOpeningUiV39167();});
   if(new URLSearchParams(location.search).get('audit')==='1')window.__POI_AUDIT_V39167={opening:projectOpeningV39167,splitClosingPool,weeklySafety:weeklySafetyV39166,state:()=>clonePlain(collectBackendState())};
   if(new URLSearchParams(location.search).get('audit')==='1')window.__POI_AUDIT_V39168={roundExactAmounts:roundExactAmountsV39168,splitClosingPool:splitClosingPoolV39168,computeProjectClose,state:()=>clonePlain(collectBackendState())};
-  /* ================= END V39.16.9 PATCH ================= */
+  /* ================= END V39.16.10 PATCH ================= */
 
 })();
 
@@ -2473,7 +2473,7 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
 
 
 
-/* --- ADMIN GATE SCRIPT V39.16.9 · SECURE BACKEND SESSION --- */
+/* --- ADMIN GATE SCRIPT V39.16.10 · SECURE BACKEND SESSION --- */
 (function(){
   function showUnlocked(){
     document.body.classList.remove('admin-locked');
