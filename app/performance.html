@@ -2272,7 +2272,7 @@ html.poi-embedded #wbg{display:none!important;}
             <div class="sheet-control-grid auth-grid">
               <div class="sheet-control">
                 <label>Гишүүний дугаар <b id="sheetMemberNoLabel">—</b></label>
-                <input id="sheetMemberNo" type="number" min="1" max="10" step="1" value="" inputmode="numeric" placeholder="Жишээ: 1">
+                <input id="sheetMemberNo" type="number" min="1" max="999999999" step="1" value="" inputmode="numeric" placeholder="Админаас өгсөн дугаар">
               </div>
               <div class="sheet-control">
                 <label>Нэвтрэх код <b>••••</b></label>
@@ -2366,6 +2366,10 @@ function sheetPostForm(params){
 }
 function sheetAwaitMemberResult(requestId){
   var tries=0;return new Promise(function(resolve,reject){function tick(){tries++;perfFetchJsonp(sheetBuildMemberResultUrl(requestId)).then(function(r){if(r&&r.ready){resolve(r);return;}if(tries>=24){reject(new Error('member_auth_timeout'));return;}setTimeout(tick,850);}).catch(function(e){if(tries>=24)reject(e);else setTimeout(tick,850);});}setTimeout(tick,650);});
+}
+function sheetPostAndAwaitV391612(params){
+  var postError=null,postTask=sheetPostForm(params).catch(function(err){postError=err;});
+  return sheetAwaitMemberResult(params.request_id).catch(function(err){return postTask.then(function(){throw postError||err;});});
 }
 const __PERF_FALLBACK_DATA = {"ok":true,"updated_at":null,"dashboard_data":{},"monthly_data":{},"web_config":{"default_member_count":{"value":2},"default_monthly_return_pct":{"value":0.10},"default_member_capital":{"value":50000},"default_scale_up_pct":{"value":0.5},"default_cost_pct":{"value":0.02},"default_campaign_months":{"value":12},"show_member_names":{"value":false}},"members_model":[],"chart_data":[]};
 
@@ -3603,13 +3607,13 @@ function renderSheetMemberModule(data){
     setLoading(true,'Нэвтэрч байна...');
     if(status)status.textContent='Нэвтрэх мэдээлэл шалгаж байна...';
     var requestId=sheetMemberRequestId();
-    sheetPostForm({action:'member_auth_start',member_no:no,code:code,client_id:sheetAuthClientIdV39166(),request_id:requestId}).then(function(){return sheetAwaitMemberResult(requestId);}).then(function(auth){
+    sheetPostAndAwaitV391612({action:'member_auth_start',member_no:no,code:code,client_id:sheetAuthClientIdV39166(),request_id:requestId}).then(function(auth){
       if(!auth||!auth.ok||!auth.member_session)throw new Error(auth&&auth.error?auth.error:'member_auth_failed');
       var session=auth.member_session;
       window.__sheetLastCredentials=__sheetLastCredentials={memberNo:no,session:session};
       if(status)status.textContent='Мэдээлэл татаж байна...';
       var readRequestId=sheetMemberRequestId();
-      return sheetPostForm({action:'member_read_start',member_session:session,request_id:readRequestId}).then(function(){return sheetAwaitMemberResult(readRequestId);}).then(function(snapshot){
+      return sheetPostAndAwaitV391612({action:'member_read_start',member_session:session,request_id:readRequestId}).then(function(snapshot){
         if(!snapshot||!snapshot.ok)throw new Error(snapshot&&snapshot.error?snapshot.error:'snapshot_failed');
         __perfDataCache=snapshot;
         window.__sheetLiveMember=snapshot.member||null;

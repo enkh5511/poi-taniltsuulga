@@ -5,7 +5,7 @@
 <meta name="color-scheme" content="dark">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POI Capital Group · Админ удирдлагын төв · V39.16.11-HF1</title>
+<title>POI Capital Group · Админ удирдлагын төв · V39.16.12</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:transparent;color:#E0E8F0;min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -930,6 +930,7 @@ html,body{background:#020608!important;background-image:none!important;}
       <div class="admincc-member-list" id="adminccMembers"></div>
       <div class="admincc-form" id="memberEditForm">
         <div class="admincc-field"><label>Засах гишүүн</label><select id="memberEditNo" onchange="adminccLoadMemberEdit()"></select></div>
+        <div class="admincc-field"><label>Гишүүний нэвтрэх дугаар</label><input id="memberLoginNo" type="number" inputmode="numeric" min="1" max="999999999" step="1" placeholder="Жишээ: 1001"><div class="admincc-inline-note">1–999999999 дотроос давхцахгүй дурын бүхэл дугаар сонгоно. Санхүүгийн ажиллагаа эхэлсний дараа түгжигдэнэ.</div></div>
         <div class="admincc-field"><label>Нэр</label><input id="memberEditName" placeholder="Гишүүний нэр"></div>
         <div class="admincc-field"><label>Гишүүний ID</label><input id="memberEditId" placeholder="PCG-001"></div>
         <div class="admincc-field"><label>Оруулсан хөрөнгө</label><input id="memberEditCapital" type="number" min="0" step="1000" value="0" oninput="adminccStageMemberEdit()"><div class="admincc-inline-note" id="memberCapitalLockNote">Төсөл эхлэхээс өмнө үндсэн хөрөнгийг энд оруулна.</div></div>
@@ -951,8 +952,8 @@ html,body{background:#020608!important;background-image:none!important;}
       <div class="admincc-actions"><button class="admincc-btn" type="button" onclick="adminccCapitalTxnPreview()">Урьдчилан тооцоолох</button><button class="admincc-btn gold" type="button" onclick="adminccApplyCapitalTransactionAndSave()">Бүртгэж ноорог хадгалах</button><span class="admincc-status" id="capitalTxnStatusMsg"></span></div>
       <div class="admincc-table-wrap" id="capitalTxnTable"></div>
       <div class="admincc-actions">
-        <button class="admincc-btn green" type="button" onclick="adminccStageMemberEdit();adminccBackendSave('quick')">Шуурхай хадгалах</button>
-        <button class="admincc-btn gold" type="button" onclick="adminccStageMemberEdit();adminccBackendSave('draft')">Урьдчилж хадгалах</button>
+        <button class="admincc-btn green" type="button" onclick="adminccSaveMemberV391612('quick')">Шуурхай хадгалах</button>
+        <button class="admincc-btn gold" type="button" onclick="adminccSaveMemberV391612('draft')">Урьдчилж хадгалах</button>
         <button class="admincc-btn" type="button" onclick="adminccOpenAccessForSelected()">Нэвтрэх эрх тохируулах</button>
         <span class="admincc-status" id="memberStatusMsg"></span>
       </div>
@@ -1103,9 +1104,9 @@ html,body{background:#020608!important;background-image:none!important;}
         <div class="admincc-field"><label>Гишүүн</label><select id="accessMemberNo" onchange="adminccLoadAccessMember()"></select></div>
         <div class="admincc-field"><label>Гишүүний ID</label><input id="accessMemberId" placeholder="PCG-001" readonly></div>
         <div class="admincc-field"><label>Төлөв</label><select id="accessStatus"><option>идэвхгүй</option><option>идэвхтэй</option><option>түр зогссон</option></select></div>
-        <div class="admincc-field admincc-wide"><label>Түр нууц үг</label><div class="admincc-password-line"><input id="accessTempPass" type="password" placeholder="Шинэ нууц үг"><button class="admincc-eye-btn" id="accessPassToggle" type="button" onclick="adminccTogglePassword()">Харах</button><button class="admincc-generate-btn" type="button" onclick="adminccGeneratePassword()">Үүсгэх</button></div><div class="admincc-inline-note">Нууц үгийг Google Sheet-д plaintext хэлбэрээр хадгалахгүй. Хадгалсны дараа hash хэлбэрээр хамгаалагдаж, хуучин нууц үгийг буцааж харахгүй; солих үед шинээр үүсгэнэ.</div></div>
+        <div class="admincc-field admincc-wide"><label>Гишүүний нууц код</label><div class="admincc-password-line"><input id="accessTempPass" type="password" minlength="4" maxlength="32" autocomplete="new-password" placeholder="Өөрийн 4–32 тэмдэгт кодоо бичнэ"><button class="admincc-eye-btn" id="accessPassToggle" type="button" onclick="adminccTogglePassword()">Харах</button><button class="admincc-generate-btn" type="button" onclick="adminccGeneratePassword()">6 оронтой код</button></div><div class="admincc-inline-note">Кодоо өөрөө бичиж болно. “6 оронтой код” нь зөвхөн хүсвэл ашиглах сонголт. Хадгалсны дараа plaintext биш hash хэлбэрээр хамгаалагдана.</div></div>
       </div>
-      <div class="admincc-actions"><button class="admincc-btn" type="button" onclick="adminccSaveAccess();adminccBackendSave('quick')">Эрх хадгалах</button><button class="admincc-btn red" type="button" onclick="adminccGeneratePassword()">Нууц үг шинэчлэх</button><span class="admincc-status" id="accessStatusMsg"></span></div>
+      <div class="admincc-actions"><button class="admincc-btn" type="button" onclick="adminccSaveAccessAndSaveV391612()">Эрх хадгалах</button><button class="admincc-btn red" type="button" onclick="adminccGeneratePassword()">Шинэ 6 оронтой код</button><span class="admincc-status" id="accessStatusMsg"></span></div>
     </section>
 
     <section class="admincc-panel" id="admincc-publish">
@@ -1138,7 +1139,7 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
   const num=id=>Number(($(id)||{}).value)||0;
   function fieldNumber(id,fallback){const e=$(id);if(!e||String(e.value).trim()==='')return Number(fallback)||0;const n=Number(e.value);return Number.isFinite(n)?n:(Number(fallback)||0);}
   const val=id=>(($(id)||{}).value||'').trim();
-  const members=Array.from({length:10},(_,i)=>({no:i+1,created:false,name:'',id:'PCG-'+String(i+1).padStart(3,'0'),capital:0,status:'идэвхгүй',memo:'',gratitudePct:5,tempPassword:'',monthlyDividend:0}));
+  const members=Array.from({length:10},(_,i)=>({slot:i+1,no:i+1,uid:'member-slot-'+(i+1),created:false,name:'',id:'PCG-'+String(i+1).padStart(3,'0'),capital:0,status:'идэвхгүй',memo:'',gratitudePct:5,tempPassword:'',monthlyDividend:0}));
   const weeklyRecords=[];
   const adminExpenseLedger=[];
   const monthlyCloseRecords=[];
@@ -1220,12 +1221,13 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
     adminccRefresh();
   };
   window.adminccSetMemberFormEnabled=function(enabled){
-    ['memberEditNo','memberEditName','memberEditId','memberEditCapital','memberEditStatus','memberEditGratitude','memberEditMemo'].forEach(id=>{const e=$(id);if(e)e.disabled=!enabled;});
+    ['memberEditNo','memberLoginNo','memberEditName','memberEditId','memberEditCapital','memberEditStatus','memberEditGratitude','memberEditMemo'].forEach(id=>{const e=$(id);if(e)e.disabled=!enabled;});
   };
   window.adminccAddMember=function(){
     const m=members.find(x=>!x.created);
     if(!m){setStatus('memberStatusMsg','10 гишүүний дээд хязгаарт хүрсэн байна.');return;}
-    m.created=true;m.status='идэвхгүй';m.gratitudePct=5;m.name='';m.capital=0;m.memo='';m.tempPassword='';
+    const used=new Set(members.filter(x=>x.created).map(x=>Number(x.no)));let nextNo=1;while(used.has(nextNo))nextNo++;
+    m.no=nextNo;m.uid=m.uid||('member-slot-'+(m.slot||members.indexOf(m)+1));m.id='PCG-'+String(nextNo).padStart(3,'0');m.created=true;m.status='идэвхгүй';m.gratitudePct=5;m.name='';m.capital=0;m.memo='';m.tempPassword='';m.accessConfigured=false;
     adminccRenderMembers();
     const sel=$('memberEditNo');if(sel)sel.value=String(m.no);
     adminccLoadMemberEdit();adminccOpen('members');setStatus('memberStatusMsg','Гишүүн №'+m.no+' үүслээ. Мэдээллийг бөглөж төлөвийг идэвхтэй болгоно уу.');
@@ -1233,6 +1235,7 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
   window.adminccSelectMember=function(no){const sel=$('memberEditNo');if(sel)sel.value=String(no);adminccLoadMemberEdit();adminccOpen('members');};
   window.adminccLoadMemberEdit=function(){
     const no=num('memberEditNo'),m=members.find(x=>x.no===no&&x.created);if(!m)return;
+    if($('memberLoginNo'))$('memberLoginNo').value=m.no;
     if($('memberEditName'))$('memberEditName').value=m.name;
     if($('memberEditId'))$('memberEditId').value=m.id;
     if($('memberEditCapital'))$('memberEditCapital').value=m.capital;
@@ -1268,9 +1271,10 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
     const show=e.type==='password';e.type=show?'text':'password';if(b)b.textContent=show?'Нуух':'Харах';
   };
   window.adminccGeneratePassword=function(){
-    const chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';let out='PCG-';
-    if(window.crypto&&crypto.getRandomValues){const a=new Uint32Array(8);crypto.getRandomValues(a);for(let i=0;i<a.length;i++)out+=chars[a[i]%chars.length];}
-    else for(let i=0;i<8;i++)out+=chars[Math.floor(Math.random()*chars.length)];
+    let n;
+    if(window.crypto&&crypto.getRandomValues){const a=new Uint32Array(1);crypto.getRandomValues(a);n=100000+(a[0]%900000);}
+    else n=100000+Math.floor(Math.random()*900000);
+    const out=String(n);
     const e=$('accessTempPass');if(e){e.value=out;e.type='text';}const b=$('accessPassToggle');if(b)b.textContent='Нуух';setStatus('accessStatusMsg','Шинэ түр нууц үг үүслээ. Хадгалахаас өмнө хуулж авна уу.');
   };
   window.adminccSaveAccess=function(){
@@ -1791,14 +1795,14 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
   function applyUiFields(ui){if(!ui||typeof ui!=='object')return;Object.keys(ui).forEach(id=>{const e=$(id);if(!e)return;if(e.type==='checkbox'||e.type==='radio')e.checked=!!ui[id];else e.value=ui[id]==null?'':String(ui[id]);});}
   function clonePlain(v){return JSON.parse(JSON.stringify(v));}
   function collectBackendState(){
-    adminccStageMemberEdit();
+    if(!adminccStageMemberEdit())throw new Error('member_form_invalid');
     const projectClose=computeProjectClose();
     return {version:'V39.16.10',savedAt:new Date().toISOString(),ui:collectUiFields(),members:clonePlain(members),weeklyRecords:clonePlain(weeklyRecords),monthlyCloseRecords:clonePlain(monthlyCloseRecords),adminExpenseLedger:clonePlain(adminExpenseLedger),accountAdjustmentLedger:clonePlain(accountAdjustmentLedger),projectCloseStatus:projectClosePrepared?'prepared':'projection',projectClose:clonePlain(projectClose)};
   }
   function replaceArray(target,source){target.splice(0,target.length,...(Array.isArray(source)?clonePlain(source):[]));}
   function normalizeLoadedMembers(rows){
-    const out=Array.from({length:10},(_,i)=>({no:i+1,created:false,name:'',id:'PCG-'+String(i+1).padStart(3,'0'),capital:0,status:'идэвхгүй',memo:'',gratitudePct:5,tempPassword:'',monthlyDividend:0,accessConfigured:false}));
-    (Array.isArray(rows)?rows:[]).forEach(r=>{const n=Math.max(1,Math.min(10,Number(r&&r.no)||0));if(!n)return;out[n-1]={...out[n-1],...r,no:n,tempPassword:'',accessConfigured:!!r.accessConfigured};});return out;
+    const out=Array.from({length:10},(_,i)=>({slot:i+1,no:i+1,uid:'member-slot-'+(i+1),created:false,name:'',id:'PCG-'+String(i+1).padStart(3,'0'),capital:0,status:'идэвхгүй',memo:'',gratitudePct:5,tempPassword:'',monthlyDividend:0,accessConfigured:false}));
+    (Array.isArray(rows)?rows:[]).slice(0,10).forEach((r,index)=>{const slot=Math.max(1,Math.min(10,Number(r&&r.slot)||index+1)),candidate=Number(r&&r.no),n=Number.isSafeInteger(candidate)&&candidate>0&&candidate<=999999999?candidate:index+1;out[slot-1]={...out[slot-1],...r,slot,no:n,uid:String(r&&r.uid||out[slot-1].uid),tempPassword:'',accessConfigured:!!r.accessConfigured};});return out;
   }
   function applyBackendState(state){
     if(!state||typeof state!=='object')return;
@@ -1812,8 +1816,8 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
   }
   window.adminccBackendAuth=async function(token){
     const requestId=backendRequestId();
-    await backendPostForm({action:'admin_auth_start',token:token,request_id:requestId});
-    const res=await backendAwaitResult(requestId);
+    let postError=null;const postTask=backendPostForm({action:'admin_auth_start',token:token,request_id:requestId}).catch(err=>{postError=err;});
+    let res;try{res=await backendAwaitResult(requestId);}catch(err){await postTask;throw postError||err;}
     if(!res||!res.ok||!res.session)throw new Error(res&&res.error?res.error:'admin_auth_failed');
     backendSessionToken=res.session;try{sessionStorage.setItem('poi_admin_session',res.session);}catch(e){}return res;
   };
@@ -1825,24 +1829,25 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
     const session=backendSession();if(!session)throw new Error('admin_session_required');
     setBackendConnection('Google Sheet-ээс мэдээлэл татаж байна...');
     try{
-      const requestId=backendRequestId();await backendPostForm({action:'admin_load_start',session:session,request_id:requestId});const res=await backendAwaitResult(requestId);
+      const requestId=backendRequestId();let postError=null;const postTask=backendPostForm({action:'admin_load_start',session:session,request_id:requestId}).catch(err=>{postError=err;});let res;try{res=await backendAwaitResult(requestId);}catch(err){await postTask;throw postError||err;}
       if(!res||!res.ok)throw new Error(res&&res.error?res.error:'admin_load_failed');if(res.state)applyBackendState(res.state);
       const d=res.draft_updated_at?new Date(res.draft_updated_at).toLocaleString():'';const p=res.published_updated_at?new Date(res.published_updated_at).toLocaleString():'';
       const sourceLabel=res.source==='draft'?'Ноорог':(res.source==='published'?'Нийтэлсэн':(res.source==='sheet_bootstrap'?'Sheet-ээс анхны ноорог':'Анхны хоосон төлөв'));
       setBackendConnection(res.state?('Холбогдсон · '+sourceLabel+(d?' · '+d:'')):'Холбогдсон · анхны хоосон төлөв');setStatus('publishStatusMsg',res.source==='sheet_bootstrap'?'Хуучин Google Sheet-ийн гишүүд, тохиргоо, memo-г анхны ноорог болгон ачааллаа. Нийтлэхээс өмнө бүх дүнг шалгана уу.':(p?('Сүүлийн нийтлэлт: '+p):'Google Sheet холбогдлоо. Нийтэлсэн төлөв одоогоор алга.'));
     }catch(err){setBackendConnection('Холболтын алдаа');setStatus('publishStatusMsg','Google Sheet-ээс уншихад алдаа: '+(err.message||err));throw err;}
   };
+  function backendSaveErrorTextV391612(err){const raw=String(err&&err.message?err.message:err||'save_failed');if(raw.indexOf('member_access_code_required_')>=0)return 'Шинэ гишүүний дугаарт нууц код заавал тохируулна.';if(raw.indexOf('immutable_member_identity')>=0)return 'Санхүүгийн ажиллагаа эхэлсэн тул гишүүний дугаарыг өөрчлөхгүй.';if(raw==='save_verification_timeout')return 'Хадгалалтын баталгаа хугацаандаа ирсэнгүй. Дахин дарахаас өмнө audit_log-ийг шалгана уу.';if(raw==='admin_session_required'||raw==='admin_session_expired'||raw==='admin_session_invalid')return 'Admin session дууссан байна. Дахин нэвтэрнэ үү.';return raw;}
   window.adminccBackendSave=async function(mode){
     mode=mode||'draft';if(backendBusy){setStatus('publishStatusMsg','Өмнөх хадгалалт дуусаагүй байна.');return false;}
     const session=backendSession();if(!session){setStatus('publishStatusMsg','Admin session дууссан байна. Дахин нэвтэрнэ үү.');return false;}
     backendBusy=true;const requestId=backendRequestId();const label=mode==='publish'?'Нийтэлж байна...':(mode==='quick'?'Шуурхай ноорог хадгалж байна...':'Ноорог хадгалж байна...');setBackendConnection(label);setStatus('publishStatusMsg',label);
     try{
-      const state=collectBackendState();await backendPostForm({action:'admin_save',mode:mode,session:session,request_id:requestId,payload:JSON.stringify(state)});const status=await pollBackendStatus(requestId);
+      const state=collectBackendState();let postError=null;const postTask=backendPostForm({action:'admin_save',mode:mode,session:session,request_id:requestId,payload:JSON.stringify(state)}).catch(err=>{postError=err;});let status;try{status=await pollBackendStatus(requestId);}catch(err){await postTask;throw postError||err;}
       if(!status||status.status!=='saved')throw new Error(status&&status.note?status.note:'save_failed');
       members.forEach(m=>{if(m.tempPassword){m.tempPassword='';m.accessConfigured=true;}});adminccLoadAccessMember();
       const ok=mode==='publish'?'Google Sheet-д хадгалж, гишүүний хэсэгт нийтэллээ.':'Google Sheet-д ноорог байдлаар хадгаллаа. Гишүүний live мэдээлэл өөрчлөгдөөгүй.';
       setBackendConnection('Холбогдсон · '+new Date().toLocaleString());['memberStatusMsg','weeklyStatusMsg','monthlyStatusMsg','projectCloseStatusMsg','expenseStatusMsg','accessStatusMsg','publishStatusMsg'].forEach(id=>setStatus(id,ok));return true;
-    }catch(err){setBackendConnection('Хадгалалтын алдаа');setStatus('publishStatusMsg','Хадгалж чадсангүй: '+(err.message||err));console.error(err);return false;}finally{backendBusy=false;}
+    }catch(err){const msg='Хадгалж чадсангүй: '+backendSaveErrorTextV391612(err);setBackendConnection('Хадгалалтын алдаа');['memberStatusMsg','accessStatusMsg','publishStatusMsg'].forEach(id=>setStatus(id,msg));console.error(err);return false;}finally{backendBusy=false;}
   };
   window.adminccPreviewMember=function(){const no=val('previewMemberNo');if(!no){setStatus('publishStatusMsg','Эхлээд гишүүн сонгоно уу.');return;}window.open('../app/performance.html','_blank','noopener,noreferrer');setStatus('publishStatusMsg','Гишүүний page шинэ цонхонд нээгдлээ. Нийтэлсэн мэдээллийг тухайн гишүүний кодоор шалгана.');};
   window.adminccPreviewMemberNo=function(no){const sel=$('previewMemberNo');if(sel)sel.value=String(no);adminccOpen('publish');adminccPreviewMember();};
@@ -1887,22 +1892,32 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
 
   window.adminccUpdateCapitalLockV39165=function(){const input=$('memberEditCapital'),note=$('memberCapitalLockNote');if(!input)return;const locked=projectStartedV39165();input.readOnly=locked;input.classList.toggle('admincc-readonly',locked);if(note)note.textContent=locked?'Төсөл эхэлсэн тул үндсэн хөрөнгө түгжигдсэн. Нэмэлт хөрөнгө эсвэл буцаалтыг доорх тусдаа бүртгэлээр хийнэ.':'Төсөл эхлэхээс өмнө үндсэн хөрөнгийг энд оруулна.';};
 
+  function memberNumberHistoryLockedV391612(){return projectStartedV39165()||capitalTransactionLedgerV39165.length>0||earlyDistributionLedgerV39165.length>0||adminExpenseLedger.length>0||accountAdjustmentLedger.length>0;}
   window.adminccStageMemberEdit=function(){
-    const no=num('memberEditNo'),m=members.find(x=>x.no===no&&x.created);if(!m)return false;
+    const selectedNo=num('memberEditNo'),m=members.find(x=>x.no===selectedNo&&x.created);if(!m)return false;
+    const rawNo=String(val('memberLoginNo')||selectedNo).trim(),requestedNo=Number(rawNo),numberLocked=memberNumberHistoryLockedV391612();
+    if(!/^\d+$/.test(rawNo)||!Number.isSafeInteger(requestedNo)||requestedNo<1||requestedNo>999999999){setStatus('memberStatusMsg','Гишүүний нэвтрэх дугаар 1–999999999 хоорондох бүхэл тоо байна.');if($('memberLoginNo'))$('memberLoginNo').value=selectedNo;return false;}
+    if(members.some(x=>x!==m&&x.created&&Number(x.no)===requestedNo)){setStatus('memberStatusMsg','Гишүүний №'+requestedNo+' аль хэдийн ашиглагдсан байна. Өөр дугаар сонгоно уу.');if($('memberLoginNo'))$('memberLoginNo').value=selectedNo;return false;}
+    if(numberLocked&&requestedNo!==selectedNo){setStatus('memberStatusMsg','Санхүүгийн ажиллагаа эхэлсэн тул гишүүний нэвтрэх дугаар түгжигдсэн.');if($('memberLoginNo'))$('memberLoginNo').value=selectedNo;return false;}
     const locked=projectStartedV39165(),oldCapital=Number(m.capital)||0,oldStatus=String(m.status||'идэвхгүй'),requestedStatus=val('memberEditStatus')||'идэвхгүй',openMonths=openWeeklyMonthsV39165();
-    m.name=val('memberEditName');m.id=val('memberEditId')||('PCG-'+String(m.no).padStart(3,'0'));m.capital=locked?oldCapital:Math.max(0,num('memberEditCapital'));
+    m.uid=memberUidV39165(m);m.no=requestedNo;m.name=val('memberEditName');m.id=val('memberEditId')||('PCG-'+String(requestedNo).padStart(3,'0'));m.capital=locked?oldCapital:Math.max(0,num('memberEditCapital'));
     if(openMonths.length&&requestedStatus!==oldStatus){m.status=oldStatus;if($('memberEditStatus'))$('memberEditStatus').value=oldStatus;setStatus('memberStatusMsg',openMonths.join(', ')+' сарын 7 хоногийн хаалт нээлттэй байна. Эхлээд сарын хаалтыг баталсны дараа гишүүний төлөвийг өөрчилнө.');}
     else {m.status=requestedStatus;if(requestedStatus!==oldStatus)setStatus('memberStatusMsg','Гишүүний төлөв '+requestedStatus+' болж шинэчлэгдлээ.');}
-    m.gratitudePct=Math.max(5,Math.min(15,num('memberEditGratitude')||5));m.memo=val('memberEditMemo');m.uid=memberUidV39165(m);if(locked&&$('memberEditCapital'))$('memberEditCapital').value=oldCapital;window.adminccRenderMembers();const sel=$('memberEditNo');if(sel)sel.value=String(no);adminccReserveCalc();adminccWeeklyCalc();adminccModelARefresh();adminccProjectCloseCalc();return true;
+    m.gratitudePct=Math.max(5,Math.min(15,num('memberEditGratitude')||5));m.memo=val('memberEditMemo');if(locked&&$('memberEditCapital'))$('memberEditCapital').value=oldCapital;window.adminccRenderMembers();const sel=$('memberEditNo');if(sel)sel.value=String(requestedNo);adminccLoadMemberEdit();adminccReserveCalc();adminccWeeklyCalc();adminccModelARefresh();adminccProjectCloseCalc();return true;
   };
+  window.adminccSaveMemberV391612=async function(mode){if(!window.adminccStageMemberEdit())return false;setStatus('memberStatusMsg','Google Sheet-д хадгалж байна...');return await window.adminccBackendSave(mode||'quick');};
 
   const __v39165SaveAccess=window.adminccSaveAccess;
   window.adminccSaveAccess=function(){
     const no=num('accessMemberNo'),m=members.find(x=>x.no===no&&x.created);if(!m){setStatus('accessStatusMsg','Эхлээд гишүүн нэмнэ үү.');return false;}
+    const code=String(val('accessTempPass')||'').trim();
+    if(code&&(code.length<4||code.length>32)){setStatus('accessStatusMsg','Нууц код 4–32 тэмдэгтийн урттай байна.');return false;}
+    if(!code&&!m.accessConfigured){setStatus('accessStatusMsg','Энэ гишүүнд өөрийн нууц кодоо бичих эсвэл 6 оронтой код үүсгэнэ үү.');return false;}
     const requested=val('accessStatus')||'идэвхгүй',old=String(m.status||'идэвхгүй'),openMonths=openWeeklyMonthsV39165();
     if(openMonths.length&&requested!==old){if($('accessStatus'))$('accessStatus').value=old;setStatus('accessStatusMsg',openMonths.join(', ')+' сарын хаалт нээлттэй байна. Эхлээд сарын хаалтыг баталсны дараа төлөвийг өөрчилнө.');return false;}
     __v39165SaveAccess();return true;
   };
+  window.adminccSaveAccessAndSaveV391612=async function(){if(!window.adminccSaveAccess())return false;setStatus('accessStatusMsg','Нэвтрэх эрхийг Google Sheet-д хадгалж байна...');return await window.adminccBackendSave('quick');};
 
   function capitalTxnValidationV39165(){const no=num('capitalTxnMemberNo'),m=members.find(x=>x.no===no&&x.created),type=val('capitalTxnType')||'add',date=val('capitalTxnDate'),effectiveMonth=val('capitalTxnMonth'),amount=Math.round(Math.max(0,num('capitalTxnAmount'))),note=val('capitalTxnNote');const issues=[];if(!m)issues.push('Гишүүн сонгоогүй');if(!validIsoDateV39165(date))issues.push('Гүйлгээний огноо дутуу');if(!/^\d{4}-\d{2}$/.test(effectiveMonth))issues.push('Хүчин төгөлдөр болох сар дутуу');if(date&&effectiveMonth&&monthKey(date)!==effectiveMonth)issues.push('Огноо болон хүчин төгөлдөр болох сар таарахгүй');if(date&&date>isoToday())issues.push('Ирээдүйн огноотой гүйлгээг урьдчилж бүртгэхгүй');const openMonths=openWeeklyMonthsV39165();if(openMonths.length)issues.push('Эхлээд '+openMonths.join(', ')+' сарын хаалтыг батална');const lastClosed=latestClosedMonthV39165();if(lastClosed&&effectiveMonth&&effectiveMonth<=lastClosed)issues.push('Хаагдсан сар болон түүнээс өмнөх хугацаанд хөрөнгө өөрчлөхгүй');const lastWeek=latestWeeklyEndV39165();if(lastWeek&&date&&date<=lastWeek)issues.push('Гүйлгээний огноо хамгийн сүүлийн 7 хоногийн хаалтын дараа байна');if(amount<=0)issues.push('Дүн 0-ээс их байна');if(type==='return'&&m&&amount>Number(m.capital||0))issues.push('Буцаах дүн гишүүний бүртгэлтэй хөрөнгөөс их байна');const b=accountBalances(true);if(Math.abs(b.diff.active)>=1||Math.abs(b.diff.reserve)>=1||Math.abs(b.diff.monthly)>=1)issues.push('Эхлээд бодит дансны зөрүүг $0 болгоно');if(type==='return'&&amount>Math.min(b.system.active,b.actual.active))issues.push('Идэвхтэй дансны үлдэгдэл хүрэлцэхгүй');if(!note)issues.push('Тайлбар заавал бичнэ');return {ok:issues.length===0,issues,no,m,type,date,effectiveMonth,amount,note,b,signed:type==='return'?-amount:amount};}
   window.adminccCapitalTxnPreview=function(){const p=capitalTxnValidationV39165(),box=$('capitalTxnPreview');if(box){const before=p.m?Number(p.m.capital)||0:0,after=Math.max(0,before+p.signed);box.innerHTML=card('Одоогийн гишүүний хөрөнгө',money(before),p.m?esc(p.m.name||('Гишүүн №'+p.m.no)):'Гишүүн сонгоогүй','blue')+card(p.type==='return'?'Буцаах хөрөнгө':'Нэмэх хөрөнгө',money(p.amount),p.effectiveMonth||'Хүчин төгөлдөр болох сар','gold')+card('Шинэ бүртгэлтэй хөрөнгө',money(after),'Гүйлгээ бүртгэгдсэн сараас хойших жин болон хаалтын тооцоонд ашиглана','green')+card('Идэвхтэй дансны шинэ дүн',money(Math.max(0,p.b.system.active+p.signed)),'Системийн болон бодит үлдэгдэл хамт өөрчлөгдөнө','blue');}setStatus('capitalTxnStatusMsg',p.ok?'Бүртгэхэд бэлэн.':p.issues.join(' · '));return p;};
@@ -2171,7 +2186,7 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
   function authClientIdV39166(){
     const key='poi_auth_client_id_v1';try{let v=localStorage.getItem(key)||'';if(v)return v;const a=new Uint32Array(4);crypto.getRandomValues(a);v='C-'+Array.from(a).map(x=>x.toString(36)).join('-');localStorage.setItem(key,v);return v;}catch(e){return 'C-'+Math.random().toString(36).slice(2)+Date.now().toString(36);}
   }
-  window.adminccBackendAuth=async function(token){const requestId=backendRequestId();await backendPostForm({action:'admin_auth_start',token,client_id:authClientIdV39166(),request_id:requestId});const res=await backendAwaitResult(requestId);if(!res||!res.ok||!res.session)throw new Error(res&&res.error?res.error:'admin_auth_failed');backendSessionToken=res.session;try{sessionStorage.setItem('poi_admin_session',res.session);}catch(e){}return res;};
+  window.adminccBackendAuth=async function(token){const requestId=backendRequestId();let postError=null;const postTask=backendPostForm({action:'admin_auth_start',token,client_id:authClientIdV39166(),request_id:requestId}).catch(err=>{postError=err;});let res;try{res=await backendAwaitResult(requestId);}catch(err){await postTask;throw postError||err;}if(!res||!res.ok||!res.session)throw new Error(res&&res.error?res.error:'admin_auth_failed');backendSessionToken=res.session;try{sessionStorage.setItem('poi_admin_session',res.session);}catch(e){}return res;};
 
   document.addEventListener('DOMContentLoaded',function(){
     ['wkDeposit','wkWithdrawal','wkStartBal'].forEach(id=>{const e=$(id);if(e)e.readOnly=true;});
@@ -2455,7 +2470,7 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
     if(projectOpeningV39167.confirmed&&(!Array.isArray(projectOpeningV39167.memberSnapshot)||!projectOpeningV39167.memberSnapshot.length))projectOpeningV39167.memberSnapshot=openingMemberSnapshotV39169();
   }
   const __v39169Collect=collectBackendState;
-  collectBackendState=function(){ensureOpeningMemberSnapshotV39169();const state=__v39169Collect();state.version='V39.16.10';state.projectOpening=clonePlain(projectOpeningV39167);return state;};
+  collectBackendState=function(){ensureOpeningMemberSnapshotV39169();const state=__v39169Collect();state.version='V39.16.12';state.projectOpening=clonePlain(projectOpeningV39167);return state;};
   const __v39169Apply=applyBackendState;
   applyBackendState=function(state){__v39169Apply(state);ensureOpeningMemberSnapshotV39169();adminccUpdateCapitalLockV39165();};
   /* ================= END V39.16.10 OPENING / IMMUTABLE HISTORY LOCK ================= */
