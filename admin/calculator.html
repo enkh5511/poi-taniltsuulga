@@ -5,7 +5,7 @@
 <meta name="color-scheme" content="dark">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POI Capital Group · Админ удирдлагын төв · V39.16.10</title>
+<title>POI Capital Group · Админ удирдлагын төв · V39.16.11-HF1</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:transparent;color:#E0E8F0;min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -2201,7 +2201,6 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
     ['memberEditName','memberEditId','memberEditStatus','memberEditMemo'].forEach(id=>{const e=$(id);if(e)e.addEventListener('input',adminccStageMemberEdit);});
     const center=$('adminControlCenter');if(center){center.addEventListener('input',e=>{if(!e.target.closest('#admincc-projectclose'))projectClosePrepared=false;});center.addEventListener('change',e=>{if(!e.target.closest('#admincc-projectclose'))projectClosePrepared=false;});}
   });
-})();
 
 // Background canvas removed: static aurora via .poi-bg-fixed
 (function(){var c=document.getElementById('calcWbg'); if(c&&c.parentNode) c.parentNode.removeChild(c);})();
@@ -2275,6 +2274,7 @@ window.POI_BACKEND_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwL
     clearTimeout(touchTimer);
     touchTimer=setTimeout(function(){clearEl(current);current=null;},180);
   },{passive:true});
+})();
 
   /* ================= V39.16.10 OPENING / SNAPSHOT / CLOSE-DATE MONTH / SERVER-AUTHORITY PATCH ================= */
   const projectOpeningV39167={confirmed:false,startDate:'',endDate:'',active:0,reserve:0,monthly:0,total:0,confirmedAt:'',memberSnapshot:[]};
