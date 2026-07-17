@@ -2180,6 +2180,11 @@ html.poi-embedded #wbg{display:none!important;}
 </style>
 </head>
 <body class="perf-auth-gate">
+<style id="poi-v391613-member-nav">
+.poi-member-back{position:fixed;z-index:9999;top:14px;left:14px;display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border-radius:999px;border:1px solid rgba(79,195,247,.35);background:rgba(3,13,21,.84);backdrop-filter:blur(12px);color:#c9f5ff;text-decoration:none;font:900 11px/1.1 Arial,sans-serif;box-shadow:0 10px 28px rgba(0,0,0,.28)}.poi-member-back:hover{border-color:#00c897;color:#fff}.poi-member-env{position:fixed;z-index:9999;top:14px;right:14px;padding:9px 12px;border-radius:999px;background:#00c897;color:#04141a;font:950 10px/1 Arial,sans-serif;letter-spacing:.08em}.poi-member-env.real{background:#ffb547}@media(max-width:620px){.poi-member-back{top:8px;left:8px}.poi-member-env{top:8px;right:8px}}
+</style>
+<a class="poi-member-back" href="../index.html#perf" target="_top" aria-label="Нүүр хуудас руу буцах">← Буцах</a>
+<span class="poi-member-env" id="poiMemberEnvironmentBadge">REAL</span>
 <div class="poi-bg-fixed" aria-hidden="true"></div>
 <canvas id="wbg" aria-hidden="true"></canvas>
 <section id="view-performance" class="view active">
@@ -2346,6 +2351,8 @@ function goSection(id){
 }
 /* --- PERFORMANCE DASHBOARD SCRIPT --- */
 const MEMBER_API_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwLSwH10mdlkwxkFICWEeE8wLCzY8VQj-C0p05a4LlFSu0GSfYWSvRs/exec";
+const POI_MEMBER_ENVIRONMENT=(new URLSearchParams(location.search).get('environment')==='test')?'test':'real';
+try{var __poiEnvBadge=document.getElementById('poiMemberEnvironmentBadge');if(__poiEnvBadge){__poiEnvBadge.textContent=POI_MEMBER_ENVIRONMENT.toUpperCase();__poiEnvBadge.classList.toggle('real',POI_MEMBER_ENVIRONMENT==='real');}}catch(_e){}
 let __perfDataCache=null;
 let __perfLoading=false;
 let __sheetLastCredentials=null;
@@ -2365,7 +2372,7 @@ function sheetPostForm(params){
   return Promise.reject(new Error('post_not_supported'));
 }
 function sheetAwaitMemberResult(requestId){
-  var tries=0;return new Promise(function(resolve,reject){function tick(){tries++;perfFetchJsonp(sheetBuildMemberResultUrl(requestId)).then(function(r){if(r&&r.ready){resolve(r);return;}if(tries>=24){reject(new Error('member_auth_timeout'));return;}setTimeout(tick,850);}).catch(function(e){if(tries>=24)reject(e);else setTimeout(tick,850);});}setTimeout(tick,650);});
+  var tries=0;return new Promise(function(resolve,reject){function tick(){tries++;perfFetchJsonp(sheetBuildMemberResultUrl(requestId)).then(function(r){if(r&&r.ready){resolve(r);return;}if(tries>=30){reject(new Error('member_auth_timeout'));return;}setTimeout(tick,300);}).catch(function(e){if(tries>=30)reject(e);else setTimeout(tick,300);});}setTimeout(tick,180);});
 }
 function sheetPostAndAwaitV391612(params){
   var postError=null,postTask=sheetPostForm(params).catch(function(err){postError=err;});
@@ -3607,13 +3614,15 @@ function renderSheetMemberModule(data){
     setLoading(true,'Нэвтэрч байна...');
     if(status)status.textContent='Нэвтрэх мэдээлэл шалгаж байна...';
     var requestId=sheetMemberRequestId();
-    sheetPostAndAwaitV391612({action:'member_auth_start',member_no:no,code:code,client_id:sheetAuthClientIdV39166(),request_id:requestId}).then(function(auth){
+    sheetPostAndAwaitV391612({action:'member_auth_start',environment:POI_MEMBER_ENVIRONMENT,member_no:no,code:code,client_id:sheetAuthClientIdV39166(),request_id:requestId}).then(function(auth){
       if(!auth||!auth.ok||!auth.member_session)throw new Error(auth&&auth.error?auth.error:'member_auth_failed');
       var session=auth.member_session;
       window.__sheetLastCredentials=__sheetLastCredentials={memberNo:no,session:session};
+      if(auth.snapshot&&auth.snapshot.ok)return auth.snapshot;
       if(status)status.textContent='Мэдээлэл татаж байна...';
       var readRequestId=sheetMemberRequestId();
-      return sheetPostAndAwaitV391612({action:'member_read_start',member_session:session,request_id:readRequestId}).then(function(snapshot){
+      return sheetPostAndAwaitV391612({action:'member_read_start',member_session:session,request_id:readRequestId});
+    }).then(function(snapshot){
         if(!snapshot||!snapshot.ok)throw new Error(snapshot&&snapshot.error?snapshot.error:'snapshot_failed');
         __perfDataCache=snapshot;
         window.__sheetLiveMember=snapshot.member||null;
@@ -3621,7 +3630,6 @@ function renderSheetMemberModule(data){
         perfWriteLocalCache(snapshot);
         renderPerformanceDashboard(snapshot);
         perfSetStatus('Бүртгэлийн дата шинэчлэгдлээ.',false,'ok');
-      });
     }).catch(function(err){
       console.warn('member lookup failed',err);
       window.__sheetLiveMember=null; window.__sheetLiveCampaign=null; window.__sheetLastCredentials=__sheetLastCredentials=null;
