@@ -1826,6 +1826,30 @@ body.perf-member-authed .perf-table-card{margin-top:16px}
   border-color:rgba(79,195,247,.22)!important;
 }
 .sheet-proj-card.goal b{color:#dfffee!important;font-size:22px!important}
+.sheet-profit-goal{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:14px 18px;
+  align-items:start;
+}
+.sheet-profit-goal-head span{display:block;color:#87b7c7;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.07em}
+.sheet-profit-goal-head b{display:block!important;margin-top:4px;font-size:19px!important;color:#f3fbff!important}
+.sheet-profit-goal-badge{min-width:78px;padding:9px 12px;border-radius:999px;background:rgba(0,200,151,.12);border:1px solid rgba(0,200,151,.35);color:#44efbd;font-size:15px;font-weight:950;text-align:center}
+.sheet-profit-goal-badge.over{background:rgba(255,181,71,.13);border-color:rgba(255,181,71,.38);color:#ffd27a}
+.sheet-profit-goal-values{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sheet-profit-goal-value{padding:14px;border-radius:14px;background:rgba(1,15,25,.58);border:1px solid rgba(255,255,255,.08)}
+.sheet-profit-goal-value span{display:block;color:#91aeb8;font-size:11px;font-weight:850;line-height:1.35}
+.sheet-profit-goal-value b{display:block!important;margin-top:5px;font-size:clamp(24px,3.3vw,38px)!important;line-height:1!important;letter-spacing:-.04em;color:#fff!important}
+.sheet-profit-goal-value.current b{color:#24e6b7!important}
+.sheet-profit-goal-value.target b{color:#ffd27a!important}
+.sheet-profit-goal-progress{grid-column:1/-1}
+.sheet-profit-goal-note{grid-column:1/-1;color:#bed4dc;font-size:12px;line-height:1.55}
+.pv-near-close{margin-top:18px;padding:18px;border-radius:18px;border:1px solid rgba(255,181,71,.32);background:linear-gradient(145deg,rgba(70,43,4,.34),rgba(3,29,39,.86));box-shadow:0 16px 42px rgba(0,0,0,.22)}
+.pv-near-close-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:12px}
+.pv-near-close-head span{display:block;color:#ffcf75;font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.07em}
+.pv-near-close-head b{display:block;color:#fff;font-size:20px;margin-top:4px}
+.pv-near-close-days{padding:8px 11px;border-radius:999px;background:rgba(255,181,71,.12);border:1px solid rgba(255,181,71,.32);color:#ffd27a;font-size:12px;font-weight:900;white-space:nowrap}
+.pv-near-close-formula{margin-top:12px;padding:12px 14px;border-left:3px solid #ffb547;background:rgba(0,0,0,.18);color:#d7e8ec;font-size:12px;line-height:1.55}
 .sheet-proj-card.risk{
   background:rgba(255,134,125,.075)!important;
   border-color:rgba(255,134,125,.32)!important;
@@ -1865,6 +1889,10 @@ body.perf-member-authed .perf-table-card{margin-top:16px}
 @media (max-width:760px){
   .sheet-proj-compare-grid{grid-template-columns:1fr!important}
   .sheet-proj-card.goal,.sheet-proj-card.risk,.sheet-proj-card.thanks,.sheet-proj-card.subtle-total{grid-column:auto!important}
+  .sheet-profit-goal{grid-template-columns:1fr}
+  .sheet-profit-goal-badge{justify-self:start}
+  .sheet-profit-goal-values{grid-template-columns:1fr}
+  .pv-near-close-head{display:block}.pv-near-close-days{display:inline-block;margin-top:10px}
   .sheet-month-table table{min-width:840px!important}
 }
 
@@ -3440,17 +3468,43 @@ function renderSheetPayout(resp,ctx){
       var close=ctx.projectClose;
       if(close&&close.active){
         var gp=Math.max(5,Math.min(15,Number(close.gratitudePct)||5));
+        var closeProfit=Math.max(0,Math.round((close.closeTotal||0)-(ctx.memberCap||0)));
         h+='<div class="pv-close-card"><div class="pv-close-title">Таны төслийн эцсийн тооцоо</div><div class="pv-breakdown">';
-        h+='<div class="pv-item green"><span>Хуримтлагдсан сарын ноогдол</span><b>'+perfCurrency(close.monthlyGross)+'</b></div>';
-        h+='<div class="pv-item gold"><span>Хаалтаар авах нийт дүн</span><b>'+perfCurrency(close.closeTotal)+'</b></div>';
+        h+='<div class="pv-item cyan"><span>Анхны хөрөнгө</span><b>'+perfCurrency(ctx.memberCap)+'</b></div>';
+        h+='<div class="pv-item green"><span>+ Сарын нийт ашиг</span><b>'+perfCurrency(close.monthlyGross)+'</b></div>';
+        h+='<div class="pv-item green"><span>+ Төслийн төгсгөлийн ашиг</span><b>'+perfCurrency(closeProfit)+'</b></div>';
         h+='<div class="pv-item cyan"><span>Татвар ногдох нийт ашиг</span><b>'+perfCurrency(close.taxableProfit)+'</b></div>';
-        h+='<div class="pv-item deduct"><span>Нийт сангаас хуваарилсан 60/40 түр татвар · 17.8%</span><b>−'+perfCurrency(close.taxReserve)+'</b></div>';
-        h+='<div class="pv-item teal"><span>Татварын дараах нийт</span><b>'+perfCurrency(close.afterTaxTotal)+'</b></div>';
-        h+='<div class="pv-item deduct"><span>Эцсийн олголтын өмнөх PCG талархал · '+gp+'%</span><b>−'+perfCurrency(close.gratitudeAmount)+'</b></div>';
-        if((close.earlyPaid||0)>0)h+='<div class="pv-item cyan"><span>Урьдчилж олгосон ашиг</span><b>'+perfCurrency(close.earlyPaid)+'</b></div>';
+        h+='<div class="pv-item deduct"><span>− 60/40 түр татвар · 17.8%</span><b>−'+perfCurrency(close.taxReserve)+'</b></div>';
+        h+='<div class="pv-item deduct"><span>− PCG талархал · '+gp+'%</span><b>−'+perfCurrency(close.gratitudeAmount)+'</b></div>';
         if(close.lifetimeFinalTotal!=null)h+='<div class="pv-item teal"><span>Төслийн нийт цэвэр эрх</span><b>'+perfCurrency(close.lifetimeFinalTotal)+'</b></div>';
-        h+='<div class="pv-item green"><span>Хаалтаар олгох үлдэгдэл</span><b>'+perfCurrency(close.finalTotal)+'</b></div>';
-        h+='</div><div class="pv-close-note">Анхны хөрөнгөд татвар бодоогүй. Эхлээд бүх ашгийг нэгтгэж, дараа нь 60/40 түр татварыг нийт татвар ногдох ашгаас нэг удаа бүхэлчилсэн. Түүний дараа, эцсийн олголтын яг өмнө талархлын нийлбэрийг нэг удаа бүхэлчилж хуваарилсан. Урьдчилж олгосон бүтэн ашгийг хамгийн сүүлд хаалтын үлдэгдлээс хассан.</div></div>';
+        h+='<div class="pv-item deduct"><span>− Өмнө олгосон ашиг</span><b>−'+perfCurrency(close.earlyPaid||0)+'</b></div>';
+        h+='<div class="pv-item green"><span>= Одоо шилжүүлэн олгох</span><b>'+perfCurrency(close.finalTotal)+'</b></div>';
+        h+='</div><div class="pv-near-close-formula">'+perfCurrency(ctx.memberCap)+' анхны хөрөнгө + '+perfCurrency(close.monthlyGross)+' сарын ашиг + '+perfCurrency(closeProfit)+' төгсгөлийн ашиг − '+perfCurrency(close.taxReserve)+' татвар − '+perfCurrency(close.gratitudeAmount)+' талархал − '+perfCurrency(close.earlyPaid||0)+' өмнө олгосон = <b>'+perfCurrency(close.finalTotal)+'</b> одоо шилжүүлэн олгоно.</div><div class="pv-close-note">Анхны хөрөнгөд татвар бодоогүй. Эхлээд бүх ашгийг нэгтгэж, дараа нь 60/40 түр татварыг нийт татвар ногдох ашгаас нэг удаа бүхэлчилсэн. Түүний дараа, эцсийн олголтын яг өмнө талархлын нийлбэрийг нэг удаа бүхэлчилж хуваарилсан. Урьдчилж олгосон бүтэн ашгийг хамгийн сүүлд хаалтын үлдэгдлээс хассан.</div></div>';
+      }else{
+        var campaign=ctx.campaign||{},endRaw=String(campaign.end_date||''),lastRaw=String(campaign.latest_week_end||'');
+        var endDate=endRaw?new Date(endRaw+'T12:00:00'):null,referenceDate=lastRaw?new Date(lastRaw+'T12:00:00'):new Date();
+        var daysLeft=endDate&&!isNaN(endDate.getTime())?Math.ceil((endDate.getTime()-referenceDate.getTime())/86400000):9999;
+        if(daysLeft>=0&&daysLeft<=42){
+          var projectedMonthlyGross=Math.max(0,Math.round((ctx.accruedGross==null?ctx.accrued:ctx.accruedGross)+(ctx.futureMonthly||0)));
+          var projectedCloseTotal=Math.max(0,Math.round(ctx.closePart||0));
+          var projectedCloseProfit=Math.max(0,projectedCloseTotal-Math.max(0,Math.round(ctx.memberCap||0)));
+          var projectedTaxableProfit=Math.max(0,projectedMonthlyGross+projectedCloseProfit);
+          var projectedTax=sheetFuturesTaxBreakdown(projectedTaxableProfit).total;
+          var projectedAfterTax=Math.max(0,projectedMonthlyGross+projectedCloseTotal-projectedTax);
+          var gratitudePct=Math.max(.05,Math.min(.15,sheetUnitPct(ctx.incentive,0.05)));
+          var projectedGratitude=Math.round(projectedAfterTax*gratitudePct);
+          var projectedLifetime=Math.max(0,projectedAfterTax-projectedGratitude);
+          var projectedDue=Math.max(0,projectedLifetime-Math.max(0,Math.round(ctx.earlyPaid||0)));
+          h+='<div class="pv-near-close"><div class="pv-near-close-head"><div><span>Хаалтын өмнөх урьдчилсан задрал</span><b>Төсөл дуусах дөхсөн тул эцсийн тооцооны зураглал нээгдлээ</b></div><div class="pv-near-close-days">'+daysLeft+' хоног үлдсэн</div></div><div class="pv-breakdown">';
+          h+='<div class="pv-item cyan"><span>Анхны хөрөнгө</span><b>'+perfCurrency(ctx.memberCap)+'</b></div>';
+          h+='<div class="pv-item green"><span>+ Сарын нийт ашиг</span><b>'+perfCurrency(projectedMonthlyGross)+'</b></div>';
+          h+='<div class="pv-item green"><span>+ Төгсгөлийн ашиг</span><b>'+perfCurrency(projectedCloseProfit)+'</b></div>';
+          h+='<div class="pv-item deduct"><span>− 60/40 түр татвар</span><b>−'+perfCurrency(projectedTax)+'</b></div>';
+          h+='<div class="pv-item deduct"><span>− PCG-д талархал · '+(gratitudePct*100).toFixed(0)+'%</span><b>−'+perfCurrency(projectedGratitude)+'</b></div>';
+          if((ctx.earlyPaid||0)>0)h+='<div class="pv-item deduct"><span>− Өмнө олгосон</span><b>−'+perfCurrency(ctx.earlyPaid)+'</b></div>';
+          h+='<div class="pv-item green"><span>= Хаалтаар ойролцоогоор олгох</span><b>'+perfCurrency(projectedDue)+'</b></div></div>';
+          h+='<div class="pv-near-close-formula">'+perfCurrency(ctx.memberCap)+' анхны хөрөнгө + '+perfCurrency(projectedMonthlyGross)+' сарын ашиг + '+perfCurrency(projectedCloseProfit)+' төгсгөлийн ашиг − '+perfCurrency(projectedTax)+' татвар − '+perfCurrency(projectedGratitude)+' PCG-д талархал − '+perfCurrency(ctx.earlyPaid||0)+' өмнө олгосон = <b>'+perfCurrency(projectedDue)+'</b>. Энэ нь урьдчилсан зураглал; админ төслийн хаалтыг token-оор идэвхжүүлж LIVE нийтэлсний дараа эцсийн баталгаатай дүн болно.</div></div>';
+        }
       }
     }else{
       h+='<p class="pv-p">Хувийн тооцоолол шинэчлэгдмэгц энд таны анхны хөрөнгө, сарын бүтэн ноогдол болон төслийн хаалтын урьдчилсан дүн нэг дор харагдана.</p>';
@@ -3565,7 +3619,7 @@ function renderSheetMemberModule(data){
         '<div class="sheet-profile-card compact gold"><span>Хамгаалалтын нөөц</span><b>'+(modelCfg.reserveTargetPct*100).toFixed(0)+'%</b><small style="display:block;color:#FFD37A;margin-top:5px">'+perfCurrency(currentReserve)+' / '+perfCurrency(targetReserve)+' · '+reserveProgress.toFixed(0)+'%</small><div class="rv-strip"><div class="rv-fill" style="width:'+reserveProgress.toFixed(1)+'%"></div></div></div>'
       ].join('');
     }
-    try{renderSheetPayout(resp,{memberCap:memberCap,totalCap:totalCap,share:baseline.share,accrued:accrued,accruedGross:accruedGross,earlyPaid:earlyPaid,futureMonthly:view.future.totalMonthly,closePart:view.future.close,total:view.revisedGross,roi:revisedRoi,r:r,months:months,n:n,type:type,projectClose:resp.project_close||null});}catch(e){}
+    try{renderSheetPayout(resp,{memberCap:memberCap,totalCap:totalCap,share:baseline.share,accrued:accrued,accruedGross:accruedGross,earlyPaid:earlyPaid,futureMonthly:view.future.totalMonthly,closePart:view.future.close,total:view.revisedGross,roi:revisedRoi,r:r,months:months,n:n,type:type,campaign:camp,incentive:incentive,projectClose:resp.project_close||null});}catch(e){}
     if(progressBox){progressBox.innerHTML='';progressBox.style.display='none';}
     function progressNote(v){
       var p=Math.max(0,v.progressPct),base=months+' сарын зорилтот ашиг '+perfCurrency(v.targetProfit)+' — одоогоор '+perfCurrency(v.currentProfit)+' буюу '+p.toFixed(1)+'% нь биелээд байна. ';
@@ -3587,7 +3641,7 @@ function renderSheetMemberModule(data){
             '<div class="sheet-proj-metric"><span>Энэ сарын бодит өгөөж</span><b>'+perfPctPlain(perf.monthlyRoi)+'</b><small>Сарын хаалтын баталгаажсан үр дүн.</small></div>',
           '</div>',
         '</div>',
-        '<div class="sheet-proj-card goal"><span>Таны бодит ашгийн явц</span><b><span id="sheetMemberProgressCurrent">'+perfCurrency(view.currentProfit)+'</span> / <span id="sheetMemberProgressTarget">'+perfCurrency(view.targetProfit)+'</span></b><div class="sheet-goal-line"><div id="sheetMemberProgressFill" class="sheet-goal-fill '+(view.progressPct>100?'over':'')+'" style="width:'+Math.min(100,Math.max(0,view.progressPct)).toFixed(1)+'%"></div></div><small id="sheetMemberProgressNote">'+progressNote(view)+'</small></div>',
+        '<div class="sheet-proj-card goal sheet-profit-goal"><div class="sheet-profit-goal-head"><span>Таны бодит ашгийн явц</span><b>Баталгаажсан үр дүнг төслийн зорилттой харьцуулсан нь</b></div><div class="sheet-profit-goal-badge '+(view.progressPct>100?'over':'')+'">'+Math.max(0,view.progressPct).toFixed(1)+'%</div><div class="sheet-profit-goal-values"><div class="sheet-profit-goal-value current"><span>Одоогоор баталгаажсан ашиг</span><b id="sheetMemberProgressCurrent">'+perfCurrency(view.currentProfit)+'</b></div><div class="sheet-profit-goal-value target"><span>'+months+' сарын зорилтот ашиг</span><b id="sheetMemberProgressTarget">'+perfCurrency(view.targetProfit)+'</b></div></div><div class="sheet-profit-goal-progress"><div class="sheet-goal-line"><div id="sheetMemberProgressFill" class="sheet-goal-fill '+(view.progressPct>100?'over':'')+'" style="width:'+Math.min(100,Math.max(0,view.progressPct)).toFixed(1)+'%"></div></div></div><div class="sheet-profit-goal-note" id="sheetMemberProgressNote">'+progressNote(view)+'</div></div>',
         '<div class="sheet-proj-card risk"><span>Тооцооллын тайлбар</span><b>Бодит явц + үлдсэн хугацаа</b><small>Хаагдсан үр дүнг бодитоор авч, үлдсэн саруудыг зорилтот өгөөжөөр дахин тооцсон зураглал.</small></div>',
         '<div class="perf-projection-note">Сарын бодит үр дүн төлөвлөгөөнөөс өндөр эсвэл бага байж болно. Хаагдсан сар дахин өөрчлөгдөхгүй.</div>'
       ].join('');
