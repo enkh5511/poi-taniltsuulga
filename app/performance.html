@@ -2569,7 +2569,8 @@ function loadPerformanceDashboard(force){
 
   perfSetStatus(force?"Бүртгэлийн дата шинэчилж байна...":"Бүртгэлийн дата татаж байна...",false,"loading");
 
-  perfFetchJsonp(sheetBuildSnapshotUrl(creds.session)).then(function(data){
+  var refreshRequestId=sheetMemberRequestId();
+  sheetPostAndAwaitV391612({action:'member_read_start',member_session:creds.session,request_id:refreshRequestId}).then(function(data){
     __perfLoading=false;
     if(!data||!data.ok)throw new Error(data&&data.error?data.error:"snapshot_failed");
     __perfDataCache=data;
@@ -2608,8 +2609,6 @@ function renderPerformanceDashboard(data){
     ["7 хоногийн ашиг/алдагдал",perfCurrency(perfRawValue(d,"weekly_pl_usd",0)),"Сүүлийн хаагдсан 7 хоног",perfClass(perfRawValue(d,"weekly_pl_usd",0))],
     ["7 хоногийн өгөөж",perfPct(perfRawValue(d,"weekly_pl_pct",0)),"7 хоногийн өгөөж",perfClass(perfRawValue(d,"weekly_pl_pct",0))],
     ["Нийт өгөөж",perfPct(perfRawValue(d,"total_roi_pct",0)),"Нийт хугацааны үр дүн",perfClass(perfRawValue(d,"total_roi_pct",0))],
-    ["Ашгийн фактор",perfNum(perfRawValue(d,"profit_factor",0),2),"Нийт ашиг / нийт алдагдал","perf-amber"],
-    ["Ялалтын хувь",perfPctPlain(perfRawValue(d,"win_rate_pct",0)),"Ашигтай арилжаа / нийт арилжаа","perf-positive"],
     ["Их уналт",perfPctPlain(perfRawValue(d,"max_weekly_dd_pct",0)),"Сүүлийн 7 хоногийн уналт","perf-negative"],
     ["DD хамгаалалт",perfCurrency(perfRawValue(d,"dd_limit_usd",0)),"20% хамгаалалтын шугам","perf-cyan"]
   ];
@@ -2660,8 +2659,6 @@ function renderMonthly(m,chart,d,cfg){
   var items=[
     ["Сарын ашиг/алдагдал",perfCurrency(perfRawValue(m,"monthly_pl_usd",perfRawValue(m,"monthly_p_l",0))),perfClass(perfRawValue(m,"monthly_pl_usd",0))],
     ["Сарын өгөөж",perfPct(perfRawValue(m,"monthly_roi_pct",0)),perfClass(perfRawValue(m,"monthly_roi_pct",0))],
-    ["Сарын ашиг/алдагдлын харьцаа",perfNum(perfRawValue(m,"monthly_profit_factor",0),2),"perf-amber"],
-    ["Monthly Ялалтын хувь",perfPctPlain(perfRawValue(m,"monthly_win_rate_pct",0)),"perf-positive"],
     ["Monthly Их уналт",perfPctPlain(perfRawValue(m,"monthly_max_dd_pct",0)),"perf-negative"],
     ["Тайлангийн сар",perfDate(monthValue)||"—","perf-cyan"]
   ];
