@@ -2407,7 +2407,20 @@ function sheetAwaitMemberResult(requestId){
   /* Apps Script writes, validation and the safety backup may take longer than
      a lightweight login. Keep polling the same request id so the backend can
      finish exactly once instead of making the member press Save again. */
-  var tries=0;return new Promise(function(resolve,reject){function tick(){tries++;perfFetchJsonp(sheetBuildMemberResultUrl(requestId)).then(function(r){if(r&&r.ready){resolve(r);return;}if(tries>=90){reject(new Error('member_result_timeout'));return;}setTimeout(tick,650);}).catch(function(e){if(tries>=90)reject(e);else setTimeout(tick,650);});}setTimeout(tick,250);});
+  var tries=0,maxTries=40,intervalMs=500;
+  return new Promise(function(resolve,reject){
+    function tick(){
+      tries++;
+      perfFetchJsonp(sheetBuildMemberResultUrl(requestId)).then(function(r){
+        if(r&&r.ready){resolve(r);return;}
+        if(tries>=maxTries){reject(new Error('member_result_timeout'));return;}
+        setTimeout(tick,intervalMs);
+      }).catch(function(e){
+        if(tries>=maxTries)reject(e);else setTimeout(tick,intervalMs);
+      });
+    }
+    setTimeout(tick,200);
+  });
 }
 function sheetPostAndAwaitV391612(params){
   var postError=null,postTask=sheetPostForm(params).catch(function(err){postError=err;});
@@ -3377,14 +3390,39 @@ function sheetCalcProjection(opts){
   var grossTotal=totalMonthly+close,afterTaxTotal=Math.max(0,grossTotal-tax.total),incentivePct=Math.max(0,sheetUnitPct(opts.incentivePct,0.05)),fee=Math.round(afterTaxTotal*incentivePct),net=Math.max(0,afterTaxTotal-fee);
   return {type:type,closeMode:closeMode,n:n,totalCap:totalCap,memberCap:memberCap,share:share,months:months,alloc:alloc,reserveTargetPct:targetPct,reserveTarget:reserveTarget,finalCap:closePool,endActive:active,endReserve:reserve,endMonthly:monthlyBalance,totalAssets:active+reserve+monthlyBalance,growth:Math.max(0,closePool-totalCap),totalMonthly:totalMonthly,first:first,last:last,close:close,closeProfit:closeProfit,taxableProfit:taxableProfit,tax:tax,grossTotal:grossTotal,afterTaxTotal:afterTaxTotal,fee:fee,incentivePct:incentivePct,net:net,rows:rows};
 }
+function normalizeMemberResponseV391618(resp){
+  var root=(resp&&typeof resp==='object')?resp:{};
+  var merged=root,guard=0;
+  while(guard++<4){
+    var inner=(merged.data&&typeof merged.data==='object'&&merged.data)
+      ||(merged.snapshot&&typeof merged.snapshot==='object'&&merged.snapshot)
+      ||(merged.result&&typeof merged.result==='object'&&merged.result);
+    if(!inner||inner===merged)break;
+    merged=Object.assign({},root,merged,inner);
+    if(merged.member)break;
+  }
+  var state=(merged.state&&typeof merged.state==='object')?merged.state:{};
+  var ui=(state.ui&&typeof state.ui==='object')?state.ui:((merged.ui&&typeof merged.ui==='object')?merged.ui:{});
+  if(!merged.market_brief){
+    merged.market_brief={
+      market_title:'7 хоногийн ерөнхий дүр зураг',
+      market_summary:String(ui.reportMarket||ui.report_market||state.reportMarket||''),
+      risk_note:String(ui.marketRisk||ui.market_risk||state.marketRisk||''),
+      update_date:String(ui.reportMarketUpdatedAt||state.updated_at||merged.updated_at||'')
+    };
+  }
+  merged.project_close=merged.project_close||merged.projectClose||state.project_close||state.projectClose||null;
+  return merged;
+}
 function sheetMarketBriefFromResponse(resp,camp){
+  resp=normalizeMemberResponseV391618(resp);
   camp=camp||{};
   var b=(resp&&resp.market_brief)?resp.market_brief:{};
   return {
     title:b.market_title||b.title||camp.market_title||'7 хоногийн ерөнхий дүр зураг',
     summary:b.market_summary||b.summary||camp.market_summary||'',
     risk:b.risk_note||camp.risk_note||'',
-    update:b.update_date||camp.market_update_date||''
+    update:b.update_date||b.updated_at||camp.market_update_date||''
   };
 }
 function sheetBriefCopy(brief,perf){
@@ -3636,6 +3674,7 @@ function renderSheetMemberModule(data){
     return {d:d,m:m,chart:chart,latest:latest,monthlyRoi:monthlyRoi,operatorNote:op,update:update};
   }
   function renderMemberDashboard(resp){
+    resp=normalizeMemberResponseV391618(resp);
     var mem=resp.member||{},camp=resp.campaign||{},perf=currentPerformance();
     var name=mem.display_name||('Гишүүн '+(mem.member_no||''));
     var type=String(camp.model_type||'weighted').toLowerCase()==='equal'?'equal':'weighted';
