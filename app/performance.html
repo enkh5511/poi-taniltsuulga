@@ -4,7 +4,7 @@
 <meta name="color-scheme" content="dark">
 <script>(function(){try{if(window.self!==window.top)document.documentElement.className+=' poi-embedded';}catch(e){document.documentElement.className+=' poi-embedded';}})();</script>
 <meta charset="UTF-8">
-<meta name="poi-release" content="V39.16.20">
+<meta name="poi-release" content="V39.16.21">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>POI Capital Group · Гүйцэтгэл ба гишүүний самбар</title>
 <meta name="description" content="POI Capital Group-ийн гишүүний гүйцэтгэлийн самбар: хөрөнгө, эзлэх хувь, хуримтлагдсан үр дүн, өгөөж болон төслийн явц.">
@@ -3515,6 +3515,7 @@ function renderSheetPayout(resp,ctx){
       var close=ctx.projectClose;
       if(close&&close.active){
         var gp=Math.max(5,Math.min(15,Number(close.gratitudePct)||5));
+        var closeConfirmed=!!close.confirmed;
         var originalCap=Math.max(0,Math.round(Number(close.originalCapital!=null?close.originalCapital:ctx.memberCap)||0));
         var closeChange=Math.round(Number(close.closeTotal)||0)-originalCap;
         var closeChangeText=(closeChange>=0?' + ':' − ')+perfCurrency(Math.abs(closeChange));
@@ -3541,8 +3542,8 @@ function renderSheetPayout(resp,ctx){
         var currentFinal=Math.max(0,Math.round(Number(close.finalTotal)||0));
         h+='<div class="pv-gratitude-box" id="pvGratitudeBoxV391617" data-base="'+gratitudeBase+'" data-current="'+currentGratitude+'" data-final="'+currentFinal+'">';
         h+='<div class="pv-gratitude-head"><div><b>PCG-д өгөх талархлын хувь</b><span>5–15%-иас сонгоно. Татварын дараах нийт эрхээс эцсийн олголтын яг өмнө нэг удаа тооцно.</span></div><strong class="pv-gratitude-amount" id="pvGratitudeAmountV391617">−'+perfCurrency(currentGratitude)+'</strong></div>';
-        h+='<div class="pv-gratitude-control"><input id="pvGratitudeSliderV391617" type="range" min="5" max="15" step="1" value="'+gp+'" oninput="poiCloseGratitudePreviewV391617(this)"><span class="pv-gratitude-pct" id="pvGratitudePctV391617">'+gp+'%</span></div>';
-        h+='<div class="pv-gratitude-actions"><button class="pv-gratitude-save" type="button" onclick="poiCloseGratitudeSaveV391617(this)">Сонголтоо баталгаажуулах</button><span class="pv-gratitude-status" id="pvGratitudeStatusV391617">Одоогийн баталгаатай сонголт: '+gp+'%. Одоо авах дүн: <b id="pvGratitudeFinalV391617">'+perfCurrency(currentFinal)+'</b></span></div></div>';
+        h+='<div class="pv-gratitude-control"><input id="pvGratitudeSliderV391617" type="range" min="5" max="15" step="1" value="'+gp+'" '+(closeConfirmed?'disabled':'')+' oninput="poiCloseGratitudePreviewV391617(this)"><span class="pv-gratitude-pct" id="pvGratitudePctV391617">'+gp+'%</span></div>';
+        h+='<div class="pv-gratitude-actions"><button class="pv-gratitude-save" type="button" '+(closeConfirmed?'disabled':'onclick="poiCloseGratitudeSaveV391617(this)"')+'>'+(closeConfirmed?'Баталгаажсан · данс хаагдсан':'Сонголтоо баталгаажуулах')+'</button><span class="pv-gratitude-status '+(closeConfirmed?'ok':'')+'" id="pvGratitudeStatusV391617">'+(closeConfirmed?('Таны '+gp+'%-ийн сонголт баталгаажсан. Одоо авах дүн: '):('Сонголтоо баталгаажуулснаар таны данс хаагдана. Одоо авах дүн: '))+'<b id="pvGratitudeFinalV391617">'+perfCurrency(currentFinal)+'</b></span></div></div>';
         h+='<div class="pv-near-close-formula">'+perfCurrency(originalCap)+' анхны хөрөнгө + '+perfCurrency(close.monthlyGross)+' сарын ашиг'+closeChangeText+' төгсгөлийн өөрчлөлт − '+perfCurrency(close.taxReserve)+' татвар − '+perfCurrency(close.gratitudeAmount)+' талархал − '+perfCurrency(close.earlyPaid||0)+' өмнө олгосон = <b>'+perfCurrency(close.finalTotal)+'</b> одоо шилжүүлэн олгоно. Төслийн нийт цэвэр өгөөж: <b>'+(finalRoi>=0?'+':'')+finalRoi.toFixed(1)+'%</b>.</div><div class="pv-close-note">Анхны хөрөнгөд татвар бодоогүй. Эхлээд бүх ашгийг нэгтгэж, дараа нь 60/40 түр татварыг нийт татвар ногдох ашгаас нэг удаа бүхэлчилсэн. Түүний дараа, эцсийн олголтын яг өмнө талархлын нийлбэрийг нэг удаа бүхэлчилж хуваарилсан. Урьдчилж олгосон бүтэн ашгийг хамгийн сүүлд хаалтын үлдэгдлээс хассан.</div></div>';
       }else{
         var campaign=ctx.campaign||{},endRaw=String(campaign.end_date||''),lastRaw=String(campaign.latest_week_end||'');
@@ -3550,6 +3551,7 @@ function renderSheetPayout(resp,ctx){
         var daysLeft=endDate&&!isNaN(endDate.getTime())?Math.ceil((endDate.getTime()-referenceDate.getTime())/86400000):9999;
         var timing=daysLeft!==9999&&daysLeft>=0?('Төслийн төлөвлөсөн хугацаа дуусахад '+daysLeft+' хоног үлдсэн. '):'';
         h+='<div class="pv-close-card is-inactive"><div class="pv-close-title">Төслийн эцсийн хаалт</div><div class="pv-close-lock"><div class="pv-close-lock-badge">ИДЭВХГҮЙ</div><div><b>Эцсийн тооцоо хараахан нээгдээгүй байна</b><span>'+timing+'Админ “Төслийн хаалтыг идэвхжүүлэх” товчоор LIVE хаалтыг баталгаажуулсны дараа энд анхны хөрөнгө, сарын ашиг, төгсгөлийн ашиг/алдагдал, татвар, нийт авах USD, нийт өгөөж болон PCG-д өгөх 5–15%-ийн талархлын сонголт нээгдэнэ.</span></div></div></div>';
+        poiScheduleCloseRefreshV391621();
       }
     }else{
       h+='<p class="pv-p">Хувийн тооцоолол шинэчлэгдмэгц энд таны анхны хөрөнгө, сарын бүтэн ноогдол болон төслийн хаалтын урьдчилсан дүн нэг дор харагдана.</p>';
@@ -3605,6 +3607,16 @@ window.poiCloseGratitudeSaveV391617=function(button){
     return ok;
   });
 };
+var __poiCloseRefreshAttemptsV391621=0,__poiCloseRefreshTimerV391621=0;
+function poiScheduleCloseRefreshV391621(){
+  var creds=window.__sheetLastCredentials||__sheetLastCredentials;
+  if(!creds||!creds.session||__perfLoading||__poiCloseRefreshAttemptsV391621>=3||__poiCloseRefreshTimerV391621)return;
+  __poiCloseRefreshAttemptsV391621++;
+  __poiCloseRefreshTimerV391621=setTimeout(function(){
+    __poiCloseRefreshTimerV391621=0;
+    loadPerformanceDashboard(true);
+  },2000);
+}
 function renderSheetMemberModule(data){
   var box=document.getElementById("perfSheetMemberModule"); if(!box)return;
   var memberNoInput=document.getElementById("sheetMemberNo"), accessInput=document.getElementById("sheetAccessCode"), accessToggle=document.getElementById("sheetAccessToggle"), fetchBtn=document.getElementById("sheetFetchBtn");
