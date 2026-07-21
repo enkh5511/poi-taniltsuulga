@@ -1607,7 +1607,7 @@ html,body{background:#020608!important;background-image:none!important;}
         <div class="home-actions">
           <button class="home-primary" onclick="goSection('calc')">Дэлгэрэнгүй тооцоолуур →</button>
           <button class="home-secondary" onclick="goSection('deck')">Төслийн танилцуулга</button>
-          <button class="home-secondary" onclick="goSection('perf')">Гишүүний булан</button>
+          <button class="home-secondary" onclick="goSection('perf')">Гүйцэтгэл харах</button>
           <button class="home-secondary" onclick="goSection('contact')">Холбоо барих</button>
         </div>
       </div>
@@ -1638,7 +1638,7 @@ html,body{background:#020608!important;background-image:none!important;}
       <div class="proj-text">Энэхүү хамтын ажиллагааны зорилго нь хөрөнгө оруулагчдын капиталыг дүрэмтэй арилжааны системээр ажиллуулж, эрсдэлийн хязгаартай, тайлантай, хэмжигдэхүйц өсөлтийн загвар бий болгох явдал юм.</div>
       <div class="proj-grid">
         <div class="proj-box"><b>Капитал</b>гишүүдээс бүрдэнэ</div>
-        <div class="proj-box"><b>Гүйцэтгэл</b>арилжаач удирдана</div>
+        <div class="proj-box"><b>Гишүүний булан</b>арилжаач удирдана</div>
         <div class="proj-box"><b>Хамгаалалт</b>20% DD хязгаараар хэмжигдэнэ</div>
         <div class="proj-box"><b>Тайлан</b>сар бүр бичгээр гарна</div>
       </div>
@@ -1655,7 +1655,7 @@ html,body{background:#020608!important;background-image:none!important;}
       <button class="home-card" onclick="goSection('about')"><div class="hc-name">Туршлага</div><div class="hc-desc">Санхүүгийн суурь, арилжааны замнал, үр дүн</div><span class="hc-arrow">→</span><span class="hc-start">Эхлэх</span></button>
       <button class="home-card" onclick="goSection('method')"><div class="hc-name">Аргачлал</div><div class="hc-desc">POI V2 ба POI V3 хугацааны аргачлал</div><span class="hc-arrow">→</span><span class="hc-start">Эхлэх</span></button>
       <button class="home-card" onclick="goSection('calc')"><div class="hc-name">Тооцоолуур</div><div class="hc-desc">V4 гол тооцоолуур, дэлгэрэнгүй өгөөжийн загвар</div><span class="hc-arrow">→</span><span class="hc-start">Эхлэх</span></button>
-      <button class="home-card" onclick="goSection('perf')"><div class="hc-name">Гишүүний булан</div><div class="hc-desc">Төслийн явц болон төслийн хаалтын хувийн мэдээлэл</div><span class="hc-arrow">→</span><span class="hc-start">Эхлэх</span></button>
+      <button class="home-card" onclick="goSection('perf')"><div class="hc-name">Гишүүний булан</div><div class="hc-desc">7 хоногийн самбар, сарын тайлан, өсөлтийн график</div><span class="hc-arrow">→</span><span class="hc-start">Эхлэх</span></button>
     </div>
   </div>
 </section>
@@ -1676,7 +1676,7 @@ html,body{background:#020608!important;background-image:none!important;}
 
 
 <section id="view-performance" class="view">
-  <iframe id="performanceframe" title="Гишүүний булан"></iframe>
+  <iframe id="performanceframe" title="Гүйцэтгэл"></iframe>
 </section>
 
 <section id="view-calc" class="view">
@@ -1843,7 +1843,7 @@ const SLIDES=[
       ["Яагаад $100K вэ","Энэ хэмжээ нь futures зах зээлийн хэвийн хэлбэлзэл, байрлалын хэмжээ, 20% DD хамгаалалтыг зохистой барих суурь."],
       ["Оролцогчдын хязгаар","Эхний төсөлд оролцогчдын тоо 10 хүнээс хэтрэхгүй. Энэ нь тайлан, харилцаа, шийдвэрийг цэгцтэй байлгах operational limit."]],
     greenNote:"Жишээ тооцоо: 1 хүн — $100K · 2 хүн — тус бүр $50K · 3 хүн — тус бүр ойролцоогоор $33K · 4 хүн — тус бүр $25K. Тооцоолуураар өөрийн оруулах дүн, боломжит өгөөж, хугацааны төгсгөлд авах дүнгээ урьдчилан харна уу.",
-    ctas:[{label:"Тооцоолуур нээх",to:"calc"},{label:"Гишүүний булан",to:"perf",kind:"secondary"}],
+    ctas:[{label:"Тооцоолуур нээх",to:"calc"},{label:"Гүйцэтгэл харах",to:"perf",kind:"secondary"}],
     note:"7 хоногийн бодит тайлан, ашиг/алдагдлын явц, өмнөх гүйцэтгэл болон дараагийн 7 хоногийн ерөнхий зураглалыг Гүйцэтгэл хэсгээс тогтмол шалгах боломжтой."},
 
   {title:"Яагаад 50% scale-up вэ",sub:"Данс өсгөх хэсэг хамгаалалтын зай, эцсийн хуваарилалтыг нэмэгдүүлнэ",
@@ -1896,7 +1896,7 @@ const SLIDES=[
       ["Бичгийн тохиролцоо","Оролцогч, үүрэг, хязгаар."],
       ["Данс / бүтэц","Арилжааны данс, тайлан."],
       ["Controlled start","Эхний сар бага хэмжээ, хяналт."]],
-    ctas:[{label:"Тооцоолуур нээх",to:"calc"},{label:"Гишүүний булан",to:"perf",kind:"secondary"},{label:"Холбоо барих",to:"contact",kind:"secondary"}],
+    ctas:[{label:"Тооцоолуур нээх",to:"calc"},{label:"Гүйцэтгэл харах",to:"perf",kind:"secondary"},{label:"Холбоо барих",to:"contact",kind:"secondary"}],
     note:"Эхний зорилго: дүрэмтэй эхлэл, тайлантай явц, хамгаалалтын хязгаартай хэрэгжилт."}
 ];
 
@@ -2059,15 +2059,15 @@ const contactSlide={title:"Холбоо барих",sub:"POI Capital Group — 4
   ctas:[{label:"Уулзалтын цаг товлох",href:"https://calendar.app.google/h9H4D6sWnnfF8ZSDA"},{label:"Имэйл илгээх",href:"mailto:info@poicapitalgroup.com",kind:"secondary"}],
   note:"45 минутын уулзалтаар таны оруулах дүн, хугацаа, гишүүний үр дүн болон дараагийн алхмыг тодорхой болгоно."};
 
-const performanceMenuSlide={title:"Гишүүний булан",sub:"Төслийн явц болон хаалтын эцсийн тооцоо тусдаа хоёр цэстэй",
+const performanceMenuSlide={title:"Гүйцэтгэлийн цэс",sub:"7 хоног тутмын явц, сарын тайлан, гишүүний урьдчилсан үр дүн нэг дор",
   cards:[
     ["7 хоногийн явц","Та 7 хоног тутам гүйцэтгэлийн явцыг энэ цэсээр орж харна.","green"],
     ["Гол үзүүлэлтүүд","Одоогийн дансны хэмжээ, 7 хоногийн ашиг/алдагдал, ROI, DD, win rate, profit factor харагдана."],
     ["Сарын тайлан","Сарын эхний данс, эцсийн данс, сарын ашиг, сарын өгөөж, trade count, тайлангийн өгүүлбэрүүд харагдана."],
     ["Гүйцэтгэлийн түүх","7 хоног бүрийн ending balance, weekly P/L, DD, тайлангийн холбоос, operator note нэг хүснэгтээр гарна."],
     ["Гишүүний зураглал","Гишүүний суурь боломжит дүн, явцаар шинэчилсэн боломжит дүн, сарын бодит хуваарилалтын тооцоо харагдана.","green"],
-    ["Шууд холбоос","Дээд цэсний “Гишүүний булан” товчоор эсвэл доорх хурдан холбоосоор орно.","amber"]],
-  cta:{label:"Гишүүний булан нээх",to:"perf"},
+    ["Шууд холбоос","Дээд цэсний “Гүйцэтгэл” товчоор эсвэл доорх хурдан холбоосоор орно.","amber"]],
+  cta:{label:"Гүйцэтгэлийн цэс нээх",to:"perf"},
   greenNote:"Энэ хэсэг нь хамтын ажиллагааны явцыг 7 хоног бүр нэг дор харах зориулалттай. Гишүүн бүр дансны өсөлт, уналт, сарын хаалт, тайлангийн холбоосыг нэг цонхноос шалгана."};
 
 const simProofSlide={title:"Simulation account үр дүн",sub:"Энэ аргачлалаар Sim101 дээр хийсэн шалгалтын гол үр дүн",
@@ -2136,7 +2136,7 @@ const SECTIONS={
   about: {name:"Туршлага", slides:aboutSlides},
   method:{name:"Аргачлал", slides:methodSlides},
   calc:  {name:"Тооцоолуур"},
-  perf:  {name:"Гишүүний булан"},
+  perf:  {name:"Гүйцэтгэл"},
   contact:{name:"Холбоо", slides:[contactSlide]}
 };
 

@@ -2211,42 +2211,28 @@ html.poi-embedded #wbg{display:none!important;}
 .pv-gratitude-control{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;margin-top:13px}.pv-gratitude-control input{width:100%;accent-color:#00c897}.pv-gratitude-pct{min-width:56px;text-align:center;padding:8px 10px;border-radius:10px;background:rgba(255,211,122,.1);border:1px solid rgba(255,211,122,.3);color:#ffd37a;font-weight:950}
 .pv-gratitude-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}.pv-gratitude-save{border:1px solid rgba(0,200,151,.5);background:#00c897;color:#031b20;padding:10px 14px;border-radius:10px;font-weight:950;cursor:pointer}.pv-gratitude-save:disabled{opacity:.55;cursor:wait}.pv-gratitude-status{font-size:11px;color:#8fb2c1}.pv-gratitude-status.ok{color:#48e5bc}.pv-gratitude-status.bad{color:#ff8b8b}
 @media(max-width:700px){.pv-breakdown{grid-template-columns:1fr}}
-</style>
 
-<style id="v391625-member-hub-architecture">
-/* V39.16.25 Member Hub architecture: progress and project-close are separate authenticated views. */
-.member-hub-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0 16px;padding:7px;border:1px solid rgba(79,195,247,.18);border-radius:16px;background:rgba(3,16,25,.72);box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
-.member-hub-tab{display:flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:10px 14px;border:1px solid transparent;border-radius:12px;background:transparent;color:#86a9b9;font:950 12px/1.2 Arial,sans-serif;letter-spacing:.025em;cursor:pointer;transition:.18s ease}
-.member-hub-tab:hover{color:#e9ffff;border-color:rgba(79,195,247,.25);background:rgba(79,195,247,.055)}
-.member-hub-tab.is-active{color:#03191d;background:linear-gradient(135deg,#40d7ff,#00c897);box-shadow:0 8px 24px rgba(0,200,151,.18)}
-.member-hub-close-badge{display:inline-flex;align-items:center;justify-content:center;min-width:66px;padding:5px 8px;border-radius:999px;background:rgba(139,178,194,.12);border:1px solid rgba(139,178,194,.22);color:#a6c1cc;font-size:8px;letter-spacing:.08em}
-.member-hub-tab.is-active .member-hub-close-badge{background:rgba(3,25,29,.14);border-color:rgba(3,25,29,.2);color:#073138}
-.member-hub-close-badge.is-live{background:rgba(0,200,151,.14);border-color:rgba(0,200,151,.32);color:#6bffda}
-.member-hub-close-badge.is-done{background:rgba(255,211,122,.14);border-color:rgba(255,211,122,.35);color:#ffd37a}
-.member-hub-tab.is-active .member-hub-close-badge.is-live,.member-hub-tab.is-active .member-hub-close-badge.is-done{background:rgba(3,25,29,.16);border-color:rgba(3,25,29,.22);color:#073138}
-.member-hub-view[hidden]{display:none!important}
-.member-hub-close-view{min-height:360px}
-.member-close-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:2px 0 14px;padding:14px 15px;border:1px solid rgba(255,211,122,.18);border-radius:14px;background:linear-gradient(145deg,rgba(63,43,12,.14),rgba(3,18,28,.72))}
-.member-close-toolbar b{display:block;color:#f5ffff;font-size:14px}.member-close-toolbar span{display:block;color:#86a9ba;font-size:11px;line-height:1.55;margin-top:4px}
-.member-close-refresh{border:1px solid rgba(79,195,247,.35);background:rgba(79,195,247,.08);color:#cbf7ff;border-radius:10px;padding:10px 13px;font-weight:900;cursor:pointer;white-space:nowrap}.member-close-refresh:disabled{opacity:.55;cursor:wait}
-.member-hub-refresh-state{min-height:20px;margin:-5px 0 10px;color:#7fa4b5;font-size:11px}.member-hub-refresh-state.is-loading{color:#4fc3f7}.member-hub-refresh-state.is-ok{color:#48e5bc}.member-hub-refresh-state.is-bad{color:#ff8b8b}
-.member-close-shell{display:block}.member-close-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:18px;margin-bottom:12px;border:1px solid rgba(0,200,151,.34);border-radius:16px;background:linear-gradient(135deg,rgba(0,105,82,.25),rgba(3,20,31,.88));box-shadow:0 18px 44px rgba(0,0,0,.24)}
-.member-close-hero small{display:block;color:#83aabb;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.member-close-hero strong{display:block;margin-top:5px;color:#00e9b0;font-size:clamp(31px,5vw,48px);line-height:1;text-shadow:0 0 20px rgba(0,233,176,.2)}.member-close-hero em{font-style:normal;color:#ffd37a;font-size:12px;font-weight:900}
-.member-close-progress{margin:10px 0 0;color:#9db8c4;font-size:11px;line-height:1.55}
-.member-close-equation{margin-top:14px;padding:13px 14px;border-left:3px solid #00c897;border-radius:0 12px 12px 0;background:rgba(0,200,151,.055);color:#b9d6df;font-size:11.5px;line-height:1.7}
-.member-close-confirm-note{margin-top:12px;padding:11px 13px;border:1px solid rgba(255,211,122,.22);border-radius:12px;background:rgba(255,211,122,.055);color:#d7c9a5;font-size:11px;line-height:1.65}
-body.perf-member-authed.poi-member-close-view .perf-hero,
-body.perf-member-authed.poi-member-close-view #perfLoading,
-body.perf-member-authed.poi-member-close-view #perfCards,
-body.perf-member-authed.poi-member-close-view .perf-charts,
-body.perf-member-authed.poi-member-close-view .perf-left-stack,
-body.perf-member-authed.poi-member-close-view .perf-table-card,
-body.perf-member-authed.poi-member-close-view #sheetThanksCompactMount{display:none!important}
-body.perf-member-authed.poi-member-close-view .perf-lower{display:block!important;margin:0!important}
-body.perf-member-authed.poi-member-close-view .perf-sheet-member{max-width:1040px!important;margin:0 auto!important}
-@media(max-width:700px){.member-hub-nav{grid-template-columns:1fr}.member-close-hero{grid-template-columns:1fr}.member-close-toolbar{align-items:flex-start}.member-close-refresh{width:100%}}
+.member-subtabs{display:flex;gap:10px;margin:4px 0 16px;flex-wrap:wrap}
+.member-subtab{position:relative;flex:1 1 auto;min-width:180px;padding:13px 18px;border-radius:13px;border:1px solid rgba(120,170,190,.28);background:rgba(10,26,36,.6);color:#bcd6e2;font-size:14.5px;font-weight:800;letter-spacing:.01em;cursor:pointer;transition:.18s}
+.member-subtab:hover{border-color:rgba(0,200,151,.5);color:#eafff8}
+.member-subtab.active{background:linear-gradient(135deg,#00c897,#0891b2);border-color:#00c897;color:#04121b;box-shadow:0 8px 24px rgba(0,200,151,.28)}
+.member-subtab-dot{display:inline-block;width:9px;height:9px;margin-left:8px;border-radius:50%;background:#ffd36a;box-shadow:0 0 8px #ffd36a;vertical-align:middle;animation:mtabPulse 1.4s ease-in-out infinite}
+@keyframes mtabPulse{0%,100%{opacity:.55}50%{opacity:1}}
+#sheetCloseMount{display:none}
+#view-performance.mtab-close #sheetProfileGrid,
+#view-performance.mtab-close #sheetCampaignProgress,
+#view-performance.mtab-close #sheetMemberProjection,
+#view-performance.mtab-close #sheetMonthTable,
+#view-performance.mtab-close #sheetMarketBrief,
+#view-performance.mtab-close #sheetPayoutCard,
+#view-performance.mtab-close .perf-charts,
+#view-performance.mtab-close .perf-left-stack,
+#view-performance.mtab-close .perf-table-card,
+#view-performance.mtab-close #sheetThanksCompactMount{display:none!important}
+#view-performance.mtab-close .perf-lower{display:block}
+#view-performance.mtab-close #sheetCloseMount{display:block}
+#view-performance.mtab-progress #sheetCloseMount{display:none}
 </style>
-
 </head>
 <body class="perf-auth-gate">
 <style id="poi-v391613-member-nav">
@@ -2262,7 +2248,7 @@ body.perf-member-authed.poi-member-close-view .perf-sheet-member{max-width:1040p
       <div class="perf-panel">
         <div class="perf-title-row">
           <div>
-            <div class="perf-kicker">POI CAPITAL GROUP · ГИШҮҮНИЙ ХЭСЭГ</div>
+            <div class="perf-kicker">ГИШҮҮНИЙ БУЛАН</div>
             <h2 class="perf-title">Гишүүний булан</h2>
             <p class="perf-sub">Бүртгэлийн сан дээр хадгалсан 7 хоногийн хаалттай үр дүнгээс гүйцэтгэлийн самбар, сарын тайлан, өсөлтийн график, гишүүний урьдчилсан өгөөжийн тооцоог автоматаар уншиж харуулна.</p>
             <div class="perf-actions">
@@ -2333,7 +2319,7 @@ body.perf-member-authed.poi-member-close-view .perf-sheet-member{max-width:1040p
       <div class="perf-sheet-member" id="perfSheetMemberModule">
         <div class="sheet-auth-view" id="sheetAuthView">
           <div class="perf-kicker">ГИШҮҮНИЙ НЭВТРЭХ ХЭСЭГ</div>
-          <div class="perf-section-title sheet-auth-title">Гишүүний буланд нэвтрэх</div>
+          <div class="perf-section-title sheet-auth-title">Гишүүний гүйцэтгэлийн нэвтрэх хэсэг</div>
           <div class="perf-section-sub sheet-auth-copy">
             Тавтай морилно уу. Энэ хэсэгт гишүүн өөрийн оруулсан капитал, эзлэх хувь, хүлээгдэж буй өгөөж, сарын гүйцэтгэл, 7 хоногийн ерөнхий дүр зураг болон хуваарилалтын урьдчилсан тооцоог харах боломжтой. Гишүүний дугаар болон нэвтрэх кодоо оруулаад үр дүнгээ харна уу.
           </div>
@@ -2367,39 +2353,29 @@ body.perf-member-authed.poi-member-close-view .perf-sheet-member{max-width:1040p
         </div>
 
         <div class="sheet-dashboard-view is-hidden" id="sheetDashboardView">
-          <div class="sheet-welcome-card" id="memberHubTopV391625">
+          <div class="sheet-welcome-card">
             <div>
-              <div class="perf-kicker">ГИШҮҮНИЙ БУЛАН</div>
+              <div class="perf-kicker">ГИШҮҮНИЙ САМБАР</div>
               <div class="perf-section-title" id="sheetWelcomeName">Тавтай морил</div>
               <div class="perf-section-sub" id="sheetWelcomeText">Таны мэдээлэл амжилттай татагдлаа.</div>
             </div>
             <div class="sheet-login-status">
               <span class="sheet-badge green" id="sheetDataStatus">Нэвтэрсэн</span>
-              <button class="sheet-mini-btn" id="sheetLogoutBtn" type="button">Гишүүн солих</button>
+              <button class="sheet-mini-btn" id="sheetLogoutBtn" type="button">Солих</button>
             </div>
           </div>
 
-          <nav class="member-hub-nav" role="tablist" aria-label="Гишүүний булангийн дэд цэс">
-            <button class="member-hub-tab is-active" id="memberHubProgressTabV391625" type="button" role="tab" aria-selected="true" aria-controls="memberHubProgressViewV391625" onclick="poiMemberHubSwitchV391625('progress')">Төслийн явц</button>
-            <button class="member-hub-tab" id="memberHubCloseTabV391625" type="button" role="tab" aria-selected="false" aria-controls="memberHubCloseViewV391625" onclick="poiMemberHubSwitchV391625('close')">Төслийн хаалт <span class="member-hub-close-badge" id="memberHubCloseBadgeV391625">ИДЭВХГҮЙ</span></button>
-          </nav>
-          <div class="member-hub-refresh-state" id="memberHubRefreshStateV391625" aria-live="polite"></div>
-
-          <section class="member-hub-view" id="memberHubProgressViewV391625" role="tabpanel" aria-labelledby="memberHubProgressTabV391625">
-            <div class="sheet-profile-grid" id="sheetProfileGrid"></div>
-            <div class="sheet-progress-card member-target" id="sheetCampaignProgress"></div>
-            <div class="sheet-projection" id="sheetMemberProjection"></div>
-            <div class="sheet-month-table" id="sheetMonthTable"></div>
-            <div class="sheet-brief-card" id="sheetMarketBrief"></div>
-          </section>
-
-          <section class="member-hub-view member-hub-close-view" id="memberHubCloseViewV391625" role="tabpanel" aria-labelledby="memberHubCloseTabV391625" hidden>
-            <div class="member-close-toolbar">
-              <div><b>Төслийн хаалтын тусдаа хэсэг</b><span>Энэ цэсийг нээх бүрд LIVE backend-ээс хамгийн шинэ хаалтын төлөвийг дахин уншина.</span></div>
-              <button class="member-close-refresh" id="memberHubCloseRefreshV391625" type="button" onclick="poiMemberHubRefreshV391625('manual-close')">Хаалтын мэдээлэл шинэчлэх</button>
-            </div>
-            <div class="sheet-progress-card" id="sheetPayoutCard" style="display:none"></div>
-          </section>
+          <div class="member-subtabs" id="memberSubtabs" role="tablist">
+            <button class="member-subtab active" id="mtabProgressBtn" type="button" onclick="poiMemberTabV391626('progress')">Төслийн явцын гүйцэтгэл</button>
+            <button class="member-subtab" id="mtabCloseBtn" type="button" onclick="poiMemberTabV391626('close')">Төслийн хаалт<span class="member-subtab-dot" id="mtabCloseDot" hidden></span></button>
+          </div>
+          <div class="sheet-close-mount" id="sheetCloseMount"></div>
+          <div class="sheet-profile-grid" id="sheetProfileGrid"></div>
+          <div class="sheet-progress-card member-target" id="sheetCampaignProgress"></div>
+          <div class="sheet-projection" id="sheetMemberProjection"></div>
+          <div class="sheet-month-table" id="sheetMonthTable"></div>
+          <div class="sheet-brief-card" id="sheetMarketBrief"></div>
+          <div class="sheet-progress-card" id="sheetPayoutCard" style="display:none"></div>
         </div>
       </div>    </div>
 
@@ -3531,130 +3507,110 @@ function renderMemberMemos(data){
     box.hidden=false;
   }catch(e){}
 }
-function poiMemberHubSetRefreshStateV391625(message,state){
-  var el=document.getElementById('memberHubRefreshStateV391625');if(!el)return;
-  el.className='member-hub-refresh-state'+(state?' is-'+state:'');
-  el.textContent=message||'';
-}
-function poiMemberHubUpdateCloseStateV391625(close){
-  var badge=document.getElementById('memberHubCloseBadgeV391625');
-  if(!badge)return;
-  badge.className='member-hub-close-badge';
-  if(close&&close.active){
-    if(close.allConfirmed){badge.textContent='ХААГДСАН';badge.classList.add('is-done');}
-    else if(close.confirmed){badge.textContent='БАТАЛГААЖСАН';badge.classList.add('is-done');}
-    else{badge.textContent='ИДЭВХТЭЙ';badge.classList.add('is-live');}
-  }else badge.textContent='ИДЭВХГҮЙ';
-}
-function poiMemberHubSwitchV391625(view,options){
-  options=options||{};
-  view=view==='close'?'close':'progress';
-  window.__poiMemberHubViewV391625=view;
-  var progress=document.getElementById('memberHubProgressViewV391625');
-  var close=document.getElementById('memberHubCloseViewV391625');
-  var progressTab=document.getElementById('memberHubProgressTabV391625');
-  var closeTab=document.getElementById('memberHubCloseTabV391625');
-  if(progress)progress.hidden=view!=='progress';
-  if(close)close.hidden=view!=='close';
-  if(progressTab){progressTab.classList.toggle('is-active',view==='progress');progressTab.setAttribute('aria-selected',view==='progress'?'true':'false');}
-  if(closeTab){closeTab.classList.toggle('is-active',view==='close');closeTab.setAttribute('aria-selected',view==='close'?'true':'false');}
-  document.body.classList.toggle('poi-member-close-view',view==='close');
-  try{sessionStorage.setItem('poi_member_hub_view_v391625',view);}catch(e){}
-  if(view==='close'&&!options.skipRefresh)poiMemberHubRefreshV391625('close-tab');
-  try{var top=document.getElementById('memberHubTopV391625');if(top&&options.scroll!==false)top.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}
-  return false;
-}
-function poiMemberHubCredentialsV391625(){
-  try{return window.__sheetLastCredentials||(typeof __sheetLastCredentials!=='undefined'?__sheetLastCredentials:null)||null;}catch(e){return window.__sheetLastCredentials||null;}
-}
-function poiMemberHubRefreshV391625(reason,options){
-  options=options||{};
-  var creds=poiMemberHubCredentialsV391625();
-  var button=document.getElementById('memberHubCloseRefreshV391625');
-  if(!creds||!creds.session){poiMemberHubSetRefreshStateV391625('Гишүүний нэвтрэлт хүчингүй байна. Дахин нэвтэрнэ үү.','bad');return Promise.resolve(false);}
-  if(window.__poiMemberHubRefreshPromiseV391625)return window.__poiMemberHubRefreshPromiseV391625;
-  if(button){button.disabled=true;button.textContent='Шинэчилж байна…';}
-  if(!options.quiet)poiMemberHubSetRefreshStateV391625('LIVE backend-ээс хаалтын хамгийн шинэ төлөвийг уншиж байна…','loading');
-  var requestId=sheetMemberRequestId();
-  window.__poiMemberHubRefreshPromiseV391625=sheetPostAndAwaitV391612({action:'member_read_start',member_session:creds.session,request_id:requestId}).then(function(data){
-    if(!data||!data.ok)throw new Error(data&&data.error?data.error:'snapshot_failed');
-    __perfDataCache=data;
-    if(data.member&&data.campaign){window.__sheetLiveMember=data.member;window.__sheetLiveCampaign=data.campaign;}
-    perfWriteLocalCache(data);
-    window.__poiMemberHubLastRefreshV391625=Date.now();
-    renderPerformanceDashboard(data);
-    poiMemberHubSetRefreshStateV391625('LIVE мэдээлэл шинэчлэгдлээ.','ok');
-    return true;
-  }).catch(function(err){
-    poiMemberHubSetRefreshStateV391625('Хаалтын мэдээлэл шинэчилж чадсангүй: '+String(err&&err.message?err.message:err||'unknown_error'),'bad');
-    return false;
-  }).then(function(ok){
-    window.__poiMemberHubRefreshPromiseV391625=null;
-    if(button){button.disabled=false;button.textContent='Хаалтын мэдээлэл шинэчлэх';}
-    return ok;
-  });
-  return window.__poiMemberHubRefreshPromiseV391625;
-}
-function poiMemberHubRefreshOnReturnV391625(reason){
-  var creds=poiMemberHubCredentialsV391625();if(!creds||!creds.session)return;
-  var last=Number(window.__poiMemberHubLastRefreshV391625||0);
-  if(Date.now()-last<15000)return;
-  poiMemberHubRefreshV391625(reason,{quiet:true});
-}
 function renderSheetPayout(resp,ctx){
   try{
     var card=document.getElementById('sheetPayoutCard');if(!card)return;
-    var close=ctx&&ctx.projectClose?ctx.projectClose:null;
-    var h='<div class="member-close-shell">';
-    if(typeof poiMemberHubUpdateCloseStateV391625==='function')poiMemberHubUpdateCloseStateV391625(close);
-    if(close&&close.active){
-      var gp=Math.max(5,Math.min(15,Number(close.gratitudePct)||5));
-      var originalCap=Math.max(0,Math.round(Number(close.originalCapital!=null?close.originalCapital:(ctx&&ctx.memberCap))||0));
-      var monthlyGross=Math.round(Number(close.monthlyGross)||0);
-      var closeTotal=Math.round(Number(close.closeTotal)||0);
-      var closeChange=closeTotal-originalCap;
-      var taxableProfit=Math.max(0,Math.round(Number(close.taxableProfit)||0));
-      var taxReserve=Math.max(0,Math.round(Number(close.taxReserve)||0));
-      var currentGratitude=Math.max(0,Math.round(Number(close.gratitudeAmount)||0));
-      var afterTaxTotal=Math.max(0,Math.round(Number(close.afterTaxTotal!=null?close.afterTaxTotal:(Number(close.lifetimeFinalTotal||0)+currentGratitude))||0));
-      var lifetimeNet=Math.max(0,Math.round(Number(close.lifetimeFinalTotal)||0));
-      var earlyPaid=Math.max(0,Math.round(Number(close.earlyPaid)||0));
-      var currentFinal=Math.max(0,Math.round(Number(close.finalTotal)||0));
-      var grossBeforeDeductions=Math.max(0,Math.round(originalCap+monthlyGross+closeChange));
-      var finalRoi=originalCap>0?((lifetimeNet-originalCap)/originalCap*100):0;
-      var closeConfirmed=!!close.confirmed;
-      var allConfirmed=!!close.allConfirmed;
-      var count=Math.max(0,Math.round(Number(close.confirmationCount)||0));
-      var required=Math.max(0,Math.round(Number(close.requiredConfirmationCount)||0));
-      var title=allConfirmed?'Төсөл бүрэн хаагдлаа':(closeConfirmed?'Таны хаалтын сонголт баталгаажсан':'Төслийн хаалтын тооцоо · Баталгаажуулалт хүлээж байна');
-      var subtitle=allConfirmed?'Бүх гишүүний сонголт баталгаажиж, төслийн хаалтын процесс дууссан.':(closeConfirmed?'Таны хувь түгжигдсэн. Бусад гишүүний баталгаажуулалт хүлээгдэж байна.':'Доорх 5–15%-ийн талархлын хувийг сонгоод эцсийн дүнгээ баталгаажуулна уу.');
-      h+='<div class="pv-close-card"><div class="pv-close-title">'+title+'</div><div class="member-close-hero"><div><small>ТӨСЛИЙН ЭЦЭСТ ОДОО ШИЛЖҮҮЛЭН ОЛГОХ</small><strong>'+perfCurrency(currentFinal)+'</strong><div class="member-close-progress">'+subtitle+(required?(' · Баталгаажуулалт '+count+'/'+required):'')+'</div></div><em>'+(finalRoi>=0?'+':'')+finalRoi.toFixed(1)+'% нийт цэвэр өгөөж</em></div>';
+    var C=function(x){return '<span class="pv-c">'+x+'</span>';};
+    var G=function(x){return '<span class="pv-g">'+x+'</span>';};
+    var E=function(x){return '<span class="pv-e">'+x+'</span>';};
+    var h='<div class="pv-title">Таны 12 сарын үр дүнгийн зураглал</div>';
+    if(ctx&&ctx.memberCap>0&&ctx.total>0){
+      var roiTxt=(ctx.roi>=0?'+':'')+(ctx.roi*100).toFixed(1)+'%';
+      h+='<div class="pv-hero"><span class="pv-big">'+perfCurrency(ctx.total)+'</span><span class="pv-roi">'+roiTxt+'</span><span class="pv-cap">одоогийн бодит явц болон үлдсэн хугацааны төсөөллөөр</span></div>';
       h+='<div class="pv-breakdown">';
-      h+='<div class="pv-item cyan"><span>Анхны хөрөнгө</span><b>'+perfCurrency(originalCap)+'</b></div>';
-      h+='<div class="pv-item green"><span>+ Сарын хуримтлагдсан ашиг</span><b>+'+perfCurrency(monthlyGross)+'</b></div>';
-      h+='<div class="pv-item '+(closeChange>=0?'green':'deduct')+'"><span>'+(closeChange>=0?'+ Данс хаах үеийн ашиг':'− Данс хаах үеийн алдагдал · Төслийн төгсгөлийн алдагдал')+'</span><b>'+(closeChange>=0?'+':'−')+perfCurrency(Math.abs(closeChange))+'</b></div>';
-      h+='<div class="pv-item teal"><span>= Суутгалын өмнөх нийт эрх</span><b>'+perfCurrency(grossBeforeDeductions)+'</b></div>';
-      h+='<div class="pv-item cyan"><span>Татвар ногдох нийт ашиг</span><b>'+perfCurrency(taxableProfit)+'</b></div>';
-      h+='<div class="pv-item deduct"><span>− 60/40 түр татвар · 17.8%</span><b>−'+perfCurrency(taxReserve)+'</b></div>';
-      h+='<div class="pv-item teal"><span>= Татварын дараах нийт дүн</span><b>'+perfCurrency(afterTaxTotal)+'</b></div>';
-      h+='<div class="pv-item deduct"><span>− PCG талархал · '+gp+'%</span><b>−'+perfCurrency(currentGratitude)+'</b></div>';
-      h+='<div class="pv-item teal"><span>= Төслийн нийт цэвэр эрх</span><b>'+perfCurrency(lifetimeNet)+'</b></div>';
-      h+='<div class="pv-item deduct"><span>− Өмнө олгосон ашиг</span><b>−'+perfCurrency(earlyPaid)+'</b></div>';
-      h+='<div class="pv-item green"><span>= Одоо авах эцсийн дүн</span><b>'+perfCurrency(currentFinal)+'</b></div>';
+      h+='<div class="pv-item cyan"><span>Анхны хөрөнгө</span><b>'+perfCurrency(ctx.memberCap)+'</b></div>';
+      h+='<div class="pv-item gold"><span>Төслийн нийт хөрөнгөд эзлэх хувь</span><b>'+perfPctPlain(ctx.share)+'</b></div>';
+      h+='<div class="pv-item green"><span>Одоогоор олгоогүй сарын ноогдол</span><b>'+perfCurrency(ctx.accrued)+'</b></div>';
+      if((ctx.earlyPaid||0)>0)h+='<div class="pv-item cyan"><span>Урьдчилж олгосон ашиг</span><b>'+perfCurrency(ctx.earlyPaid)+'</b></div>';
+      h+='<div class="pv-item green"><span>Үлдсэн хугацааны сарын ноогдлын төсөөлөл</span><b>'+perfCurrency(ctx.futureMonthly)+'</b></div>';
+      h+='<div class="pv-item gold"><span>Төслийн хаалтын урьдчилсан дүн</span><b>'+perfCurrency(ctx.closePart)+'</b></div>';
+      h+='<div class="pv-item teal"><span>Татвар ба талархлын тооцоо</span><b>Хаалтын үед</b></div>';
       h+='</div>';
-      h+='<div class="pv-gratitude-box" id="pvGratitudeBoxV391617" data-base="'+afterTaxTotal+'" data-current="'+currentGratitude+'" data-final="'+currentFinal+'">';
-      h+='<div class="pv-gratitude-head"><div><b>PCG-д өгөх талархлын хувь</b><span>Default 5%. Та 5–15%-иас сонгоно. Талархлыг татварын дараах нийт дүнгээс нэг удаа тооцно.</span></div><strong class="pv-gratitude-amount" id="pvGratitudeAmountV391617">−'+perfCurrency(currentGratitude)+'</strong></div>';
-      h+='<div class="pv-gratitude-control"><input id="pvGratitudeSliderV391617" type="range" min="5" max="15" step="1" value="'+gp+'" oninput="poiCloseGratitudePreviewV391617(this)" '+(closeConfirmed?'disabled':'')+'><span class="pv-gratitude-pct" id="pvGratitudePctV391617">'+gp+'%</span></div>';
-      h+='<div class="pv-gratitude-actions"><button class="pv-gratitude-save" type="button" onclick="poiCloseGratitudeSaveV391617(this)" '+(closeConfirmed?'disabled':'')+'>'+(closeConfirmed?'Баталгаажсан':'Сонголтоо баталгаажуулах')+'</button><span class="pv-gratitude-status '+(closeConfirmed?'ok':'')+'" id="pvGratitudeStatusV391617">'+(closeConfirmed?('Баталгаажсан сонголт: '+gp+'%. Таны авах эцсийн дүн: '):('Сонгосон хувь: '+gp+'%. Баталгаажуулбал авах дүн: '))+'<b id="pvGratitudeFinalV391617">'+perfCurrency(currentFinal)+'</b></span></div></div>';
-      h+='<div class="member-close-equation">'+perfCurrency(originalCap)+' анхны хөрөнгө + '+perfCurrency(monthlyGross)+' сарын ашиг '+(closeChange>=0?'+ ':'− ')+perfCurrency(Math.abs(closeChange))+' данс хаах үеийн өөрчлөлт − '+perfCurrency(taxReserve)+' татвар − '+perfCurrency(currentGratitude)+' талархал − '+perfCurrency(earlyPaid)+' өмнө олгосон = <b>'+perfCurrency(currentFinal)+'</b> одоо авах эцсийн дүн.</div>';
-      h+='<div class="member-close-confirm-note">Анхны хөрөнгөд татвар бодохгүй. Татварыг зөвхөн нийт ашгийн хэсэгт нэг удаа тооцно. Талархлыг татварын дараах бүх дүнгээс тооцно. “Сонголтоо баталгаажуулах” дарсны дараа таны хувь түгжигдэнэ; бүх гишүүн баталгаажмагц төсөл бүрэн хаагдана.</div></div>';
+      h+='<div class="pv-formula">Урьдчилсан нийт дүн = хуримтлагдсан сарын нийт ноогдол (өмнө олгосон дүнг багтаана) + үлдсэн хугацааны сарын ноогдлын төсөөлөл + төслийн хаалтын урьдчилсан дүн.</div>';
+      var monthlyPhrase=ctx.type==='equal'?'сарын ноогдлын санг PCG болон гишүүдэд тэнцүү хуваарилсан таны хэсэг':'гишүүдэд зориулан хуваарилсан сангийн таны хөрөнгийн жинд ногдох хэсэг';
+      h+='<div class="pv-story">';
+      h+='<p class="pv-p">Таны оруулсан '+C(perfCurrency(ctx.memberCap))+' нь төслийн нийт гишүүдийн хөрөнгийн '+G(perfPctPlain(ctx.share))+'-ийг бүрдүүлж байна.</p>';
+      h+='<p class="pv-p">Таны өгөөж хоёр үндсэн хэсгээс бүрдэнэ. Сар бүрийн цэвэр ашгаас '+monthlyPhrase+' одоогоор нийт '+E(perfCurrency(ctx.accruedGross==null?ctx.accrued:ctx.accruedGross))+' болж бүртгэгдсэн'+((ctx.earlyPaid||0)>0?(', үүнээс '+E(perfCurrency(ctx.earlyPaid))+'-ыг хугацаанаас өмнө олгосон'):'')+'. Үлдсэн хугацаанд одоогийн төлөвлөгөө үргэлжилбэл сарын ноогдлын нэмэлт төсөөлөл '+E(perfCurrency(ctx.futureMonthly))+' байна.</p>';
+      h+='<p class="pv-p">Төслийн эцсийн хаалтаар идэвхтэй хөрөнгө болон хамгаалалтын нөөцөөс бүрдэх хаалтын санг сонгосон хуваарилалтын дүрмээр тооцно. Анхны хөрөнгийн буцаалт болон хаалтын ашгийн ноогдлыг нэгтгэсэн таны урьдчилсан хаалтын дүн '+G(perfCurrency(ctx.closePart))+' байна.</p>';
+      h+='<p class="pv-p">Хуримтлагдсан сарын нийт ноогдол, үлдсэн хугацааны төсөөлөл болон төслийн хаалтын дүнг нэгтгэснээр таны төслийн нийт урьдчилсан дүн '+E(perfCurrency(ctx.total))+', анхны хөрөнгөтэй харьцуулсан өсөлт '+E(roiTxt)+' болж байна. Урьдчилж олгосон ашиг энэ нийт дүнд багтсан.</p>';
+      h+='<p class="pv-p">Төслийн зураглал нь сарын '+C(perfPctPlain(ctx.r))+'-ийн зорилтот өгөөжид суурилна. Бодит үр дүн зах зээлийн хөдөлгөөн болон арилжааны гүйцэтгэлээс хамааран 7 хоног бүр шинэчлэгдэнэ.</p>';
+      h+='<p class="pv-p">Зорилтот ашиг болон хамгаалалтын нөөц шаардлагатай түвшинд хүрсэн үед PCG тухайн үеийн дансны нөхцөлд үндэслэн ашгийн тодорхой хэсгийг хугацаанаас өмнө хуваарилах боломжтой.</p>';
+      h+='</div>';
+      h+='<div class="pv-pending-note">60/40 түр татвар болон PCG-д өгөх талархлын дүн энэ зураглалын өгөөжөөс хасагдаагүй. Эдгээр тооцоо зөвхөн төслийн хаалтын үед идэвхжинэ.</div>';
+      h+='<p class="pv-foot">Шинэ мэдээлэл гишүүн нэвтрэхэд эсвэл “Мэдээлэл шинэчлэх” товчийг дарахад уншигдана.</p>';
+      var close=ctx.projectClose;
+      var closeHtml='';
+      if(close&&close.active){
+        var gp=Math.max(5,Math.min(15,Number(close.gratitudePct)||5));
+        var originalCap=Math.max(0,Math.round(Number(close.originalCapital!=null?close.originalCapital:ctx.memberCap)||0));
+        var closeChange=Math.round(Number(close.closeTotal)||0)-originalCap;
+        var closeChangeText=(closeChange>=0?' + ':' − ')+perfCurrency(Math.abs(closeChange));
+        var lifetimeNet=Math.max(0,Math.round(Number(close.lifetimeFinalTotal)||0));
+        var finalRoi=originalCap>0?((lifetimeNet-originalCap)/originalCap*100):0;
+        var grossBeforeDeductions=Math.max(0,Math.round(originalCap+Number(close.monthlyGross||0)+closeChange));
+        var closeConfirmed=!!close.confirmed;
+        closeHtml+='<div class="pv-close-card"><div class="pv-close-title">'+(closeConfirmed?'Төсөл дууслаа · Таны эцсийн тооцоо баталгаажсан':'Төслийн хаалтын тооцоо · Баталгаажуулалт хүлээж байна')+'</div><div class="pv-breakdown">';
+        closeHtml+='<div class="pv-item cyan"><span>Анхны хөрөнгө</span><b>'+perfCurrency(originalCap)+'</b></div>';
+        closeHtml+='<div class="pv-item green"><span>+ Сарын нийт ашиг</span><b>'+perfCurrency(close.monthlyGross)+'</b></div>';
+        closeHtml+='<div class="pv-item '+(closeChange>=0?'green':'deduct')+'"><span>'+(closeChange>=0?'+ Төслийн төгсгөлийн ашиг':'− Төслийн төгсгөлийн алдагдал')+'</span><b>'+(closeChange>=0?'+':'−')+perfCurrency(Math.abs(closeChange))+'</b></div>';
+        closeHtml+='<div class="pv-item teal"><span>= Суутгалын өмнөх нийт</span><b>'+perfCurrency(grossBeforeDeductions)+'</b></div>';
+        closeHtml+='<div class="pv-item cyan"><span>Татвар ногдох нийт ашиг</span><b>'+perfCurrency(close.taxableProfit)+'</b></div>';
+        closeHtml+='<div class="pv-item deduct"><span>− 60/40 түр татвар · 17.8%</span><b>−'+perfCurrency(close.taxReserve)+'</b></div>';
+        closeHtml+='<div class="pv-item deduct"><span>− PCG талархал · '+gp+'%</span><b>−'+perfCurrency(close.gratitudeAmount)+'</b></div>';
+        if(close.lifetimeFinalTotal!=null)h+='<div class="pv-item teal"><span>Төслийн нийт цэвэр эрх</span><b>'+perfCurrency(close.lifetimeFinalTotal)+'</b></div>';
+        closeHtml+='<div class="pv-item gold"><span>Нийт цэвэр өгөөж</span><b>'+(finalRoi>=0?'+':'')+finalRoi.toFixed(1)+'%</b></div>';
+        closeHtml+='<div class="pv-item deduct"><span>− Өмнө олгосон ашиг</span><b>−'+perfCurrency(close.earlyPaid||0)+'</b></div>';
+        closeHtml+='<div class="pv-item green"><span>= Одоо шилжүүлэн олгох</span><b>'+perfCurrency(close.finalTotal)+'</b></div>';
+        closeHtml+='</div>';
+        var currentGratitude=Math.max(0,Math.round(Number(close.gratitudeAmount)||0));
+        /* Tax is already deducted by the authoritative close calculation.  The
+           member chooses gratitude from the after-tax amount, so use the
+           backend's final-before-gratitude amount instead of reversing a
+           rounded percentage. */
+        var gratitudeBase=Math.max(0,(Math.round(Number(close.lifetimeFinalTotal)||0)+currentGratitude));
+        var currentFinal=Math.max(0,Math.round(Number(close.finalTotal)||0));
+        closeHtml+='<div class="pv-gratitude-box" id="pvGratitudeBoxV391617" data-base="'+gratitudeBase+'" data-current="'+currentGratitude+'" data-final="'+currentFinal+'">';
+        closeHtml+='<div class="pv-gratitude-head"><div><b>PCG-д өгөх талархлын хувь</b><span>5–15%-иас сонгоно. Татварын дараах нийт эрхээс эцсийн олголтын яг өмнө нэг удаа тооцно.</span></div><strong class="pv-gratitude-amount" id="pvGratitudeAmountV391617">−'+perfCurrency(currentGratitude)+'</strong></div>';
+        closeHtml+='<div class="pv-gratitude-control"><input id="pvGratitudeSliderV391617" type="range" min="5" max="15" step="1" value="'+gp+'" oninput="poiCloseGratitudePreviewV391617(this)" '+(closeConfirmed?'disabled':'')+'><span class="pv-gratitude-pct" id="pvGratitudePctV391617">'+gp+'%</span></div>';
+        closeHtml+='<div class="pv-gratitude-actions"><button class="pv-gratitude-save" type="button" onclick="poiCloseGratitudeSaveV391617(this)" '+(closeConfirmed?'disabled':'')+'>'+(closeConfirmed?'Баталгаажсан':'Сонголтоо баталгаажуулах')+'</button><span class="pv-gratitude-status '+(closeConfirmed?'ok':'')+'" id="pvGratitudeStatusV391617">'+(closeConfirmed?('Баталгаажсан сонголт: '+gp+'%. Таны авах эцсийн дүн: '):('Сонгосон хувь: '+gp+'%. Баталгаажуулбал авах дүн: '))+'<b id="pvGratitudeFinalV391617">'+perfCurrency(currentFinal)+'</b></span></div></div>';
+        closeHtml+='<div class="pv-near-close-formula">'+perfCurrency(originalCap)+' анхны хөрөнгө + '+perfCurrency(close.monthlyGross)+' сарын ашиг'+closeChangeText+' төгсгөлийн өөрчлөлт − '+perfCurrency(close.taxReserve)+' татвар − '+perfCurrency(close.gratitudeAmount)+' талархал − '+perfCurrency(close.earlyPaid||0)+' өмнө олгосон = <b>'+perfCurrency(close.finalTotal)+'</b> одоо шилжүүлэн олгоно. Төслийн нийт цэвэр өгөөж: <b>'+(finalRoi>=0?'+':'')+finalRoi.toFixed(1)+'%</b>.</div><div class="pv-close-note">Анхны хөрөнгөд татвар бодоогүй. Эхлээд бүх ашгийг нэгтгэж, дараа нь 60/40 түр татварыг нийт татвар ногдох ашгаас нэг удаа бүхэлчилсэн. Түүний дараа, эцсийн олголтын яг өмнө талархлын нийлбэрийг нэг удаа бүхэлчилж хуваарилсан. Урьдчилж олгосон бүтэн ашгийг хамгийн сүүлд хаалтын үлдэгдлээс хассан.</div></div>';
+      }else{
+        closeHtml+='<div class="pv-close-card is-inactive"><div class="pv-close-title">Төслийн эцсийн хаалт</div><div class="pv-close-lock"><div class="pv-close-lock-badge">ИДЭВХГҮЙ</div><div><b>Эцсийн тооцоо хараахан нээгдээгүй байна</b><span>Админ “Төслийн хаалтыг идэвхжүүлэх” товчийг дарахад төслийн хугацаанаас үл хамааран энд хаалтын тооцоо болон PCG-д өгөх 5–15%-ийн талархлын сонголт шууд нээгдэнэ.</span></div></div></div>';
+      }
     }else{
-      h+='<div class="pv-close-card is-inactive"><div class="pv-close-title">Төслийн хаалт</div><div class="pv-close-lock"><div class="pv-close-lock-badge">ИДЭВХГҮЙ</div><div><b>Хаалтын тооцоо хараахан нээгдээгүй байна</b><span>Админ “Төслийн хаалтыг идэвхжүүлэх” товчийг дарах үед хугацаанаас үл хамааран энэ хэсэг LIVE backend-ээс дахин уншигдаж, эцсийн USD тооцоо болон 5–15%-ийн талархлын сонголт нээгдэнэ.</span></div></div></div>';
+      h+='<p class="pv-p">Хувийн тооцоолол шинэчлэгдмэгц энд таны анхны хөрөнгө, сарын бүтэн ноогдол болон төслийн хаалтын урьдчилсан дүн нэг дор харагдана.</p>';
     }
-    h+='</div>';
     card.innerHTML=h;card.style.display='';
-  }catch(e){console.warn('member close render failed',e);}
+    try{
+      var mount=document.getElementById('sheetCloseMount');
+      if(mount){ mount.innerHTML=closeHtml||''; }
+      var dot=document.getElementById('mtabCloseDot');
+      var isActive=!!(ctx&&ctx.projectClose&&ctx.projectClose.active);
+      if(dot){ dot.hidden=!isActive; }
+      /* Хаалт идэвхжсэн бол "Төслийн хаалт" таб дээр анхаарал татах цэг гарна. */
+      if(isActive && !window.__poiMemberTabTouchedV391626){ /* автоматаар шилжүүлэхгүй, зөвхөн цэгээр тэмдэглэнэ */ }
+    }catch(_e){}
+  }catch(e){}
 }
+
+window.poiMemberTabV391626=function(which){
+  try{
+    window.__poiMemberTabTouchedV391626=true;
+    var root=document.getElementById('view-performance');
+    var pBtn=document.getElementById('mtabProgressBtn');
+    var cBtn=document.getElementById('mtabCloseBtn');
+    if(!root)return;
+    if(which==='close'){
+      root.classList.add('mtab-close');root.classList.remove('mtab-progress');
+      if(pBtn)pBtn.classList.remove('active');if(cBtn)cBtn.classList.add('active');
+      var m=document.getElementById('sheetCloseMount');if(m){try{m.scrollIntoView({behavior:'smooth',block:'start'});}catch(_e){}}
+    }else{
+      root.classList.add('mtab-progress');root.classList.remove('mtab-close');
+      if(cBtn)cBtn.classList.remove('active');if(pBtn)pBtn.classList.add('active');
+    }
+  }catch(_e){}
+};
+
 window.poiCloseGratitudePreviewV391617=function(input){
   try{
     var box=document.getElementById('pvGratitudeBoxV391617');if(!box)return;
@@ -3732,20 +3688,15 @@ function renderSheetMemberModule(data){
     if(status)status.textContent='Нэвтрэх шаардлагатай';
     document.body.classList.add('perf-auth-gate');
     document.body.classList.remove('perf-member-authed');
-    document.body.classList.remove('poi-member-close-view');
-    window.__poiMemberHubViewV391625='progress';
-    try{sessionStorage.removeItem('poi_member_hub_view_v391625');}catch(e){}
     var lower=document.querySelector('.perf-lower');
     if(lower && box && box.parentNode!==lower){ lower.appendChild(box); }
   }
   function showDashboard(){
     if(authView)authView.classList.add('is-hidden');
     if(dashView)dashView.classList.remove('is-hidden');
+    try{var vp=document.getElementById('view-performance');if(vp&&!vp.classList.contains('mtab-close'))vp.classList.add('mtab-progress');}catch(_e){}
     document.body.classList.remove('perf-auth-gate');
     document.body.classList.add('perf-member-authed');
-    var savedHubView='progress';
-    try{savedHubView=sessionStorage.getItem('poi_member_hub_view_v391625')||window.__poiMemberHubViewV391625||'progress';}catch(e){savedHubView=window.__poiMemberHubViewV391625||'progress';}
-    setTimeout(function(){try{poiMemberHubSwitchV391625(savedHubView,{skipRefresh:true,scroll:false});}catch(e){}},0);
     var wrap=document.querySelector('.perf-wrap');
     var cards=document.getElementById('perfCards');
     if(wrap && box && box.parentNode!==wrap){ wrap.insertBefore(box,cards||wrap.firstChild); }
@@ -3867,7 +3818,6 @@ function renderSheetMemberModule(data){
       if(!auth||!auth.ok||!auth.member_session)throw new Error(auth&&auth.error?auth.error:'member_auth_failed');
       var session=auth.member_session;
       window.__sheetLastCredentials=__sheetLastCredentials={memberNo:no,session:session};
-      window.__poiMemberHubViewV391625='progress';try{sessionStorage.setItem('poi_member_hub_view_v391625','progress');}catch(e){}
       if(auth.snapshot&&auth.snapshot.ok)return auth.snapshot;
       if(status)status.textContent='Мэдээлэл татаж байна...';
       var readRequestId=sheetMemberRequestId();
@@ -3933,8 +3883,6 @@ function renderHistory(rows){
   };
 })();
 
-window.addEventListener('focus',function(){poiMemberHubRefreshOnReturnV391625('window-focus');},{passive:true});
-document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')poiMemberHubRefreshOnReturnV391625('tab-visible');},{passive:true});
 window.addEventListener('DOMContentLoaded',function(){
   try{ window.__perfReady=true; loadPerformanceDashboard(false); }catch(e){ console.warn(e); }
 });
@@ -4355,5 +4303,6 @@ window.addEventListener('DOMContentLoaded',function(){
   }
 </script>
 
+<script>document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){if(document.getElementById('poiVerBadgeV391626pub'))return;var b=document.createElement('div');b.id='poiVerBadgeV391626pub';b.textContent='V39.16.26';b.style.cssText='position:fixed;left:10px;bottom:10px;z-index:2147483000;padding:4px 9px;border-radius:8px;background:rgba(3,42,44,.9);border:1px solid rgba(34,230,183,.5);color:#7fe9d0;font:600 11px system-ui;pointer-events:none';document.body.appendChild(b);},140);});</script>
 </body>
 </html>
