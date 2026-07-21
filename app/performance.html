@@ -4,6 +4,7 @@
 <meta name="color-scheme" content="dark">
 <script>(function(){try{if(window.self!==window.top)document.documentElement.className+=' poi-embedded';}catch(e){document.documentElement.className+=' poi-embedded';}})();</script>
 <meta charset="UTF-8">
+<meta name="poi-release" content="V39.16.19">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>POI Capital Group · Гүйцэтгэл ба гишүүний самбар</title>
 <meta name="description" content="POI Capital Group-ийн гишүүний гүйцэтгэлийн самбар: хөрөнгө, эзлэх хувь, хуримтлагдсан үр дүн, өгөөж болон төслийн явц.">
@@ -2204,6 +2205,7 @@ html.poi-embedded #wbg{display:none!important;}
 .pv-close-card{margin-top:16px;padding:15px;border:1px solid rgba(255,211,122,.32);background:linear-gradient(145deg,rgba(63,43,12,.22),rgba(5,20,31,.78));border-radius:15px;box-shadow:0 14px 38px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.04)}
 .pv-close-title{font-size:12px;font-weight:900;color:#ffd37a;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
 .pv-close-note{font-size:11.5px;color:#b9cfdb;line-height:1.65;margin-top:10px}
+.pv-close-card.is-inactive{border-color:rgba(139,178,194,.24);background:linear-gradient(145deg,rgba(20,42,54,.48),rgba(5,17,27,.82))}.pv-close-card.is-inactive .pv-close-title{color:#9bb8c5}.pv-close-lock{display:flex;gap:12px;align-items:center;padding:13px;border:1px dashed rgba(139,178,194,.25);border-radius:12px;background:rgba(255,255,255,.025)}.pv-close-lock-badge{flex:0 0 auto;padding:7px 10px;border-radius:999px;background:rgba(139,178,194,.1);color:#a9c4cf;font-size:10px;font-weight:950;letter-spacing:.08em}.pv-close-lock b{display:block;color:#d9edf3;font-size:14px}.pv-close-lock span{display:block;color:#87a6b4;font-size:11px;line-height:1.55;margin-top:3px}
 .pv-gratitude-box{margin:14px 0 2px;padding:15px;border:1px solid rgba(0,200,151,.34);border-radius:14px;background:linear-gradient(145deg,rgba(0,96,76,.18),rgba(3,20,31,.78))}
 .pv-gratitude-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.pv-gratitude-head b{display:block;color:#eafff9;font-size:15px}.pv-gratitude-head span{display:block;color:#8cb2c2;font-size:11px;line-height:1.5;margin-top:4px}.pv-gratitude-amount{color:#ffd37a!important;font-size:22px!important;white-space:nowrap}
 .pv-gratitude-control{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;margin-top:13px}.pv-gratitude-control input{width:100%;accent-color:#00c897}.pv-gratitude-pct{min-width:56px;text-align:center;padding:8px 10px;border-radius:10px;background:rgba(255,211,122,.1);border:1px solid rgba(255,211,122,.3);color:#ffd37a;font-weight:950}
@@ -2344,10 +2346,10 @@ html.poi-embedded #wbg{display:none!important;}
 
           <div class="sheet-profile-grid" id="sheetProfileGrid"></div>
           <div class="sheet-progress-card member-target" id="sheetCampaignProgress"></div>
-          <div class="sheet-progress-card" id="sheetPayoutCard" style="display:none"></div>
           <div class="sheet-projection" id="sheetMemberProjection"></div>
           <div class="sheet-month-table" id="sheetMonthTable"></div>
           <div class="sheet-brief-card" id="sheetMarketBrief"></div>
+          <div class="sheet-progress-card" id="sheetPayoutCard" style="display:none"></div>
         </div>
       </div>    </div>
 
@@ -2407,7 +2409,7 @@ function sheetAwaitMemberResult(requestId){
   /* Apps Script writes, validation and the safety backup may take longer than
      a lightweight login. Keep polling the same request id so the backend can
      finish exactly once instead of making the member press Save again. */
-  var tries=0,maxTries=40,intervalMs=500;
+  var tries=0,maxTries=120,intervalMs=500;
   return new Promise(function(resolve,reject){
     function tick(){
       tries++;
@@ -3514,13 +3516,14 @@ function renderSheetPayout(resp,ctx){
       if(close&&close.active){
         var gp=Math.max(5,Math.min(15,Number(close.gratitudePct)||5));
         var originalCap=Math.max(0,Math.round(Number(close.originalCapital!=null?close.originalCapital:ctx.memberCap)||0));
-        var closeProfit=Math.max(0,Math.round((close.closeTotal||0)-originalCap));
+        var closeChange=Math.round(Number(close.closeTotal)||0)-originalCap;
+        var closeChangeText=(closeChange>=0?' + ':' − ')+perfCurrency(Math.abs(closeChange));
         var lifetimeNet=Math.max(0,Math.round(Number(close.lifetimeFinalTotal)||0));
         var finalRoi=originalCap>0?((lifetimeNet-originalCap)/originalCap*100):0;
-        h+='<div class="pv-close-card"><div class="pv-close-title">Таны төслийн эцсийн тооцоо</div><div class="pv-breakdown">';
+        h+='<div class="pv-close-card"><div class="pv-close-title">Төсөл дууслаа · Таны эцсийн тооцоо</div><div class="pv-breakdown">';
         h+='<div class="pv-item cyan"><span>Анхны хөрөнгө</span><b>'+perfCurrency(originalCap)+'</b></div>';
         h+='<div class="pv-item green"><span>+ Сарын нийт ашиг</span><b>'+perfCurrency(close.monthlyGross)+'</b></div>';
-        h+='<div class="pv-item green"><span>+ Төслийн төгсгөлийн ашиг</span><b>'+perfCurrency(closeProfit)+'</b></div>';
+        h+='<div class="pv-item '+(closeChange>=0?'green':'deduct')+'"><span>'+(closeChange>=0?'+ Төслийн төгсгөлийн ашиг':'− Төслийн төгсгөлийн алдагдал')+'</span><b>'+(closeChange>=0?'+':'−')+perfCurrency(Math.abs(closeChange))+'</b></div>';
         h+='<div class="pv-item cyan"><span>Татвар ногдох нийт ашиг</span><b>'+perfCurrency(close.taxableProfit)+'</b></div>';
         h+='<div class="pv-item deduct"><span>− 60/40 түр татвар · 17.8%</span><b>−'+perfCurrency(close.taxReserve)+'</b></div>';
         h+='<div class="pv-item deduct"><span>− PCG талархал · '+gp+'%</span><b>−'+perfCurrency(close.gratitudeAmount)+'</b></div>';
@@ -3540,32 +3543,13 @@ function renderSheetPayout(resp,ctx){
         h+='<div class="pv-gratitude-head"><div><b>PCG-д өгөх талархлын хувь</b><span>5–15%-иас сонгоно. Татварын дараах нийт эрхээс эцсийн олголтын яг өмнө нэг удаа тооцно.</span></div><strong class="pv-gratitude-amount" id="pvGratitudeAmountV391617">−'+perfCurrency(currentGratitude)+'</strong></div>';
         h+='<div class="pv-gratitude-control"><input id="pvGratitudeSliderV391617" type="range" min="5" max="15" step="1" value="'+gp+'" oninput="poiCloseGratitudePreviewV391617(this)"><span class="pv-gratitude-pct" id="pvGratitudePctV391617">'+gp+'%</span></div>';
         h+='<div class="pv-gratitude-actions"><button class="pv-gratitude-save" type="button" onclick="poiCloseGratitudeSaveV391617(this)">Сонголтоо баталгаажуулах</button><span class="pv-gratitude-status" id="pvGratitudeStatusV391617">Одоогийн баталгаатай сонголт: '+gp+'%. Одоо авах дүн: <b id="pvGratitudeFinalV391617">'+perfCurrency(currentFinal)+'</b></span></div></div>';
-        h+='<div class="pv-near-close-formula">'+perfCurrency(originalCap)+' анхны хөрөнгө + '+perfCurrency(close.monthlyGross)+' сарын ашиг + '+perfCurrency(closeProfit)+' төгсгөлийн ашиг − '+perfCurrency(close.taxReserve)+' татвар − '+perfCurrency(close.gratitudeAmount)+' талархал − '+perfCurrency(close.earlyPaid||0)+' өмнө олгосон = <b>'+perfCurrency(close.finalTotal)+'</b> одоо шилжүүлэн олгоно. Төслийн нийт цэвэр өгөөж: <b>'+(finalRoi>=0?'+':'')+finalRoi.toFixed(1)+'%</b>.</div><div class="pv-close-note">Анхны хөрөнгөд татвар бодоогүй. Эхлээд бүх ашгийг нэгтгэж, дараа нь 60/40 түр татварыг нийт татвар ногдох ашгаас нэг удаа бүхэлчилсэн. Түүний дараа, эцсийн олголтын яг өмнө талархлын нийлбэрийг нэг удаа бүхэлчилж хуваарилсан. Урьдчилж олгосон бүтэн ашгийг хамгийн сүүлд хаалтын үлдэгдлээс хассан.</div></div>';
+        h+='<div class="pv-near-close-formula">'+perfCurrency(originalCap)+' анхны хөрөнгө + '+perfCurrency(close.monthlyGross)+' сарын ашиг'+closeChangeText+' төгсгөлийн өөрчлөлт − '+perfCurrency(close.taxReserve)+' татвар − '+perfCurrency(close.gratitudeAmount)+' талархал − '+perfCurrency(close.earlyPaid||0)+' өмнө олгосон = <b>'+perfCurrency(close.finalTotal)+'</b> одоо шилжүүлэн олгоно. Төслийн нийт цэвэр өгөөж: <b>'+(finalRoi>=0?'+':'')+finalRoi.toFixed(1)+'%</b>.</div><div class="pv-close-note">Анхны хөрөнгөд татвар бодоогүй. Эхлээд бүх ашгийг нэгтгэж, дараа нь 60/40 түр татварыг нийт татвар ногдох ашгаас нэг удаа бүхэлчилсэн. Түүний дараа, эцсийн олголтын яг өмнө талархлын нийлбэрийг нэг удаа бүхэлчилж хуваарилсан. Урьдчилж олгосон бүтэн ашгийг хамгийн сүүлд хаалтын үлдэгдлээс хассан.</div></div>';
       }else{
         var campaign=ctx.campaign||{},endRaw=String(campaign.end_date||''),lastRaw=String(campaign.latest_week_end||'');
         var endDate=endRaw?new Date(endRaw+'T12:00:00'):null,referenceDate=lastRaw?new Date(lastRaw+'T12:00:00'):new Date();
         var daysLeft=endDate&&!isNaN(endDate.getTime())?Math.ceil((endDate.getTime()-referenceDate.getTime())/86400000):9999;
-        if(daysLeft>=0&&daysLeft<=42){
-          var projectedMonthlyGross=Math.max(0,Math.round((ctx.accruedGross==null?ctx.accrued:ctx.accruedGross)+(ctx.futureMonthly||0)));
-          var projectedCloseTotal=Math.max(0,Math.round(ctx.closePart||0));
-          var projectedCloseProfit=Math.max(0,projectedCloseTotal-Math.max(0,Math.round(ctx.memberCap||0)));
-          var projectedTaxableProfit=Math.max(0,projectedMonthlyGross+projectedCloseProfit);
-          var projectedTax=sheetFuturesTaxBreakdown(projectedTaxableProfit).total;
-          var projectedAfterTax=Math.max(0,projectedMonthlyGross+projectedCloseTotal-projectedTax);
-          var gratitudePct=Math.max(.05,Math.min(.15,sheetUnitPct(ctx.incentive,0.05)));
-          var projectedGratitude=Math.round(projectedAfterTax*gratitudePct);
-          var projectedLifetime=Math.max(0,projectedAfterTax-projectedGratitude);
-          var projectedDue=Math.max(0,projectedLifetime-Math.max(0,Math.round(ctx.earlyPaid||0)));
-          h+='<div class="pv-near-close"><div class="pv-near-close-head"><div><span>Хаалтын өмнөх урьдчилсан задрал</span><b>Төсөл дуусах дөхсөн тул эцсийн тооцооны зураглал нээгдлээ</b></div><div class="pv-near-close-days">'+daysLeft+' хоног үлдсэн</div></div><div class="pv-breakdown">';
-          h+='<div class="pv-item cyan"><span>Анхны хөрөнгө</span><b>'+perfCurrency(ctx.memberCap)+'</b></div>';
-          h+='<div class="pv-item green"><span>+ Сарын нийт ашиг</span><b>'+perfCurrency(projectedMonthlyGross)+'</b></div>';
-          h+='<div class="pv-item green"><span>+ Төгсгөлийн ашиг</span><b>'+perfCurrency(projectedCloseProfit)+'</b></div>';
-          h+='<div class="pv-item deduct"><span>− 60/40 түр татвар</span><b>−'+perfCurrency(projectedTax)+'</b></div>';
-          h+='<div class="pv-item deduct"><span>− PCG-д талархал · '+(gratitudePct*100).toFixed(0)+'%</span><b>−'+perfCurrency(projectedGratitude)+'</b></div>';
-          if((ctx.earlyPaid||0)>0)h+='<div class="pv-item deduct"><span>− Өмнө олгосон</span><b>−'+perfCurrency(ctx.earlyPaid)+'</b></div>';
-          h+='<div class="pv-item green"><span>= Хаалтаар ойролцоогоор олгох</span><b>'+perfCurrency(projectedDue)+'</b></div></div>';
-          h+='<div class="pv-near-close-formula">'+perfCurrency(ctx.memberCap)+' анхны хөрөнгө + '+perfCurrency(projectedMonthlyGross)+' сарын ашиг + '+perfCurrency(projectedCloseProfit)+' төгсгөлийн ашиг − '+perfCurrency(projectedTax)+' татвар − '+perfCurrency(projectedGratitude)+' PCG-д талархал − '+perfCurrency(ctx.earlyPaid||0)+' өмнө олгосон = <b>'+perfCurrency(projectedDue)+'</b>. Энэ нь урьдчилсан зураглал; админ төслийн хаалтыг token-оор идэвхжүүлж LIVE нийтэлсний дараа эцсийн баталгаатай дүн болно.</div></div>';
-        }
+        var timing=daysLeft!==9999&&daysLeft>=0?('Төслийн төлөвлөсөн хугацаа дуусахад '+daysLeft+' хоног үлдсэн. '):'';
+        h+='<div class="pv-close-card is-inactive"><div class="pv-close-title">Төслийн эцсийн хаалт</div><div class="pv-close-lock"><div class="pv-close-lock-badge">ИДЭВХГҮЙ</div><div><b>Эцсийн тооцоо хараахан нээгдээгүй байна</b><span>'+timing+'Админ “Төслийн хаалтыг идэвхжүүлэх” товчоор LIVE хаалтыг баталгаажуулсны дараа энд анхны хөрөнгө, сарын ашиг, төгсгөлийн ашиг/алдагдал, татвар, нийт авах USD, нийт өгөөж болон PCG-д өгөх 5–15%-ийн талархлын сонголт нээгдэнэ.</span></div></div></div>';
       }
     }else{
       h+='<p class="pv-p">Хувийн тооцоолол шинэчлэгдмэгц энд таны анхны хөрөнгө, сарын бүтэн ноогдол болон төслийн хаалтын урьдчилсан дүн нэг дор харагдана.</p>';
