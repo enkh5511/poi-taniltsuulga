@@ -4,7 +4,7 @@
 <meta name="color-scheme" content="dark">
 <script>(function(){try{if(window.self!==window.top)document.documentElement.className+=' poi-embedded';}catch(e){document.documentElement.className+=' poi-embedded';}})();</script>
 <meta charset="UTF-8">
-<meta name="poi-release" content="V39.16.19">
+<meta name="poi-release" content="V39.16.20">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>POI Capital Group · Гүйцэтгэл ба гишүүний самбар</title>
 <meta name="description" content="POI Capital Group-ийн гишүүний гүйцэтгэлийн самбар: хөрөнгө, эзлэх хувь, хуримтлагдсан үр дүн, өгөөж болон төслийн явц.">
@@ -3831,6 +3831,16 @@ function renderHistory(rows){
 window.addEventListener('DOMContentLoaded',function(){
   try{ window.__perfReady=true; loadPerformanceDashboard(false); }catch(e){ console.warn(e); }
 });
+var __poiCloseFocusRefreshV391620=0;
+function poiRefreshCloseOnReturnV391620(){
+  var creds=window.__sheetLastCredentials||__sheetLastCredentials;
+  if(!creds||!creds.session||__perfLoading)return;
+  var now=Date.now();if(now-__poiCloseFocusRefreshV391620<10000)return;
+  __poiCloseFocusRefreshV391620=now;
+  loadPerformanceDashboard(true);
+}
+window.addEventListener('focus',poiRefreshCloseOnReturnV391620);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)poiRefreshCloseOnReturnV391620();});
 </script>
 
 
