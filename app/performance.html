@@ -4,7 +4,7 @@
 <meta name="color-scheme" content="dark">
 <script>(function(){try{if(window.self!==window.top)document.documentElement.className+=' poi-embedded';}catch(e){document.documentElement.className+=' poi-embedded';}})();</script>
 <meta charset="UTF-8">
-<meta name="poi-release" content="V39.16.38">
+<meta name="poi-release" content="V39.16.39">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>POI Capital Group · Гүйцэтгэл ба гишүүний самбар</title>
 <meta name="description" content="POI Capital Group-ийн гишүүний гүйцэтгэлийн самбар: хөрөнгө, эзлэх хувь, хуримтлагдсан үр дүн, өгөөж болон төслийн явц.">
@@ -3820,7 +3820,17 @@ function renderSheetMemberModule(data){
   if(fetchBtn)fetchBtn.onclick=lookupLiveMember;
   if(logoutBtn)logoutBtn.onclick=function(){ var old=window.__sheetLastCredentials||__sheetLastCredentials; if(old&&old.session)sheetPostForm({action:'member_revoke',member_session:old.session}).catch(function(){}); window.__sheetLiveMember=null; window.__sheetLiveCampaign=null; window.__sheetLastCredentials=__sheetLastCredentials=null; __perfDataCache=null; try{sessionStorage.removeItem('fc_perf_cache_v6_protected');}catch(e){} try{localStorage.removeItem('fc_perf_cache_v6_protected');}catch(e){} setError(''); showAuth(); };
   if(window.__sheetLiveMember&&window.__sheetLiveCampaign){
-    renderMemberDashboard({ok:true,member:window.__sheetLiveMember,campaign:window.__sheetLiveCampaign});
+    /* V39.16.39: preserve the complete member snapshot.
+       The former code rebuilt a tiny {member,campaign} object here and silently
+       dropped monthly_close_history, project_close, market_brief and member_memos. */
+    var dashboardPayload=(data&&typeof data==='object')?data:(window.__sheetPerformanceData||{});
+    if(!dashboardPayload.member||!dashboardPayload.campaign){
+      dashboardPayload=Object.assign({},dashboardPayload,{
+        member:dashboardPayload.member||window.__sheetLiveMember,
+        campaign:dashboardPayload.campaign||window.__sheetLiveCampaign
+      });
+    }
+    renderMemberDashboard(dashboardPayload);
   }else{
     showAuth();
   }
