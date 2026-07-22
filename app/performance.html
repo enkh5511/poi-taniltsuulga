@@ -4,7 +4,7 @@
 <meta name="color-scheme" content="dark">
 <script>(function(){try{if(window.self!==window.top)document.documentElement.className+=' poi-embedded';}catch(e){document.documentElement.className+=' poi-embedded';}})();</script>
 <meta charset="UTF-8">
-<meta name="poi-release" content="V39.16.35">
+<meta name="poi-release" content="V39.16.36">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>POI Capital Group · Гүйцэтгэл ба гишүүний самбар</title>
 <meta name="description" content="POI Capital Group-ийн гишүүний гүйцэтгэлийн самбар: хөрөнгө, эзлэх хувь, хуримтлагдсан үр дүн, өгөөж болон төслийн явц.">
@@ -1519,6 +1519,8 @@ body{position:relative !important; overflow-x:hidden !important;}
 .sheet-month-status.confirmed{color:#55e8c3;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.34)}
 .sheet-month-status.current{color:#ffd37a;background:rgba(255,181,71,.10);border-color:rgba(255,181,71,.34)}
 .sheet-month-status.planned{color:#a9dff0;background:rgba(79,195,247,.08);border-color:rgba(79,195,247,.24)}
+.sheet-month-status.closed{color:#ffcf9a;background:rgba(255,143,74,.10);border-color:rgba(255,143,74,.30)}
+.sheet-month-status.missing{color:#ffaaa5;background:rgba(255,91,91,.08);border-color:rgba(255,91,91,.28)}
 
 
 /* V16 two-step flow: performance цэс = эхлээд нэвтрэх нүүр, дараа нь үндсэн dashboard */
@@ -3775,27 +3777,64 @@ function renderSheetMemberModule(data){
       if(thanksMount){thanksMount.classList.remove('is-visible');thanksMount.innerHTML='';}
     }
     if(table){
+      /* V39.16.36: map confirmed monthly history to elapsed project months.
+         Never restart the remaining-month forecast at project month 1. */
       var history=Array.isArray(resp.monthly_close_history)?resp.monthly_close_history.slice():[];
       history.sort(function(a,b){return String(a&&a.month||'').localeCompare(String(b&&b.month||''));});
-      var confirmedCount=Math.min(months,history.length),baseCum=0,updatedCum=0,confirmedTotal=0;
+      var backendConfirmed=Math.max(
+        0,
+        Math.round(perfNumber(camp.confirmed_monthly_close_count)||0),
+        Math.round(perfNumber(mem.confirmed_monthly_close_count)||0),
+        Math.round(perfNumber(perf&&perf.m&&perf.m.confirmed_month_count)||0),
+        Math.round(perfNumber(elapsed)||0),
+        history.length
+      );
+      var confirmedCount=Math.min(months,backendConfirmed);
+      var closeState=resp.project_close||resp.projectClose||null;
+      var closeActive=!!(closeState&&closeState.active)||!!camp.project_close_active;
+      var baseCum=0,updatedCum=0,confirmedTotal=0,futureTotal=0,missingConfirmed=0;
       var rows=[];
       for(var monthIndex=0;monthIndex<months;monthIndex++){
         var baseRow=baseline.rows[monthIndex]||{memberMonthly:0};
         var baseAmount=Math.max(0,Math.round(Number(baseRow.memberMonthly)||0));baseCum+=baseAmount;
-        var updatedAmount=0,statusText='Төлөвлөсөн',statusClass='planned',detail='Одоогийн дансны үлдэгдэл ба үлдсэн хугацаагаар';
+        var updatedAmount=null,statusText='Төлөвлөсөн',statusClass='planned',detail='Одоогийн дансны үлдэгдэл ба үлдсэн хугацаагаар';
         if(monthIndex<confirmedCount){
-          updatedAmount=Math.max(0,Math.round(perfNumber(history[monthIndex]&&history[monthIndex].member_gross)||0));
-          confirmedTotal+=updatedAmount;statusText='Баталгаажсан';statusClass='confirmed';detail='Сарын хаалтын өөрчлөгдөхгүй бодит дүн';
+          var historyRow=history[monthIndex]||null;
+          if(historyRow&&historyRow.member_gross!==null&&historyRow.member_gross!==undefined&&historyRow.member_gross!==''){
+            updatedAmount=Math.max(0,Math.round(perfNumber(historyRow.member_gross)||0));
+            confirmedTotal+=updatedAmount;updatedCum+=updatedAmount;
+            statusText='Баталгаажсан';statusClass='confirmed';detail='Сарын хаалтын өөрчлөгдөхгүй бодит дүн';
+          }else{
+            missingConfirmed++;
+            statusText='Дүн ирээгүй';statusClass='missing';detail='Сар хаагдсан боловч гишүүний бодит дүн snapshot-д ирээгүй';
+          }
+        }else if(closeActive){
+          statusText='Хаалт нээгдсэн';statusClass='closed';detail='Төсөл хугацаанаас өмнө хаагдаж байгаа тул ирээдүйн төсөөлөл зогссон';
         }else{
-          var futureIndex=monthIndex-confirmedCount,futureRow=view.future.rows[futureIndex]||{memberMonthly:0};
-          updatedAmount=Math.max(0,Math.round(Number(futureRow.memberMonthly)||0));
+          var futureIndex=monthIndex-confirmedCount;
+          var futureRow=view.future.rows[futureIndex]||null;
+          if(futureRow){
+            updatedAmount=Math.max(0,Math.round(Number(futureRow.memberMonthly)||0));
+            futureTotal+=updatedAmount;updatedCum+=updatedAmount;
+          }
           if(monthIndex===confirmedCount){statusText='Одоогийн сар';statusClass='current';detail='Бодит явцаас шинэчилсэн дараагийн сарын төсөөлөл';}
         }
-        updatedCum+=updatedAmount;
-        rows.push('<tr><td>'+(monthIndex+1)+'-р сар</td><td class="num green">'+perfCurrency(baseAmount)+'<small>Хуримтлал '+perfCurrency(baseCum)+'</small></td><td class="num gold">'+perfCurrency(updatedAmount)+'<small>'+detail+' · хуримтлал '+perfCurrency(updatedCum)+'</small></td><td><span class="sheet-month-status '+statusClass+'">'+statusText+'</span></td></tr>');
+        var updatedText=updatedAmount===null?'—':perfCurrency(updatedAmount);
+        var updatedSmall=detail;
+        if(updatedAmount!==null)updatedSmall+=' · хуримтлал '+perfCurrency(updatedCum);
+        rows.push('<tr><td>'+(monthIndex+1)+'-р сар</td><td class="num green">'+perfCurrency(baseAmount)+'<small>Хуримтлал '+perfCurrency(baseCum)+'</small></td><td class="num gold">'+updatedText+'<small>'+updatedSmall+'</small></td><td><span class="sheet-month-status '+statusClass+'">'+statusText+'</span></td></tr>');
       }
       var baselineSourceNote=baselineCfg.frozen?'Төсөл эхлэх үед түгжсэн calculator snapshot.':'Хуучин төслийн нээлт/эхний 7 хоногийн snapshot-аас сэргээсэн суурь төлөвлөгөө.';
-      table.innerHTML='<div class="sheet-month-caption">Сарын ноогдол · анхны төлөвлөгөө ба бодит/шинэчилсэн явц</div><table><thead><tr><th>Сар</th><th>Анхны төлөвлөгөө</th><th>Бодит / шинэчилсэн дүн</th><th>Төлөв</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><div class="sheet-month-summary">Анхны төлөвлөгөөний '+months+' сарын нийлбэр: <b>'+perfCurrency(baseCum)+'</b> · Баталгаажсан бодит нийлбэр: <b>'+perfCurrency(confirmedTotal)+'</b> · Бодит явцаар шинэчилсэн нийт: <b>'+perfCurrency(updatedCum)+'</b>.</div><div class="sheet-month-disclaimer">'+baselineSourceNote+' Баталгаажсан сар дахин өөрчлөгдөхгүй; хаагдаагүй сарууд одоогийн Active, Reserve болон үлдсэн хугацаагаар шинэчлэгдэнэ.</div>';
+      var summary='<div class="sheet-month-summary">Анхны төлөвлөгөөний '+months+' сарын нийлбэр: <b>'+perfCurrency(baseCum)+'</b> · Баталгаажсан бодит нийлбэр: <b>'+perfCurrency(confirmedTotal)+'</b>';
+      if(closeActive){
+        summary+=' · Төслийн хаалт нээгдсэн тул '+Math.max(0,months-confirmedCount)+' сарын ирээдүйн төсөөллийг зогсоосон.';
+      }else{
+        summary+=' · Үлдсэн хугацааны шинэчилсэн төсөөлөл: <b>'+perfCurrency(futureTotal)+'</b> · Бодит + шинэчилсэн нийт: <b>'+perfCurrency(updatedCum)+'</b>.';
+      }
+      if(missingConfirmed>0)summary+=' <span style="color:#ffaaa5">Баталгаажсан '+missingConfirmed+' сарын гишүүний дүн snapshot-д ирээгүй тул хуурамч $0 харуулаагүй.</span>';
+      summary+='</div>';
+      var timelineNote=closeActive?' Баталгаажсан сарууд бодит дүнгээр үлдэнэ; хаалтын дараах саруудад projection хийхгүй.':' Баталгаажсан сар дахин өөрчлөгдөхгүй; үлдсэн сарууд '+(confirmedCount+1)+'-р сараас эхлэн одоогийн Active, Reserve болон үлдсэн хугацаагаар шинэчлэгдэнэ.';
+      table.innerHTML='<div class="sheet-month-caption">Сарын ноогдол · анхны төлөвлөгөө ба бодит/шинэчилсэн явц</div><table><thead><tr><th>Сар</th><th>Анхны төлөвлөгөө</th><th>Бодит / шинэчилсэн дүн</th><th>Төлөв</th></tr></thead><tbody>'+rows.join('')+'</tbody></table>'+summary+'<div class="sheet-month-disclaimer">'+baselineSourceNote+timelineNote+'</div>';
     }
     if(brief){var marketBrief=sheetMarketBriefFromResponse(resp,camp);brief.innerHTML=sheetBriefCopy(marketBrief,perf);}
     if(note)note.textContent='Нэвтэрсэн: '+name+' · '+perfCurrency(memberCap)+' · эзлэх хувь '+perfPctPlain(currentShare)+'.';
