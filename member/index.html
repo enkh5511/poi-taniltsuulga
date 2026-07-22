@@ -1,3 +1,388 @@
-<!doctype html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="poi-release" content="V39.16.30"><title>PCG · Гишүүний булан</title><link rel="stylesheet" href="assets/member.css"></head><body><main class="shell"><div class="topbar"><div class="brand"><small>POI CAPITAL GROUP</small><h1>Гишүүний булан</h1></div><span class="badge" id="envBadge">REAL</span></div><section class="panel hero" id="loginPanel"><h2>Гишүүний нэвтрэх хэсэг</h2><p class="muted">Нэг удаа нэвтэрсний дараа төслийн явц болон төслийн хаалтын хоёр тусдаа хэсгээс сонгоно.</p><div class="login-grid"><div class="field"><label for="memberNo">Гишүүний дугаар</label><input id="memberNo" type="number" min="1" inputmode="numeric" placeholder="Жишээ: 1"></div><div class="field"><label for="memberCode">Нэвтрэх код</label><input id="memberCode" type="password" autocomplete="off" placeholder="Нэвтрэх код"></div><button class="btn" id="loginBtn">Нэвтрэх</button></div><div class="status" id="status"></div></section><section class="panel hidden" id="menuPanel"><div class="close-head"><div><small style="color:#55e8c3;font-weight:950;letter-spacing:.08em">АМЖИЛТТАЙ НЭВТЭРЛЭЭ</small><h2 id="welcome">Тавтай морил</h2><p class="muted">Доорх хоёр хэсгээс сонгоно уу.</p></div><button class="btn secondary" id="logoutBtn">Гишүүн солих</button></div><div class="choices"><a class="choice" id="progressLink" href="#"><span>01 · LIVE ЯВЦ</span><h2>Төслийн явц</h2><p>Одоогийн гүйцэтгэл, 7 хоног болон сарын үр дүн, график, хөрөнгийн мэдээллээ харна.</p></a><a class="choice gold" id="closeLink" href="#"><span>02 · ЭЦСИЙН ТООЦОО</span><div class="choice-state" id="closeState">ШАЛГАЖ БАЙНА</div><h2>Төслийн хаалт</h2><p>Админ хаалтыг нээсэн үед татвар, талархлын хувь болон гар дээр авах эцсийн мөнгөө баталгаажуулна.</p></a></div><div class="status" id="menuStatus"></div></section></main><script src="assets/member.js"></script><script>
+<!doctype html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="poi-release" content="V39.16.31"><title>PCG · Гишүүний булан</title><link rel="stylesheet" href="assets/member.css"></head><body><div class="poi-bg-fixed" aria-hidden="true"></div><canvas id="wbg" aria-hidden="true"></canvas><main class="shell"><div class="topbar"><div class="brand"><small>POI CAPITAL GROUP</small><h1>Гишүүний булан</h1></div><span class="badge" id="envBadge">REAL</span></div><section class="panel hero" id="loginPanel"><h2>Гишүүний нэвтрэх хэсэг</h2><p class="muted">Нэг удаа нэвтэрсний дараа төслийн явц болон төслийн хаалтын хоёр тусдаа хэсгээс сонгоно.</p><div class="login-grid"><div class="field"><label for="memberNo">Гишүүний дугаар</label><input id="memberNo" type="number" min="1" inputmode="numeric" placeholder="Жишээ: 1"></div><div class="field"><label for="memberCode">Нэвтрэх код</label><input id="memberCode" type="password" autocomplete="off" placeholder="Нэвтрэх код"></div><button class="btn" id="loginBtn">Нэвтрэх</button></div><div class="status" id="status"></div></section><section class="panel hidden" id="menuPanel"><div class="close-head"><div><small style="color:#55e8c3;font-weight:950;letter-spacing:.08em">АМЖИЛТТАЙ НЭВТЭРЛЭЭ</small><h2 id="welcome">Тавтай морил</h2><p class="muted">Доорх хоёр хэсгээс сонгоно уу.</p></div><button class="btn secondary" id="logoutBtn">Гишүүн солих</button></div><div class="choices"><a class="choice" id="progressLink" href="#"><span>01 · LIVE ЯВЦ</span><h2>Төслийн явц</h2><p>Одоогийн гүйцэтгэл, 7 хоног болон сарын үр дүн, график, хөрөнгийн мэдээллээ харна.</p></a><a class="choice gold" id="closeLink" href="#"><span>02 · ЭЦСИЙН ТООЦОО</span><div class="choice-state" id="closeState">ШАЛГАЖ БАЙНА</div><h2>Төслийн хаалт</h2><p>Админ хаалтыг нээсэн үед татвар, талархлын хувь болон гар дээр авах эцсийн мөнгөө баталгаажуулна.</p></a></div><div class="status" id="menuStatus"></div></section></main><script src="assets/member.js"></script><script>
 (function(){const q='?environment='+POIMember.ENV,loginPanel=document.getElementById('loginPanel'),menuPanel=document.getElementById('menuPanel'),status=document.getElementById('status'),menuStatus=document.getElementById('menuStatus'),btn=document.getElementById('loginBtn');document.getElementById('envBadge').textContent=POIMember.ENV.toUpperCase();document.getElementById('progressLink').href='../app/performance.html?member_portal=progress&environment='+POIMember.ENV;document.getElementById('closeLink').href='close.html'+q;function showMenu(s,snap){loginPanel.classList.add('hidden');menuPanel.classList.remove('hidden');const m=(snap&&snap.member)||s.member||{};document.getElementById('welcome').textContent='Тавтай морил, '+(m.display_name||m.name||('Гишүүн '+(s.memberNo||'')));const c=POIMember.closeData(snap);const el=document.getElementById('closeState');el.textContent=c&&c.active?((c.confirmationCount||0)+' / '+(c.requiredConfirmationCount||0)+' БАТАЛГААЖСАН'):'НЭЭГДЭЭГҮЙ';el.classList.toggle('active',!!(c&&c.active))}async function refreshExisting(){const s=POIMember.session();if(!s)return;menuStatus.textContent='Мэдээллийг шинэчилж байна…';try{const snap=await POIMember.read();showMenu(POIMember.session(),snap);menuStatus.className='status ok';menuStatus.textContent='Мэдээлэл шинэчлэгдлээ.'}catch(e){POIMember.clearSession();loginPanel.classList.remove('hidden');menuPanel.classList.add('hidden');status.className='status bad';status.textContent='Нэвтрэх хугацаа дууссан. Дахин нэвтэрнэ үү.'}}const existing=POIMember.session();if(existing){showMenu(existing,null);refreshExisting()}btn.onclick=async()=>{const no=document.getElementById('memberNo').value.trim(),code=document.getElementById('memberCode').value.trim();if(!no||!code){status.className='status bad';status.textContent='Гишүүний дугаар болон кодоо оруулна уу.';return}btn.disabled=true;btn.textContent='Нэвтэрч байна…';status.className='status';status.textContent='Мэдээллийг шалгаж байна…';try{const snap=await POIMember.login(no,code);status.className='status ok';status.textContent='Амжилттай нэвтэрлээ.';showMenu(POIMember.session(),snap)}catch(e){status.className='status bad';status.textContent=e.message||String(e)}finally{btn.disabled=false;btn.textContent='Нэвтрэх'}};document.getElementById('logoutBtn').onclick=()=>{POIMember.clearSession();location.reload()};})();
+</script><script id="v14-poi-motion-background">
+// ---------- Background canvas (gold beams + stars) ----------
+(function(){
+  var cv=document.getElementById('wbg');
+  if(document.documentElement.className.indexOf('poi-embedded')>-1){ if(cv&&cv.parentNode)cv.parentNode.removeChild(cv); return; }
+  if(!cv)return;
+  var ctx=cv.getContext('2d');
+  var W=0,H=0,dpr=1,t=0,ready=false;
+  var bgImg=new Image();
+  var stars=[], nodes=[], pulses=[];
+  var reduce=false;
+  try{ reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var mobileBg=false,lastFrame=0,scrollPauseUntil=0,scrollStaticDrawn=false;
+  var fxc=document.createElement('canvas'),fxx=fxc.getContext('2d'),lastFx=-1e9,FX_MS=120,FXS=0.34,fxScale=1;
+  var perfN=0,perfSum=0,perfDead=false;
+  function detectMobileBg(){
+    try{
+      mobileBg=(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent||'')) || (window.matchMedia&&window.matchMedia('(max-width: 820px)').matches) || (window.matchMedia&&window.matchMedia('(pointer: coarse)').matches);
+    }catch(e){mobileBg=(window.innerWidth||0)<821;}
+  }
+  function markBgScroll(){
+    if(!mobileBg)return;
+    scrollPauseUntil=Date.now()+850;
+    scrollStaticDrawn=false;
+  }
+  function bindBgScrollPause(){
+    try{
+      window.addEventListener('scroll',markBgScroll,{passive:true});
+      window.addEventListener('wheel',markBgScroll,{passive:true});
+      window.addEventListener('touchstart',markBgScroll,{passive:true});
+      window.addEventListener('touchmove',markBgScroll,{passive:true});
+    }catch(e){}
+  }
+
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+
+  function resize(){
+    detectMobileBg();
+    bindBgScrollPause();
+    dpr=mobileBg?1:Math.max(1,Math.min(1.35,window.devicePixelRatio||1));
+    W=window.innerWidth; H=window.innerHeight;
+    cv.width=Math.floor(W*dpr); cv.height=Math.floor(H*dpr);
+    cv.style.width=W+'px'; cv.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    fxc.width=Math.max(2,Math.round(cv.width*FXS)); fxc.height=Math.max(2,Math.round(cv.height*FXS));
+    fxx.setTransform(dpr*FXS,0,0,dpr*FXS,0,0);
+    lastFx=-1e9;
+    buildScene();
+  }
+
+  function buildScene(){
+    stars=[]; nodes=[]; pulses=[];
+    var skyCount=mobileBg?(mobileBg?8:(reduce?10:18)):(reduce?45:70);
+    for(var i=0;i<skyCount;i++){
+      stars.push({
+        x:Math.random(),
+        y:Math.random()*0.48,
+        r:rand(0.45,1.6),
+        a:rand(0.22,0.95),
+        p:rand(0,Math.PI*2),
+        tw:rand(0.0007,0.0022),
+        cool:Math.random()>0.75
+      });
+    }
+    var rows=mobileBg?2:3, cols=mobileBg?Math.max(4,Math.round(W/360)):Math.max(6, Math.round(W/260));
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        nodes.push({
+          bx:(c+0.35+Math.random()*0.45)/cols,
+          by:0.78 + r*0.050 + rand(-0.010,0.010),
+          rx:mobileBg?rand(0.002,0.007):rand(0.006,0.020),
+          ry:mobileBg?rand(0.0005,0.0018):rand(0.0008,0.0032),
+          sp:mobileBg?rand(0.000035,0.000075):rand(0.00006,0.00016),
+          p:rand(0,Math.PI*2),
+          r:rand(1.2,2.6),
+          a:rand(0.45,1)
+        });
+      }
+    }
+    for(var p=0;p<(mobileBg?(reduce?0:3):(reduce?6:10));p++){
+      pulses.push({ edge:-1, prog:Math.random(), sp:mobileBg?rand(0.00035,0.00075):rand(0.00065,0.0017), a:mobileBg?rand(0.08,0.16):rand(0.14,0.30) });
+    }
+  }
+
+  bgImg.onload=function(){ ready=true; };
+  bgImg.src="../aurora-v2.jpg";
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+
+  function drawBgImage(tm){
+    if(!ready){
+      ctx.fillStyle='#02070b';
+      ctx.fillRect(0,0,W,H);
+      return;
+    }
+    var iw=bgImg.naturalWidth||bgImg.width;
+    var ih=bgImg.naturalHeight||bgImg.height;
+    var cover=Math.max(W/iw,H/ih);
+    var scale=cover*1.03;
+    var driftX=Math.sin(tm*0.00006)*W*0.008;
+    var driftY=Math.cos(tm*0.00005)*H*0.006;
+    var dw=iw*scale, dh=ih*scale;
+    var ox=(W-dw)/2 + driftX;
+    var oy=(H-dh)/2 + driftY;
+    ctx.drawImage(bgImg, ox, oy, dw, dh);
+    var vign=ctx.createLinearGradient(0,0,0,H);
+    vign.addColorStop(0,'rgba(0,0,0,0.10)');
+    vign.addColorStop(0.68,'rgba(0,0,0,0.04)');
+    vign.addColorStop(1,'rgba(0,0,0,0.18)');
+    ctx.fillStyle=vign; ctx.fillRect(0,0,W,H);
+  }
+
+  var starSprites=null;
+  function makeStarSprite(hue){
+    var c=document.createElement('canvas'); c.width=64; c.height=64;
+    var g2=c.getContext('2d');
+    var g=g2.createRadialGradient(32,32,0,32,32,32);
+    g.addColorStop(0,'rgba('+hue+',0.9)');
+    g.addColorStop(0.3,'rgba('+hue+',0.22)');
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    g2.fillStyle=g; g2.beginPath(); g2.arc(32,32,32,0,Math.PI*2); g2.fill();
+    return c;
+  }
+  function drawStars(tm){
+    if(!starSprites) starSprites={cool:makeStarSprite('220,245,255'), warm:makeStarSprite('255,245,220')};
+    for(var i=0;i<stars.length;i++){
+      var s=stars[i];
+      var x=s.x*W, y=s.y*H;
+      var tw=0.35+0.65*Math.abs(Math.sin(tm*s.tw+s.p));
+      var a=s.a*tw;
+      var r=s.r*(0.7+tw*0.6);
+      var hue=s.cool?'220,245,255':'255,245,220';
+      ctx.globalAlpha=a;
+      ctx.drawImage(s.cool?starSprites.cool:starSprites.warm, x-r*8, y-r*8, r*16, r*16);
+      ctx.globalAlpha=1;
+      ctx.fillStyle='rgba(255,255,255,'+(a*0.95)+')'; ctx.beginPath(); ctx.arc(x,y,Math.max(0.4,r*0.45),0,Math.PI*2); ctx.fill();
+      if(tw>0.84){
+        var fl=r*6.8;
+        ctx.strokeStyle='rgba(255,255,255,'+(a*0.34)+')';
+        ctx.lineWidth=0.45;
+        ctx.beginPath(); ctx.moveTo(x-fl,y); ctx.lineTo(x+fl,y); ctx.moveTo(x,y-fl*0.65); ctx.lineTo(x,y+fl*0.65); ctx.stroke();
+      }
+    }
+  }
+
+  function drawAurora(tm){
+    var bands=[
+      { x1:-0.08, x2:0.42, y1:0.40, y2:0.22, amp:0.032, speed:0.00014, width:0.22, alpha:0.21 },
+      { x1:0.18, x2:0.66, y1:0.34, y2:0.26, amp:0.020, speed:0.00012, width:0.16, alpha:0.11 },
+      { x1:0.50, x2:1.04, y1:0.23, y2:0.16, amp:0.042, speed:0.00013, width:0.26, alpha:0.23 },
+      { x1:0.60, x2:0.96, y1:0.31, y2:0.24, amp:0.024, speed:0.00015, width:0.17, alpha:0.12 }
+    ];
+    ctx.save();
+    ctx.globalCompositeOperation='screen';
+    for(var b=0;b<bands.length;b++){
+      var band=bands[b];
+      var top=[], bot=[];
+      var steps=mobileBg?28:56;
+      for(var i=0;i<=steps;i++){
+        var u=i/steps;
+        var x=(band.x1 + (band.x2-band.x1)*u)*W;
+        var baseY=(band.y1 + (band.y2-band.y1)*u)*H;
+        var wob=Math.sin(u*7.2 + tm*band.speed + b)*H*band.amp + Math.sin(u*13.2 - tm*band.speed*1.45 + b*1.3)*H*(band.amp*0.48);
+        var y=baseY+wob;
+        var th=H*band.width*(0.78+0.22*Math.sin(u*8.2 + tm*0.00024 + b));
+        top.push([x, y-th*0.5]);
+        bot.push([x, y+th*0.5]);
+      }
+      ctx.beginPath();
+      ctx.moveTo(top[0][0],top[0][1]);
+      for(var t1=1;t1<top.length;t1++) ctx.lineTo(top[t1][0],top[t1][1]);
+      for(var t2=bot.length-1;t2>=0;t2--) ctx.lineTo(bot[t2][0],bot[t2][1]);
+      ctx.closePath();
+      var grad=ctx.createLinearGradient(0, top[0][1], 0, bot[Math.floor(bot.length/2)][1]);
+      grad.addColorStop(0,'rgba(105,255,224,'+band.alpha+')');
+      grad.addColorStop(0.42,'rgba(42,240,205,'+(band.alpha*0.78)+')');
+      grad.addColorStop(0.76,'rgba(18,160,220,'+(band.alpha*0.46)+')');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      if('filter' in ctx) ctx.filter='blur('+ ((mobileBg?8:(reduce?10:18))*fxScale) +'px)';
+      ctx.fillStyle=grad;
+      ctx.fill();
+      if('filter' in ctx) ctx.filter='none';
+
+      // vertical curtain strands
+      if('filter' in ctx) ctx.filter='blur('+((mobileBg?3:(reduce?4:7))*fxScale)+'px)';
+      var strands=mobileBg?8:28;
+      for(var s=0;s<strands;s++){
+        var uu=s/(strands-1);
+        var sx=(band.x1 + (band.x2-band.x1)*uu)*W;
+        var sy=(band.y1 + (band.y2-band.y1)*uu)*H + Math.sin(uu*7.8 + tm*band.speed + b)*H*band.amp;
+        var len=H*(0.08 + 0.06*Math.abs(Math.sin(tm*0.00038 + uu*6 + b)));
+        ctx.strokeStyle='rgba(90,255,220,'+(band.alpha*0.18)+')';
+        ctx.lineWidth=1.2;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy-len*0.18);
+        ctx.quadraticCurveTo(sx+Math.sin(tm*0.00022+s)*10, sy+len*0.30, sx+Math.cos(tm*0.00016+s)*7, sy+len);
+        ctx.stroke();
+      }
+      if('filter' in ctx) ctx.filter='none';
+    }
+    ctx.restore();
+  }
+
+  function drawReflection(tm){
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0,H*0.60,W,H*0.40);
+    ctx.clip();
+    ctx.globalCompositeOperation='screen';
+    ctx.globalAlpha=0.30;
+    var bands=[
+      { x1:0.04, x2:0.48, y1:0.79, y2:0.69, amp:0.018, speed:0.00022, width:0.11, alpha:0.12 },
+      { x1:0.58, x2:0.96, y1:0.68, y2:0.74, amp:0.024, speed:0.00018, width:0.14, alpha:0.14 }
+    ];
+    for(var b=0;b<bands.length;b++){
+      var band=bands[b];
+      var top=[], bot=[];
+      var steps=mobileBg?22:36;
+      for(var i=0;i<=steps;i++){
+        var u=i/steps;
+        var x=(band.x1 + (band.x2-band.x1)*u)*W;
+        var baseY=(band.y1 + (band.y2-band.y1)*u)*H;
+        var wob=Math.sin(u*8.6 + tm*band.speed + b)*H*band.amp + Math.sin(u*14.5 - tm*band.speed*1.5)*H*(band.amp*0.35);
+        var y=baseY+wob;
+        var th=H*band.width*(0.72+0.28*Math.sin(u*7 + tm*0.0002));
+        top.push([x, y-th*0.42]);
+        bot.push([x, y+th*0.42]);
+      }
+      ctx.beginPath(); ctx.moveTo(top[0][0],top[0][1]);
+      for(var k=1;k<top.length;k++) ctx.lineTo(top[k][0],top[k][1]);
+      for(var q=bot.length-1;q>=0;q--) ctx.lineTo(bot[q][0],bot[q][1]);
+      ctx.closePath();
+      var grad=ctx.createLinearGradient(0, top[0][1], 0, bot[Math.floor(bot.length/2)][1]);
+      grad.addColorStop(0,'rgba(60,255,210,'+band.alpha+')');
+      grad.addColorStop(0.5,'rgba(30,170,220,'+(band.alpha*0.6)+')');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      if('filter' in ctx) ctx.filter='blur('+((mobileBg?6:(reduce?8:14))*fxScale)+'px)';
+      ctx.fillStyle=grad; ctx.fill();
+      if('filter' in ctx) ctx.filter='none';
+    }
+    // subtle shimmer lines
+    for(var y=H*0.64; y<H*0.95; y+=26){
+      ctx.strokeStyle='rgba(120,255,255,0.02)';
+      ctx.lineWidth=1;
+      ctx.beginPath();
+      ctx.moveTo(0,y);
+      ctx.bezierCurveTo(W*0.25,y+Math.sin(tm*0.0002+y)*2.4,W*0.75,y+Math.cos(tm*0.00018+y)*2.4,W,y+Math.sin(tm*0.00016+y)*2.0);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function updateNodes(tm){
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i];
+      n.x = n.bx + Math.sin(tm*n.sp + n.p)*n.rx;
+      n.y = n.by + Math.cos(tm*n.sp*0.9 + n.p)*n.ry;
+    }
+  }
+
+  function buildEdges(){
+    var edges=[];
+    var maxDist=Math.min(W,H)*(mobileBg?0.095:0.125);
+    for(var i=0;i<nodes.length;i++){
+      for(var j=i+1;j<nodes.length;j++){
+        var a=nodes[i], b=nodes[j];
+        var x1=a.x*W, y1=a.y*H, x2=b.x*W, y2=b.y*H;
+        var dx=x1-x2, dy=y1-y2;
+        var d=Math.sqrt(dx*dx+dy*dy);
+        if(d<maxDist) edges.push({a:i,b:j,d:d});
+      }
+    }
+    return edges;
+  }
+
+  function drawNetwork(tm){
+    updateNodes(tm);
+    var edges=buildEdges();
+    ctx.save();
+    ctx.globalCompositeOperation='screen';
+    for(var e=0;e<edges.length;e++){
+      var ed=edges[e], a=nodes[ed.a], b=nodes[ed.b];
+      var x1=a.x*W, y1=a.y*H, x2=b.x*W, y2=b.y*H;
+      var alpha=clamp(0.20 - ed.d/(Math.min(W,H)*1.0), 0.04, 0.14);
+      var grad=ctx.createLinearGradient(x1,y1,x2,y2);
+      grad.addColorStop(0,'rgba(255,182,60,'+(alpha*0.9)+')');
+      grad.addColorStop(0.5,'rgba(255,220,132,'+(alpha*0.55)+')');
+      grad.addColorStop(1,'rgba(255,182,60,'+(alpha*0.85)+')');
+      ctx.strokeStyle='rgba(255,176,64,'+(alpha*0.55*0.30)+')';
+      ctx.lineWidth=5;
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+      ctx.strokeStyle=grad;
+      ctx.lineWidth=0.75;
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    }
+    // moving pulses along lines
+    for(var p=0;p<pulses.length && edges.length;p++){
+      var pulse=pulses[p];
+      if(pulse.edge<0 || pulse.edge>=edges.length) pulse.edge=Math.floor(Math.random()*edges.length);
+      pulse.prog += pulse.sp*(mobileBg?0.38:(reduce?0.55:0.72));
+      if(pulse.prog>1){ pulse.prog=0; pulse.edge=Math.floor(Math.random()*edges.length); }
+      var edg=edges[pulse.edge];
+      var aa=nodes[edg.a], bb=nodes[edg.b];
+      var sx=aa.x*W, sy=aa.y*H, ex=bb.x*W, ey=bb.y*H;
+      var px=sx+(ex-sx)*pulse.prog;
+      var py=sy+(ey-sy)*pulse.prog;
+      var tail=Math.max(0,pulse.prog-0.20);
+      var tx=sx+(ex-sx)*tail;
+      var ty=sy+(ey-sy)*tail;
+      var tg=ctx.createLinearGradient(tx,ty,px,py);
+      tg.addColorStop(0,'rgba(255,200,90,0)');
+      tg.addColorStop(1,'rgba(255,240,188,'+(pulse.a)+')');
+      ctx.strokeStyle='rgba(255,210,120,'+(pulse.a*0.52*0.30)+')'; ctx.lineWidth=7;
+      ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(px,py); ctx.stroke();
+      ctx.strokeStyle=tg; ctx.lineWidth=1.15;
+      ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(px,py); ctx.stroke();
+      var rg=ctx.createRadialGradient(px,py,0,px,py,8);
+      rg.addColorStop(0,'rgba(255,250,220,'+(pulse.a*1.08)+')');
+      rg.addColorStop(0.24,'rgba(255,205,92,'+(pulse.a*0.68)+')');
+      rg.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(px,py,10,0,Math.PI*2); ctx.fill();
+    }
+    // nodes
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i], x=n.x*W, y=n.y*H;
+      var tw=0.42+0.58*Math.abs(Math.sin(tm*0.0012+n.p));
+      var rr=n.r*(0.85+tw*0.5);
+      var glow=ctx.createRadialGradient(x,y,0,x,y,rr*8);
+      glow.addColorStop(0,'rgba(255,242,205,'+(n.a*tw*0.92)+')');
+      glow.addColorStop(0.28,'rgba(255,184,70,'+(n.a*tw*0.42)+')');
+      glow.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(x,y,rr*8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='rgba(255,228,160,'+(n.a*tw)+')'; ctx.beginPath(); ctx.arc(x,y,rr,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function frame(ts){
+    if(mobileBg && Date.now()<scrollPauseUntil){
+      if(!scrollStaticDrawn){ctx.clearRect(0,0,W,H);try{drawBgImage(ts||0);}catch(e){}scrollStaticDrawn=true;}
+      requestAnimationFrame(frame);return;
+    }
+    scrollStaticDrawn=false;
+    if(mobileBg && ts-lastFrame<100){requestAnimationFrame(frame);return;}
+    if(!mobileBg && ts-lastFrame<33){requestAnimationFrame(frame);return;}
+    lastFrame=ts||0;
+    t=ts||0;
+    var _pt0=(window.performance&&performance.now)?performance.now():0;
+    ctx.clearRect(0,0,W,H);
+    drawBgImage(t);
+    if(mobileBg){
+      // aurora wave disabled on mobile: iOS lacks canvas filter blur, causing harsh shapes vs Android
+    }else{
+      if(t-lastFx>=FX_MS){
+        lastFx=t;
+        fxx.setTransform(dpr*FXS,0,0,dpr*FXS,0,0);
+        fxx.clearRect(0,0,W,H);
+        var _mainCtx=ctx; ctx=fxx; fxScale=FXS;
+        try{ drawAurora(t); drawReflection(t); }finally{ ctx=_mainCtx; fxScale=1; }
+      }
+      ctx.save();
+      ctx.globalCompositeOperation='screen';
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.imageSmoothingEnabled=true;
+      ctx.drawImage(fxc,0,0,fxc.width,fxc.height,0,0,cv.width,cv.height);
+      ctx.restore();
+    }
+    drawStars(t);
+    drawNetwork(t);
+    if(!perfDead && !mobileBg && _pt0){
+      var _dt=performance.now()-_pt0;
+      perfN++; perfSum+=_dt;
+      if(perfN===60){
+        if(perfSum/60>12){
+          perfDead=true;
+          try{ cv.parentNode && cv.parentNode.removeChild(cv); }catch(e){}
+          return; // static CSS aurora background takes over
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
 </script></body></html>
