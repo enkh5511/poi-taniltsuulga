@@ -4,7 +4,7 @@
 <meta name="color-scheme" content="dark">
 <script>(function(){try{if(window.self!==window.top)document.documentElement.className+=' poi-embedded';}catch(e){document.documentElement.className+=' poi-embedded';}})();</script>
 <meta charset="UTF-8">
-<meta name="poi-release" content="V39.16.25">
+<meta name="poi-release" content="V39.16.33">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>POI Capital Group · Гүйцэтгэл ба гишүүний самбар</title>
 <meta name="description" content="POI Capital Group-ийн гишүүний гүйцэтгэлийн самбар: хөрөнгө, эзлэх хувь, хуримтлагдсан үр дүн, өгөөж болон төслийн явц.">
@@ -2212,6 +2212,7 @@ html.poi-embedded #wbg{display:none!important;}
 .pv-gratitude-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}.pv-gratitude-save{border:1px solid rgba(0,200,151,.5);background:#00c897;color:#031b20;padding:10px 14px;border-radius:10px;font-weight:950;cursor:pointer}.pv-gratitude-save:disabled{opacity:.55;cursor:wait}.pv-gratitude-status{font-size:11px;color:#8fb2c1}.pv-gratitude-status.ok{color:#48e5bc}.pv-gratitude-status.bad{color:#ff8b8b}
 @media(max-width:700px){.pv-breakdown{grid-template-columns:1fr}}
 </style>
+<link rel="stylesheet" href="../member/assets/member-toolbar.css?v=391633">
 </head>
 <body class="perf-auth-gate">
 <style id="poi-v391613-member-nav">
@@ -2596,7 +2597,6 @@ function loadPerformanceDashboard(force){
   if(instant){
     try{
       renderPerformanceDashboard(instant);
-      requestAnimationFrame(function(){ try{ renderPerformanceDashboard(instant); }catch(e){} });
     }catch(e){ console.warn("instant render failed",e); }
   }else{
     try{ renderPerformanceDashboard(__PERF_FALLBACK_DATA); }catch(e){}
@@ -3644,7 +3644,6 @@ function renderSheetMemberModule(data){
     var wrap=document.querySelector('.perf-wrap');
     var cards=document.getElementById('perfCards');
     if(wrap && box && box.parentNode!==wrap){ wrap.insertBefore(box,cards||wrap.firstChild); }
-    setTimeout(function(){try{window.scrollTo({top:0,behavior:'smooth'});}catch(e){window.scrollTo(0,0);}},40);
   }
   function currentPerformance(){
     var pdata=window.__sheetPerformanceData||{};
@@ -4249,13 +4248,22 @@ window.addEventListener('DOMContentLoaded',function(){
 
 
 
-<!-- POI V39.16.31 MEMBER PORTAL BRIDGE START
-     Session/data bridge only. No second navigation bar is rendered. -->
-<style id="poi-member-portal-bridge-v391631">
-body.poi-member-portal-v391631>.poi-member-back{display:inline-flex!important}
-body.poi-member-portal-v391631>.poi-member-env{display:inline-flex!important}
+
+<style id="poi-embedded-alpha-v391632">
+html.poi-embedded,html.poi-embedded body{background:transparent!important;background-color:rgba(0,0,0,0)!important;background-image:none!important}
+html.poi-embedded body::before,html.poi-embedded body::after{content:none!important;display:none!important;background:none!important}
+html.poi-embedded #wbg{display:none!important}
 </style>
-<script id="poi-member-portal-bridge-script-v391631">
+
+<!-- POI V39.16.33 MEMBER SUBMENU TOOLBAR START
+     Same markup, order and shared CSS as member/close.html.
+     Performance dashboard cards, memos, calculations and background logic are not replaced. -->
+<style id="poi-member-portal-toolbar-v391633">
+body.poi-member-portal-v391633>.poi-member-back,
+body.poi-member-portal-v391633>.poi-member-env{display:none!important}
+body.poi-member-portal-v391633 #view-performance{padding-top:0!important}
+</style>
+<script id="poi-member-portal-toolbar-script-v391633">
 (function(){
   'use strict';
   var params=new URLSearchParams(location.search);
@@ -4264,17 +4272,25 @@ body.poi-member-portal-v391631>.poi-member-env{display:inline-flex!important}
   var key='poi_member_portal_session_v2_'+env;
   var saved=null;try{saved=JSON.parse(sessionStorage.getItem(key)||'null');}catch(_e){}
   if(!saved||!saved.session){location.replace('../member/index.html?environment='+env);return;}
-  document.body.classList.add('poi-member-portal-v391631');
+  document.body.classList.add('poi-member-portal-v391633');
   var snap=saved.snapshot&&saved.snapshot.ok?saved.snapshot:null;
   try{window.__sheetLastCredentials={memberNo:String(saved.memberNo||''),session:String(saved.session||'')};__sheetLastCredentials=window.__sheetLastCredentials;}catch(_e){}
   try{if(snap){__perfDataCache=snap;window.__sheetPerformanceData=snap;window.__sheetLiveMember=snap.member||saved.member||null;window.__sheetLiveCampaign=snap.campaign||null;if(typeof perfWriteLocalCache==='function')perfWriteLocalCache(snap);}else if(saved.member){window.__sheetLiveMember=saved.member;}}catch(_e){}
-  var back=document.querySelector('.poi-member-back');
-  if(back){back.href='../member/index.html?environment='+env;back.target='_self';back.textContent='← Гишүүний булан';}
-  var badge=document.querySelector('.poi-member-env');
-  if(badge){badge.textContent=env.toUpperCase();badge.classList.toggle('real',env==='real');}
+  var oldBack=document.querySelector('.poi-member-back');if(oldBack&&oldBack.parentNode)oldBack.parentNode.removeChild(oldBack);
+  var oldBadge=document.querySelector('.poi-member-env');if(oldBadge&&oldBadge.parentNode)oldBadge.parentNode.removeChild(oldBadge);
+  var member=(snap&&snap.member)||saved.member||{};
+  var displayName=member.display_name||member.name||('Гишүүн '+String(saved.memberNo||''));
+  function esc(v){return String(v==null?'':v).replace(/[&<>\"]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'})[c]||c;});}
+  var shell=document.createElement('div');
+  shell.className='poi-member-toolbar-shell-v391633';
+  shell.innerHTML='<div class="toolbar"><nav class="nav"><a href="../member/index.html?environment='+encodeURIComponent(env)+'">Гишүүний булан</a><a class="active" href="'+location.pathname+'?member_portal=progress&amp;environment='+encodeURIComponent(env)+'">Төслийн явц</a><a href="../member/close.html?environment='+encodeURIComponent(env)+'">Төслийн хаалт</a></nav><span class="member-name">'+esc(displayName)+' · Гишүүн №'+esc(saved.memberNo||'')+'</span><button class="btn secondary" type="button" id="poiProgressLogoutV391633">Гарах</button></div>';
+  var view=document.getElementById('view-performance');
+  if(view&&view.parentNode)view.parentNode.insertBefore(shell,view);else document.body.insertBefore(shell,document.body.firstChild);
+  var logout=document.getElementById('poiProgressLogoutV391633');
+  if(logout)logout.onclick=function(){try{sessionStorage.removeItem(key);sessionStorage.removeItem('fc_perf_cache_v6_protected');}catch(_e){}location.replace('../member/index.html?environment='+env);};
 })();
 </script>
-<!-- POI V39.16.31 MEMBER PORTAL BRIDGE END -->
+<!-- POI V39.16.33 MEMBER SUBMENU TOOLBAR END -->
 
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="mn"><head>
 <meta name="color-scheme" content="dark">
 <meta charset="UTF-8">
-<meta name="poi-release" content="V39.16.31">
+<meta name="poi-release" content="V39.16.33">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>POI Capital Group · Фьючерс арилжааны хамтын ажиллагаа</title>
 <meta name="description" content="POI Capital Group-ийн фьючерс арилжааны хамтын ажиллагаа, POI V2/V3 аргачлал, хөрөнгө өсөлтийн тооцоолуур, гүйцэтгэлийн тайлан.">
@@ -2844,4 +2844,29 @@ fit();
 })();
 </script>
 
+
+<script id="poi-frame-alpha-bridge-v391632">
+(function(){
+  'use strict';
+  var frame=document.getElementById('performanceframe');
+  if(!frame)return;
+  frame.setAttribute('allowtransparency','true');
+  frame.style.setProperty('background','transparent','important');
+  frame.style.setProperty('background-color','rgba(0,0,0,0)','important');
+  function applyAlpha(){
+    try{
+      var doc=frame.contentDocument;
+      if(!doc)return;
+      [doc.documentElement,doc.body].forEach(function(el){
+        if(!el)return;
+        el.style.setProperty('background','transparent','important');
+        el.style.setProperty('background-color','rgba(0,0,0,0)','important');
+        el.style.setProperty('background-image','none','important');
+      });
+    }catch(_e){}
+  }
+  frame.addEventListener('load',function(){applyAlpha();setTimeout(applyAlpha,60);setTimeout(applyAlpha,350);setTimeout(applyAlpha,1200);});
+  applyAlpha();
+})();
+</script>
 </body></html>
