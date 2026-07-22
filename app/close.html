@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POI Capital Group · Төслийн хаалт</title>
+<meta name="poi-release" content="V39.16.27">
+<style>
+:root{--bg:#04121b;--panel:rgba(8,26,37,.72);--line:rgba(120,170,190,.24);--cyan:#22e6b7;--gold:#ffd36a;--text:#dcecf3;--muted:#8fb0be;--deduct:#ff9d9d;--green:#7fe9c9}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);background:#04121b;min-height:100vh}
+.bg-fixed{position:fixed;inset:0;z-index:-1;background:linear-gradient(160deg,#02101a 0%,#052030 45%,#031722 100%)}
+.bg-fixed::after{content:"";position:absolute;inset:0;background:radial-gradient(1200px 600px at 20% 0%,rgba(34,230,183,.10),transparent 60%),radial-gradient(900px 500px at 90% 30%,rgba(88,183,255,.08),transparent 60%)}
+.wrap{max-width:860px;margin:0 auto;padding:22px 18px 90px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.brand{display:flex;flex-direction:column;gap:2px}
+.brand .kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.brand h1{margin:0;font-size:20px;color:#eafff8}
+.env-badge{padding:5px 11px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.06em;background:rgba(120,170,190,.14);color:#a9c4cf;border:1px solid var(--line)}
+.env-badge.real{background:rgba(255,180,80,.16);color:#ffd08a;border-color:rgba(255,180,80,.4)}
+.member-nav{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.member-nav a{flex:1 1 auto;min-width:180px;text-align:center;text-decoration:none;padding:14px 18px;border-radius:13px;border:1px solid var(--line);background:rgba(10,26,36,.6);color:#bcd6e2;font-size:14.5px;font-weight:800;transition:.16s}
+.member-nav a:hover{border-color:rgba(0,200,151,.5);color:#eafff8}
+.member-nav a.active{background:linear-gradient(135deg,#00c897,#0891b2);border-color:#00c897;color:#04121b;box-shadow:0 8px 24px rgba(0,200,151,.28)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;backdrop-filter:blur(6px)}
+.panel + .panel{margin-top:16px}
+.login-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end}
+@media(max-width:640px){.login-grid{grid-template-columns:1fr}}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+.field input{width:100%;padding:12px 13px;border-radius:10px;border:1px solid rgba(120,170,190,.35);background:#04131d;color:#fff;font-size:15px}
+.btn{padding:13px 20px;border-radius:11px;border:1px solid #00c897;background:linear-gradient(135deg,#00c897,#0891b2);color:#04121b;font-weight:800;font-size:15px;cursor:pointer;transition:.15s}
+.btn:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.6;cursor:wait}
+.btn.ghost{background:transparent;color:#bcd6e2;border-color:var(--line)}
+.hint{font-size:12px;color:var(--muted);margin-top:10px}
+.err{color:var(--deduct);font-size:13px;margin-top:10px;min-height:16px}
+.loading{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px;padding:12px 0}
+.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.is-hidden{display:none!important}
+/* close card */
+.close-title{font-size:17px;font-weight:800;color:var(--gold);margin-bottom:4px}
+.close-sub{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5}
+.breakdown{display:flex;flex-direction:column;gap:1px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 15px;background:rgba(6,20,30,.55)}
+.row span{font-size:13.5px;color:#cfe6ef}
+.row b{font-size:15px;font-weight:800;white-space:nowrap}
+.row.cyan b{color:var(--cyan)}.row.gold b{color:var(--gold)}.row.green b{color:var(--green)}
+.row.deduct b{color:var(--deduct)}.row.teal b{color:#7fd8e6}.row.total{background:rgba(0,200,151,.12)}
+.row.total span,.row.total b{font-size:16px;font-weight:900;color:#eafff8}
+.grat{margin-top:18px;padding:18px;border:1px solid rgba(255,211,122,.4);border-radius:14px;background:linear-gradient(135deg,rgba(64,44,6,.42),rgba(8,22,32,.8))}
+.grat-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:14px}
+.grat-head b{color:var(--gold);font-size:15px;display:block}
+.grat-head small{color:var(--muted);font-size:12px;display:block;margin-top:4px;line-height:1.5}
+.grat-amount{font-size:22px;font-weight:900;color:var(--deduct);white-space:nowrap}
+.grat-control{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.grat-control input[type=range]{flex:1;accent-color:var(--gold)}
+.grat-pct{font-size:18px;font-weight:900;color:var(--gold);min-width:52px;text-align:right}
+.grat-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.grat-status{font-size:13px;color:var(--muted)}
+.grat-status.ok{color:var(--green)}.grat-status.bad{color:var(--deduct)}
+.final-box{margin-top:16px;padding:16px;border-radius:12px;background:rgba(0,200,151,.1);border:1px solid rgba(0,200,151,.35)}
+.final-box .lbl{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.final-box .amt{font-size:30px;font-weight:900;color:var(--cyan);margin-top:4px}
+.note{margin-top:14px;font-size:12px;color:var(--muted);line-height:1.6}
+.inactive{display:flex;gap:13px;align-items:center;padding:16px;border:1px dashed var(--line);border-radius:12px;background:rgba(255,255,255,.02)}
+.inactive .badge{flex:0 0 auto;padding:7px 11px;border-radius:999px;background:rgba(139,178,194,.12);color:#a9c4cf;font-size:10px;font-weight:900;letter-spacing:.08em}
+.inactive b{display:block;color:#d9edf3;font-size:14px}
+.inactive span{display:block;color:var(--muted);font-size:12px;line-height:1.55;margin-top:3px}
+.verbadge{position:fixed;left:10px;bottom:10px;z-index:2147483000;padding:4px 9px;border-radius:8px;background:rgba(3,42,44,.9);border:1px solid rgba(34,230,183,.5);color:#7fe9d0;font:600 11px system-ui}
+</style>
+</head>
+<body>
+<div class="bg-fixed"></div>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="kicker">POI CAPITAL GROUP · ГИШҮҮНИЙ БУЛАН</div>
+      <h1>Төслийн хаалт</h1>
+    </div>
+    <span class="env-badge" id="envBadge">REAL</span>
+  </div>
+
+  <div class="member-nav">
+    <a href="performance.html" id="navProgress">Төслийн явцын гүйцэтгэл</a>
+    <a href="close.html" class="active" id="navClose">Төслийн хаалт</a>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="panel" id="loginPanel">
+    <div class="close-title">Гишүүнээр нэвтэрнэ үү</div>
+    <div class="close-sub">Гишүүний дугаар болон нэвтрэх кодоо оруулбал төслийн эцсийн хаалтын тооцоо нээгдэнэ. (Явцын хэсэгт нэвтэрсэн бол энд дахин нэвтрэх шаардлагагүй.)</div>
+    <div class="login-grid">
+      <div class="field"><label>Гишүүний дугаар</label><input id="mNo" type="number" min="1" step="1" inputmode="numeric" placeholder="Админаас өгсөн дугаар"></div>
+      <div class="field"><label>Нэвтрэх код</label><input id="mCode" type="text" autocomplete="off" spellcheck="false" placeholder="••••••••"></div>
+      <div class="field"><button class="btn" id="loginBtn" type="button">Нэвтрэх</button></div>
+    </div>
+    <div class="loading is-hidden" id="loginLoading"><span class="spin"></span><b>Нэвтэрч байна…</b></div>
+    <div class="err" id="loginErr"></div>
+  </div>
+
+  <!-- CLOSE VIEW -->
+  <div class="panel is-hidden" id="closePanel">
+    <div id="closeContent"></div>
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn ghost" id="refreshBtn" type="button">Мэдээлэл шинэчлэх</button>
+      <button class="btn ghost" id="logoutBtn" type="button">Гарах</button>
+    </div>
+  </div>
+
+</div>
+<div class="verbadge">V39.16.27</div>
+
+<script>
+/* ================= POI · close.html · бие даасан хаалтын хуудас ================= */
+const MEMBER_API_URL = "https://script.google.com/macros/s/AKfycbyiXB4qV-DRfwLSwH10mdlkwxkFICWEeE8wLCzY8VQj-C0p05a4LlFSu0GSfYWSvRs/exec";
+const POI_MEMBER_ENVIRONMENT=(new URLSearchParams(location.search).get('environment')==='test')?'test':'real';
+const SESSION_KEY='poi_member_session_v27';
+const SESSION_TTL_MS=60*60*1000; /* 60 мин — явцын хэсэгтэй ижил аюулгүйн загвар */
+
+(function(){var b=document.getElementById('envBadge');if(b){b.textContent=POI_MEMBER_ENVIRONMENT.toUpperCase();b.classList.toggle('real',POI_MEMBER_ENVIRONMENT==='real');}})();
+/* environment-ыг nav холбоос руу дамжуулна */
+if(POI_MEMBER_ENVIRONMENT==='test'){document.getElementById('navProgress').href='performance.html?environment=test';document.getElementById('navClose').href='close.html?environment=test';}
+
+/* ---- session хуваалцах (sessionStorage) ---- */
+function saveSession(memberNo,session){try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({memberNo:memberNo,session:session,ts:Date.now()}));}catch(e){}}
+function loadSession(){try{var r=JSON.parse(sessionStorage.getItem(SESSION_KEY)||'null');if(!r||!r.session)return null;if(Date.now()-Number(r.ts||0)>SESSION_TTL_MS){clearSession();return null;}return r;}catch(e){return null;}}
+function clearSession(){try{sessionStorage.removeItem(SESSION_KEY);}catch(e){}}
+
+/* ---- API туслахууд (явцын хуудастай ижил урсгал) ---- */
+function reqId(){return 'MEM-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12);}
+function clientId(){try{var k='poi_auth_client_id_v1';var v=localStorage.getItem(k)||'';if(v)return v;var a=new Uint32Array(4);crypto.getRandomValues(a);v='C-'+Array.prototype.map.call(a,function(x){return x.toString(36);}).join('-');localStorage.setItem(k,v);return v;}catch(e){return 'C-'+Math.random().toString(36).slice(2)+Date.now().toString(36);}}
+function postForm(params){var body=new URLSearchParams();Object.keys(params||{}).forEach(function(k){body.append(k,String(params[k]==null?'':params[k]));});if(window.fetch)return fetch(MEMBER_API_URL,{method:'POST',mode:'no-cors',cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},body:body.toString()}).then(function(){});return Promise.reject(new Error('post_not_supported'));}
+function fetchJsonp(url){return new Promise(function(resolve,reject){var cb="__c_"+Date.now()+"_"+Math.floor(Math.random()*1e5);var sc=document.createElement("script");var done=false;window[cb]=function(d){if(done)return;done=true;try{delete window[cb];}catch(e){window[cb]=undefined;}if(sc&&sc.parentNode)sc.parentNode.removeChild(sc);resolve(d);};sc.onerror=function(){if(done)return;done=true;if(sc&&sc.parentNode)sc.parentNode.removeChild(sc);reject(new Error('jsonp_error'));};sc.src=url+(url.indexOf('?')<0?'?':'&')+'callback='+cb;document.body.appendChild(sc);setTimeout(function(){if(done)return;done=true;if(sc&&sc.parentNode)sc.parentNode.removeChild(sc);reject(new Error('jsonp_timeout'));},15000);});}
+function resultUrl(id){return MEMBER_API_URL+'?action=member_result&request_id='+encodeURIComponent(id||'');}
+function awaitResult(id){var tries=0,max=120;return new Promise(function(resolve,reject){function tick(){tries++;fetchJsonp(resultUrl(id)).then(function(r){if(r&&r.ready){resolve(r);return;}if(tries>=max){reject(new Error('member_result_timeout'));return;}setTimeout(tick,500);}).catch(function(e){if(tries>=max)reject(e);else setTimeout(tick,500);});}setTimeout(tick,200);});}
+function postAndAwait(params){var pe=null,p=postForm(params).catch(function(e){pe=e;});return awaitResult(params.request_id).catch(function(e){return p.then(function(){throw pe||e;});});}
+
+/* ---- формат ---- */
+function num(v){if(v===null||v===undefined||v==='')return 0;if(typeof v==='number')return v;var n=Number(String(v).replace(/[$,%\s]/g,''));return isFinite(n)?n:0;}
+function money(v){var n=num(v),s=n<0?'-':'';n=Math.abs(n);return s+'$'+n.toLocaleString('en-US',{maximumFractionDigits:0});}
+
+/* ---- DOM ---- */
+var loginPanel=document.getElementById('loginPanel'),closePanel=document.getElementById('closePanel'),closeContent=document.getElementById('closeContent');
+var loginErr=document.getElementById('loginErr'),loginLoading=document.getElementById('loginLoading'),loginBtn=document.getElementById('loginBtn');
+var CREDS=null;
+
+function showLogin(){loginPanel.classList.remove('is-hidden');closePanel.classList.add('is-hidden');}
+function showClose(){loginPanel.classList.add('is-hidden');closePanel.classList.remove('is-hidden');}
+
+/* ---- нэвтрэлт ---- */
+function doLogin(no,code){
+  loginErr.textContent='';loginLoading.classList.remove('is-hidden');loginBtn.disabled=true;
+  var id=reqId();
+  return postAndAwait({action:'member_auth_start',environment:POI_MEMBER_ENVIRONMENT,member_no:no,code:code,client_id:clientId(),request_id:id})
+    .then(function(auth){
+      if(!auth||!auth.ok||!auth.member_session)throw new Error(auth&&auth.error?auth.error:'member_auth_failed');
+      CREDS={memberNo:no,session:auth.member_session};saveSession(no,auth.member_session);
+      if(auth.snapshot&&auth.snapshot.ok)return auth.snapshot;
+      return postAndAwait({action:'member_read_start',member_session:auth.member_session,request_id:reqId()});
+    })
+    .then(function(snap){loginLoading.classList.add('is-hidden');loginBtn.disabled=false;if(!snap||!snap.ok)throw new Error(snap&&snap.error?snap.error:'snapshot_failed');showClose();renderClose(snap);})
+    .catch(function(err){loginLoading.classList.add('is-hidden');loginBtn.disabled=false;CREDS=null;clearSession();var m=String(err&&err.message||err);loginErr.textContent=(m==='wrong_member_no_or_access_code'?'Гишүүний дугаар эсвэл нэвтрэх код буруу байна.':'Нэвтэрч чадсангүй: '+m);});
+}
+loginBtn.onclick=function(){var no=String(document.getElementById('mNo').value||'').trim(),code=String(document.getElementById('mCode').value||'').trim();if(!no||!code){loginErr.textContent='Гишүүний дугаар болон кодоо оруулна уу.';return;}doLogin(no,code);};
+document.getElementById('mCode').addEventListener('keydown',function(e){if(e.key==='Enter')loginBtn.click();});
+
+/* ---- session-оор ачаалах ---- */
+function loadFromSession(){
+  var s=loadSession();if(!s){showLogin();return;}
+  CREDS={memberNo:s.memberNo,session:s.session};
+  closeContent.innerHTML='<div class="loading"><span class="spin"></span><b>Хаалтын мэдээлэл ачаалж байна…</b></div>';showClose();
+  postAndAwait({action:'member_read_start',member_session:s.session,request_id:reqId()})
+    .then(function(snap){if(!snap||!snap.ok)throw new Error(snap&&snap.error?snap.error:'expired');renderClose(snap);})
+    .catch(function(){CREDS=null;clearSession();showLogin();loginErr.textContent='Сесс дууссан тул дахин нэвтэрнэ үү.';});
+}
+
+/* ---- хаалтын карт render ---- */
+function renderClose(snap){
+  var close=snap&&(snap.project_close||snap.projectClose)||null;
+  if(!close||!close.active){
+    closeContent.innerHTML='<div class="close-title">Төслийн эцсийн хаалт</div><div class="inactive"><div class="badge">ИДЭВХГҮЙ</div><div><b>Эцсийн тооцоо хараахан нээгдээгүй байна</b><span>Админ “Төслийн хаалтыг идэвхжүүлэх” товчийг дарахад төслийн хугацаанаас үл хамааран энд хаалтын тооцоо болон PCG-д өгөх 5–15%-ийн талархлын сонголт шууд нээгдэнэ.</span></div></div>';
+    return;
+  }
+  var gp=Math.max(5,Math.min(15,Math.round(num(close.gratitudePct)||5)));
+  var originalCap=Math.max(0,Math.round(num(close.originalCapital)));
+  var monthlyGross=Math.round(num(close.monthlyGross));
+  var closeTotal=Math.round(num(close.closeTotal));
+  var closeChange=closeTotal-originalCap;
+  var grossBefore=Math.max(0,originalCap+monthlyGross+closeChange);
+  var taxable=Math.round(num(close.taxableProfit));
+  var tax=Math.round(num(close.taxReserve));
+  var gratAmt=Math.max(0,Math.round(num(close.gratitudeAmount)));
+  var lifetimeNet=Math.max(0,Math.round(num(close.lifetimeFinalTotal)));
+  var earlyPaid=Math.max(0,Math.round(num(close.earlyPaid)));
+  var finalDue=Math.max(0,Math.round(num(close.finalTotal)));
+  var roi=originalCap>0?((lifetimeNet-originalCap)/originalCap*100):0;
+  var confirmed=!!close.confirmed;
+  /* талархлыг татварын дараах дүнгээс сонгоно */
+  var gratBase=Math.max(0,lifetimeNet+gratAmt);
+
+  var h='';
+  h+='<div class="close-title">'+(confirmed?'Төсөл дууслаа · Таны эцсийн тооцоо баталгаажсан':'Төслийн эцсийн хаалт · Таны тооцоо')+'</div>';
+  h+='<div class="close-sub">Анхны хөрөнгө + сарын ашиг + төгсгөлийн ашиг − татвар − талархал − өмнө олгосон = гар дээрээ авах эцсийн мөнгө.</div>';
+  h+='<div class="breakdown">';
+  h+='<div class="row cyan"><span>Анхны хөрөнгө</span><b>'+money(originalCap)+'</b></div>';
+  h+='<div class="row green"><span>+ Сарын нийт ашиг</span><b>'+money(monthlyGross)+'</b></div>';
+  h+='<div class="row '+(closeChange>=0?'green':'deduct')+'"><span>'+(closeChange>=0?'+ Төслийн төгсгөлийн ашиг':'− Төслийн төгсгөлийн алдагдал')+'</span><b>'+(closeChange>=0?'+':'−')+money(Math.abs(closeChange))+'</b></div>';
+  h+='<div class="row teal"><span>= Суутгалын өмнөх нийт</span><b>'+money(grossBefore)+'</b></div>';
+  h+='<div class="row cyan"><span>Татвар ногдох нийт ашиг</span><b>'+money(taxable)+'</b></div>';
+  h+='<div class="row deduct"><span>− 60/40 түр татвар · 17.8%</span><b>−'+money(tax)+'</b></div>';
+  h+='<div class="row deduct"><span>− PCG талархал · <span id="gpLbl">'+gp+'</span>%</span><b id="gratRow">−'+money(gratAmt)+'</b></div>';
+  h+='<div class="row teal"><span>Төслийн нийт цэвэр эрх</span><b>'+money(lifetimeNet)+'</b></div>';
+  h+='<div class="row gold"><span>Нийт цэвэр өгөөж</span><b>'+(roi>=0?'+':'')+roi.toFixed(1)+'%</b></div>';
+  if(earlyPaid>0)h+='<div class="row deduct"><span>− Өмнө олгосон ашиг</span><b>−'+money(earlyPaid)+'</b></div>';
+  h+='<div class="row total"><span>= Одоо гар дээрээ авах</span><b id="finalRow">'+money(finalDue)+'</b></div>';
+  h+='</div>';
+
+  /* талархлын сонголт */
+  h+='<div class="grat" data-base="'+gratBase+'" data-early="'+earlyPaid+'">';
+  h+='<div class="grat-head"><div><b>PCG-д өгөх талархлын хувь</b><small>5–15%-иас сонгоно. Татварын дараах нийт эрхээс эцсийн олголтын яг өмнө нэг удаа тооцно.</small></div><strong class="grat-amount" id="gratAmount">−'+money(gratAmt)+'</strong></div>';
+  h+='<div class="grat-control"><input id="gratSlider" type="range" min="5" max="15" step="1" value="'+gp+'" '+(confirmed?'disabled':'')+'><span class="grat-pct" id="gratPct">'+gp+'%</span></div>';
+  h+='<div class="grat-actions"><button class="btn" id="gratSaveBtn" type="button" '+(confirmed?'disabled':'')+'>'+(confirmed?'Баталгаажсан':'Сонголтоо баталгаажуулах')+'</button><span class="grat-status '+(confirmed?'ok':'')+'" id="gratStatus">'+(confirmed?('Баталгаажсан сонголт: '+gp+'%.'):('Сонгосон хувь: '+gp+'%. Баталгаажуулбал доорх эцсийн дүн батлагдана.'))+'</span></div>';
+  h+='</div>';
+
+  h+='<div class="final-box"><div class="lbl">Таны гар дээрээ авах эцсийн мөнгө</div><div class="amt" id="finalBig">'+money(finalDue)+'</div></div>';
+  h+='<div class="note">Анхны хөрөнгөд татвар бодоогүй. Эхлээд бүх ашгийг нэгтгэж, дараа нь 60/40 түр татварыг нийт татвар ногдох ашгаас нэг удаа бүхэлчилсэн. Түүний дараа, эцсийн олголтын яг өмнө талархлын нийлбэрийг нэг удаа бүхэлчилж хуваарилсан. Урьдчилж олгосон бүтэн ашгийг хамгийн сүүлд хаалтын үлдэгдлээс хассан.</div>';
+
+  closeContent.innerHTML=h;
+
+  /* slider preview */
+  var slider=document.getElementById('gratSlider');
+  if(slider){slider.oninput=function(){
+    var pct=Math.max(5,Math.min(15,Math.round(Number(slider.value)||5)));
+    var grat=Math.round(gratBase*pct/100);
+    var life=Math.max(0,gratBase-grat);
+    var due=Math.max(0,life-earlyPaid);
+    document.getElementById('gratPct').textContent=pct+'%';
+    document.getElementById('gpLbl').textContent=pct;
+    document.getElementById('gratAmount').textContent='−'+money(grat);
+    document.getElementById('gratRow').textContent='−'+money(grat);
+    document.getElementById('finalRow').textContent=money(due);
+    document.getElementById('finalBig').textContent=money(due);
+    document.getElementById('gratStatus').className='grat-status';
+    document.getElementById('gratStatus').textContent='Сонгосон хувь: '+pct+'%. Баталгаажуулбал доорх эцсийн дүн батлагдана.';
+  };}
+
+  /* confirm */
+  var saveBtn=document.getElementById('gratSaveBtn');
+  if(saveBtn&&!confirmed){saveBtn.onclick=function(){
+    if(!CREDS||!CREDS.session){document.getElementById('gratStatus').className='grat-status bad';document.getElementById('gratStatus').textContent='Сесс дууссан. Дахин нэвтэрнэ үү.';return;}
+    var pct=Math.max(5,Math.min(15,Math.round(Number(slider.value)||5)));
+    saveBtn.disabled=true;saveBtn.textContent='Баталгаажуулж байна…';
+    var st=document.getElementById('gratStatus');st.className='grat-status';st.textContent='Сонголтыг сервер дээр бүртгэж байна…';
+    postAndAwait({action:'member_close_gratitude_save',environment:POI_MEMBER_ENVIRONMENT,member_session:CREDS.session,gratitude_pct:String(pct),request_id:reqId()})
+      .then(function(res){
+        if(!res||!res.ok)throw new Error(res&&res.error?res.error:'save_failed');
+        st.className='grat-status ok';st.textContent='Талархлын хувь '+pct+'% баталгаажлаа ✓ Эцсийн тооцоо шинэчлэгдэж байна…';
+        return postAndAwait({action:'member_read_start',member_session:CREDS.session,request_id:reqId()});
+      })
+      .then(function(snap){if(snap&&snap.ok)renderClose(snap);})
+      .catch(function(err){saveBtn.disabled=false;saveBtn.textContent='Сонголтоо баталгаажуулах';var m=String(err&&err.message||err);st.className='grat-status bad';st.textContent=(m==='member_session_expired'?'Сесс дууссан. Дахин нэвтэрч ороод баталгаажуулна уу.':(m==='gratitude_pct_out_of_range'?'Хувь 5–15 хооронд байх ёстой.':'Баталгаажуулж чадсангүй: '+m));});
+  };}
+}
+
+/* ---- refresh / logout ---- */
+document.getElementById('refreshBtn').onclick=function(){if(!CREDS)return;closeContent.innerHTML='<div class="loading"><span class="spin"></span><b>Шинэчилж байна…</b></div>';postAndAwait({action:'member_read_start',member_session:CREDS.session,request_id:reqId()}).then(function(s){if(s&&s.ok)renderClose(s);}).catch(function(){});};
+document.getElementById('logoutBtn').onclick=function(){if(CREDS&&CREDS.session)postForm({action:'member_revoke',member_session:CREDS.session}).catch(function(){});CREDS=null;clearSession();showLogin();};
+
+/* эхлэл: session байвал шууд ачаална */
+loadFromSession();
+</script>
+</body>
+</html>

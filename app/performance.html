@@ -2367,7 +2367,7 @@ html.poi-embedded #wbg{display:none!important;}
 
           <div class="member-subtabs" id="memberSubtabs" role="tablist">
             <button class="member-subtab active" id="mtabProgressBtn" type="button" onclick="poiMemberTabV391626('progress')">Төслийн явцын гүйцэтгэл</button>
-            <button class="member-subtab" id="mtabCloseBtn" type="button" onclick="poiMemberTabV391626('close')">Төслийн хаалт<span class="member-subtab-dot" id="mtabCloseDot" hidden></span></button>
+            <button class="member-subtab" id="mtabCloseBtn" type="button" onclick="poiGoToClosePageV391627()">Төслийн хаалт<span class="member-subtab-dot" id="mtabCloseDot" hidden></span></button>
           </div>
           <div class="sheet-close-mount" id="sheetCloseMount"></div>
           <div class="sheet-profile-grid" id="sheetProfileGrid"></div>
@@ -3583,7 +3583,7 @@ function renderSheetPayout(resp,ctx){
     card.innerHTML=h;card.style.display='';
     try{
       var mount=document.getElementById('sheetCloseMount');
-      if(mount){ mount.innerHTML=closeHtml||''; }
+      if(mount){ mount.innerHTML='<div style="padding:16px;border:1px dashed rgba(120,170,190,.3);border-radius:12px;text-align:center"><b style="display:block;color:#eafff8;margin-bottom:6px">Төслийн хаалтын тооцоо тусдаа хуудсанд байрлана</b><span style="color:#8fb0be;font-size:13px">Дээрх “Төслийн хаалт” товчийг дарж эцсийн тооцоо, талархлын сонголтоо хийнэ үү.</span></div>'; }
       var dot=document.getElementById('mtabCloseDot');
       var isActive=!!(ctx&&ctx.projectClose&&ctx.projectClose.active);
       if(dot){ dot.hidden=!isActive; }
@@ -3593,6 +3593,10 @@ function renderSheetPayout(resp,ctx){
   }catch(e){}
 }
 
+window.poiGoToClosePageV391627=function(){
+  var env=(new URLSearchParams(location.search).get('environment')==='test')?'?environment=test':'';
+  window.location.href='close.html'+env;
+};
 window.poiMemberTabV391626=function(which){
   try{
     window.__poiMemberTabTouchedV391626=true;
@@ -3817,7 +3821,7 @@ function renderSheetMemberModule(data){
     sheetPostAndAwaitV391612({action:'member_auth_start',environment:POI_MEMBER_ENVIRONMENT,member_no:no,code:code,client_id:sheetAuthClientIdV39166(),request_id:requestId}).then(function(auth){
       if(!auth||!auth.ok||!auth.member_session)throw new Error(auth&&auth.error?auth.error:'member_auth_failed');
       var session=auth.member_session;
-      window.__sheetLastCredentials=__sheetLastCredentials={memberNo:no,session:session};
+      window.__sheetLastCredentials=__sheetLastCredentials={memberNo:no,session:session};try{sessionStorage.setItem('poi_member_session_v27',JSON.stringify({memberNo:no,session:session,ts:Date.now()}));}catch(_e){}
       if(auth.snapshot&&auth.snapshot.ok)return auth.snapshot;
       if(status)status.textContent='Мэдээлэл татаж байна...';
       var readRequestId=sheetMemberRequestId();
@@ -3846,7 +3850,7 @@ function renderSheetMemberModule(data){
   if(accessInput)accessInput.onkeydown=function(e){ if(e.key==='Enter')lookupLiveMember(); };
   if(memberNoInput)memberNoInput.onkeydown=function(e){ if(e.key==='Enter')lookupLiveMember(); };
   if(fetchBtn)fetchBtn.onclick=lookupLiveMember;
-  if(logoutBtn)logoutBtn.onclick=function(){ var old=window.__sheetLastCredentials||__sheetLastCredentials; if(old&&old.session)sheetPostForm({action:'member_revoke',member_session:old.session}).catch(function(){}); window.__sheetLiveMember=null; window.__sheetLiveCampaign=null; window.__sheetLastCredentials=__sheetLastCredentials=null; __perfDataCache=null; try{sessionStorage.removeItem('fc_perf_cache_v6_protected');}catch(e){} try{localStorage.removeItem('fc_perf_cache_v6_protected');}catch(e){} setError(''); showAuth(); };
+  if(logoutBtn)logoutBtn.onclick=function(){ var old=window.__sheetLastCredentials||__sheetLastCredentials; if(old&&old.session)sheetPostForm({action:'member_revoke',member_session:old.session}).catch(function(){}); window.__sheetLiveMember=null; window.__sheetLiveCampaign=null; window.__sheetLastCredentials=__sheetLastCredentials=null; __perfDataCache=null; try{sessionStorage.removeItem('fc_perf_cache_v6_protected');}catch(e){} try{localStorage.removeItem('fc_perf_cache_v6_protected');}catch(e){} try{sessionStorage.removeItem('poi_member_session_v27');}catch(e){} setError(''); showAuth(); };
   if(window.__sheetLiveMember&&window.__sheetLiveCampaign){
     renderMemberDashboard({ok:true,member:window.__sheetLiveMember,campaign:window.__sheetLiveCampaign});
   }else{
@@ -4303,6 +4307,6 @@ window.addEventListener('DOMContentLoaded',function(){
   }
 </script>
 
-<script>document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){if(document.getElementById('poiVerBadgeV391626pub'))return;var b=document.createElement('div');b.id='poiVerBadgeV391626pub';b.textContent='V39.16.26';b.style.cssText='position:fixed;left:10px;bottom:10px;z-index:2147483000;padding:4px 9px;border-radius:8px;background:rgba(3,42,44,.9);border:1px solid rgba(34,230,183,.5);color:#7fe9d0;font:600 11px system-ui;pointer-events:none';document.body.appendChild(b);},140);});</script>
+<script>document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){if(document.getElementById('poiVerBadgeV391627pub'))return;var b=document.createElement('div');b.id='poiVerBadgeV391627pub';b.textContent='V39.16.27';b.style.cssText='position:fixed;left:10px;bottom:10px;z-index:2147483000;padding:4px 9px;border-radius:8px;background:rgba(3,42,44,.9);border:1px solid rgba(34,230,183,.5);color:#7fe9d0;font:600 11px system-ui;pointer-events:none';document.body.appendChild(b);},140);});</script>
 </body>
 </html>
