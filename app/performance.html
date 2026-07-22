@@ -4,7 +4,7 @@
 <meta name="color-scheme" content="dark">
 <script>(function(){try{if(window.self!==window.top)document.documentElement.className+=' poi-embedded';}catch(e){document.documentElement.className+=' poi-embedded';}})();</script>
 <meta charset="UTF-8">
-<meta name="poi-release" content="V39.16.33">
+<meta name="poi-release" content="V39.16.35">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>POI Capital Group · Гүйцэтгэл ба гишүүний самбар</title>
 <meta name="description" content="POI Capital Group-ийн гишүүний гүйцэтгэлийн самбар: хөрөнгө, эзлэх хувь, хуримтлагдсан үр дүн, өгөөж болон төслийн явц.">
@@ -1515,6 +1515,11 @@ body{position:relative !important; overflow-x:hidden !important;}
 .sheet-month-summary{margin-top:10px;color:#c9f5ef;font-size:12.5px;line-height:1.6;border-top:1px solid rgba(255,255,255,.08);padding-top:10px}
 .sheet-month-summary b{color:#eafffb}
 .sheet-month-disclaimer{margin-top:8px;color:#96bcb5;font-size:11.5px;line-height:1.55}
+.sheet-month-status{display:inline-flex;align-items:center;justify-content:center;min-width:92px;padding:6px 9px;border-radius:999px;font-size:10px;font-weight:950;letter-spacing:.03em;border:1px solid rgba(255,255,255,.12);white-space:nowrap}
+.sheet-month-status.confirmed{color:#55e8c3;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.34)}
+.sheet-month-status.current{color:#ffd37a;background:rgba(255,181,71,.10);border-color:rgba(255,181,71,.34)}
+.sheet-month-status.planned{color:#a9dff0;background:rgba(79,195,247,.08);border-color:rgba(79,195,247,.24)}
+
 
 /* V16 two-step flow: performance цэс = эхлээд нэвтрэх нүүр, дараа нь үндсэн dashboard */
 body.perf-auth-gate #view-performance{display:flex!important;align-items:flex-start;justify-content:center;padding-top:clamp(28px,7vh,72px)}
@@ -3655,6 +3660,34 @@ function renderSheetMemberModule(data){
     var update=perfDate(perfRawValue(d,'update_date',''))||perfDate(pdata.updated_at)||'';
     return {d:d,m:m,chart:chart,latest:latest,monthlyRoi:monthlyRoi,operatorNote:op,update:update};
   }
+
+  function projectionBaselineV391635(camp,mem,current){
+    camp=camp||{};mem=mem||{};current=current||{};
+    var raw=(camp.projection_baseline&&typeof camp.projection_baseline==='object')?camp.projection_baseline:{};
+    var allocRaw=(raw.allocations&&typeof raw.allocations==='object')?raw.allocations:{};
+    var alloc=sheetNormalizeAlloc(
+      sheetUnitPct(allocRaw.active,0.50),
+      sheetUnitPct(allocRaw.reserve,0.30),
+      sheetUnitPct(allocRaw.monthly,0.20)
+    );
+    var snapshots=Array.isArray(raw.member_snapshot)?raw.member_snapshot:[];
+    var memberNo=String(mem.member_no||'');
+    var snap=snapshots.filter(function(x){return String(x&&x.no||'')===memberNo;})[0]||null;
+    var totalCap=Math.max(1,Math.round(perfNumber(raw.total_capital)||current.totalCap||perfNumber(mem.capital)||1));
+    var memberCap=Math.max(0,Math.round(perfNumber(snap&&snap.capital)||current.memberCap||perfNumber(mem.capital)||0));
+    var n=Math.max(1,Math.round(perfNumber(raw.member_count)||snapshots.length||current.n||1));
+    var months=Math.max(1,Math.round(perfNumber(raw.months)||current.months||12));
+    var type=String(raw.model_type||current.type||'weighted').toLowerCase()==='equal'?'equal':'weighted';
+    var closeMode=String(raw.close_method||current.closeMode||'B').toLowerCase()==='a'?'a':'b';
+    var r=sheetUnitPct(raw.monthly_roi,current.r==null?0.10:current.r);
+    var cost=sheetUnitPct(raw.cost_pct,current.cost==null?0.02:current.cost);
+    var reserveTargetPct=sheetUnitPct(raw.reserve_target_pct,0.30);
+    var startActive=Math.max(0,Math.round(raw.start_active===null||raw.start_active===undefined||raw.start_active===''?totalCap:perfNumber(raw.start_active)));
+    var startReserve=Math.max(0,Math.round(raw.start_reserve===null||raw.start_reserve===undefined||raw.start_reserve===''?0:perfNumber(raw.start_reserve)));
+    var startMonthly=Math.max(0,Math.round(raw.start_monthly===null||raw.start_monthly===undefined||raw.start_monthly===''?0:perfNumber(raw.start_monthly)));
+    return {valid:totalCap>0&&memberCap>=0,source:String(raw.source||camp.projection_baseline_source||'legacy_fallback'),frozen:!!raw.frozen,type:type,closeMode:closeMode,n:n,totalCap:totalCap,memberCap:memberCap,months:months,r:r,cost:cost,alloc:alloc,reserveTargetPct:reserveTargetPct,startActive:startActive,startReserve:startReserve,startMonthly:startMonthly};
+  }
+
   function renderMemberDashboard(resp){
     resp=normalizeMemberResponseV391618(resp);
     var mem=resp.member||{},camp=resp.campaign||{},perf=currentPerformance();
@@ -3668,7 +3701,9 @@ function renderSheetMemberModule(data){
     incentive=Math.max(0.05,Math.min(0.15,incentive));
     var months=Math.max(1,Math.round(perfNumber(camp.months)||12));
     var modelCfg=sheetModelAConfig(camp,cost);
-    var baseline=sheetCalcProjection({type:type,closeMode:closeMode,memberCount:n,memberCap:memberCap,totalCap:totalCap,returnPct:r,costPct:cost,incentivePct:incentive,months:months,alloc:modelCfg.alloc,reserveTargetPct:modelCfg.reserveTargetPct,startActive:totalCap,startReserve:0,startMonthly:0});
+    var baselineCfg=projectionBaselineV391635(camp,mem,{type:type,closeMode:closeMode,n:n,totalCap:totalCap,memberCap:memberCap,months:months,r:r,cost:cost});
+    var baseline=sheetCalcProjection({type:baselineCfg.type,closeMode:baselineCfg.closeMode,memberCount:baselineCfg.n,memberCap:baselineCfg.memberCap,totalCap:baselineCfg.totalCap,returnPct:baselineCfg.r,costPct:baselineCfg.cost,incentivePct:0,months:baselineCfg.months,alloc:baselineCfg.alloc,reserveTargetPct:baselineCfg.reserveTargetPct,startActive:baselineCfg.startActive,startReserve:baselineCfg.startReserve,startMonthly:baselineCfg.startMonthly});
+    var currentShare=type==='weighted'?(totalCap?memberCap/totalCap:0):(n?1/n:0);
     var position=sheetCampaignPositionFromPerf(perf,months,camp),elapsed=position.month;
     var hasCurrentActive=perfRawValue(camp,'active_trading_balance',perfRawValue(camp,'active_balance',null))!==null;
     var currentActive=hasCurrentActive?Math.max(0,modelCfg.currentActive):Math.max(0,perf.latest||totalCap);
@@ -3680,20 +3715,19 @@ function renderSheetMemberModule(data){
     function viewFor(pct){
       pct=Math.max(0.05,Math.min(.15,sheetUnitPct(pct,incentive)));
       var future=sheetCalcProjection({type:type,closeMode:closeMode,memberCount:n,memberCap:memberCap,totalCap:totalCap,returnPct:r,costPct:cost,incentivePct:0,months:remaining,alloc:modelCfg.alloc,reserveTargetPct:modelCfg.reserveTargetPct,startActive:currentActive,startReserve:currentReserve,startMonthly:0});
-      var currentClose=sheetMemberCloseAmount(currentActive+currentReserve,type,closeMode,n,totalCap,memberCap,baseline.share);
+      var currentClose=sheetMemberCloseAmount(currentActive+currentReserve,type,closeMode,n,totalCap,memberCap,currentShare);
       /* Lifetime project result includes profit already paid early. The outstanding accrued
          amount remains visible separately, but the headline/ROI must not lose paid profit. */
       var currentGross=Math.max(0,accruedGross+currentClose);
       var revisedGross=Math.max(0,accruedGross+future.totalMonthly+future.close);
-      var targetProjection=sheetCalcProjection({type:type,closeMode:closeMode,memberCount:n,memberCap:memberCap,totalCap:totalCap,returnPct:r,costPct:cost,incentivePct:0,months:months,alloc:modelCfg.alloc,reserveTargetPct:modelCfg.reserveTargetPct,startActive:totalCap,startReserve:0,startMonthly:0});
-      var targetGross=Math.max(0,targetProjection.grossTotal);
-      var currentProfit=Math.max(0,currentGross-memberCap),targetProfit=Math.max(0,targetGross-memberCap),progressPct=targetProfit?currentProfit/targetProfit*100:0;
+      var targetGross=Math.max(0,baseline.grossTotal);
+      var currentProfit=Math.max(0,currentGross-memberCap),targetProfit=Math.max(0,targetGross-baselineCfg.memberCap),progressPct=targetProfit?currentProfit/targetProfit*100:0;
       return {pct:pct,future:future,currentClose:currentClose,currentGross:currentGross,revisedGross:revisedGross,targetGross:targetGross,currentProfit:currentProfit,targetProfit:targetProfit,progressPct:progressPct,currentExtra:Math.max(0,currentGross-targetGross)};
     }
     var view=viewFor(incentive),revisedRoi=memberCap?view.revisedGross/memberCap-1:0;
     var directMemberRaw=perfRawValue(mem,'current_month_distribution',perfRawValue(mem,'monthly_distribution_current',null));
     var directTotalRaw=perfRawValue(camp,'latest_confirmed_month_distribution_total',null);
-    var actualMember=directMemberRaw!==null?Math.max(0,perfNumber(directMemberRaw)||0):(directTotalRaw!==null?sheetMemberMonthlyAmount(Math.max(0,perfNumber(directTotalRaw)||0),type,n,baseline.share):0);
+    var actualMember=directMemberRaw!==null?Math.max(0,perfNumber(directMemberRaw)||0):(directTotalRaw!==null?sheetMemberMonthlyAmount(Math.max(0,perfNumber(directTotalRaw)||0),type,n,currentShare):0);
     var calcLabel=type==='weighted'?'Хөрөнгийн хэмжээгээр жигнэсэн':'Тэнцүү хуваарилалт';
     var welcome=mem.welcome_note||('Тавтай морил, '+name+'. Энэ самбар таны хөрөнгө, сарын ноогдол, бодит явц болон төслийн төгсгөлийн шинэчилсэн зураглалыг харуулна.');
     if(welcomeName)welcomeName.textContent='Тавтай морил, '+name;if(welcomeText)welcomeText.textContent=welcome;if(status)status.textContent='Нэвтэрсэн · '+calcLabel;
@@ -3704,14 +3738,14 @@ function renderSheetMemberModule(data){
         '<div class="sheet-profile-card hero profit"><span>2 · Шинэчилсэн боломжит ашиг</span><b id="sheetTopExpectedProfit">'+perfCurrency(Math.max(0,view.revisedGross-memberCap))+'</b><small>Хуримтлагдсан сарын ноогдол болон хаалтын дүнгийн шинэчилсэн зураглал.</small></div>',
         '<div class="sheet-profile-card hero expected"><span>3 · Төслийн төгсгөлд авах боломжит нийт дүн</span><b id="sheetTopExpectedNet">'+perfCurrency(view.revisedGross)+'</b><small>Таны үндсэн хөрөнгө, сарын ноогдол болон хаалтын дүнгийн нийлбэр.</small></div>',
         '<div class="sheet-profile-card hero roi"><span>4 · Нийт өгөөжийн зураглал</span><b id="sheetTopExpectedRoi">'+(revisedRoi>=0?'+':'')+(revisedRoi*100).toFixed(1)+'%</b><small>Шинэчилсэн боломжит дүнг таны анхны хөрөнгөтэй харьцуулсан хувь.</small></div>',
-        '<div class="sheet-profile-card compact cyan"><span>Нийт гишүүдийн хөрөнгөд эзлэх хувь</span><b>'+perfPctPlain(baseline.share)+'</b></div>',
+        '<div class="sheet-profile-card compact cyan"><span>Нийт гишүүдийн хөрөнгөд эзлэх хувь</span><b>'+perfPctPlain(currentShare)+'</b></div>',
         '<div class="sheet-profile-card compact gold"><span>Хамрагдсан бүлэг</span><b>'+n+' гишүүн</b></div>',
         (earlyPaid>0?'<div class="sheet-profile-card compact green"><span>Урьдчилж олгосон ашиг</span><b>'+perfCurrency(earlyPaid)+'</b><small>Aggregate татвар, талархлын дараа хамгийн сүүлд суутгана.</small></div>':''),
         '<div class="sheet-profile-card compact"><span>Хугацаа</span><b>'+months+' сар</b></div>',
         '<div class="sheet-profile-card compact gold"><span>Хамгаалалтын нөөц</span><b>'+(modelCfg.reserveTargetPct*100).toFixed(0)+'%</b><small style="display:block;color:#FFD37A;margin-top:5px">'+perfCurrency(currentReserve)+' / '+perfCurrency(targetReserve)+' · '+reserveProgress.toFixed(0)+'%</small><div class="rv-strip"><div class="rv-fill" style="width:'+reserveProgress.toFixed(1)+'%"></div></div></div>'
       ].join('');
     }
-    try{renderSheetPayout(resp,{memberCap:memberCap,totalCap:totalCap,share:baseline.share,accrued:accrued,accruedGross:accruedGross,earlyPaid:earlyPaid,futureMonthly:view.future.totalMonthly,closePart:view.future.close,total:view.revisedGross,roi:revisedRoi,r:r,months:months,n:n,type:type,campaign:camp,incentive:incentive,projectClose:resp.project_close||null});}catch(e){}
+    try{renderSheetPayout(resp,{memberCap:memberCap,totalCap:totalCap,share:currentShare,accrued:accrued,accruedGross:accruedGross,earlyPaid:earlyPaid,futureMonthly:view.future.totalMonthly,closePart:view.future.close,total:view.revisedGross,roi:revisedRoi,r:r,months:months,n:n,type:type,campaign:camp,incentive:incentive,projectClose:resp.project_close||null});}catch(e){}
     if(progressBox){progressBox.innerHTML='';progressBox.style.display='none';}
     function progressNote(v){
       var p=Math.max(0,v.progressPct),base=months+' сарын зорилтот ашиг '+perfCurrency(v.targetProfit)+' — одоогоор '+perfCurrency(v.currentProfit)+' буюу '+p.toFixed(1)+'% нь биелээд байна. ';
@@ -3725,11 +3759,11 @@ function renderSheetMemberModule(data){
           '<div class="sheet-proj-col green"><h4>Суурь төлөвлөгөө</h4>',
             '<div class="sheet-proj-metric"><span>Анхны нөхцөлөөр тооцсон боломжит дүн</span><b id="sheetBaseProjection">'+perfCurrency(view.targetGross)+'</b><small>Төсөл эхлэхэд баталсан нөхцөлөөр.</small></div>',
             projectPeriodDone?'<div class="sheet-proj-metric current-month"><span>Төслийн төлөвлөсөн хугацаа</span><b>Дууссан</b><small>Үлдсэн сарын төсөөлөл $0. Төслийн хаалтын тооцоог ашиглана.</small></div>':'<div class="sheet-proj-metric current-month"><span>Дараагийн төлөвлөсөн сарын ноогдол</span><b>'+perfCurrency(plannedRow.memberMonthly||0)+'</b><small>Зорилтот өгөөж болон төлөвлөсөн хуваарилалтаар.</small></div>',
-            '<div class="sheet-proj-metric"><span>Зорилтот сарын өгөөж</span><b>'+perfPctPlain(r)+'</b><small>Ирээдүйн үлдсэн хугацаанд ашигласан үндсэн төсөөлөл.</small></div>',
+            '<div class="sheet-proj-metric"><span>Зорилтот сарын өгөөж</span><b>'+perfPctPlain(baselineCfg.r)+'</b><small>Ирээдүйн үлдсэн хугацаанд ашигласан үндсэн төсөөлөл.</small></div>',
           '</div>',
           '<div class="sheet-proj-col gold"><h4>Бодит явцаар шинэчилсэн зураглал</h4>',
             '<div class="sheet-proj-metric"><span>Шинэчилсэн боломжит нийт дүн</span><b id="sheetNetProjection">'+perfCurrency(view.revisedGross)+'</b><small>'+(view.currentProfit>0?('Одоогоор баталгаажсан ашиг '+perfCurrency(view.currentProfit)+' байна.'):'Одоогоор баталгаажсан ашиг бүртгэгдээгүй байна.')+'</small></div>',
-            '<div class="sheet-proj-metric"><span>Энэ сарын ноогдол</span><b>'+perfCurrency(actualMember)+'</b><small>Сарын хаалтын баталгаажсан үр дүн болон сонгосон хуваарилалтаар.</small></div>',
+            '<div class="sheet-proj-metric"><span>Сүүлд баталгаажсан сарын ноогдол</span><b>'+perfCurrency(actualMember)+'</b><small>Сарын хаалтын баталгаажсан үр дүн.</small></div>',
             '<div class="sheet-proj-metric"><span>Энэ сарын бодит өгөөж</span><b>'+perfPctPlain(perf.monthlyRoi)+'</b><small>Сарын хаалтын баталгаажсан үр дүн.</small></div>',
           '</div>',
         '</div>',
@@ -3741,11 +3775,30 @@ function renderSheetMemberModule(data){
       if(thanksMount){thanksMount.classList.remove('is-visible');thanksMount.innerHTML='';}
     }
     if(table){
-      var cum=0,rows=baseline.rows.map(function(x){cum+=x.memberMonthly;return '<tr><td>'+x.m+'-р сар</td><td class="num green">'+perfCurrency(x.memberMonthly)+'<small>Төлөвлөсөн сарын ноогдол</small></td><td class="num gold">'+perfCurrency(cum)+'<small>Хуримтлагдсан нийлбэр</small></td></tr>';}).join('');
-      table.innerHTML='<div class="sheet-month-caption">Сарын ноогдлын урьдчилсан зураглал</div><table><thead><tr><th>Сар</th><th>Сарын ноогдол</th><th>Хуримтлагдсан дүн</th></tr></thead><tbody>'+rows+'</tbody></table><div class="sheet-month-summary">'+months+' сарын төлөвлөсөн сарын ноогдлын нийлбэр: <b>'+perfCurrency(cum)+'</b>. Үүн дээр хаалтын дүн нэмэгдэнэ.</div><div class="sheet-month-disclaimer">Бодит сарын ноогдол сар бүрийн хаалтын үр дүн болон PCG-ийн баталсан хуваарилалтаар тогтоно.</div>';
+      var history=Array.isArray(resp.monthly_close_history)?resp.monthly_close_history.slice():[];
+      history.sort(function(a,b){return String(a&&a.month||'').localeCompare(String(b&&b.month||''));});
+      var confirmedCount=Math.min(months,history.length),baseCum=0,updatedCum=0,confirmedTotal=0;
+      var rows=[];
+      for(var monthIndex=0;monthIndex<months;monthIndex++){
+        var baseRow=baseline.rows[monthIndex]||{memberMonthly:0};
+        var baseAmount=Math.max(0,Math.round(Number(baseRow.memberMonthly)||0));baseCum+=baseAmount;
+        var updatedAmount=0,statusText='Төлөвлөсөн',statusClass='planned',detail='Одоогийн дансны үлдэгдэл ба үлдсэн хугацаагаар';
+        if(monthIndex<confirmedCount){
+          updatedAmount=Math.max(0,Math.round(perfNumber(history[monthIndex]&&history[monthIndex].member_gross)||0));
+          confirmedTotal+=updatedAmount;statusText='Баталгаажсан';statusClass='confirmed';detail='Сарын хаалтын өөрчлөгдөхгүй бодит дүн';
+        }else{
+          var futureIndex=monthIndex-confirmedCount,futureRow=view.future.rows[futureIndex]||{memberMonthly:0};
+          updatedAmount=Math.max(0,Math.round(Number(futureRow.memberMonthly)||0));
+          if(monthIndex===confirmedCount){statusText='Одоогийн сар';statusClass='current';detail='Бодит явцаас шинэчилсэн дараагийн сарын төсөөлөл';}
+        }
+        updatedCum+=updatedAmount;
+        rows.push('<tr><td>'+(monthIndex+1)+'-р сар</td><td class="num green">'+perfCurrency(baseAmount)+'<small>Хуримтлал '+perfCurrency(baseCum)+'</small></td><td class="num gold">'+perfCurrency(updatedAmount)+'<small>'+detail+' · хуримтлал '+perfCurrency(updatedCum)+'</small></td><td><span class="sheet-month-status '+statusClass+'">'+statusText+'</span></td></tr>');
+      }
+      var baselineSourceNote=baselineCfg.frozen?'Төсөл эхлэх үед түгжсэн calculator snapshot.':'Хуучин төслийн нээлт/эхний 7 хоногийн snapshot-аас сэргээсэн суурь төлөвлөгөө.';
+      table.innerHTML='<div class="sheet-month-caption">Сарын ноогдол · анхны төлөвлөгөө ба бодит/шинэчилсэн явц</div><table><thead><tr><th>Сар</th><th>Анхны төлөвлөгөө</th><th>Бодит / шинэчилсэн дүн</th><th>Төлөв</th></tr></thead><tbody>'+rows.join('')+'</tbody></table><div class="sheet-month-summary">Анхны төлөвлөгөөний '+months+' сарын нийлбэр: <b>'+perfCurrency(baseCum)+'</b> · Баталгаажсан бодит нийлбэр: <b>'+perfCurrency(confirmedTotal)+'</b> · Бодит явцаар шинэчилсэн нийт: <b>'+perfCurrency(updatedCum)+'</b>.</div><div class="sheet-month-disclaimer">'+baselineSourceNote+' Баталгаажсан сар дахин өөрчлөгдөхгүй; хаагдаагүй сарууд одоогийн Active, Reserve болон үлдсэн хугацаагаар шинэчлэгдэнэ.</div>';
     }
     if(brief){var marketBrief=sheetMarketBriefFromResponse(resp,camp);brief.innerHTML=sheetBriefCopy(marketBrief,perf);}
-    if(note)note.textContent='Нэвтэрсэн: '+name+' · '+perfCurrency(memberCap)+' · эзлэх хувь '+perfPctPlain(baseline.share)+'.';
+    if(note)note.textContent='Нэвтэрсэн: '+name+' · '+perfCurrency(memberCap)+' · эзлэх хувь '+perfPctPlain(currentShare)+'.';
     showDashboard();
   }
   function lookupLiveMember(){
