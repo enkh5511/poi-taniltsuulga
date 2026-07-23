@@ -11,10 +11,11 @@ function transact(params){const id=params.request_id||requestId();params.request
 function session(){try{return JSON.parse(sessionStorage.getItem(KEY)||'null')}catch(e){return null}}
 function saveSession(v){sessionStorage.setItem(KEY,JSON.stringify(v))}
 function clearSession(){sessionStorage.removeItem(KEY)}
+async function logout(){const s=session();try{if(s&&s.session)await post({action:'member_revoke',member_session:s.session})}catch(_e){}finally{clearSession()}return true}
 function money(v){const n=Math.round(Number(v)||0);return(n<0?'−':'')+'$'+Math.abs(n).toLocaleString('en-US')}
 function closeData(snapshot){const root=snapshot||{},state=root.state||{};return root.project_close||root.projectClose||state.project_close||state.projectClose||null}
 async function login(no,code){const auth=await transact({action:'member_auth_start',environment:ENV,member_no:no,code:code,client_id:'member-portal-v2',request_id:requestId()});if(!auth||!auth.ok||!auth.member_session)throw new Error(auth&&auth.error?auth.error:'Нэвтрэх мэдээлэл буруу байна');const snap=auth.snapshot&&auth.snapshot.ok?auth.snapshot:null;const item={memberNo:String(no),session:auth.member_session,environment:ENV,member:snap&&snap.member?snap.member:null,snapshot:snap};saveSession(item);return snap||read()}
 async function read(){const s=session();if(!s||!s.session)throw new Error('Нэвтрэх хугацаа дууссан');const r=await transact({action:'member_read_start',member_session:s.session,request_id:requestId()});if(!r||!r.ok)throw new Error(r&&r.error?r.error:'Мэдээлэл татаж чадсангүй');if(r.member){s.member=r.member;s.snapshot=r;saveSession(s)}return r}
 async function saveGratitude(value){const s=session();if(!s||!s.session)throw new Error('Нэвтрэх хугацаа дууссан');const r=await transact({action:'member_close_gratitude_save',member_session:s.session,gratitude_pct:String(value),request_id:requestId()});if(!r||!r.ok)throw new Error(r&&r.error?r.error:'Баталгаажуулж чадсангүй');return r.snapshot&&r.snapshot.ok?r.snapshot:read()}
-window.POIMember={API,ENV,KEY,session,saveSession,clearSession,login,read,saveGratitude,money,closeData};
+window.POIMember={API,ENV,KEY,session,saveSession,clearSession,logout,login,read,saveGratitude,money,closeData};
 })();

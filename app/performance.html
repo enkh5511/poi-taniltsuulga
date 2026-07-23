@@ -4,7 +4,7 @@
 <meta name="color-scheme" content="dark">
 <script>(function(){try{if(window.self!==window.top)document.documentElement.className+=' poi-embedded';}catch(e){document.documentElement.className+=' poi-embedded';}})();</script>
 <meta charset="UTF-8">
-<meta name="poi-release" content="V39.16.39">
+<meta name="poi-release" content="V39.16.40">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>POI Capital Group · Гүйцэтгэл ба гишүүний самбар</title>
 <meta name="description" content="POI Capital Group-ийн гишүүний гүйцэтгэлийн самбар: хөрөнгө, эзлэх хувь, хуримтлагдсан үр дүн, өгөөж болон төслийн явц.">
@@ -2483,6 +2483,9 @@ function perfPctPlain(v){
   if(Math.abs(n)<=5)n*=100;
   return n.toFixed(2)+"%";
 }
+function perfValueKnown(v){return !(v===null||v===undefined||v==="");}
+function perfPctOrDash(v){return perfValueKnown(v)?perfPctPlain(v):"—";}
+function perfCurrencyOrDash(v){return perfValueKnown(v)?perfCurrency(v):"—";}
 function perfNum(v,d){
   var n=perfNumber(v);
   return n.toLocaleString("en-US",{minimumFractionDigits:d||0,maximumFractionDigits:d||0});
@@ -2669,8 +2672,8 @@ function renderPerformanceDashboard(data){
     ["7 хоногийн ашиг/алдагдал",perfCurrency(perfRawValue(d,"weekly_pl_usd",0)),"Сүүлийн хаагдсан 7 хоног",perfClass(perfRawValue(d,"weekly_pl_usd",0))],
     ["7 хоногийн өгөөж",perfPct(perfRawValue(d,"weekly_pl_pct",0)),"7 хоногийн өгөөж",perfClass(perfRawValue(d,"weekly_pl_pct",0))],
     ["Нийт өгөөж",perfPct(perfRawValue(d,"total_roi_pct",0)),"Нийт хугацааны үр дүн",perfClass(perfRawValue(d,"total_roi_pct",0))],
-    ["Их уналт",perfPctPlain(perfRawValue(d,"max_weekly_dd_pct",0)),"Сүүлийн 7 хоногийн уналт","perf-negative"],
-    ["DD хамгаалалт",perfCurrency(perfRawValue(d,"dd_limit_usd",0)),"20% хамгаалалтын шугам","perf-cyan"]
+    ["Их уналт",perfPctOrDash(perfRawValue(d,"max_weekly_dd_pct",null)),"Бодит drawdown дата бүртгэгдээгүй бол —","perf-negative"],
+    ["DD хамгаалалт",perfCurrencyOrDash(perfRawValue(d,"dd_limit_usd",null)),"Баталгаажсан хамгаалалтын шугам байхгүй бол —","perf-cyan"]
   ];
   var cardsEl=document.getElementById("perfCards");
   if(cardsEl)cardsEl.innerHTML=cards.map(function(c){return '<div class="perf-card"><div class="perf-label">'+c[0]+'</div><div class="perf-value '+c[3]+'">'+c[1]+'</div><div class="perf-note">'+c[2]+'</div></div>';}).join("");
@@ -2719,7 +2722,7 @@ function renderMonthly(m,chart,d,cfg){
   var items=[
     ["Сарын ашиг/алдагдал",perfCurrency(perfRawValue(m,"monthly_pl_usd",perfRawValue(m,"monthly_p_l",0))),perfClass(perfRawValue(m,"monthly_pl_usd",0))],
     ["Сарын өгөөж",perfPct(perfRawValue(m,"monthly_roi_pct",0)),perfClass(perfRawValue(m,"monthly_roi_pct",0))],
-    ["Monthly Их уналт",perfPctPlain(perfRawValue(m,"monthly_max_dd_pct",0)),"perf-negative"],
+    ["Monthly Их уналт",perfPctOrDash(perfRawValue(m,"monthly_max_dd_pct",null)),"perf-negative"],
     ["Тайлангийн сар",perfDate(monthValue)||"—","perf-cyan"]
   ];
   el.innerHTML=items.map(function(x){return '<div class="perf-mini"><span>'+x[0]+'</span><b class="'+x[2]+'">'+x[1]+'</b></div>';}).join("");
@@ -3848,7 +3851,7 @@ function renderHistory(rows){
       +'<td data-label="Хаалтын данс" class="num">'+perfCurrency(r.ending_balance)+'</td>'
       +'<td data-label="Ашиг/алдагдал" class="num '+perfClass(r.weekly_pl_usd)+'">'+perfCurrency(r.weekly_pl_usd)+'</td>'
       +'<td data-label="Өгөөж" class="num '+perfClass(r.weekly_pl_pct)+'">'+perfPct(r.weekly_pl_pct)+'</td>'
-      +'<td data-label="Их уналт" class="num perf-negative">'+perfPctPlain(r.max_drawdown_pct)+'</td>'
+      +'<td data-label="Их уналт" class="num perf-negative">'+perfPctOrDash(r.max_drawdown_pct)+'</td>'
       +'<td data-label="Тайлан">'+statementCell+'</td>'
       +'</tr>';
   }).join("");
@@ -4326,7 +4329,7 @@ body.poi-member-portal-v391633 #view-performance{padding-top:0!important}
   var view=document.getElementById('view-performance');
   if(view&&view.parentNode)view.parentNode.insertBefore(shell,view);else document.body.insertBefore(shell,document.body.firstChild);
   var logout=document.getElementById('poiProgressLogoutV391633');
-  if(logout)logout.onclick=function(){try{sessionStorage.removeItem(key);sessionStorage.removeItem('fc_perf_cache_v6_protected');}catch(_e){}location.replace('../member/index.html?environment='+env);};
+  if(logout)logout.onclick=function(){var done=false;function finish(){if(done)return;done=true;try{sessionStorage.removeItem(key);sessionStorage.removeItem('fc_perf_cache_v6_protected');localStorage.removeItem('fc_perf_cache_v6_protected');}catch(_e){}location.replace('../member/index.html?environment='+env);}logout.disabled=true;logout.textContent='Гарч байна…';try{if(saved&&saved.session&&typeof sheetPostForm==='function'){sheetPostForm({action:'member_revoke',member_session:saved.session}).then(finish).catch(finish);setTimeout(finish,1500);}else finish();}catch(_e){finish();}};
 })();
 </script>
 <!-- POI V39.16.33 MEMBER SUBMENU TOOLBAR END -->
