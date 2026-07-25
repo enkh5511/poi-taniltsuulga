@@ -252,6 +252,14 @@ body::before {
   filter:none !important;
 }
 
+
+/* V40.36 Android/iOS touch and safe-area layer */
+@media(max-width:820px),(pointer:coarse){
+  body{padding-bottom:env(safe-area-inset-bottom,0px)}
+  input:not([type=range]),select,textarea{font-size:16px!important}
+  button,a,input{touch-action:manipulation}
+  .wrap{padding-bottom:calc(42px + env(safe-area-inset-bottom,0px))}
+}
 </style>
 
 <style id="v13-aurora-exact-background">
