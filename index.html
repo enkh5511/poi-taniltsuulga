@@ -1554,7 +1554,7 @@ html,body{background:#020608!important;background-image:none!important;}
 </style>
 <link href="assets/pcg-site-v40-23.css?v=4023b?v=4023" rel="stylesheet"/>
 <link href="assets/pcg-mobile-v40-36.css?v=4036" rel="stylesheet"/>
-<meta name="pcg-build" content="V40.36 ANDROID IOS MOBILE RESPONSIVE">
+<meta name="pcg-build" content="V40.37 IOS MEMBER OPEN FIX">
 </head><body class="pcg-public-page">
 <div aria-hidden="true" class="poi-bg-fixed"></div>
 <script>window.__IOS_BG_SOFTEN=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);</script>
@@ -1698,7 +1698,7 @@ html,body{background:#020608!important;background-image:none!important;}
 </svg><b>PCG</b></span></button><div class="pcg-final-copy"><div class="pcg-site-eyebrow">ДАРААГИЙН АЛХАМ</div><h2>Өсөлтийн боломж, бодит хяналт, эрсдэлийн хамгаалалтыг өөрийн нөхцөлөөр харьцуулна уу.</h2><p>Тооцоолуураар оролцооны дүн, хугацаа, боломжит хуваарилалт болон дансны өсөлтийн зураглалыг харна. Хамтын ажиллагаа эхэлсний дараа Гишүүний булангаар бодит гүйцэтгэл, хувийн үр дүн, тайлан болон төслийн хаалтыг хянана. Нөхцөл, эрсдэл, тайлагналын бүтцийг уулзалтаар дэлгэрэнгүй ярилцах боломжтой.</p><div class="pcg-site-buttons"><button class="pcg-site-primary" data-pcg-panel="calc" type="button">Тооцоолуур нээх →</button><button class="pcg-site-secondary" data-pcg-panel="member" type="button">Гишүүний булан</button><a class="pcg-site-secondary" href="https://calendar.app.google/h9H4D6sWnnfF8ZSDA" rel="noopener" target="_blank">Уулзалтын цаг товлох ↗</a><a class="pcg-site-secondary" href="mailto:info@poicapitalgroup.com">info@poicapitalgroup.com</a></div></div></div></div></section>
 </div>
 <section class="pcg-site-panel pcg-portal-panel" id="view-calc"><iframe allowtransparency="true" class="pcg-portal-frame" id="calcframe" src="app/calculator-mini.html" style="background:transparent!important" title="Тооцоолуур"></iframe></section>
-<section class="pcg-site-panel pcg-portal-panel" id="view-performance"><iframe allowtransparency="true" class="pcg-portal-frame" id="performanceframe" style="background:transparent!important" title="Гишүүний булан"></iframe></section>
+<section class="pcg-site-panel pcg-portal-panel" id="view-performance"><iframe allowtransparency="true" class="pcg-portal-frame" id="performanceframe" src="member/index.html?environment=real&amp;embedded=1" style="background:transparent!important" title="Гишүүний булан"></iframe></section>
 </main>
 <footer class="pcg-site-footer"><span>© 2026 POI Capital Group. <span class="pcg-footer-rights">Бүх эрх хуулиар хамгаалагдсан.</span></span><a href="mailto:info@poicapitalgroup.com">info@poicapitalgroup.com</a><a href="https://admin.poicapitalgroup.com/" rel="noopener" target="_blank">Удирдлагын нэвтрэх</a><button data-pcg-top="" type="button">Дээш очих ↑</button></footer>
 </div>
@@ -2109,10 +2109,16 @@ html,body{background:#020608!important;background-image:none!important;}
   }
   function forceMobileScroll(){
     if(!isMobile()) return;
+    /* Portal scrolling belongs to the iframe. Do not unlock the parent page
+       after setPanel() has intentionally locked it. */
+    var root=document.getElementById('pcg-site-root');
+    var portalOpen=!!(root&&root.classList.contains('pcg-portal-open'));
     try{
-      document.documentElement.style.overflowY='auto';
-      document.body.style.overflowY='auto';
-      document.body.style.touchAction='pan-y';
+      if(portalOpen){
+        document.documentElement.style.setProperty('overflow','hidden','important');
+        document.body.style.setProperty('overflow','hidden','important');
+        document.body.style.setProperty('touch-action','none','important');
+      }
     }catch(e){}
     setFrameScrollAttrs();
   }

@@ -4311,9 +4311,11 @@ body.poi-member-portal-v391633 #view-performance{padding-top:0!important}
   var params=new URLSearchParams(location.search);
   if(params.get('member_portal')!=='progress')return;
   var env=params.get('environment')==='test'?'test':'real';
+  var embedded=params.get('embedded')==='1';
+  var embedSuffix=embedded?'&embedded=1':'';
   var key='poi_member_portal_session_v2_'+env;
   var saved=null;try{saved=JSON.parse(sessionStorage.getItem(key)||'null');}catch(_e){}
-  if(!saved||!saved.session){location.replace('../member/index.html?environment='+env);return;}
+  if(!saved||!saved.session){location.replace('../member/index.html?environment='+env+embedSuffix);return;}
   document.body.classList.add('poi-member-portal-v391633');
   var snap=saved.snapshot&&saved.snapshot.ok?saved.snapshot:null;
   try{window.__sheetLastCredentials={memberNo:String(saved.memberNo||''),session:String(saved.session||'')};__sheetLastCredentials=window.__sheetLastCredentials;}catch(_e){}
@@ -4325,11 +4327,11 @@ body.poi-member-portal-v391633 #view-performance{padding-top:0!important}
   function esc(v){return String(v==null?'':v).replace(/[&<>\"]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'})[c]||c;});}
   var shell=document.createElement('div');
   shell.className='poi-member-toolbar-shell-v391633';
-  shell.innerHTML='<div class="toolbar"><nav class="nav"><a href="../member/index.html?environment='+encodeURIComponent(env)+'">Гишүүний булан</a><a class="active" href="'+location.pathname+'?member_portal=progress&amp;environment='+encodeURIComponent(env)+'">Төслийн явц</a><a href="../member/close.html?environment='+encodeURIComponent(env)+'">Төслийн хаалт</a></nav><span class="member-name">'+esc(displayName)+' · Гишүүн №'+esc(saved.memberNo||'')+'</span><button class="btn secondary" type="button" id="poiProgressLogoutV391633">Гарах</button></div>';
+  shell.innerHTML='<div class="toolbar"><nav class="nav"><a href="../member/index.html?environment='+encodeURIComponent(env)+embedSuffix+'">Гишүүний булан</a><a class="active" href="'+location.pathname+'?member_portal=progress&amp;environment='+encodeURIComponent(env)+embedSuffix+'">Төслийн явц</a><a href="../member/close.html?environment='+encodeURIComponent(env)+embedSuffix+'">Төслийн хаалт</a></nav><span class="member-name">'+esc(displayName)+' · Гишүүн №'+esc(saved.memberNo||'')+'</span><button class="btn secondary" type="button" id="poiProgressLogoutV391633">Гарах</button></div>';
   var view=document.getElementById('view-performance');
   if(view&&view.parentNode)view.parentNode.insertBefore(shell,view);else document.body.insertBefore(shell,document.body.firstChild);
   var logout=document.getElementById('poiProgressLogoutV391633');
-  if(logout)logout.onclick=function(){var done=false;function finish(){if(done)return;done=true;try{sessionStorage.removeItem(key);sessionStorage.removeItem('fc_perf_cache_v6_protected');localStorage.removeItem('fc_perf_cache_v6_protected');}catch(_e){}location.replace('../member/index.html?environment='+env);}logout.disabled=true;logout.textContent='Гарч байна…';try{if(saved&&saved.session&&typeof sheetPostForm==='function'){sheetPostForm({action:'member_revoke',member_session:saved.session}).then(finish).catch(finish);setTimeout(finish,1500);}else finish();}catch(_e){finish();}};
+  if(logout)logout.onclick=function(){var done=false;function finish(){if(done)return;done=true;try{sessionStorage.removeItem(key);sessionStorage.removeItem('fc_perf_cache_v6_protected');localStorage.removeItem('fc_perf_cache_v6_protected');}catch(_e){}location.replace('../member/index.html?environment='+env+embedSuffix);}logout.disabled=true;logout.textContent='Гарч байна…';try{if(saved&&saved.session&&typeof sheetPostForm==='function'){sheetPostForm({action:'member_revoke',member_session:saved.session}).then(finish).catch(finish);setTimeout(finish,1500);}else finish();}catch(_e){finish();}};
 })();
 </script>
 <!-- POI V39.16.33 MEMBER SUBMENU TOOLBAR END -->

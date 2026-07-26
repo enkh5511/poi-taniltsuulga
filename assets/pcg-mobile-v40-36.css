@@ -316,3 +316,122 @@
   #pcg-site-root .pcg-core-center-button::before,
   #pcg-site-root .pcg-core-center-button::after{animation:none!important}
 }
+
+/* V40.37 iOS member portal stabilization. */
+@media (max-width:820px){
+  #pcg-site-root.pcg-mobile-ios .pcg-portal-panel{
+    top:var(--pcg-header-h)!important;
+    right:0!important;
+    bottom:var(--pcg-footer-h)!important;
+    left:0!important;
+    height:auto!important;
+    min-height:0!important;
+    transform:none!important;
+    transition:none!important;
+    overflow:hidden!important;
+    overscroll-behavior:none!important;
+  }
+  #pcg-site-root.pcg-mobile-ios .pcg-portal-frame{
+    display:block!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    border:0!important;
+  }
+}
+
+/* V40.38 iOS member/calculator portal interface.
+   Keep Android and desktop unchanged. */
+@media (max-width:820px){
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open{
+    --pcg-header-h:calc(50px + var(--pcg-mobile-safe-top));
+    --pcg-footer-h:0px;
+  }
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open .pcg-site-header{
+    height:var(--pcg-header-h)!important;
+    min-height:var(--pcg-header-h)!important;
+    padding:var(--pcg-mobile-safe-top) 10px 0!important;
+    justify-content:flex-start!important;
+    background:linear-gradient(180deg,rgba(2,13,18,.96),rgba(2,13,18,.88))!important;
+    border-bottom:1px solid rgba(87,220,255,.12)!important;
+  }
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open .pcg-site-brand{display:none!important}
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open .pcg-site-actions{
+    width:100%!important;
+    justify-content:flex-start!important;
+    position:relative!important;
+    z-index:3!important;
+  }
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open .pcg-site-back{
+    display:inline-flex!important;
+    width:auto!important;
+    min-width:76px!important;
+    min-height:38px!important;
+    padding:0 12px!important;
+    border-radius:13px!important;
+    font-size:0!important;
+    line-height:1!important;
+  }
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open .pcg-site-back::before{
+    content:"← Буцах";
+    font-size:11px;
+    font-weight:850;
+    letter-spacing:.02em;
+  }
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open .pcg-site-header::before{
+    position:absolute!important;
+    left:50%!important;
+    bottom:0!important;
+    height:50px!important;
+    max-width:48vw!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    transform:translateX(-50%)!important;
+    color:#eaffff!important;
+    font-size:12px!important;
+    font-weight:900!important;
+    letter-spacing:.06em!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    pointer-events:none!important;
+    z-index:2!important;
+  }
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open[data-pcg-active-panel="member"] .pcg-site-header::before{content:"ГИШҮҮНИЙ БУЛАН"}
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open[data-pcg-active-panel="calc"] .pcg-site-header::before{content:"ТООЦООЛУУР"}
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open[data-pcg-active-panel="member"] .pcg-site-header::after{
+    content:"REAL";
+    position:absolute!important;
+    right:10px!important;
+    bottom:9px!important;
+    height:32px!important;
+    padding:0 10px!important;
+    display:flex!important;
+    align-items:center!important;
+    border-radius:999px!important;
+    background:#ffb547!important;
+    color:#071018!important;
+    font-size:10px!important;
+    font-weight:950!important;
+    letter-spacing:.04em!important;
+    pointer-events:none!important;
+    z-index:2!important;
+  }
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open[data-pcg-active-panel="calc"] .pcg-site-header::after{content:none!important}
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open .pcg-site-footer{display:none!important}
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open .pcg-portal-panel{
+    top:var(--pcg-header-h)!important;
+    right:0!important;
+    bottom:0!important;
+    left:0!important;
+    height:auto!important;
+    min-height:0!important;
+  }
+}
+@media (max-width:350px){
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open .pcg-site-back{min-width:68px!important;padding:0 9px!important}
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open .pcg-site-header::before{font-size:10px!important;max-width:43vw!important}
+  #pcg-site-root.pcg-mobile-ios.pcg-portal-open[data-pcg-active-panel="member"] .pcg-site-header::after{right:8px!important;padding:0 8px!important}
+}
+

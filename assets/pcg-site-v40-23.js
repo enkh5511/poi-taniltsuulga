@@ -94,7 +94,11 @@
   function setPanel(name,pushHash){
     if(!panels[name])name='site';
     if(currentPanel==='site'&&name!=='site')lastSiteScroll=window.scrollY||0;
+    /* Load the member document before exposing the fixed portal. This avoids
+       the transparent first frame that Safari can show during lazy loading. */
+    if(name==='member'&&memberFrame&&!memberFrame.getAttribute('src'))memberFrame.src='member/index.html?environment=real';
     currentPanel=name;
+    root.setAttribute('data-pcg-active-panel',name);
     Object.keys(panels).forEach(function(key){panels[key].classList.toggle('is-active',key===name);});
     root.classList.toggle('pcg-portal-open',name!=='site');
     if(name==='site'){
@@ -102,7 +106,6 @@
       requestAnimationFrame(function(){window.scrollTo({top:lastSiteScroll,behavior:'auto'});window.setTimeout(function(){resetReplay(scrollDir);},90);});
     }else lockScroll();
     if(name==='calc'&&calcFrame&&calcFrame.getAttribute('src')!=='app/calculator-mini.html')calcFrame.src='app/calculator-mini.html';
-    if(name==='member'&&memberFrame&&!memberFrame.getAttribute('src'))memberFrame.src='member/index.html?environment=real';
     closeMenu();
     if(pushHash!==false){var hash=name==='site'?'#home':(name==='calc'?'#calculator':'#member');try{history.replaceState(null,'',hash);}catch(_e){location.hash=hash;}}
   }
