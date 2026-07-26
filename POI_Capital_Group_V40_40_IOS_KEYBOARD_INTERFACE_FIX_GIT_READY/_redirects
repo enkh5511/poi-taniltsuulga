@@ -1,0 +1,3 @@
+/admin https://admin.poicapitalgroup.com/ 301
+/admin/ https://admin.poicapitalgroup.com/ 301
+/admin/* https://admin.poicapitalgroup.com/ 301

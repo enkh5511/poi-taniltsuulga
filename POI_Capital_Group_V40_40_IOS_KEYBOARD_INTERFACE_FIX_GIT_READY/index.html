@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+
+<html lang="mn"><head>
+<meta content="dark" name="color-scheme"/>
+<meta charset="utf-8"/>
+<meta content="V39.16.40" name="poi-release"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>POI Capital Group · Фьючерс арилжааны хамтын ажиллагаа</title>
+<meta content="POI Capital Group-ийн фьючерс арилжааны хамтын ажиллагаа, POI V2/V3 аргачлал, хөрөнгө өсөлтийн тооцоолуур, гүйцэтгэлийн тайлан." name="description"/>
+<meta content="POI Capital Group, POI Capital, futures trading, futures performance, futures trading cooperation, NQ futures, MNQ futures, futures calculator, investment calculator, performance dashboard, member dashboard, capital growth model, POI V2, POI V3, V2 directional trading, V3 oscillation trading, хөрөнгө оруулалтын санал, фьючерс арилжаа, фьючерс хамтын ажиллагаа, өгөөжийн тооцоолуур, гишүүний гүйцэтгэл, хөрөнгө өсөлтийн загвар" name="keywords"/>
+<meta content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" name="robots"/>
+<meta content="POI Capital Group" name="author"/>
+<link href="https://poicapitalgroup.com/" rel="canonical"/>
+<meta content="mn_MN" property="og:locale"/>
+<meta content="website" property="og:type"/>
+<meta content="POI Capital Group" property="og:site_name"/>
+<meta content="POI Capital Group · Фьючерс арилжааны хамтын ажиллагаа" property="og:title"/>
+<meta content="POI Capital Group-ийн фьючерс арилжааны хамтын ажиллагаа, POI V2/V3 аргачлал, хөрөнгө өсөлтийн тооцоолуур, гүйцэтгэлийн тайлан." property="og:description"/>
+<meta content="https://poicapitalgroup.com/" property="og:url"/>
+<meta content="https://poicapitalgroup.com/aurora-v2.jpg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="POI Capital Group · Фьючерс арилжааны хамтын ажиллагаа" name="twitter:title"/>
+<meta content="POI Capital Group-ийн фьючерс арилжааны хамтын ажиллагаа, POI V2/V3 аргачлал, хөрөнгө өсөлтийн тооцоолуур, гүйцэтгэлийн тайлан." name="twitter:description"/>
+<meta content="https://poicapitalgroup.com/aurora-v2.jpg" name="twitter:image"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "POI Capital Group",
+  "url": "https://poicapitalgroup.com/",
+  "description": "Фьючерс арилжааны хамтын ажиллагаа, гүйцэтгэлийн тайлан, гишүүний хөрөнгө ба өгөөжийн тооцооллын dashboard.",
+  "sameAs": []
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "POI Capital Group",
+  "url": "https://poicapitalgroup.com/",
+  "inLanguage": "mn",
+  "description": "POI Capital Group-ийн фьючерс арилжааны хамтын ажиллагааны танилцуулга, гүйцэтгэл, тооцоолуур."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "POI Capital Group · Фьючерс арилжааны хамтын ажиллагаа",
+  "url": "https://poicapitalgroup.com/",
+  "inLanguage": "mn",
+  "description": "POI Capital Group-ийн фьючерс арилжааны хамтын ажиллагаа, POI V2/V3 аргачлал, хөрөнгө өсөлтийн тооцоолуур, гүйцэтгэлийн тайлан.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "POI Capital Group",
+    "url": "https://poicapitalgroup.com/"
+  }
+}
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cyan:#4FC3F7; --green:#00C897; --amber:#FFB547;
+  --ink:#E0E8F0; --soft:#CADCFC; --mut:#5A7A9A; --mut2:#8A9CC8;
+  --panel:rgba(13,21,32,0.82); --cardbg:rgba(17,24,39,0.82); --line:rgba(255,255,255,.07);
+}
+html{background:#040302}
+body{font-family:'Segoe UI',Arial,sans-serif;color:var(--ink);min-height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased}
+#wbg{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ---------- App bar ---------- */
+.appbar{position:fixed;top:0;left:0;right:0;height:60px;z-index:30;transform:translateZ(0);background:rgba(6,10,20,0.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid rgba(79,195,247,.14)}
+.brand .ab-eyebrow{font-size:9px;letter-spacing:.18em;color:var(--cyan);font-weight:700;text-transform:uppercase}
+.brand .ab-title{font-size:13.5px;color:#fff;font-weight:700;margin-top:2px;letter-spacing:.01em}
+.tabs{display:flex;gap:3px;background:rgba(255,255,255,.05);border-radius:24px;padding:4px;border:1px solid var(--line)}
+.tab{font-size:12px;padding:7px 14px;border-radius:18px;border:none;background:transparent;color:var(--mut2);cursor:pointer;font-weight:700;transition:.2s;font-family:inherit;white-space:nowrap}
+.tab:hover{color:var(--soft)}
+.tab.active{background:var(--cyan);color:#06121e}
+
+.admin-tab{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  padding:7px 12px;
+  border-radius:18px;
+  border:1px solid rgba(255,181,71,.38);
+  background:rgba(255,181,71,.08);
+  color:#FFD37A;
+  cursor:pointer;
+  font-weight:900;
+  font-family:inherit;
+  white-space:nowrap;
+  text-decoration:none;
+  transition:.2s;
+}
+.admin-tab:hover{background:#FFB547;color:#06121e;border-color:#FFB547;transform:translateY(-1px)}
+.admin-tab:visited{color:#FFD37A}
+.admin-tab:hover:visited{color:#06121e}
+
+/* ---------- Views ---------- */
+.view{display:none}
+.view.active{display:block}
+
+/* ---------- Deck stage ---------- */
+.stage-wrap{position:fixed;top:60px;left:0;right:0;bottom:80px;z-index:1;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stage{width:1280px;height:720px;position:relative;transform-origin:center center;flex-shrink:0}
+.slide{position:absolute;inset:0;padding:52px 68px 44px;display:none;flex-direction:column}
+.slide.is-active{display:flex}
+
+.s-head{flex-shrink:0}
+.s-kick{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.s-num{font-size:13px;font-weight:800;color:var(--cyan);letter-spacing:.05em;background:rgba(79,195,247,.12);border:1px solid rgba(79,195,247,.25);width:38px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:8px}
+.s-line{flex:0 0 54px;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+.s-title{font-size:38px;font-weight:700;color:#fff;line-height:1.1;letter-spacing:.005em;text-wrap:balance}
+.s-sub{font-size:16px;color:var(--mut2);margin-top:8px;line-height:1.5}
+
+.s-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;min-height:0;padding:14px 0}
+
+/* cards */
+.cards-grid{display:grid;gap:13px}
+.card{background:var(--cardbg);border:0.5px solid var(--line);border-radius:13px;padding:18px 20px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:2px;background:var(--cyan);border-radius:2px;opacity:.7}
+.card.hl-green::before{background:var(--green)}
+.card.hl-amber::before{background:var(--amber)}
+.c-label{font-size:12.5px;font-weight:800;color:var(--cyan);text-transform:uppercase;letter-spacing:.05em;line-height:1.3}
+.card.hl-green .c-label{color:var(--green)}
+.card.hl-amber .c-label{color:var(--amber)}
+.c-text{font-size:14px;color:#8FE3C6;margin-top:9px;line-height:1.6}
+
+/* stats */
+.stats-row{display:flex;flex-wrap:wrap;gap:12px}
+.stat{flex:1 1 0;min-width:150px;background:var(--cardbg);border:0.5px solid var(--line);border-radius:13px;padding:18px 18px;text-align:center}
+.s-figure{font-size:32px;font-weight:800;line-height:1;color:var(--cyan)}
+.s-figure.green{color:var(--green)} .s-figure.amber{color:var(--amber)} .s-figure.white{color:#fff}
+.s-flabel{font-size:12.5px;color:var(--mut);margin-top:8px;line-height:1.45}
+
+/* flow */
+.flow{display:flex;align-items:stretch;justify-content:center;gap:0}
+.fbox{flex:1;max-width:300px;background:var(--cardbg);border:0.5px solid var(--line);border-radius:14px;padding:26px 20px;text-align:center}
+.fbox.amber{border-color:rgba(255,181,71,.4)} .fbox.green{border-color:rgba(0,200,151,.4)}
+.fbox .fn{font-size:38px;font-weight:800;color:#fff;line-height:1}
+.fbox.amber .fn{color:var(--amber)} .fbox.green .fn{color:var(--green)}
+.fbox .fl{font-size:13px;color:var(--mut2);margin-top:10px;line-height:1.4}
+.farrow{display:flex;align-items:center;color:var(--mut);font-size:26px;padding:0 18px}
+
+/* bars */
+.bars{display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:230px 1fr 92px;align-items:center;gap:16px}
+.bar-name{font-size:14.5px;color:var(--soft);font-weight:600}
+.bar-name small{display:block;color:var(--mut);font-weight:400;font-size:12px;margin-top:2px}
+.bar-track{height:26px;background:rgba(255,255,255,.05);border-radius:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,rgba(79,195,247,.5),var(--cyan));transition:width .6s ease}
+.bar-fill.green{background:linear-gradient(90deg,rgba(0,200,151,.5),var(--green))}
+.bar-val{font-size:16px;font-weight:800;color:var(--ink);text-align:right}
+.bar-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px}
+
+/* steps */
+.steps{display:flex;gap:13px}
+.step{flex:1;background:var(--cardbg);border:0.5px solid var(--line);border-radius:13px;padding:18px 18px}
+.st-idx{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--cyan);color:var(--cyan);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-bottom:12px}
+.st-label{font-size:13px;font-weight:800;color:var(--cyan);text-transform:uppercase;letter-spacing:.03em;line-height:1.3}
+.st-text{font-size:13.5px;color:#8FE3C6;margin-top:8px;line-height:1.55}
+/* accordion (арга барил тайлбар) */
+.exp-grid{align-items:start}
+.exp-steps{align-items:flex-start}
+.card.expandable,.step.expandable{cursor:pointer}
+.card.expandable:hover,.step.expandable:hover{border-color:rgba(79,195,247,.4)}
+.step{position:relative}
+.card-detail{display:none}
+.card.open .card-detail,.step.open .card-detail{display:block}
+.cd-inner{margin-top:11px;padding-top:11px;border-top:1px solid rgba(0,200,151,.2);font-size:12.5px;line-height:1.6;color:#C8D8E8}
+.more-tag{display:inline-block;margin-top:9px;font-size:10px;font-weight:800;letter-spacing:.06em;color:var(--cyan);text-transform:uppercase}
+.more-tag::after{content:" ▾"}
+.open .more-tag{color:var(--green)}
+.open .more-tag::after{content:" ▴"}
+
+/* note + cta */
+.s-note{font-size:13.5px;color:var(--mut2);line-height:1.65;background:rgba(10,22,40,.55);border:1px solid rgba(79,195,247,.14);border-radius:11px;padding:13px 17px}
+.s-note.green{color:#9AE6CB;border-color:rgba(0,200,151,.32);background:rgba(0,200,151,.07);font-weight:500}
+.member-result{background:linear-gradient(180deg,rgba(15,42,30,.85),rgba(13,24,20,.85));border:2px solid var(--green);border-radius:16px;padding:20px 24px;box-shadow:0 12px 44px -16px rgba(0,200,151,.4)}
+.mr-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.mr-role{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green)}
+.mr-total{font-size:38px;font-weight:800;color:#fff;line-height:1;margin-top:6px}
+.mr-roi{display:inline-block;margin-top:9px;font-size:12.5px;font-weight:800;color:#06121e;background:var(--green);padding:4px 14px;border-radius:20px}
+.mr-side{text-align:right}
+.mr-side>div{font-size:11px;color:#7FB9A6;margin-bottom:7px}
+.mr-side b{display:block;font-size:15px;color:var(--green);font-weight:800;margin-top:1px}
+.mr-rows{display:grid;grid-template-columns:repeat(2,1fr);gap:2px 30px;margin-top:16px;border-top:1px solid rgba(0,200,151,.2);padding-top:13px}
+.mr-row{display:flex;justify-content:space-between;font-size:13px;color:#CADCFC;padding:4px 0}
+.mr-row b{color:#fff;font-weight:700}
+.mr-members{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.mr-mem{background:rgba(255,255,255,.05);border-radius:10px;padding:11px 14px}
+.mr-mem-name{font-size:10.5px;color:var(--green);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+.mr-mem-row{display:flex;justify-content:space-between;font-size:12px;color:#CADCFC;padding:2.5px 0}
+.mr-mem-row b{color:#fff;font-weight:700}
+.s-cta{margin-top:4px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.cta-btn{background:var(--green);color:#06121e;border:none;padding:11px 24px;border-radius:24px;font-weight:800;font-size:13.5px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:8px;transition:.2s}
+.cta-btn.secondary{background:rgba(255,255,255,.06);color:var(--soft);border:1px solid rgba(79,195,247,.24)}
+.cta-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+a.cta-btn{text-decoration:none}
+a.cta-btn:visited{color:#06121e}
+a.cta-btn.secondary:visited{color:var(--soft)}
+
+/* footer */
+.s-foot{flex-shrink:0;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#3A4A5A;letter-spacing:.04em;border-top:1px solid rgba(255,255,255,.06);padding-top:13px;margin-top:6px}
+.s-foot b{color:var(--mut);font-weight:700}
+
+/* ---- Title slide ---- */
+.title-slide .s-body{justify-content:center;gap:20px;text-align:left}
+.ts-eyebrow{font-size:12px;letter-spacing:.2em;color:var(--cyan);font-weight:800;text-transform:uppercase}
+.ts-title{font-size:56px;font-weight:800;color:#fff;line-height:1.05;letter-spacing:.005em;max-width:18ch}
+.ts-sub{font-size:17px;color:var(--soft);line-height:1.6;max-width:60ch}
+.ts-intro{font-size:14px;color:var(--mut2);line-height:1.7;max-width:64ch;background:rgba(10,22,40,.5);border:1px solid rgba(79,195,247,.14);border-radius:12px;padding:16px 20px}
+.ts-stats{display:flex;gap:13px;flex-wrap:wrap;margin-top:4px}
+.ts-chip{background:var(--cardbg);border:0.5px solid var(--line);border-radius:13px;padding:16px 22px;min-width:150px}
+.ts-chip .tc-num{font-size:30px;font-weight:800;color:var(--cyan);line-height:1}
+.ts-chip .tc-lbl{font-size:12px;color:var(--mut);margin-top:7px}
+
+/* entrance — slide-level fade only (reliable); children always visible */
+.rise{opacity:1}
+
+/* ---------- Deck nav ---------- */
+.deck-nav{position:fixed;bottom:0;left:0;right:0;height:80px;z-index:20;display:flex;align-items:center;justify-content:center;gap:20px}
+.nav-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(79,195,247,.3);background:rgba(13,21,32,0.7);color:var(--cyan);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;backdrop-filter:blur(6px)}
+.nav-btn:hover{background:var(--cyan);color:#06121e;border-color:var(--cyan)}
+.nav-btn:disabled{opacity:.3;cursor:default}
+.dots{display:flex;gap:6px;max-width:46vw;flex-wrap:wrap;justify-content:center}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:.2s}
+.dot.active{background:var(--cyan);transform:scale(1.3)}
+.counter{position:fixed;right:24px;bottom:28px;font-size:12px;color:var(--mut);font-weight:700;letter-spacing:.05em}
+.hint{position:fixed;left:24px;bottom:28px;font-size:11px;color:#3A4A5A}
+
+/* ---------- Calc view ---------- */
+#view-calc{position:fixed;top:60px;left:0;right:0;bottom:0;z-index:1}
+#calcframe{width:100%;height:100%;border:0;background:transparent;display:block}
+#performanceframe{width:100%;height:100%;border:0;background:transparent;display:block}
+#view-calc{background:url('aurora-v2.jpg') center/cover no-repeat!important}
+#view-calc:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 10%,rgba(79,195,247,.11),transparent 34%),radial-gradient(circle at 80% 20%,rgba(0,200,151,.13),transparent 38%),linear-gradient(180deg,rgba(0,0,0,.42),rgba(0,0,0,.82));pointer-events:none;z-index:-1}
+
+/* ---------- Home page ---------- */
+#view-home{position:fixed;top:60px;left:0;right:0;bottom:0;z-index:1;overflow-y:auto;padding:clamp(28px,6vh,64px) 28px}
+.home-inner{max-width:880px;margin:0 auto}
+.home-inner .ts-eyebrow{margin-bottom:14px}
+.home-title{font-size:clamp(32px,5vw,54px);font-weight:800;color:#fff;line-height:1.08;letter-spacing:.005em;max-width:17ch}
+.home-sub{font-size:16px;color:var(--soft);margin-top:14px;line-height:1.6}
+.home-stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.home-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:13px;margin-top:30px}
+.home-card{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;position:relative;background:var(--cardbg);border:0.5px solid var(--line);border-radius:14px;padding:20px 22px 20px 24px;cursor:pointer;font-family:inherit;transition:.2s;overflow:hidden}
+.home-card::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:2px;background:var(--cyan);border-radius:2px}
+.home-card:hover{border-color:rgba(79,195,247,.4);transform:translateY(-3px);box-shadow:0 14px 36px -18px rgba(0,0,0,.7)}
+.hc-name{font-size:17px;font-weight:800;color:#fff;letter-spacing:.01em}
+.hc-desc{font-size:12.5px;color:var(--mut2);line-height:1.5;max-width:30ch}
+.hc-arrow{position:absolute;right:20px;top:20px;color:var(--cyan);font-size:18px;transition:.2s}
+.home-card:hover .hc-arrow{transform:translateX(3px)}
+
+@media (max-width:640px){
+  .brand .ab-title{display:none}
+  .tab{padding:8px 16px}
+  .counter{display:none}
+}
+
+/* --- FINAL HOME + MOBILE PATCH --- */
+.home-inner{max-width:1080px}
+.home-landing{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:18px;align-items:start}
+.home-copy{padding-top:4px}
+.home-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.home-primary,.home-secondary{border:none;border-radius:999px;padding:12px 18px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;transition:.2s}
+.home-primary{background:var(--green);color:#06121e;box-shadow:0 10px 34px -20px var(--green)}
+.home-secondary{background:rgba(255,255,255,.06);color:var(--soft);border:1px solid rgba(79,195,247,.18)}
+.home-primary:hover,.home-secondary:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.home-quick{background:rgba(13,21,32,.78);border:1px solid rgba(79,195,247,.16);border-radius:16px;padding:18px 20px;position:relative;overflow:hidden}
+.home-quick:before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:2px;background:var(--green);border-radius:2px}
+.hq-kicker,.proj-kicker,.home-section-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;color:var(--cyan)}
+.hq-title{font-size:22px;font-weight:850;color:#fff;margin-top:8px}
+.hq-row{margin-top:14px}
+.hq-row label{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--mut2);font-weight:650;margin-bottom:7px}
+.hq-row label b{color:var(--cyan)}
+.hq-row input[type=range]{width:100%;accent-color:var(--cyan)}
+.hq-results{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+.hq-result{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.065);border-radius:12px;padding:12px}
+.hq-result.main{grid-column:1/-1;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.22)}
+.hq-num{font-size:26px;font-weight:900;color:var(--green);line-height:1}
+.hq-result:not(.main) .hq-num{font-size:19px;color:var(--cyan)}
+.hq-lbl{font-size:11px;color:var(--mut2);line-height:1.35;margin-top:5px}
+.hq-note{font-size:11px;color:var(--mut);line-height:1.55;margin-top:10px}
+.project-card{margin-top:16px;background:rgba(13,21,32,.64);border:1px solid rgba(79,195,247,.14);border-radius:16px;padding:18px 20px;position:relative}
+.proj-title{font-size:22px;font-weight:850;color:#fff;line-height:1.18;margin-top:8px}
+.proj-text{font-size:13px;color:var(--soft);line-height:1.65;margin-top:10px}
+.proj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}
+.proj-box{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.055);border-radius:10px;padding:10px;font-size:12px;color:var(--mut2);line-height:1.35}
+.proj-box b{display:block;color:var(--green);font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.home-structure{font-size:13px;color:var(--mut2);line-height:1.65;margin-top:14px;background:rgba(10,22,40,.42);border:1px solid rgba(79,195,247,.12);border-radius:12px;padding:12px 16px}
+.home-nav{margin-top:12px}
+.home-card{padding-bottom:48px}
+.hc-start{position:absolute;left:22px;bottom:14px;font-size:11px;font-weight:800;color:#06121e;background:var(--green);border-radius:999px;padding:6px 12px}
+.nav-btn{width:118px;height:44px;border-radius:24px;background:rgba(0,200,151,.18);border:1px solid rgba(0,200,151,.48);color:var(--green);font-size:13px;font-weight:900}
+.nav-btn:hover{background:var(--green);color:#06121e;border-color:var(--green)}
+.deck-nav{gap:14px}
+
+#view-calc{overflow:auto;-webkit-overflow-scrolling:touch}
+#calcframe{min-width:320px}
+@media (max-width:900px){
+  .home-landing{grid-template-columns:1fr}
+  .proj-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .appbar{padding:0 10px;height:58px}
+  .brand{display:none}
+  .tabs{max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{font-size:11px;padding:7px 10px;flex:0 0 auto}
+
+  .admin-tab{font-size:10.5px;padding:7px 10px;flex:0 0 auto}
+  .stage-wrap{top:58px;bottom:92px}
+  .deck-nav{height:92px;gap:10px}
+  .nav-btn{width:132px;height:48px;font-size:13px}
+  .dots{display:none}
+  .hint{display:none}
+  .counter{right:50%;transform:translateX(50%);bottom:70px;color:var(--mut2)}
+  #view-home{top:58px;padding:20px 14px 90px}
+  #view-calc{top:58px;bottom:0}
+  #calcframe{width:100vw;height:calc(100dvh - 58px);display:block}
+  
+  .proj-grid{grid-template-columns:1fr}
+  .home-title{font-size:34px;max-width:none}
+}
+
+
+/* --- SECTION START BUTTON PATCH --- */
+.section-start-btn{
+  position:fixed;
+  left:24px;
+  bottom:28px;
+  z-index:24;
+  height:44px;
+  border-radius:24px;
+  border:1px solid rgba(79,195,247,.38);
+  background:rgba(13,21,32,.78);
+  color:var(--cyan);
+  padding:0 18px;
+  font-size:13px;
+  font-weight:900;
+  font-family:inherit;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  gap:7px;
+  transition:.2s;
+}
+.section-start-btn:hover{
+  background:var(--cyan);
+  color:#06121e;
+  border-color:var(--cyan);
+  transform:translateY(-2px);
+}
+#view-stage.active .section-start-btn{display:flex}
+@media (max-width:760px){
+  .section-start-btn{
+    left:12px;
+    bottom:22px;
+    height:48px;
+    padding:0 14px;
+    font-size:12px;
+    background:rgba(0,200,151,.18);
+    border-color:rgba(0,200,151,.48);
+    color:var(--green);
+  }
+  .section-start-btn:hover{background:var(--green);color:#06121e;border-color:var(--green)}
+}
+
+
+/* --- SIM SCREENSHOT EMBED PATCH --- */
+.sim-proof{margin-top:10px;display:grid;gap:10px}
+.sim-proof-title{font-size:12px;color:var(--cyan);font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px}
+.sim-proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sim-shot{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden}
+.sim-shot img{display:block;width:100%;height:auto}
+.sim-shot-cap{font-size:10.5px;color:var(--mut2);line-height:1.35;padding:7px 9px}
+.sim-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.sim-mini div{background:rgba(0,200,151,.08);border:1px solid rgba(0,200,151,.18);border-radius:8px;padding:7px 8px;font-size:11px;color:var(--mut2);line-height:1.25}
+.sim-mini b{display:block;color:var(--green);font-size:13px;margin-bottom:2px}
+@media (max-width:760px){.sim-proof-grid{grid-template-columns:1fr}.sim-mini{grid-template-columns:1fr 1fr}}
+
+
+/* --- SIM FIT PATCH --- */
+.sim-proof{margin-top:10px;display:grid;gap:10px}
+.sim-proof-title{font-size:12px;color:var(--cyan);font-weight:900;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px}
+.sim-proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sim-shot{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden}
+.sim-shot img{display:block;width:100%;height:auto}
+.sim-shot-cap{font-size:10.5px;color:var(--mut2);line-height:1.35;padding:7px 9px}
+.sim-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.sim-mini div{background:rgba(0,200,151,.08);border:1px solid rgba(0,200,151,.18);border-radius:9px;padding:9px 10px;font-size:11px;color:var(--mut2);line-height:1.25}
+.sim-mini b{display:block;color:var(--green);font-size:15px;margin-bottom:2px}
+.sim-slide-wrap{display:grid;grid-template-columns:.86fr 1.14fr;gap:14px;align-items:start;width:100%}
+.sim-hero{background:rgba(0,200,151,.08);border:1px solid rgba(0,200,151,.22);border-radius:14px;padding:16px 18px}
+.sim-hero-k{font-size:10px;color:var(--green);font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.sim-hero-main{font-size:34px;line-height:1;font-weight:900;color:var(--green);margin-top:10px}
+.sim-hero-sub{font-size:13px;color:var(--soft);line-height:1.55;margin-top:10px}
+.sim-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.sim-metric{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:9px 10px}
+.sim-metric b{display:block;color:var(--cyan);font-size:18px;line-height:1}
+.sim-metric span{display:block;color:var(--mut2);font-size:10.5px;margin-top:4px}
+.sim-images{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sim-images .sim-shot img{height:170px;object-fit:cover;object-position:top left}
+.sim-images .sim-shot-cap{font-size:10px}
+@media (max-width:760px){
+  .sim-slide-wrap{grid-template-columns:1fr}
+  .sim-images{grid-template-columns:1fr}
+  .sim-images .sim-shot img{height:auto}
+  .sim-mini{grid-template-columns:1fr 1fr}
+}
+
+
+/* --- IMAGE MODAL PATCH --- */
+.img-modal{
+  position:fixed;
+  inset:0;
+  z-index:999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.88);
+  padding:22px;
+}
+.img-modal.open{display:flex}
+.img-modal-inner{
+  position:relative;
+  max-width:min(96vw,1500px);
+  max-height:94vh;
+}
+.img-modal img{
+  display:block;
+  max-width:100%;
+  max-height:90vh;
+  object-fit:contain;
+  border-radius:10px;
+  border:1px solid rgba(79,195,247,.35);
+  box-shadow:0 20px 80px rgba(0,0,0,.7);
+}
+.img-modal-close{
+  position:absolute;
+  right:-8px;
+  top:-44px;
+  border:1px solid rgba(0,200,151,.55);
+  background:rgba(0,200,151,.18);
+  color:var(--green);
+  border-radius:999px;
+  padding:8px 14px;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+  font-family:inherit;
+}
+.sim-shot{cursor:zoom-in}
+.sim-shot:hover{border-color:rgba(0,200,151,.5)}
+.sim-shot:hover img{filter:brightness(1.08)}
+
+
+/* --- MOBILE SLIDE LAYOUT FIX V2 --- */
+@media (max-width:760px){
+  body{overflow:hidden}
+  .stage-wrap{
+    top:58px;
+    bottom:96px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    align-items:flex-start;
+    justify-content:flex-start;
+    padding:8px 8px calc(24px + env(safe-area-inset-bottom));
+    -webkit-overflow-scrolling:touch;
+  }
+  .stage{
+    width:100% !important;
+    height:auto !important;
+    min-height:100%;
+    flex-shrink:1;
+    transform:none !important;
+    zoom:1 !important;
+  }
+  .slide{
+    position:relative;
+    inset:auto;
+    min-height:calc(100dvh - 170px);
+    padding:14px 14px 18px;
+    overflow:visible;
+  }
+  .s-kick{gap:10px;margin-bottom:10px}
+  .s-num{width:34px;height:28px;font-size:12px}
+  .s-line{flex-basis:34px}
+  .s-title{font-size:26px;line-height:1.12}
+  .s-sub{font-size:13px;margin-top:6px;line-height:1.45}
+  .s-body{gap:12px;padding:8px 0}
+  .s-note{font-size:12.5px;line-height:1.55;padding:11px 13px}
+  .cards-grid,.steps,.flow,.bar-cols,.mr-rows,.mr-members,.sim-slide-wrap,.sim-images,.sim-proof-grid{grid-template-columns:1fr !important;display:grid !important}
+  .steps{gap:10px}
+  .stats-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .stat{min-width:0;padding:14px 12px}
+  .s-figure{font-size:24px}
+  .s-flabel{font-size:11px;margin-top:6px}
+  .bar-row{grid-template-columns:1fr;gap:7px}
+  .bar-name{font-size:13px;line-height:1.35}
+  .bar-name small{font-size:11px}
+  .bar-track{height:14px}
+  .bar-val{text-align:left;font-size:14px}
+  .card,.step,.fbox{padding:14px 14px;border-radius:12px}
+  .c-label,.st-label{font-size:12px}
+  .c-text,.st-text{font-size:12.5px;line-height:1.5}
+  .fbox .fn{font-size:28px}
+  .fbox .fl{font-size:12px}
+  .farrow{display:none}
+  .member-result{padding:14px 14px}
+  .mr-total{font-size:28px}
+  .mr-head{gap:10px}
+  .mr-side{text-align:left}
+  .sim-hero{padding:14px}
+  .sim-hero-main{font-size:28px}
+  .sim-hero-sub{font-size:12.5px}
+  .sim-metrics{grid-template-columns:1fr 1fr}
+  .sim-images .sim-shot img{height:auto !important;object-fit:contain}
+  .s-foot{font-size:10px;padding-top:10px}
+  .deck-nav{height:86px;gap:10px;padding:0 8px 6px}
+  .nav-btn{width:108px;height:42px;font-size:12px}
+  .counter{bottom:64px;font-size:11px}
+  .section-start-btn{
+    top:66px !important;
+    left:10px !important;
+    bottom:auto !important;
+    height:30px !important;
+    padding:0 10px !important;
+    font-size:10px !important;
+    border-radius:999px !important;
+    background:rgba(0,200,151,.14) !important;
+    border-color:rgba(0,200,151,.34) !important;
+    color:var(--green) !important;
+    z-index:26 !important;
+    box-shadow:none !important;
+  }
+}
+
+
+/* --- FINAL SECTION START CHIP POSITION --- */
+@media (max-width:760px){
+  .section-start-btn{
+    right:10px !important;
+    left:auto !important;
+    top:66px !important;
+    bottom:auto !important;
+    height:26px !important;
+    padding:0 8px !important;
+    font-size:9.5px !important;
+    line-height:1 !important;
+    border-radius:999px !important;
+    z-index:28 !important;
+    background:rgba(0,200,151,.12) !important;
+    border-color:rgba(0,200,151,.32) !important;
+    color:var(--green) !important;
+    box-shadow:none !important;
+  }
+}
+
+
+/* --- IOS BACKGROUND SOFTENING PATCH --- */
+/* Safari / iPhone / iPad дээр canvas glow хэт хурц харагдахыг standardizeнэ.
+   Android/Desktop-ийн харагдах байдлыг үндсэндээ өөрчлөхгүй. */
+@supports (-webkit-touch-callout: none) {
+  #wbg {
+    filter: brightness(0.68) saturate(0.82) contrast(0.90) !important;
+    opacity: 0.78 !important;
+  }
+}
+
+
+/* --- SUBTLE COPYRIGHT FOOTER --- */
+.site-copyright{
+  position:fixed;
+  left:50%;
+  bottom:calc(6px + env(safe-area-inset-bottom));
+  transform:translateX(-50%);
+  z-index:80;
+  font-size:10px;
+  line-height:1;
+  color:rgba(255,255,255,.22);
+  letter-spacing:.03em;
+  white-space:nowrap;
+  pointer-events:none;
+  user-select:none;
+  text-shadow:0 1px 10px rgba(0,0,0,.55);
+}
+@media (max-width:760px){
+  .site-copyright{
+    bottom:calc(5px + env(safe-area-inset-bottom));
+    font-size:8.5px;
+    color:rgba(255,255,255,.20);
+    max-width:92vw;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+}
+
+
+/* --- PERFORMANCE DASHBOARD PATCH --- */
+#view-performance{
+  position:fixed;top:60px;left:0;right:0;bottom:0;z-index:1;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:clamp(22px,4vw,46px) 22px 96px;
+  background:radial-gradient(circle at 24% 8%,rgba(0,200,151,.10),transparent 34%),radial-gradient(circle at 76% 18%,rgba(79,195,247,.08),transparent 34%);
+}
+.perf-wrap{max-width:1180px;margin:0 auto;position:relative}
+.perf-hero{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-bottom:18px;align-items:stretch}
+.perf-panel,.perf-card,.perf-chart,.perf-table-card,.perf-members,.perf-monthly{
+  background:linear-gradient(180deg,rgba(7,24,20,.88),rgba(5,14,18,.92));
+  border:1px solid rgba(0,200,151,.18);
+  box-shadow:0 22px 70px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.04);
+  border-radius:22px;
+}
+.perf-panel{padding:24px;min-height:220px;overflow:hidden;position:relative}
+.perf-panel:before{content:"";position:absolute;inset:-1px;background:linear-gradient(120deg,rgba(0,200,151,.12),transparent 48%,rgba(79,195,247,.10));pointer-events:none}
+.perf-title-row{position:relative;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.perf-kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);font-weight:900;margin-bottom:10px}
+.perf-title{font-size:clamp(28px,4vw,46px);line-height:1.02;font-weight:900;color:#fff;letter-spacing:-.03em}
+.perf-sub{margin-top:14px;max-width:700px;color:#9fb8c9;line-height:1.65;font-size:14px;position:relative}
+.perf-status{position:relative;min-width:210px;background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px}
+.perf-status small{display:block;color:#78a89b;font-size:11px;margin-bottom:6px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.perf-status b{display:block;color:#dfffee;font-size:14px;line-height:1.35}
+.perf-actions{display:flex;gap:10px;margin-top:18px;position:relative;flex-wrap:wrap}
+.perf-btn{border:1px solid rgba(0,200,151,.35);background:rgba(0,200,151,.10);color:#bffff0;border-radius:999px;padding:10px 14px;font-weight:900;font-size:12px;cursor:pointer;font-family:inherit}
+.perf-btn:hover{background:rgba(0,200,151,.18);border-color:rgba(0,200,151,.65)}
+.perf-btn.secondary{background:rgba(79,195,247,.08);border-color:rgba(79,195,247,.22);color:#bcecff}
+.perf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+.perf-card{padding:16px;min-height:112px;position:relative;overflow:hidden}
+.perf-card:after{content:"";position:absolute;right:-24px;top:-22px;width:82px;height:82px;border-radius:50%;background:rgba(0,200,151,.08)}
+.perf-label{font-size:11px;color:#77a497;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.perf-value{font-size:clamp(20px,2.2vw,30px);font-weight:950;color:#fff;letter-spacing:-.03em;line-height:1.05}
+.perf-note{margin-top:8px;color:#7e9d92;font-size:12px;line-height:1.35}
+.perf-positive{color:#00ff9d!important}.perf-negative{color:#ff867d!important}.perf-cyan{color:#4fc3f7!important}.perf-amber{color:#ffcc7a!important}
+.perf-charts{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-bottom:14px}
+.perf-chart{padding:18px;min-height:320px}
+.perf-chart-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+.perf-chart-title{font-size:16px;font-weight:950;color:#f4fffb}
+.perf-chart-desc{font-size:12px;color:#7fa99d;margin-top:5px;line-height:1.45}
+.perf-svg{width:100%;height:240px;display:block;overflow:visible;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.05));border-radius:16px}
+.perf-axis{stroke:rgba(255,255,255,.13);stroke-width:1}.perf-gridline{stroke:rgba(255,255,255,.06);stroke-width:1}.perf-line{fill:none;stroke:#00ff9d;stroke-width:3.2;filter:drop-shadow(0 0 7px rgba(0,255,157,.38))}.perf-area{fill:rgba(0,200,151,.10)}.perf-dot{fill:#03130f;stroke:#00ff9d;stroke-width:2.5}.perf-bar{fill:rgba(0,200,151,.78);filter:drop-shadow(0 0 6px rgba(0,200,151,.28))}.perf-bar.neg{fill:rgba(255,134,125,.78)}.perf-tick{fill:#8bbdad;font-size:10px;font-weight:800}
+.perf-lower{display:grid;grid-template-columns:.9fr 1.1fr;gap:14px;margin-bottom:14px}
+.perf-monthly,.perf-members,.perf-table-card{padding:18px}
+.perf-left-stack{display:grid;gap:14px}
+.perf-outlook-card{padding:18px;background:linear-gradient(180deg,rgba(42,28,6,.88),rgba(18,14,8,.94));border:1px solid rgba(255,181,71,.28);box-shadow:0 22px 70px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.04);border-radius:22px;position:relative;overflow:hidden}
+.perf-outlook-card:before{content:"";position:absolute;inset:-1px;background:linear-gradient(120deg,rgba(255,181,71,.12),transparent 48%,rgba(79,195,247,.06));pointer-events:none}
+.perf-outlook-card>*{position:relative;z-index:1}
+.perf-outlook-title{color:#fff4df}
+.perf-outlook-card .perf-section-sub{color:#d7c5a3}
+
+.perf-outlook-card{transform-style:preserve-3d;perspective:900px;animation:outlookFloat 7.5s ease-in-out infinite, outlookGoldPulse 3.8s ease-in-out infinite}
+.perf-outlook-card:after{content:"";position:absolute;inset:-45%;background:linear-gradient(115deg,transparent 34%,rgba(255,213,124,.18) 48%,rgba(255,255,255,.10) 50%,transparent 62%);transform:translateX(-38%) rotate(8deg);animation:outlookSweep 5.2s linear infinite;pointer-events:none;z-index:0}
+.perf-outlook-card .perf-section-title,.perf-outlook-card .perf-month-forecast,.perf-outlook-card .perf-risk-box,.perf-outlook-card .perf-method-btn,.perf-outlook-card .perf-method-box{transform:translateZ(18px)}
+@keyframes outlookFloat{0%,100%{filter:drop-shadow(0 0 0 rgba(255,181,71,0));}50%{filter:drop-shadow(0 0 18px rgba(255,181,71,.16));}}
+@keyframes outlookGoldPulse{0%,100%{box-shadow:0 22px 70px rgba(0,0,0,.32),0 0 22px rgba(255,181,71,.10),inset 0 1px 0 rgba(255,255,255,.04)}50%{box-shadow:0 26px 82px rgba(0,0,0,.36),0 0 38px rgba(255,181,71,.24),inset 0 1px 0 rgba(255,255,255,.06)}}
+@keyframes outlookSweep{0%{transform:translateX(-55%) rotate(8deg);opacity:0}12%{opacity:.9}42%{opacity:.35}100%{transform:translateX(55%) rotate(8deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.perf-outlook-card,.perf-outlook-card:after{animation:none!important}}
+.perf-month-forecast.outlook-grid,.outlook-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.perf-forecast-card.gold{background:rgba(255,181,71,.08);border-color:rgba(255,181,71,.24)}
+.perf-forecast-card.gold b{color:#ffd27a}
+.perf-forecast-card span{display:block;color:#a9b9b2;font-size:11px;font-weight:900;margin-bottom:6px;text-transform:uppercase;letter-spacing:.035em}
+.perf-risk-box{margin-top:12px;border:1px solid rgba(255,134,125,.45);background:rgba(255,134,125,.08);border-left:4px solid #ff867d;color:#ffd9d4;border-radius:14px;padding:12px 13px;font-size:12px;line-height:1.58}
+.perf-method-btn{margin-top:12px;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,181,71,.34);background:rgba(255,181,71,.10);color:#ffd27a;border-radius:999px;padding:10px 14px;font-weight:900;font-size:12px;cursor:pointer;font-family:inherit}
+.perf-method-btn:hover{background:rgba(255,181,71,.18);border-color:rgba(255,181,71,.58)}
+.perf-method-btn::after{content:"▾";font-size:11px}
+.perf-method-btn.is-open::after{content:"▴"}
+.perf-method-box{margin-top:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,181,71,.16);border-radius:14px;padding:13px}
+.perf-method-kicker{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:#ffcc7a;margin-bottom:8px}
+.perf-method-copy{font-size:12px;line-height:1.6;color:#f3ead5;margin-top:8px}
+.perf-method-copy.subtle{color:#cabd9d}
+
+.perf-section-title{font-size:17px;color:#fff;font-weight:950;margin-bottom:6px}.perf-section-sub{font-size:12px;color:#7fa99d;line-height:1.45;margin-bottom:14px}
+.perf-month-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.perf-mini{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}.perf-mini span{display:block;color:#7fa99d;font-size:11px;font-weight:800;margin-bottom:6px}.perf-mini b{font-size:18px;color:#fff}.perf-story{margin-top:12px;border-left:3px solid rgba(0,200,151,.55);padding:10px 12px;background:rgba(0,200,151,.06);border-radius:0 12px 12px 0;color:#c8fff0;font-size:13px;line-height:1.6;white-space:pre-line}
+.perf-member-row{display:grid;grid-template-columns:90px 1fr 88px;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.07)}.perf-member-row:last-child{border-bottom:0}.perf-member-name{color:#e9fff8;font-weight:900}.perf-member-cap{color:#bfffee;text-align:right;font-weight:900}.perf-share-track{height:9px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}.perf-share-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,#00c897,#4fc3f7)}.perf-member-empty{color:#76958d;font-size:13px;line-height:1.6}
+.perf-table-wrap{overflow:auto;border-radius:16px;border:1px solid rgba(255,255,255,.06)}.perf-table{width:100%;border-collapse:collapse;min-width:720px;background:rgba(0,0,0,.18)}.perf-table th{position:sticky;top:0;background:#063e31;color:#00ff9d;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:11px}.perf-table td{padding:11px;border-top:1px solid rgba(255,255,255,.06);color:#d8fff2;font-size:12px}.perf-table td.num{text-align:right;font-weight:800}.perf-loading{padding:18px;border-radius:18px;background:rgba(0,0,0,.22);border:1px dashed rgba(0,200,151,.28);color:#a6d9ca;font-size:13px;line-height:1.6}.perf-error{border-color:rgba(255,134,125,.45);color:#ffd2cd;background:rgba(255,134,125,.08)}.perf-statement-btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(0,200,151,.38);background:rgba(0,200,151,.10);color:#bffff0;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:900;text-decoration:none;white-space:nowrap}.perf-statement-btn:hover{background:rgba(0,200,151,.20);border-color:rgba(0,200,151,.70)}
+@media (max-width:980px){.perf-hero,.perf-charts,.perf-lower{grid-template-columns:1fr}.perf-grid{grid-template-columns:repeat(2,1fr)}.tabs{overflow-x:auto;max-width:calc(100vw - 220px)}}
+@media (max-width:760px){#view-performance{top:58px;padding:16px 12px 88px}.perf-panel{padding:18px}.perf-title-row{display:block}.perf-status{margin-top:14px}.perf-grid{grid-template-columns:1fr 1fr;gap:10px}.perf-card{padding:13px;min-height:100px}.perf-value{font-size:21px}.perf-month-grid{grid-template-columns:1fr}.perf-chart{padding:14px;min-height:280px}.perf-svg{height:210px}.perf-member-row{grid-template-columns:76px 1fr 76px}.tabs{max-width:calc(100vw - 118px)}.tab{font-size:11px;padding:7px 10px}.perf-left-stack{gap:12px}.outlook-grid,.perf-month-forecast{grid-template-columns:1fr}.perf-outlook-card{padding:15px}.perf-risk-box,.perf-method-copy{font-size:11.5px}}
+
+
+
+/* --- MEMBER EXPECTATION TOOL PATCH --- */
+.perf-member-tool{
+  padding:18px;
+  background:linear-gradient(180deg,rgba(7,24,20,.88),rgba(5,14,18,.92));
+  border:1px solid rgba(0,200,151,.18);
+  box-shadow:0 22px 70px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.04);
+  border-radius:22px;
+}
+.perf-tool-controls{display:grid;gap:12px;margin-top:14px}
+.perf-tool-control{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}
+.perf-tool-control label{display:flex;justify-content:space-between;gap:12px;color:#7fa99d;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.perf-tool-control label b{color:#00ff9d;font-size:12px;white-space:nowrap}
+.perf-tool-control input[type=range]{width:100%;accent-color:#00c897}
+.perf-member-projection{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.perf-proj-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}
+.perf-proj-card.main{grid-column:1/-1;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.25)}
+.perf-proj-card span{display:block;color:#7fa99d;font-size:11px;font-weight:900;margin-bottom:6px;line-height:1.35}
+.perf-proj-card b{display:block;color:#fff;font-size:18px;line-height:1.08}
+.perf-proj-card.main b{font-size:26px;color:#00ff9d}
+.perf-proj-card small{display:block;color:#7e9d92;font-size:11px;line-height:1.35;margin-top:6px}
+.perf-projection-note{margin-top:12px;border-left:3px solid rgba(79,195,247,.55);padding:10px 12px;background:rgba(79,195,247,.06);border-radius:0 12px 12px 0;color:#c8fff0;font-size:12px;line-height:1.55}
+@media (max-width:760px){.perf-member-projection{grid-template-columns:1fr}.perf-proj-card.main{grid-column:auto}}
+
+
+.perf-mode-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.perf-mode-btn{border:1px solid rgba(0,200,151,.28);background:rgba(0,200,151,.08);color:#bffff0;border-radius:999px;padding:8px 12px;font-weight:900;font-size:11px;cursor:pointer;font-family:inherit}
+.perf-mode-btn.active{background:#00c897;color:#06121e;border-color:#00c897}
+.perf-proj-card.operator{background:rgba(79,195,247,.07);border-color:rgba(79,195,247,.22)}
+.perf-proj-card.operator b{color:#8ee8ff}
+.perf-proj-card.warn{background:rgba(255,181,71,.08);border-color:rgba(255,181,71,.25)}
+.perf-proj-card.warn b{color:#ffcc7a}
+
+
+/* --- DEVICE FAST RESPONSIVE FINAL PATCH --- */
+.perf-panel,.perf-card,.perf-chart,.perf-table-card,.perf-members,.perf-monthly,.perf-member-tool{will-change:auto}
+@media (min-width:1280px){
+  .perf-wrap{max-width:1360px}
+  .perf-hero{grid-template-columns:1.2fr .8fr}
+  .perf-charts{grid-template-columns:1fr 1fr}
+  .perf-lower{grid-template-columns:.92fr 1.08fr}
+}
+@media (min-width:1600px){
+  .perf-wrap{max-width:1460px}
+  #view-performance{padding-left:34px;padding-right:34px}
+}
+@media (max-width:1180px){
+  .perf-wrap{max-width:100%}
+  .perf-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:900px){
+  .perf-hero,.perf-charts,.perf-lower{grid-template-columns:1fr!important}
+  .perf-panel{min-height:auto}
+  .perf-status{min-width:0}
+  .perf-member-projection{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:760px){
+  #view-performance{top:58px;padding:14px 10px 96px}
+  .perf-title{font-size:30px}
+  .perf-sub{font-size:12.5px;line-height:1.55}
+  .perf-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .perf-value{font-size:19px}
+  .perf-note{font-size:11px}
+  .perf-panel,.perf-card,.perf-chart,.perf-table-card,.perf-monthly,.perf-member-tool{border-radius:16px}
+  .perf-chart{min-height:260px}
+  .perf-svg{height:190px}
+  .perf-member-projection{grid-template-columns:1fr}
+  .perf-mode-row{gap:6px}
+  .perf-mode-btn{font-size:10px;padding:8px 10px}
+  .perf-tool-control{padding:10px}
+  .perf-tool-control label{font-size:10px}
+}
+@media (max-width:430px){
+  .perf-grid{grid-template-columns:1fr}
+  .perf-title{font-size:28px}
+  .perf-card{min-height:auto}
+  .perf-month-grid{grid-template-columns:1fr!important}
+  .perf-chart-head{display:block}
+  .perf-table{min-width:640px}
+}
+@supports (-webkit-touch-callout: none){
+  #view-performance{background:radial-gradient(circle at 24% 8%,rgba(0,200,151,.065),transparent 34%),radial-gradient(circle at 76% 18%,rgba(79,195,247,.055),transparent 34%)}
+  .perf-panel,.perf-card,.perf-chart,.perf-table-card,.perf-monthly,.perf-member-tool{box-shadow:0 12px 42px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.035)}
+}
+
+
+/* --- PERFORMANCE UX FINAL PATCH --- */
+.perf-status{overflow:hidden;isolation:isolate}
+.perf-status>*{position:relative;z-index:2}
+.perf-status.is-loading::before{content:"";position:absolute;inset:-1px;border-radius:18px;padding:1px;background:conic-gradient(from 0deg,rgba(0,255,157,0),rgba(0,255,157,.95),rgba(79,195,247,.75),rgba(0,255,157,0));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:perfSpin 1.2s linear infinite;z-index:1;pointer-events:none}
+.perf-status.is-ok{border-color:rgba(0,200,151,.35);box-shadow:0 0 24px rgba(0,200,151,.10)}
+.perf-status.is-stale{border-color:rgba(255,181,71,.34);box-shadow:0 0 24px rgba(255,181,71,.08)}
+.perf-update-time{margin-top:8px;color:#86b8aa;font-size:11px;line-height:1.35;font-weight:700}
+@keyframes perfSpin{to{transform:rotate(360deg)}}
+.perf-member-tool{transition:border-color .18s ease,box-shadow .18s ease,transform .12s ease!important}
+.perf-member-tool:hover{border-color:rgba(0,200,151,.42);box-shadow:0 18px 50px rgba(0,200,151,.10),0 0 30px rgba(0,200,151,.09)!important}
+.perf-member-static{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.perf-static-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px;min-height:86px}
+.perf-static-card.main{grid-column:1/-1;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.25)}
+.perf-static-card.progress{grid-column:1/-1;background:rgba(79,195,247,.065);border-color:rgba(79,195,247,.22)}
+.perf-static-card span{display:block;color:#7fa99d;font-size:11px;font-weight:900;margin-bottom:6px;line-height:1.35;text-transform:uppercase;letter-spacing:.035em}
+.perf-static-card b{display:block;color:#fff;font-size:18px;line-height:1.08}
+.perf-static-card.main b{font-size:27px;color:#00ff9d}
+.perf-static-card small{display:block;color:#7e9d92;font-size:11px;line-height:1.38;margin-top:6px}
+.perf-progress-line{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:9px}
+.perf-progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#00c897,#4fc3f7);box-shadow:0 0 14px rgba(0,200,151,.35)}
+.perf-month-forecast{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.perf-forecast-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}
+.perf-forecast-card.wide{grid-column:1/-1;background:rgba(79,195,247,.06);border-color:rgba(79,195,247,.18)}
+.perf-forecast-card span{display:block;color:#7fa99d;font-size:11px;font-weight:900;margin-bottom:6px;text-transform:uppercase;letter-spacing:.035em}
+.perf-forecast-card b{display:block;color:#fff;font-size:18px;line-height:1.08}
+.perf-forecast-card small{display:block;color:#7e9d92;font-size:11px;line-height:1.38;margin-top:6px}
+.perf-y-label{fill:#8bbdad;font-size:10px;font-weight:800}
+.perf-x-label{fill:#8bbdad;font-size:10px;font-weight:800}
+.perf-value-label{fill:#d8fff2;font-size:10px;font-weight:900}
+.perf-axis-title{fill:#6fa999;font-size:10px;font-weight:900;letter-spacing:.04em}
+.perf-svg{height:265px!important}
+@media (max-width:760px){.perf-member-static,.perf-month-forecast{grid-template-columns:1fr}.perf-static-card.main,.perf-static-card.progress,.perf-forecast-card.wide{grid-column:auto}.perf-svg{height:230px!important}}
+
+
+/* --- MEMBER CONTROLS RESTORED / STATIC GLOW PATCH --- */
+.perf-member-tool{
+  position:relative;
+  overflow:hidden;
+}
+.perf-member-tool:before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:22px;
+  background:linear-gradient(120deg,rgba(0,200,151,.10),transparent 45%,rgba(79,195,247,.08));
+  pointer-events:none;
+}
+.perf-member-tool>*{position:relative}
+.perf-mode-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.perf-mode-btn{
+  border:1px solid rgba(0,200,151,.28);
+  background:rgba(0,200,151,.08);
+  color:#bffff0;
+  border-radius:999px;
+  padding:8px 12px;
+  font-weight:900;
+  font-size:11px;
+  cursor:pointer;
+  font-family:inherit;
+  transition:background .15s ease,border-color .15s ease,color .15s ease;
+}
+.perf-mode-btn.active{background:#00c897;color:#06121e;border-color:#00c897}
+.perf-tool-controls.static-controls{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+.perf-tool-control{
+  background:rgba(0,0,0,.18);
+  border:1px solid rgba(255,255,255,.065);
+  border-radius:14px;
+  padding:12px;
+}
+.perf-tool-control label{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  color:#7fa99d;
+  font-size:11px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  margin-bottom:8px;
+}
+.perf-tool-control label b{color:#00ff9d;font-size:12px;white-space:nowrap}
+.perf-tool-control input[type=range]{width:100%;accent-color:#00c897;cursor:pointer}
+.perf-member-projection{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.perf-proj-card{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:12px}
+.perf-proj-card.main{grid-column:1/-1;background:rgba(0,200,151,.10);border-color:rgba(0,200,151,.25)}
+.perf-proj-card span{display:block;color:#7fa99d;font-size:11px;font-weight:900;margin-bottom:6px;line-height:1.35}
+.perf-proj-card b{display:block;color:#fff;font-size:18px;line-height:1.08}
+.perf-proj-card.main b{font-size:26px;color:#00ff9d}
+.perf-proj-card small{display:block;color:#7e9d92;font-size:11px;line-height:1.35;margin-top:6px}
+.perf-proj-card.forecast{background:rgba(79,195,247,.07);border-color:rgba(79,195,247,.22)}
+.perf-proj-card.forecast b{color:#8ee8ff}
+.perf-proj-card.warn{background:rgba(255,181,71,.08);border-color:rgba(255,181,71,.25)}
+.perf-proj-card.warn b{color:#ffcc7a}
+.perf-projection-note{margin-top:12px;border-left:3px solid rgba(79,195,247,.55);padding:10px 12px;background:rgba(79,195,247,.06);border-radius:0 12px 12px 0;color:#c8fff0;font-size:12px;line-height:1.55}
+@media (max-width:760px){.perf-member-projection{grid-template-columns:1fr}.perf-proj-card.main{grid-column:auto}.perf-mode-btn{font-size:10px;padding:8px 10px}.perf-tool-control{padding:10px}.perf-tool-control label{font-size:10px}}
+
+
+/* --- MINIMAL BLUR FIX / NO GLOBAL MOTION CHANGE --- */
+/* Зөвхөн "Ирэх 7 хоногийн урьдчилсан зураглал" card дээрх blur/filter давхаргыг авна. */
+.perf-outlook-card,
+.perf-outlook-card *,
+.perf-outlook-card::before,
+.perf-outlook-card::after{
+  -webkit-filter:none!important;
+  filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+
+/* Glow layer үлдэнэ, текст дээр filter/blur дамжихгүй. */
+.perf-outlook-card{
+  isolation:isolate!important;
+}
+.perf-outlook-card>*{
+  position:relative;
+  z-index:2;
+}
+
+/* Гишүүний урьдчилсан үр дүн card: зөвхөн өөрийнх нь hover movement-ийг бага болгоно. */
+.perf-member-tool:hover{
+  transform:translateY(-1px)!important;
+}
+
+
+
+/* --- MATCH BIG CARD EFFECT / TEXT SHARP PATCH --- */
+/* Энэ 2 card бусад том card-тай адил hover glow авна. Тусгай glow/pulse animation байхгүй. */
+.perf-outlook-card,
+.perf-member-tool{
+  animation:none!important;
+}
+.perf-outlook-card::after,
+.perf-member-tool::after{
+  animation:none!important;
+}
+.perf-outlook-card,
+.perf-outlook-card *,
+.perf-outlook-card::before,
+.perf-outlook-card::after{
+  filter:none!important;
+  -webkit-filter:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.perf-outlook-card .perf-section-title,
+.perf-outlook-card .perf-section-sub,
+.perf-outlook-card .perf-month-forecast,
+.perf-outlook-card .perf-risk-box,
+.perf-outlook-card .perf-method-btn,
+.perf-outlook-card .perf-method-box{
+  transform:none!important;
+}
+
+
+/* --- FINAL HOVER COLOR MAP ---
+   perf-outlook-card: gold hover light.
+   perf-member-tool: default card hover light, same as other cards.
+   No extra blur/filter/glow layer added here. */
+
+
+/* --- HISTORY TABLE COLUMN ALIGNMENT FIX --- */
+.perf-table{
+  table-layout:fixed!important;
+  min-width:920px!important;
+}
+.perf-table th,
+.perf-table td{
+  box-sizing:border-box;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  vertical-align:middle;
+}
+.perf-table th:nth-child(1), .perf-table td:nth-child(1){width:118px;text-align:left}
+.perf-table th:nth-child(2), .perf-table td:nth-child(2){width:132px;text-align:left}
+.perf-table th:nth-child(3), .perf-table td:nth-child(3){width:160px;text-align:right}
+.perf-table th:nth-child(4), .perf-table td:nth-child(4){width:152px;text-align:right}
+.perf-table th:nth-child(5), .perf-table td:nth-child(5){width:104px;text-align:right}
+.perf-table th:nth-child(6), .perf-table td:nth-child(6){width:104px;text-align:right}
+.perf-table th:nth-child(7), .perf-table td:nth-child(7){width:110px;text-align:center}
+.perf-table .hist-col-week{width:118px}
+.perf-table .hist-col-date{width:132px}
+.perf-table .hist-col-balance{width:160px}
+.perf-table .hist-col-pl{width:152px}
+.perf-table .hist-col-roi{width:104px}
+.perf-table .hist-col-dd{width:104px}
+.perf-table .hist-col-statement{width:110px}
+.perf-table td.num{text-align:right!important;font-variant-numeric:tabular-nums}
+.perf-table th{line-height:1.25}
+.perf-statement-btn{margin:0 auto}
+@media (max-width:760px){
+  .perf-table{min-width:880px!important}
+}
+
+
+/* --- MEMBER RESULT CARD LOGIC PATCH --- */
+.perf-proj-card.gold{
+  background:rgba(255,181,71,.085);
+  border-color:rgba(255,181,71,.28);
+}
+.perf-proj-card.gold b{color:#ffd27a}
+.perf-proj-card.risk{
+  grid-column:1/-1;
+  background:rgba(255,134,125,.075);
+  border-color:rgba(255,134,125,.32);
+  border-left:4px solid rgba(255,134,125,.75);
+}
+.perf-proj-card.risk b{color:#ffd2cd}
+.perf-proj-card.goal{
+  grid-column:1/-1;
+  background:rgba(79,195,247,.065);
+  border-color:rgba(79,195,247,.22);
+}
+.perf-goal-line{
+  height:10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+  margin-top:9px;
+}
+.perf-goal-fill{
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#00c897,#4fc3f7);
+  box-shadow:0 0 14px rgba(0,200,151,.32);
+}
+.perf-goal-fill.over{
+  background:linear-gradient(90deg,#ffb547,#00c897);
+  box-shadow:0 0 16px rgba(255,181,71,.34);
+}
+@media (max-width:760px){
+  .perf-proj-card.risk,.perf-proj-card.goal{grid-column:auto}
+}
+
+
+/* --- MEMBER TWO-COLUMN SUMMARY PATCH --- */
+.perf-proj-compare-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  grid-column:1/-1;
+}
+.perf-proj-col{
+  border-radius:18px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.035);
+}
+.perf-proj-col.green{
+  border-color:rgba(0,200,151,.26);
+  background:rgba(0,200,151,.065);
+}
+.perf-proj-col.gold{
+  border-color:rgba(255,181,71,.30);
+  background:rgba(255,181,71,.075);
+}
+.perf-proj-col h4{
+  margin:0 0 10px;
+  font-size:12px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:#dfffee;
+}
+.perf-proj-col.gold h4{color:#ffd27a}
+.perf-proj-metric{
+  padding:10px 0;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.perf-proj-metric:first-of-type{border-top:0;padding-top:0}
+.perf-proj-metric span{
+  display:block;
+  color:#8fb0a8;
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:4px;
+}
+.perf-proj-metric b{
+  display:block;
+  color:#fff;
+  font-size:22px;
+  letter-spacing:-.03em;
+}
+.perf-proj-col.gold .perf-proj-metric b{color:#ffd27a}
+.perf-proj-metric small{
+  display:block;
+  margin-top:4px;
+  color:#9fb8c9;
+  line-height:1.45;
+  font-size:11px;
+}
+@media (max-width:760px){
+  .perf-proj-compare-grid{grid-template-columns:1fr}
+}
+
+
+/* --- UX POLISH FINAL PATCH ---
+   Mobile history becomes cards; touch targets larger; live-data status clearer.
+*/
+.perf-status small{
+  color:#00ff9d!important;
+  letter-spacing:.16em!important;
+}
+.perf-status.is-ok small::after{
+  content:" · SYNCED";
+  color:#8fffe0;
+}
+.perf-status.is-stale small::after{
+  content:" · CHECK";
+  color:#ffcc7a;
+}
+.perf-actions .perf-btn,
+.perf-mode-btn,
+.perf-statement-btn{
+  min-height:38px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+@media (max-width:760px){
+  .perf-actions .perf-btn,
+  .perf-mode-btn,
+  .perf-statement-btn{
+    min-height:42px;
+  }
+  .perf-table-wrap{
+    overflow:visible!important;
+  }
+  .perf-table{
+    min-width:0!important;
+    width:100%!important;
+    table-layout:auto!important;
+    border-collapse:separate!important;
+    border-spacing:0 10px!important;
+  }
+  .perf-table colgroup,
+  .perf-table thead{
+    display:none!important;
+  }
+  .perf-table tbody,
+  .perf-table tr,
+  .perf-table td{
+    display:block!important;
+  }
+  .perf-table tr{
+    background:linear-gradient(180deg,rgba(7,24,20,.82),rgba(5,14,18,.94));
+    border:1px solid rgba(0,200,151,.16);
+    border-radius:16px;
+    padding:10px 12px;
+    margin-bottom:10px;
+    box-shadow:0 12px 34px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.035);
+  }
+  .perf-table td{
+    width:auto!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+    display:flex!important;
+    justify-content:space-between!important;
+    align-items:center!important;
+    gap:14px!important;
+    text-align:right!important;
+    white-space:normal!important;
+    overflow:visible!important;
+    text-overflow:clip!important;
+    border:0!important;
+    border-bottom:1px solid rgba(255,255,255,.055)!important;
+    padding:8px 0!important;
+    font-size:12px!important;
+    line-height:1.35!important;
+  }
+  .perf-table td:last-child{
+    border-bottom:0!important;
+  }
+  .perf-table td::before{
+    content:attr(data-label);
+    color:#7fa99d;
+    font-size:10.5px;
+    font-weight:950;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    text-align:left;
+    flex:0 0 auto;
+  }
+  .perf-table td.num{
+    text-align:right!important;
+  }
+  .perf-status{
+    width:100%;
+  }
+  .perf-title-row{
+    gap:12px;
+  }
+  .perf-tool-control input[type=range]{
+    min-height:30px;
+  }
+}
+@media (max-width:430px){
+  .perf-actions{
+    display:grid!important;
+    grid-template-columns:1fr;
+  }
+  .perf-actions .perf-btn{
+    width:100%;
+  }
+}
+
+
+/* --- ANDROID PERFORMANCE PATCH --- */
+@media (max-width:820px), (pointer:coarse){
+  #wbg{opacity:.72!important;filter:brightness(.76) saturate(.86) contrast(.92)!important}
+}
+
+
+/* --- SCROLL SMOOTH MOBILE PATCH --- */
+@media (max-width:820px), (pointer:coarse){
+  html,body{overscroll-behavior-y:contain}
+  #view-home,#view-calc,#view-performance,.stage-wrap{
+    -webkit-overflow-scrolling:touch!important;
+    scroll-behavior:auto!important;
+    will-change:scroll-position;
+  }
+  #wbg{contain:strict}
+}
+
+
+
+/* --- MYFOREXFUNDS CERTIFICATE MODAL FINAL --- */
+.cert-btn{
+  margin-top:14px;
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:38px;
+  padding:9px 18px;
+  border-radius:999px;
+  border:1px solid rgba(244,210,118,.72);
+  background:
+    linear-gradient(135deg,rgba(89,58,10,.82),rgba(220,170,58,.28) 42%,rgba(24,20,12,.88)),
+    rgba(10,15,22,.74);
+  color:#f4d67a;
+  font-weight:800;
+  letter-spacing:.04em;
+  cursor:pointer;
+  overflow:hidden;
+  box-shadow:0 0 0 1px rgba(56,216,255,.12),0 0 18px rgba(212,175,55,.24),inset 0 1px 0 rgba(255,245,190,.35);
+  transform:translateZ(0);
+  -webkit-tap-highlight-color:transparent;
+}
+.cert-btn span{position:relative;z-index:2;text-shadow:0 1px 6px rgba(0,0,0,.48)}
+.cert-btn:before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:inherit;
+  background:linear-gradient(115deg,transparent 0%,rgba(255,244,178,.10) 33%,rgba(255,244,178,.72) 49%,rgba(60,220,255,.20) 56%,transparent 72%);
+  transform:translateX(-140%);
+  animation:certGoldShimmer 7.5s ease-in-out infinite;
+  pointer-events:none;
+}
+.cert-btn:after{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:inherit;
+  border:1px solid rgba(58,220,255,.20);
+  box-shadow:0 0 12px rgba(58,220,255,.10);
+  pointer-events:none;
+}
+.cert-btn:hover{box-shadow:0 0 0 1px rgba(56,216,255,.18),0 0 26px rgba(212,175,55,.34),inset 0 1px 0 rgba(255,245,190,.46)}
+.cert-btn:active{transform:translateY(1px);box-shadow:0 0 20px rgba(244,210,118,.38)}
+@keyframes certGoldShimmer{0%,70%{transform:translateX(-145%);opacity:.0}76%{opacity:.85}92%,100%{transform:translateX(145%);opacity:0}}
+
+.cert-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(2,7,15,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.cert-modal.is-open{display:flex}
+.cert-dialog{position:relative;width:min(980px,96vw);max-height:90vh;overflow:auto;border-radius:26px;border:1px solid rgba(231,189,82,.64);background:linear-gradient(180deg,rgba(8,17,29,.96),rgba(3,8,15,.98));box-shadow:0 26px 90px rgba(0,0,0,.70),0 0 38px rgba(212,175,55,.14),0 0 0 1px rgba(54,218,255,.10);padding:22px}
+.cert-close{position:sticky;top:0;float:right;z-index:3;width:38px;height:38px;border-radius:999px;border:1px solid rgba(244,210,118,.44);background:rgba(6,12,20,.80);color:#f4d67a;font-size:24px;line-height:1;cursor:pointer;box-shadow:0 0 14px rgba(212,175,55,.14)}
+.cert-view{clear:both;display:grid;gap:18px;justify-items:center}
+.cert-img{width:min(760px,100%);border-radius:16px;border:1px solid rgba(244,210,118,.42);box-shadow:0 18px 48px rgba(0,0,0,.50),0 0 20px rgba(60,220,255,.10);background:#fff}
+.cert-translation{width:min(760px,100%);border-radius:18px;border:1.4px solid rgba(244,210,118,.76);background:linear-gradient(180deg,rgba(18,22,27,.70),rgba(7,12,18,.84));box-shadow:inset 0 1px 0 rgba(255,244,178,.18),0 0 26px rgba(212,175,55,.12),0 0 18px rgba(60,220,255,.06);padding:20px 22px;color:#f0cf72;font-size:16px;line-height:1.72;letter-spacing:.01em;text-align:left;white-space:normal}
+.cert-translation p{margin:0 0 16px}.cert-translation p:last-child{margin-bottom:0}.cert-translation .cyan{color:#69e8ff;text-shadow:0 0 10px rgba(105,232,255,.20)}.cert-translation .gold-strong{color:#ffe08a;font-weight:800}.cert-translation .date{color:#f7d980;font-weight:800;letter-spacing:.035em}
+body.cert-lock{overflow:hidden}
+@media (max-width:768px){
+  .cert-btn{min-height:36px;padding:8px 16px;font-size:13px;box-shadow:0 0 0 1px rgba(56,216,255,.10),0 0 12px rgba(212,175,55,.18),inset 0 1px 0 rgba(255,245,190,.28)}
+  .cert-btn:before{animation:certGoldShimmer 12s ease-in-out 1;opacity:.65}
+  .cert-modal{align-items:flex-start;padding:12px;background:rgba(2,7,15,.78);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+  .cert-dialog{width:96vw;max-height:92vh;border-radius:20px;padding:14px;box-shadow:0 20px 60px rgba(0,0,0,.68),0 0 18px rgba(212,175,55,.12)}
+  .cert-close{width:34px;height:34px;font-size:22px}
+  .cert-view{gap:14px}.cert-img{border-radius:12px}.cert-translation{border-radius:15px;padding:16px 15px;font-size:14px;line-height:1.65}
+}
+@media (prefers-reduced-motion:reduce){.cert-btn:before{animation:none!important;opacity:0!important}.cert-modal{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}}
+
+
+/* --- module iframe final overrides --- */
+#view-performance{padding:0!important;overflow:hidden!important;background:url('aurora-v2.jpg') center/cover no-repeat!important}
+#view-performance:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 24% 8%,rgba(0,200,151,.08),transparent 34%),radial-gradient(circle at 76% 18%,rgba(79,195,247,.07),transparent 34%),linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.84));pointer-events:none;z-index:-1}
+#performanceframe{width:100%!important;height:100%!important;border:0!important;background:transparent!important}
+
+
+/* === V12 FIX: calculator/performance sections keep aurora behind iframe === */
+#view-calc, #view-performance{
+  background-image:
+    radial-gradient(circle at 24% 8%, rgba(0,200,151,.18), transparent 34%),
+    radial-gradient(circle at 76% 18%, rgba(79,195,247,.13), transparent 34%),
+    linear-gradient(rgba(2,6,8,.28), rgba(2,6,8,.74)),
+    url('aurora-v2.jpg') !important;
+  background-position:center center !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+}
+#calcframe{background:transparent!important;}
+
+</style>
+<style id="v13-aurora-exact-background">
+/* V13: exact POI aurora background, no artificial fog/gradient replacement */
+html,body{
+  min-height:100% !important;
+  background:#020608 url('aurora-v2.jpg') center center/cover no-repeat scroll !important;
+}
+body::before{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:-10 !important;
+  background:url('aurora-v2.jpg') center center/cover no-repeat scroll !important;
+  opacity:1 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+body::after{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:-9 !important;
+  background:transparent !important;
+  opacity:0 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+.view,#view-home,#view-calc,#view-performance,.site-view,.page-view{
+  background:transparent !important;
+  background-image:none !important;
+}
+#view-calc::before,#view-calc::after,#view-performance::before,#view-performance::after,
+.view::before,.view::after,.site-view::before,.site-view::after,.page-view::before,.page-view::after{
+  background:transparent !important;
+  background-image:none !important;
+  opacity:0 !important;
+  filter:none !important;
+  pointer-events:none !important;
+}
+#calcframe,#performanceframe,iframe{
+  background:transparent !important;
+}
+</style>
+<style id="v29-background-force">
+html,body{background:#020608 url('aurora-v2.jpg') center center/cover no-repeat scroll!important;}
+body::before{background:url('aurora-v2.jpg') center center/cover no-repeat scroll!important;opacity:.48!important;}
+#view-performance{background:radial-gradient(circle at 24% 8%,rgba(0,200,151,.10),transparent 34%),radial-gradient(circle at 76% 18%,rgba(79,195,247,.08),transparent 34%),linear-gradient(180deg,rgba(0,0,0,.38),rgba(0,0,0,.78))!important;}
+#wbg{position:fixed!important;inset:0!important;z-index:0!important;pointer-events:none!important;}
+</style>
+<style id="v31-performance-bg-match-calculator-final">
+/* V31: Гүйцэтгэл хэсгийн background-ийг Тооцоолуур хэсэгтэй 1:1 болгов.
+   Performance view дээр байсан тусдаа dark/blur overlay-уудыг унтрааж,
+   calculator шиг body-ийн нэг л aurora background-ийг ашиглана. */
+#view-performance{
+  background:transparent !important;
+  background-image:none !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+#view-performance::before,
+#view-performance::after{
+  content:none !important;
+  display:none !important;
+  background:transparent !important;
+  background-image:none !important;
+  opacity:0 !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+html,body{
+  background-position:center center !important;
+  background-size:cover !important;
+  background-attachment:scroll !important;
+}
+#wbg{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+}
+</style>
+<!-- V36 ORIGINAL-UPLOAD ANDROID SCROLL FIX: keep original aurora/gold network, only unlock touch/scroll -->
+<style id="v36-original-android-scroll-fix">
+/* Desktop presentation remains as uploaded. This block only targets Android / touch screens. */
+@media (max-width: 900px), (pointer: coarse){
+  html, body{
+    height:auto !important;
+    min-height:100% !important;
+    overflow-x:hidden !important;
+    overflow-y:auto !important;
+    touch-action:pan-y !important;
+    -webkit-overflow-scrolling:touch !important;
+    overscroll-behavior-y:auto !important;
+  }
+  body{
+    position:relative !important;
+    background:#040302 !important;
+  }
+  #wbg{
+    display:block !important;
+    position:fixed !important;
+    inset:0 !important;
+    pointer-events:none !important;
+    z-index:0 !important;
+    opacity:.96 !important;
+    filter:none !important;
+  }
+  .appbar{
+    position:sticky !important;
+    top:0 !important;
+    left:auto !important;
+    right:auto !important;
+    height:58px !important;
+    z-index:60 !important;
+  }
+  .view{display:none !important;}
+  .view.active{display:block !important;}
+  #view-home,
+  #view-stage,
+  #view-calc,
+  #view-performance{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:calc(100dvh - 58px) !important;
+    overflow:visible !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:pan-y !important;
+    z-index:1 !important;
+  }
+  #view-home{
+    padding:18px 12px 92px !important;
+  }
+  #view-calc,
+  #view-performance{
+    padding:0 !important;
+  }
+  #calcframe,
+  #performanceframe{
+    display:block !important;
+    width:100% !important;
+    height:calc(100dvh - 58px) !important;
+    min-height:calc(100dvh - 58px) !important;
+    border:0 !important;
+    background:transparent !important;
+    overflow:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:pan-y !important;
+  }
+  .stage-wrap{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    height:auto !important;
+    min-height:calc(100dvh - 154px) !important;
+    overflow:visible !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    padding:8px 8px 96px !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:pan-y !important;
+  }
+  .stage{
+    width:100% !important;
+    height:auto !important;
+    min-height:calc(100dvh - 154px) !important;
+    transform:none !important;
+    zoom:1 !important;
+  }
+  .slide{
+    position:relative !important;
+    inset:auto !important;
+    min-height:auto !important;
+    overflow:visible !important;
+  }
+  .deck-nav{
+    position:sticky !important;
+    bottom:0 !important;
+    height:auto !important;
+    min-height:64px !important;
+    padding:8px 8px calc(8px + env(safe-area-inset-bottom)) !important;
+    background:rgba(3,8,15,.72) !important;
+    backdrop-filter:blur(10px) !important;
+    -webkit-backdrop-filter:blur(10px) !important;
+  }
+  .hint,.counter{display:none !important;}
+  .site-copyright{position:fixed !important;pointer-events:none !important;}
+}
+</style>
+<!-- POI V39.1 UNIFIED BACKGROUND: root/app/admin pages use the same aurora + network layer; no extra view background mismatch. -->
+<style id="poi-v39-1-unified-background">
+:root{--poi-bg-url:url('aurora-v2.jpg');}
+html,body{
+  background-color:#020608!important;
+  background-image:
+    radial-gradient(circle at 18% 8%,rgba(0,200,151,.11),transparent 30%),
+    radial-gradient(circle at 78% 14%,rgba(79,195,247,.09),transparent 32%),
+    linear-gradient(180deg,rgba(2,6,8,.30),rgba(2,6,8,.76)),
+    var(--poi-bg-url)!important;
+  background-size:auto,auto,auto,cover!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+  background-attachment:scroll!important;
+}
+body::before,body:before,body::after,body:after{
+  content:none!important;
+  display:none!important;
+  background:transparent!important;
+  background-image:none!important;
+  opacity:0!important;
+}
+#wbg,#calcWbg{
+  display:block!important;
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  pointer-events:none!important;
+  z-index:0!important;
+  opacity:.96!important;
+  filter:none!important;
+}
+#view-calc,#view-performance,#view-home,#view-stage{
+  background:transparent!important;
+  background-image:none!important;
+  filter:none!important;
+}
+#view-calc::before,#view-calc::after,#view-performance::before,#view-performance::after{
+  content:none!important;
+  display:none!important;
+  background:transparent!important;
+  background-image:none!important;
+}
+#calcframe,#performanceframe{
+  background:transparent!important;
+  color-scheme:dark;
+}
+.stars{display:none!important;}
+.home-inner,.stage,.slide,.main,.wrap,.header,.admin-gate,.admin-box{
+  position:relative;
+}
+@media (max-width:900px),(pointer:coarse){
+  html,body{
+    background-attachment:scroll!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+    touch-action:pan-y!important;
+    overscroll-behavior-y:auto!important;
+  }
+  #wbg,#calcWbg{opacity:.92!important;filter:none!important;}
+}
+</style>
+<style id="poi-bg-fixed-layer">
+.poi-bg-fixed{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-color:#020608;
+  background-image:
+    radial-gradient(circle at 18% 8%,rgba(0,200,151,.11),transparent 30%),
+    radial-gradient(circle at 78% 14%,rgba(79,195,247,.09),transparent 32%),
+    linear-gradient(180deg,rgba(2,6,8,.30),rgba(2,6,8,.76)),
+    url('aurora-v2.jpg');
+  background-size:auto,auto,auto,cover;
+  background-position:center center;
+  background-repeat:no-repeat;}
+html,body{background:#020608!important;background-image:none!important;}
+</style>
+<link href="assets/pcg-site-v40-23.css?v=4023b?v=4023" rel="stylesheet"/>
+<link href="assets/pcg-mobile-v40-36.css?v=4036" rel="stylesheet"/>
+<meta name="pcg-build" content="V40.37 IOS MEMBER OPEN FIX">
+</head><body class="pcg-public-page">
+<div aria-hidden="true" class="poi-bg-fixed"></div>
+<script>window.__IOS_BG_SOFTEN=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);</script>
+<canvas id="wbg"></canvas>
+<div data-scroll-dir="down" id="pcg-site-root">
+<div aria-hidden="true" class="pcg-pointer-light" id="pcg-pointer-light"></div>
+<header class="pcg-site-header">
+<button aria-label="Нүүр хуудас" class="pcg-site-brand" data-pcg-section="home" type="button"><span aria-hidden="true" class="pcg-brand-logo pcg-brand-logo--v21">
+<svg viewBox="0 0 44 44">
+<circle cx="22" cy="22" r="18" fill="rgba(2,21,27,.82)" stroke="rgba(117,229,229,.22)"></circle>
+<circle class="pcg-v21-mini-ring pcg-v21-mini-ring--cyan" cx="22" cy="22" r="19"></circle>
+<circle class="pcg-v21-mini-ring pcg-v21-mini-ring--green" cx="22" cy="22" r="16"></circle>
+<circle class="pcg-v21-mini-ring pcg-v21-mini-ring--gold" cx="22" cy="22" r="13"></circle>
+</svg><b>PCG</b></span><span class="pcg-brand-copy"><strong>POI CAPITAL GROUP</strong><span class="pcg-brand-motto"><span class="m-cyan">Prosperity</span><i>·</i><span class="m-green">Observation</span><i>·</i><span class="m-gold">Intelligence</span></span><span aria-hidden="true" class="pcg-brand-line"></span></span></button>
+<div class="pcg-site-actions">
+<button class="pcg-site-back" data-pcg-home="" type="button">← Нүүр</button>
+<button class="pcg-site-pill pcg-site-home-only" data-pcg-panel="calc" type="button">Тооцоолуур</button>
+<button class="pcg-site-pill pcg-site-pill--gold pcg-site-home-only" data-pcg-panel="member" type="button">Гишүүний булан ↗</button>
+<button aria-expanded="false" aria-label="Цэс" class="pcg-site-menu-button pcg-site-home-only" id="pcg-menu-toggle" type="button"><span class="pcg-site-menu-lines"></span></button>
+</div>
+</header>
+<nav aria-label="Үндсэн цэс" class="pcg-site-drawer">
+<div class="pcg-site-drawer-kicker">PROSPERITY · OBSERVATION · INTELLIGENCE</div>
+<button class="pcg-site-drawer-link" data-pcg-section="home" type="button"><span>Нүүр</span><small>00</small></button>
+<button class="pcg-site-drawer-link" data-pcg-section="prosperity" type="button"><span>Өсөлтийн боломж</span><small>01</small></button>
+<button class="pcg-site-drawer-link" data-pcg-section="prosperity-flow" type="button"><span>Хөрөнгийн урсгал</span><small>02</small></button>
+<button class="pcg-site-drawer-link" data-pcg-section="observation" type="button"><span>Хяналт ба тайлагнал</span><small>03</small></button>
+<button class="pcg-site-drawer-link" data-pcg-section="observation-journey" type="button"><span>Гишүүний оролцоо</span><small>04</small></button>
+<button class="pcg-site-drawer-link" data-pcg-section="intelligence" type="button"><span>Эрсдэл ба хамгаалалт</span><small>05</small></button>
+<button class="pcg-site-drawer-link" data-pcg-section="intelligence-method" type="button"><span>Аргачлал</span><small>06</small></button>
+<button class="pcg-site-drawer-link" data-pcg-section="experience" type="button"><span>Туршлага</span><small>07</small></button>
+<button class="pcg-site-drawer-link" data-pcg-section="contact" type="button"><span>Холбоо</span><small>08</small></button>
+<button class="pcg-site-drawer-link" data-pcg-panel="calc" type="button"><span>Тооцоолуур нээх</span><small>→</small></button>
+<button class="pcg-site-drawer-link" data-pcg-panel="member" type="button"><span>Гишүүний булан</span><small>↗</small></button>
+</nav>
+<main class="pcg-site-main">
+<div class="pcg-site-panel is-active" id="pcg-site-view">
+<section class="pcg-site-section pcg-site-hero" id="home">
+<div class="pcg-container pcg-hero-grid">
+<div class="pcg-site-copy">
+<div class="pcg-site-eyebrow pcg-reveal" data-reveal="left">PROSPERITY · OBSERVATION · INTELLIGENCE</div>
+<h1 class="pcg-site-title pcg-reveal" data-reveal="left" style="--pcg-delay:70ms"><span class="pcg-hero-word pcg-hero-word--cyan">Өсөлтийн боломж.</span><span class="pcg-hero-word pcg-hero-word--green">Бодит хяналт.</span><span class="pcg-hero-word pcg-hero-word--gold">Ухаалаг хамгаалалт.</span></h1>
+<p class="pcg-hero-thesis pcg-reveal" data-reveal="up" style="--pcg-delay:150ms">Таны хөрөнгө ямар боломжит үр дүнд хүрч болох, оролцсоны дараа юу харах, өндөр эрсдэлийг ямар дүрмээр удирдахыг нэг системд холбосон хаалттай хамтын ажиллагааны бүтэц.</p>
+<p class="pcg-site-lead pcg-reveal" data-reveal="up" style="--pcg-delay:230ms">Оролцооны дүнгээ Тооцоолуураар өөрчилж сарын боломжит хуваарилалт, дансны өсөлт, хугацааны эцсийн зураглалыг урьдчилан харна. Оролцсоны дараа долоо хоног, сарын бодит гүйцэтгэл, хувийн хуваарилалт, төслийн хаалтыг Гишүүний булангаас хянана. PCG нь фьючерсийн өндөр боломжийг 20%-ийн уналтын босго, 30%-ийн хамгаалалтын нөөц, байрлалын хэмжээ, зогсох дүрэмтэй уялдуулан ажиллана.</p>
+<div class="pcg-site-buttons pcg-reveal" data-reveal="up" style="--pcg-delay:310ms"><button class="pcg-site-primary" data-pcg-section="prosperity" type="button">Өсөлтийн боломжийг судлах →</button><button class="pcg-site-secondary" data-pcg-panel="calc" type="button">Өөрийн дүнгээр тооцоолох</button></div>
+<div class="pcg-site-proof pcg-reveal" data-reveal="up" style="--pcg-delay:390ms"><span><i class="pcg-dot-cyan"></i>Prosperity — оролцохын өмнөх боломжит зураглал</span><span><i class="pcg-dot-green"></i>Observation — оролцсоны дараах бодит тайлагнал</span><span><i class="pcg-dot-gold"></i>Intelligence — ажиллагааны турш мөрдөх эрсдэлийн хамгаалалт</span></div>
+</div>
+<div class="pcg-core-stage pcg-reveal" data-reveal="scale" style="--pcg-delay:120ms">
+<div class="pcg-core-head"><strong>PCG · ГУРВАН ТУЛГУУРТ СИСТЕМ</strong><span><i></i>АМЬД</span></div>
+<div class="pcg-core-halo"></div>
+<div class="pcg-core-visual">
+<svg aria-label="Prosperity, Observation, Intelligence навигаци" class="pcg-core-svg pcg-pillar-orbit" viewBox="0 0 640 640">
+<defs>
+<filter id="pcgV23SoftGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
+<filter id="pcgV23StrongGlow" x="-120%" y="-120%" width="340%" height="340%"><feGaussianBlur stdDeviation="6" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
+<linearGradient id="pcgV23CyanTrail" x1="320" y1="78" x2="562" y2="320" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#55dfff" stop-opacity="0"></stop><stop offset=".58" stop-color="#55dfff" stop-opacity=".32"></stop><stop offset="1" stop-color="#8cf1ff" stop-opacity=".96"></stop></linearGradient>
+<linearGradient id="pcgV23GreenTrail" x1="320" y1="136" x2="136" y2="320" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#43e6ad" stop-opacity="0"></stop><stop offset=".58" stop-color="#43e6ad" stop-opacity=".32"></stop><stop offset="1" stop-color="#7ff7c8" stop-opacity=".96"></stop></linearGradient>
+<linearGradient id="pcgV23GoldTrail" x1="446" y1="320" x2="320" y2="446" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e8c16a" stop-opacity="0"></stop><stop offset=".58" stop-color="#e8c16a" stop-opacity=".3"></stop><stop offset="1" stop-color="#ffe39d" stop-opacity=".96"></stop></linearGradient>
+</defs>
+<circle class="pcg-pillar-track pcg-pillar-track--cyan" cx="320" cy="320" r="242"></circle>
+<circle class="pcg-pillar-track pcg-pillar-track--green" cx="320" cy="320" r="184"></circle>
+<circle class="pcg-pillar-track pcg-pillar-track--gold" cx="320" cy="320" r="126"></circle>
+<a class="pcg-pillar-comet pcg-pillar-comet--cyan" data-pcg-section="prosperity" data-pillar="prosperity" href="#prosperity" role="link" tabindex="0" aria-label="Prosperity хэсэг рүү очих">
+<title>Prosperity — Өсөлтийн боломж</title>
+<path class="pcg-comet-streak" d="M320 78 A242 242 0 0 1 562 320" stroke="url(#pcgV23CyanTrail)"></path>
+<circle class="pcg-comet-hit" cx="562" cy="320" r="20"></circle>
+<circle class="pcg-comet-head" cx="562" cy="320" r="7" fill="#8cf1ff"></circle>
+
+</a>
+<a class="pcg-pillar-comet pcg-pillar-comet--green" data-pcg-section="observation" data-pillar="observation" href="#observation" role="link" tabindex="0" aria-label="Observation хэсэг рүү очих">
+<title>Observation — Хяналт ба тайлагнал</title>
+<path class="pcg-comet-streak" d="M320 136 A184 184 0 0 0 136 320" stroke="url(#pcgV23GreenTrail)"></path>
+<circle class="pcg-comet-hit" cx="136" cy="320" r="20"></circle>
+<circle class="pcg-comet-head" cx="136" cy="320" r="7" fill="#7ff7c8"></circle>
+
+</a>
+<a class="pcg-pillar-comet pcg-pillar-comet--gold" data-pcg-section="intelligence" data-pillar="intelligence" href="#intelligence" role="link" tabindex="0" aria-label="Intelligence хэсэг рүү очих">
+<title>Intelligence — Эрсдэл ба аргачлал</title>
+<path class="pcg-comet-streak" d="M446 320 A126 126 0 0 1 320 446" stroke="url(#pcgV23GoldTrail)"></path>
+<circle class="pcg-comet-hit" cx="320" cy="446" r="20"></circle>
+<circle class="pcg-comet-head" cx="320" cy="446" r="7" fill="#ffe39d"></circle>
+
+</a>
+
+<g class="pcg-pillar-motion-label pcg-pillar-motion-label--cyan" aria-hidden="true">
+  <text class="pcg-pillar-orbit-label pcg-pillar-orbit-label--cyan" x="0" y="4" text-anchor="middle">Prosperity</text>
+  <animateMotion dur="25s" repeatCount="indefinite" rotate="0" path="M580 320 A260 260 0 1 1 60 320 A260 260 0 1 1 580 320"></animateMotion>
+</g>
+<g class="pcg-pillar-motion-label pcg-pillar-motion-label--green" aria-hidden="true">
+  <text class="pcg-pillar-orbit-label pcg-pillar-orbit-label--green" x="0" y="4" text-anchor="middle">Observation</text>
+  <animateMotion dur="30s" repeatCount="indefinite" rotate="0" path="M118 320 A202 202 0 1 0 522 320 A202 202 0 1 0 118 320"></animateMotion>
+</g>
+<g class="pcg-pillar-motion-label pcg-pillar-motion-label--gold" aria-hidden="true">
+  <text class="pcg-pillar-orbit-label pcg-pillar-orbit-label--gold" x="0" y="4" text-anchor="middle">Intelligence</text>
+  <animateMotion dur="35s" repeatCount="indefinite" rotate="0" path="M320 464 A144 144 0 1 1 320 176 A144 144 0 1 1 320 464"></animateMotion>
+</g>
+<circle class="pcg-core-pulse" cx="320" cy="320" r="98"></circle>
+</svg>
+<button aria-label="Гишүүний булан нээх" class="pcg-core-center-button" data-pcg-panel="member" type="button"><strong>PCG</strong><span>ГИШҮҮНИЙ БУЛАН</span><small>НЭЭХ ↗</small></button>
+<div class="pcg-orbit-track pcg-orbit-track--outer"><div class="pcg-orbit-slot pcg-orbit-slot--top"><button class="pcg-orbit-card is-active" data-core="calculator" type="button"><b>Тооцоолол</b><small>Дүн · хугацаа · боломжит үр дүн</small></button></div><div class="pcg-orbit-slot pcg-orbit-slot--bottom"><button class="pcg-orbit-card" data-core="report" type="button"><b>Тайлагнал</b><small>7 хоног · сар · хувийн түүх</small></button></div></div>
+<div class="pcg-orbit-track pcg-orbit-track--inner"><div class="pcg-orbit-slot pcg-orbit-slot--top"><button class="pcg-orbit-card" data-core="risk" type="button"><b>Хамгаалалт</b><small>20% DD · 30% нөөц · дүрэм</small></button></div><div class="pcg-orbit-slot pcg-orbit-slot--bottom"><button class="pcg-orbit-card" data-core="method" type="button"><b>Аргачлал</b><small>Орчин · баталгаа · гүйцэтгэл</small></button></div></div>
+</div>
+<div aria-live="polite" class="pcg-core-detail"><span id="pcgCoreTag"></span><strong id="pcgCoreTitle"></strong><p id="pcgCoreText"></p></div>
+</div>
+</div>
+<button class="pcg-scroll-cue" data-pcg-section="prosperity" type="button"><span>ДООШ ҮРГЭЛЖЛҮҮЛЭХ</span><i></i></button>
+</section>
+<section class="pcg-site-section pcg-pillar-section pcg-pillar-section--cyan" id="prosperity">
+<div class="pcg-container pcg-section-layout pcg-section-layout--rich">
+<aside aria-hidden="true" class="pcg-chapter-mark pcg-reveal" data-reveal="left"><small>CHAPTER</small><strong>01</strong><i></i></aside>
+<div class="pcg-section-copy"><div class="pcg-site-eyebrow pcg-reveal" data-reveal="left">PROSPERITY · ӨСӨЛТИЙН БОЛОМЖ</div><h2 class="pcg-reveal" data-reveal="left" style="--pcg-delay:80ms">Оролцооны дүн бүр<span>өөр үр дүнгийн зураглалтай.</span></h2><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:150ms">Хөрөнгө оруулагчийн хамгийн эхний асуулт бол “Миний оруулах дүн ямар боломжтой вэ?” юм. PCG-ийн Тооцоолуур оролцооны дүн, хугацаа, сарын жишиг гүйцэтгэл, гишүүдийн тоог өөрчлөх бүрд боломжит сарын хуваарилалт, дансанд үлдэх өсөлт болон төслийн хугацааны эцсийн зураглалыг дахин тооцно.</p><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:220ms">Энэ нь нэг тоо харуулдаг сурталчилгааны хүснэгт биш. Таны сонгосон нөхцөл өөрчлөгдөхөд үр дүн хэрхэн өөрчлөгдөхийг харьцуулж, оролцооны хэмжээгээ мэдээлэлтэйгээр ярилцахад зориулсан интерактив загварчлал юм.</p><div class="pcg-site-buttons pcg-reveal" data-reveal="up" style="--pcg-delay:290ms"><button class="pcg-site-primary" data-pcg-panel="calc" type="button">Өөрийн дүнгээр тооцоолох →</button></div></div>
+<div class="pcg-rich-board pcg-reveal" data-reveal="right">
+<div class="pcg-tool-banner"><div><small>PROSPERITY-ИЙН ҮНДСЭН ХЭРЭГСЭЛ</small><strong>Хөрөнгө оруулалтын Тооцоолуур</strong><p>Оролцооны дүнгээ өөрчлөөд сар бүрийн боломжит мөнгөн урсгал, дансны өсөлт, гишүүнд ногдох хуваарилалт болон хугацааны эцсийн дүнг нэг дор харьцуулна.</p></div><button data-pcg-panel="calc" type="button">Тооцоолуур нээх ↗</button></div>
+<div class="pcg-market-compare"><div class="pcg-compare-head"><small>ЭРСДЭЛ · ХУГАЦАА · БОЛОМЖ</small><strong>Банк, хувьцаа, фьючерсийн ялгаа</strong></div><div class="pcg-compare-row"><span>Банкны хадгаламж</span><i><em style="width:24%"></em></i><b>Бага хэлбэлзэл · бага боломж</b></div><div class="pcg-compare-row"><span>Урт хугацааны хувьцаа</span><i><em style="width:55%"></em></i><b>Дунд хэлбэлзэл · урт хугацаа</b></div><div class="pcg-compare-row is-futures"><span>Фьючерс</span><i><em style="width:100%"></em></i><b>Өндөр боломж · өндөр эрсдэл</b></div><p class="pcg-disclaimer">Харьцуулалт нь бүтээгдэхүүний ерөнхий шинжийг тайлбарлах зорилготой. Бодит өгөөж баталгаатай биш бөгөөд зах зээлийн нөхцөл, гүйцэтгэл, эрсдэлийн удирдлагаас хамаарна.</p></div>
+<div class="pcg-futures-grid"><article><b>Фьючерс гэж юу вэ?</b><p>Индекс, алт зэрэг суурь хөрөнгийн ирээдүйн үнийн хөдөлгөөнд стандарт гэрээгээр оролцдог хөшүүрэгтэй зах зээл.</p></article><article><b>Яагаад боломж өндөр вэ?</b><p>Өдөр тутмын идэвхтэй хөдөлгөөн, хоёр чиглэлд ажиллах боломж, капиталын үр ашиг нь өгөөжийн боломжийг нэмэгдүүлдэг.</p></article><article><b>Яагаад эрсдэл өндөр вэ?</b><p>Хөшүүрэг нь ашиг төдийгүй алдагдлыг мөн түргэсгэдэг. Иймээс боломжийг Intelligence хэсгийн хамгаалалттай хамт авч үзнэ.</p></article></div>
+</div></div></section><section class="pcg-site-section pcg-pillar-section pcg-pillar-section--cyan" id="prosperity-flow">
+<div class="pcg-container pcg-section-layout pcg-section-layout--rich">
+<aside aria-hidden="true" class="pcg-chapter-mark pcg-reveal" data-reveal="left"><small>CHAPTER</small><strong>02</strong><i></i></aside>
+<div class="pcg-section-copy"><div class="pcg-site-eyebrow pcg-reveal" data-reveal="left">PROSPERITY · ХӨРӨНГИЙН УРСГАЛ</div><h2 class="pcg-reveal" data-reveal="left" style="--pcg-delay:80ms">Өгөөж нэг тоо биш.<span>Өсөлт, нөөц, хуваарилалтын нийлбэр.</span></h2><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:150ms">PCG-ийн загвар сарын гүйцэтгэлийг дансны өсөлт, үйл ажиллагааны зардал, гишүүдийн хуваарилалт болон хамгаалалтын нөөцтэй уялдуулна. Ингэснээр зөвхөн тухайн сарын олголтыг бус, дараагийн саруудад ажиллах капиталын багтаамжийг хамтад нь харна.</p><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:220ms">Тооцоолуурт сарын жишиг гүйцэтгэл өөрчлөгдөхөд эдгээр урсгал автоматаар шинэчлэгдэнэ. Бодит амьдрал дээрх дүн нь бодит гүйцэтгэл, зардал, гишүүдийн бүтэц болон төслийн нөхцөлөөс хамаарна.</p></div>
+<div class="pcg-rich-board pcg-reveal" data-reveal="right">
+<div class="pcg-allocation-card"><div class="pcg-allocation-head"><div><small>САРЫН ГҮЙЦЭТГЭЛИЙН УРСГАЛ</small><strong>Өсөлт ба хуваарилалтын тэнцвэр</strong></div><span>ЖИШИГ ЗАГВАР</span></div><div class="pcg-allocation-stack"><div class="pcg-alloc-segment pcg-alloc-scale" style="--w:50%"><span>50%</span><b>Дансанд үлдэх өсөлт</b><small>Дараагийн сарын ажиллах капитал</small></div><div class="pcg-alloc-segment pcg-alloc-cost" style="--w:2%"><span>2%</span></div><div class="pcg-alloc-segment pcg-alloc-pool" style="--w:48%"><span>48%</span><b>Хуваарилагдах сан</b><small>Гишүүд ба PCG-ийн нөхцөлийн дагуу</small></div></div><div class="pcg-allocation-breakdown"><div><span>ӨСӨЛТ</span><b>Дансны багтаамж нэмэгдэнэ</b><small>Scale-up</small></div><div><span>ХАМГААЛАЛТ</span><b>30%-ийн зорилтот нөөц</b><small>Эрсдэлийн буфер</small></div><div><span>ХУВААРИЛАЛТ</span><b>Гишүүний хувийн дүн</b><small>Сарын тайланд тусна</small></div></div><button class="pcg-allocation-cta" data-pcg-panel="calc" type="button">Энэ урсгалыг өөрийн дүнгээр харах →</button></div>
+<div class="pcg-life-chart"><div class="pcg-life-chart-head"><span>ХӨРӨНГИЙН АМЬДРАЛЫН МӨЧЛӨГ</span><small>ОРУУЛАХААС ХААЛТ ХҮРТЭЛ</small></div><div class="pcg-life-node"><i>01</i><div><b>Гишүүний капитал</b><span>Оролцооны дүн ба хувийн эзлэх хувь бүртгэгдэнэ.</span></div><em>БҮРТГЭЛ</em></div><div class="pcg-life-connector"></div><div class="pcg-life-node"><i>02</i><div><b>Арилжааны ажиллагаа</b><span>Капитал эрсдэлийн дүрмийн хүрээнд ажиллана.</span></div><em>ГҮЙЦЭТГЭЛ</em></div><div class="pcg-life-connector"></div><div class="pcg-life-node"><i>03</i><div><b>Сарын хаалт</b><span>Өсөлт, нөөц, зардал, хуваарилалтын дүн гарна.</span></div><em>ТАЙЛАН</em></div><div class="pcg-life-connector"></div><div class="pcg-life-node"><i>04</i><div><b>Төслийн эцсийн хаалт</b><span>Үндсэн хөрөнгө, ашиг, татвар, өмнөх олголтыг нэгтгэнэ.</span></div><em>БАТАЛГАА</em></div></div>
+</div></div></section>
+<section class="pcg-site-section pcg-pillar-section pcg-pillar-section--green" id="observation">
+<div class="pcg-container pcg-section-layout pcg-section-layout--rich"><aside aria-hidden="true" class="pcg-chapter-mark pcg-reveal" data-reveal="left"><small>CHAPTER</small><strong>03</strong><i></i></aside>
+<div class="pcg-section-copy"><div class="pcg-site-eyebrow pcg-reveal" data-reveal="left">OBSERVATION · ХЯНАЛТ БА ТАЙЛАГНАЛ</div><h2 class="pcg-reveal" data-reveal="left" style="--pcg-delay:80ms">Оролцсоны дараа<span>мэдээлэл таных байна.</span></h2><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:150ms">Хөрөнгө оруулагч зөвхөн эхний тооцоог хараад үлдэхгүй. Гишүүний булан нь тухайн оролцогчийн хувийн дүн, долоо хоногийн төлөв, сарын бодит гүйцэтгэл, дансанд үлдсэн өсөлт, өмнөх хуваарилалт, шинэчилсэн төсөөлөл болон төслийн хаалтыг нэг орчинд харуулна.</p><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:220ms">Тайлан бүр ижил хэлбэрээр хадгалагдаж, шинэ мэдээлэл нэмэгдэхэд өмнөх түүх устахгүй. Ингэснээр сурталчилгааны тоо бус, бодит ажиллагааны дарааллыг харьцуулан хянах боломжтой.</p><div class="pcg-site-buttons pcg-reveal" data-reveal="up" style="--pcg-delay:290ms"><button class="pcg-site-primary" data-pcg-panel="member" type="button">Гишүүний буланг нээх ↗</button></div></div>
+<div class="pcg-rich-board pcg-reveal" data-reveal="right"><div class="pcg-tool-banner pcg-tool-banner--green"><div><small>OBSERVATION-ИЙН ҮНДСЭН ХЭРЭГСЭЛ</small><strong>Гишүүний хувийн хяналтын орчин</strong><p>Оролцогч бүр нийт төслийн мэдээллээс гадна өөрийн капитал, хувийн эзлэх хувь, сарын хуваарилалт, хуримтлагдсан үр дүн болон хаалтын тооцоог харна.</p></div><button data-pcg-panel="member" type="button">Гишүүний булан ↗</button></div>
+<div class="pcg-dashboard-preview"><div class="pcg-dashboard-top"><div><small>ГИШҮҮНИЙ ХЯНАЛТЫН САМБАР</small><strong>Тооцооллоос бодит гүйцэтгэл рүү</strong></div><span><i></i>ТОГТМОЛ ШИНЭЧЛЭЛ</span></div><div class="pcg-dashboard-metrics"><div><small>7 ХОНОГИЙН ТӨЛӨВ</small><b>Үйл ажиллагааны явц</b></div><div><small>САРЫН ХААЛТ</small><b>Бодит үр дүн</b></div><div><small>ХУВИЙН ХУВААРИЛАЛТ</small><b>Танд ногдох дүн</b></div></div><div class="pcg-dashboard-chart"><svg preserveaspectratio="none" viewbox="0 0 620 190"><defs><lineargradient id="obsLine16" x1="0" x2="1"><stop offset="0" stop-color="#57dcff"></stop><stop offset=".6" stop-color="#46efb2"></stop><stop offset="1" stop-color="#ffe49a"></stop></lineargradient><lineargradient id="obsFill16" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#46efb2" stop-opacity=".23"></stop><stop offset="1" stop-color="#46efb2" stop-opacity="0"></stop></lineargradient></defs><path class="pcg-chart-grid" d="M10 30H610M10 75H610M10 120H610M10 165H610"></path><path class="pcg-observation-fill" d="M10 154 C65 145 78 119 125 124 S188 140 230 104 S298 114 344 82 S414 98 458 59 S522 74 566 39 S594 34 610 22 L610 180 L10 180 Z" style="fill:url(#obsFill16)"></path><path class="pcg-observation-line" d="M10 154 C65 145 78 119 125 124 S188 140 230 104 S298 114 344 82 S414 98 458 59 S522 74 566 39 S594 34 610 22" style="stroke:url(#obsLine16)"></path></svg></div><div class="pcg-dashboard-foot"><span>Төслийн явц</span><span>Сарын түүх</span><span>Хуваарилалт</span><span>Эцсийн хаалт</span></div></div>
+<div class="pcg-observation-flow"><article><span>01</span><div><b>Долоо хоногийн шинэчлэл</b><p>Ажиллагааны төлөв, гол өөрчлөлт, тайлбар болон дараагийн хяналтын цэг.</p></div></article><article><span>02</span><div><b>Сарын бодит тайлан</b><p>Эхний үлдэгдэл, сарын гүйцэтгэл, дансны өсөлт, хуваарилалт.</p></div></article><article><span>03</span><div><b>Гишүүний хувийн үр дүн</b><p>Оролцооны хувь, хуримтлагдсан дүн, өмнөх олголт, шинэчилсэн төсөөлөл.</p></div></article><article><span>04</span><div><b>Баримт ба түүх</b><p>Өмнөх тайлан, statement холбоос, баталгаажуулалт нэг дараалалд хадгалагдана.</p></div></article></div></div>
+</div></section><section class="pcg-site-section pcg-pillar-section pcg-pillar-section--green" id="observation-journey"><div class="pcg-container pcg-section-layout pcg-section-layout--rich"><aside aria-hidden="true" class="pcg-chapter-mark pcg-reveal" data-reveal="left"><small>CHAPTER</small><strong>04</strong><i></i></aside><div class="pcg-section-copy"><div class="pcg-site-eyebrow pcg-reveal" data-reveal="left">OBSERVATION · ГИШҮҮНИЙ ОРОЛЦОО</div><h2 class="pcg-reveal" data-reveal="left" style="--pcg-delay:80ms">Оролцохоос эхлээд<span>эцсийн баталгаажуулалт хүртэл.</span></h2><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:150ms">Гишүүний оролцоо зөвхөн хөрөнгө шилжүүлэх үйлдлээр дуусахгүй. Бүртгэл, хувийн эрх, тогтмол тайлан, сарын хаалт, хуваарилалт, төсөөллийн шинэчлэл болон төслийн эцсийн тооцоо нэг тасралтгүй урсгалд орно.</p><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:220ms">Төслийн хаалт frozen snapshot дээр явагдаж, үндсэн хөрөнгө, хуримтлагдсан ашиг, хаалтын ашиг/алдагдал, татварын нөөц, өмнөх олголт болон гишүүний баталгаажуулалтыг нэгтгэнэ.</p></div><div class="pcg-rich-board pcg-reveal" data-reveal="right"><div class="pcg-investor-path"><article class="pcg-investor-step"><span>01</span><div><b>Оролцоо ба хувийн эрх</b><p>Гишүүний капитал, оролцооны хувь, нэвтрэх эрх бүртгэгдэнэ.</p></div><em>ЭХЛЭЛ</em></article><article class="pcg-investor-step"><span>02</span><div><b>Долоо хоногийн хяналт</b><p>Ажиллагааны төлөв, тайлбар, өөрчлөлтийг тогтмол хүлээн авна.</p></div><em>7 ХОНОГ</em></article><article class="pcg-investor-step"><span>03</span><div><b>Сарын хаалт ба хуваарилалт</b><p>Бодит гүйцэтгэл, өсөлт, нөөц, өөрт ногдох дүн шинэчлэгдэнэ.</p></div><em>САР</em></article><article class="pcg-investor-step"><span>04</span><div><b>Түүх ба шинэчилсэн төсөөлөл</b><p>Өмнөх тайлантай харьцуулж, үлдсэн хугацааны зураглалыг харна.</p></div><em>ТҮҮХ</em></article><article class="pcg-investor-step"><span>05</span><div><b>Төслийн эцсийн хаалт</b><p>Эцсийн дүн, татвар, өмнөх олголт, баталгаажуулалт нэг мөчлөгт орно.</p></div><em>ХААЛТ</em></article></div><div class="pcg-member-promo"><small>ТООЦООЛУУР → ГИШҮҮНИЙ БУЛАН</small><h3>Оролцохын өмнө зураглалаа харна. Оролцсоны дараа бодит үр дүнгээ хянана.</h3><p>Нэг хэрэгсэл нь боломжит нөхцөлийг ойлгуулж, нөгөө нь бодит ажиллагааны мэдээллийг танд хүргэнэ.</p><button data-pcg-panel="member" type="button">Хувийн хяналтын орчныг нээх ↗</button></div></div></div></section>
+<section class="pcg-site-section pcg-pillar-section pcg-pillar-section--gold" id="intelligence"><div class="pcg-container pcg-section-layout pcg-section-layout--rich"><aside aria-hidden="true" class="pcg-chapter-mark pcg-reveal" data-reveal="left"><small>CHAPTER</small><strong>05</strong><i></i></aside><div class="pcg-section-copy"><div class="pcg-site-eyebrow pcg-reveal" data-reveal="left">INTELLIGENCE · ЭРСДЭЛ БА ХАМГААЛАЛТ</div><h2 class="pcg-reveal" data-reveal="left" style="--pcg-delay:80ms">Өндөр боломжийг<span>хэмжигдэхүйц эрсдэлийн хүрээнд.</span></h2><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:150ms">Фьючерсийн хөшүүрэг нь өгөөжийн боломжийг нэмэгдүүлдэгтэй адил алдагдлыг ч түргэсгэж чадна. PCG эрсдэлийг үгүй хийнэ гэж амлахгүй. Харин хэмжиж, хязгаарлаж, урьдчилан тогтоосон хамгаалалтын нөхцөлөөр удирдана.</p><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:220ms">20%-ийн drawdown босго нь ажиллагааг дахин үнэлэх хатуу хяналтын цэг. 30%-ийн хамгаалалтын нөөц нь зах зээлийн таагүй мөчлөгт дансны уян хатан байдлыг дэмжих зорилтот буфер юм.</p></div><div class="pcg-rich-board pcg-reveal" data-reveal="right"><div class="pcg-risk-board"><div class="pcg-risk-meter"><div><small>ХЯНАЛТЫН УНАЛТЫН БОСГО</small><strong>20% DD</strong></div><i></i><div><small>ХАМГААЛАЛТЫН НӨӨЦИЙН ЗОРИЛТ</small><strong>30%</strong></div></div><div class="pcg-risk-grid"><article><b>Байрлалын хэмжээ</b><p>Нэг шийдвэрт хүлээх эрсдэлийг дансны нийт хэмжээнд тохируулна.</p></article><article><b>Алдагдлын хязгаар</b><p>Оролтоос өмнө хүчингүй болох цэг, хамгаалах түвшин, зөвшөөрөгдөх алдагдлыг тогтооно.</p></article><article><b>Мэдээтэй өдрийн хамгаалалт</b><p>FOMC, CPI зэрэг өндөр хэлбэлзэлтэй үед хэмжээ, хугацаа, оролцох эсэхийг дахин үнэлнэ.</p></article><article><b>Зогсох дүрэм</b><p>Нөхцөл батлагдаагүй, хязгаар зөрчигдсөн үед оролцохгүй байх нь системийн шийдвэр.</p></article></div></div><div class="pcg-risk-message"><small>ӨНДӨР ӨГӨӨЖ · ӨНДӨР ЭРСДЭЛ</small><h3>Боломжийг дангаар нь сурталчлахгүй. Хамгаалалтын дүрмийг хамт харуулна.</h3><p>Тооцоолуурын боломжит дүнг Intelligence хэсгийн эрсдэлийн бүтэцтэй хамт унших нь хөрөнгө оруулагчийн бодит шийдвэрт шаардлагатай.</p></div></div></div></section><section class="pcg-site-section pcg-pillar-section pcg-pillar-section--gold" id="intelligence-method"><div class="pcg-container pcg-section-layout pcg-section-layout--rich"><aside aria-hidden="true" class="pcg-chapter-mark pcg-reveal" data-reveal="left"><small>CHAPTER</small><strong>06</strong><i></i></aside><div class="pcg-section-copy"><div class="pcg-site-eyebrow pcg-reveal" data-reveal="left">INTELLIGENCE · АРГАЧЛАЛ</div><h2 class="pcg-reveal" data-reveal="left" style="--pcg-delay:80ms">Нэг дохио биш.<span>Дараалсан баталгаажуулалт.</span></h2><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:150ms">POI аргачлал proprietary edge-ийг бүхэлд нь задлах бус, шийдвэр ямар дарааллаар гардагийг ойлгуулна. Зах зээлийн орчныг эхэлж ангилж, тохирох V2/V3 setup-ийг сонгон, order flow, volume, imbalance, TPO, Bookmap-ийн мэдээллээр давхар баталгаажуулна.</p><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:220ms">Оролт бүрийн өмнө хүчингүй болох нөхцөл, байрлалын хэмжээ, зөвшөөрөгдөх алдагдал тогтоогдож, гүйцэтгэлийн дараа бүртгэл, review, тайлагналын мөчлөгт орно.</p></div><div class="pcg-rich-board pcg-reveal" data-reveal="right"><div class="pcg-method"><div class="pcg-method-tabs"><button class="pcg-method-button" data-method="context" type="button"><b>01</b><span>Орчныг ажиглах</span></button><button class="pcg-method-button" data-method="setup" type="button"><b>02</b><span>V2 / V3 ангилах</span></button><button class="pcg-method-button" data-method="confirm" type="button"><b>03</b><span>Давхар батлах</span></button><button class="pcg-method-button" data-method="risk" type="button"><b>04</b><span>Хязгаар тогтоох</span></button><button class="pcg-method-button" data-method="review" type="button"><b>05</b><span>Дүгнэж тайлагнах</span></button></div><div class="pcg-method-detail" id="pcg-method-detail"></div></div><div class="pcg-method-principles"><article><small>POI V2</small><b>Чиглэл давамгай орчин</b><p>Зах зээлийн чиглэл, бүтцийн үргэлжлэл, order-flow баталгааг уялдуулна.</p></article><article><small>POI V3</small><b>Эргэлт давамгай орчин</b><p>Rotation, liquidity, тэнцвэргүй байдал, түлхүүр бүсийн өөрчлөлтийг ажиглана.</p></article><article><small>REVIEW</small><b>Шийдвэр бүр дараах дүгнэлттэй</b><p>Гүйцэтгэл, дүрэм мөрдөлт, алдаа, сайжруулалтыг бүртгэнэ.</p></article></div></div></div></section>
+<section class="pcg-site-section" id="experience">
+<div class="pcg-container pcg-section-layout"><aside aria-hidden="true" class="pcg-chapter-mark pcg-reveal" data-reveal="left"><small>CHAPTER</small><strong>07</strong><i></i></aside><div class="pcg-section-copy"><div class="pcg-site-eyebrow pcg-reveal" data-reveal="left">ТУРШЛАГА БА ХАРИУЦЛАГА</div><h2 class="pcg-reveal" data-reveal="left" style="--pcg-delay:80ms">Санхүүгийн суурь.<span>Хяналтын сахилга бат.</span></h2><p class="pcg-reveal" data-reveal="up" style="--pcg-delay:160ms">Банк, санхүү, дотоод аудитын суурь туршлагыг retail forex, санхүүжүүлсэн арилжаачны замнал, улмаар futures order-flow судалгаа, POI V2/V3 аргачлал, хөрөнгө оруулагчийн тооцоолол болон тайлагналын системтэй нэгтгэсэн.</p><div class="pcg-site-buttons pcg-reveal" data-reveal="up" style="--pcg-delay:240ms"><button class="pcg-site-secondary" data-pcg-cert="" type="button">Батламж харах</button></div></div><div class="pcg-experience-grid"><div class="pcg-timeline pcg-reveal" data-reveal="right"><div class="pcg-timeline-row"><span class="pcg-timeline-year">2007</span><div><b>Санхүүгийн боловсрол</b><p>Банк, санхүү, нягтлан бодох бүртгэлийн бакалавр.</p></div></div><div class="pcg-timeline-row"><span class="pcg-timeline-year">2008–15</span><div><b>Голомт банк</b><p>Теллер, Картын төвийн менежер, дотоод аудит.</p></div></div><div class="pcg-timeline-row"><span class="pcg-timeline-year">2020</span><div><b>Forex ба санхүүжүүлсэн данс</b><p>Forex арилжаа, MyForexFunds funded trader туршлага.</p></div></div><div class="pcg-timeline-row"><span class="pcg-timeline-year">2025</span><div><b>Futures order flow</b><p>Volume, imbalance, TPO, Bookmap; POI V2/V3 аргачлал.</p></div></div></div><div class="pcg-responsibility-card pcg-reveal" data-reveal="right" style="--pcg-delay:120ms"><small>ХАРИУЦЛАГЫН ЗАРЧИМ</small><h3>Боломжийг тооцоогоор харуулна. Эрсдэлийг нуудаггүй.</h3><ul><li>Хөшүүрэгтэй зах зээлд үндсэн хөрөнгө буурах боломжтой.</li><li>Тооцоолуурын дүн simulation бөгөөд баталгаа биш.</li><li>Бодит гүйцэтгэл Гишүүний буланд тайлагнагдана.</li><li>Шийдвэр бүр дүрэм, бүртгэл, дараах дүгнэлттэй байна.</li></ul></div></div></div>
+</section>
+<section class="pcg-site-section" id="contact"><div class="pcg-container pcg-contact-layout"><aside aria-hidden="true" class="pcg-chapter-mark pcg-reveal" data-reveal="left"><small>CHAPTER</small><strong>08</strong><i></i></aside><div class="pcg-final-card pcg-reveal" data-reveal="scale"><button type="button" class="pcg-final-orbit pcg-final-orbit-button" data-pcg-panel="member" aria-label="Гишүүний булан нээх"><span aria-hidden="true" class="pcg-brand-logo pcg-brand-logo--v21 pcg-brand-logo--v21-final">
+<svg viewBox="0 0 44 44">
+<circle cx="22" cy="22" r="18" fill="rgba(2,21,27,.82)" stroke="rgba(117,229,229,.22)"></circle>
+<circle class="pcg-v21-mini-ring pcg-v21-mini-ring--cyan" cx="22" cy="22" r="19"></circle>
+<circle class="pcg-v21-mini-ring pcg-v21-mini-ring--green" cx="22" cy="22" r="16"></circle>
+<circle class="pcg-v21-mini-ring pcg-v21-mini-ring--gold" cx="22" cy="22" r="13"></circle>
+</svg><b>PCG</b></span></button><div class="pcg-final-copy"><div class="pcg-site-eyebrow">ДАРААГИЙН АЛХАМ</div><h2>Өсөлтийн боломж, бодит хяналт, эрсдэлийн хамгаалалтыг өөрийн нөхцөлөөр харьцуулна уу.</h2><p>Тооцоолуураар оролцооны дүн, хугацаа, боломжит хуваарилалт болон дансны өсөлтийн зураглалыг харна. Хамтын ажиллагаа эхэлсний дараа Гишүүний булангаар бодит гүйцэтгэл, хувийн үр дүн, тайлан болон төслийн хаалтыг хянана. Нөхцөл, эрсдэл, тайлагналын бүтцийг уулзалтаар дэлгэрэнгүй ярилцах боломжтой.</p><div class="pcg-site-buttons"><button class="pcg-site-primary" data-pcg-panel="calc" type="button">Тооцоолуур нээх →</button><button class="pcg-site-secondary" data-pcg-panel="member" type="button">Гишүүний булан</button><a class="pcg-site-secondary" href="https://calendar.app.google/h9H4D6sWnnfF8ZSDA" rel="noopener" target="_blank">Уулзалтын цаг товлох ↗</a><a class="pcg-site-secondary" href="mailto:info@poicapitalgroup.com">info@poicapitalgroup.com</a></div></div></div></div></section>
+</div>
+<section class="pcg-site-panel pcg-portal-panel" id="view-calc"><iframe allowtransparency="true" class="pcg-portal-frame" id="calcframe" src="app/calculator-mini.html" style="background:transparent!important" title="Тооцоолуур"></iframe></section>
+<section class="pcg-site-panel pcg-portal-panel" id="view-performance"><iframe allowtransparency="true" class="pcg-portal-frame" id="performanceframe" src="member/index.html?environment=real&amp;embedded=1" style="background:transparent!important" title="Гишүүний булан"></iframe></section>
+</main>
+<footer class="pcg-site-footer"><span>© 2026 POI Capital Group. <span class="pcg-footer-rights">Бүх эрх хуулиар хамгаалагдсан.</span></span><a href="mailto:info@poicapitalgroup.com">info@poicapitalgroup.com</a><a href="https://admin.poicapitalgroup.com/" rel="noopener" target="_blank">Удирдлагын нэвтрэх</a><button data-pcg-top="" type="button">Дээш очих ↑</button></footer>
+</div>
+<div aria-hidden="true" class="pcg-cert-modal" id="pcg-cert-modal"><div class="pcg-cert-dialog"><button aria-label="Хаах" data-pcg-cert-close="" type="button">×</button><img alt="MyForexFunds батламж" src="myforexfunds_certificate.jpg"/></div></div>
+<script src="assets/pcg-mobile-v40-36.js?v=4036"></script>
+<script src="assets/pcg-site-v40-23.js?v=4023b?v=4023"></script>
+<script>// ---------- Background canvas (gold beams + stars) ----------
+(function(){
+  var cv=document.getElementById('wbg');
+  if(!cv)return;
+  var ctx=cv.getContext('2d');
+  var W=0,H=0,dpr=1,t=0,ready=false;
+  var bgImg=new Image();
+  var stars=[], nodes=[], pulses=[];
+  var reduce=false;
+  try{ reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var mobileBg=false,lastFrame=0,scrollPauseUntil=0,scrollStaticDrawn=false;
+  var fxc=document.createElement('canvas'),fxx=fxc.getContext('2d'),lastFx=-1e9,FX_MS=120,FXS=0.34,fxScale=1;
+  var perfN=0,perfSum=0,perfDead=false;
+  function detectMobileBg(){
+    try{
+      mobileBg=(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent||'')) || (window.matchMedia&&window.matchMedia('(max-width: 820px)').matches) || (window.matchMedia&&window.matchMedia('(pointer: coarse)').matches);
+    }catch(e){mobileBg=(window.innerWidth||0)<821;}
+  }
+  function markBgScroll(){
+    if(!mobileBg)return;
+    scrollPauseUntil=Date.now()+850;
+    scrollStaticDrawn=false;
+  }
+  function bindBgScrollPause(){
+    try{
+      window.addEventListener('scroll',markBgScroll,{passive:true});
+      window.addEventListener('wheel',markBgScroll,{passive:true});
+      window.addEventListener('touchstart',markBgScroll,{passive:true});
+      window.addEventListener('touchmove',markBgScroll,{passive:true});
+    }catch(e){}
+  }
+
+  function rand(a,b){ return a + Math.random()*(b-a); }
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+
+  function resize(){
+    detectMobileBg();
+    bindBgScrollPause();
+    dpr=mobileBg?1:Math.max(1,Math.min(1.35,window.devicePixelRatio||1));
+    W=window.innerWidth; H=window.innerHeight;
+    cv.width=Math.floor(W*dpr); cv.height=Math.floor(H*dpr);
+    cv.style.width=W+'px'; cv.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    fxc.width=Math.max(2,Math.round(cv.width*FXS)); fxc.height=Math.max(2,Math.round(cv.height*FXS));
+    fxx.setTransform(dpr*FXS,0,0,dpr*FXS,0,0);
+    lastFx=-1e9;
+    buildScene();
+  }
+
+  function buildScene(){
+    stars=[]; nodes=[]; pulses=[];
+    var skyCount=mobileBg?(mobileBg?8:(reduce?10:18)):(reduce?45:70);
+    for(var i=0;i<skyCount;i++){
+      stars.push({
+        x:Math.random(),
+        y:Math.random()*0.48,
+        r:rand(0.45,1.6),
+        a:rand(0.22,0.95),
+        p:rand(0,Math.PI*2),
+        tw:rand(0.0007,0.0022),
+        cool:Math.random()>0.75
+      });
+    }
+    var rows=mobileBg?2:3, cols=mobileBg?Math.max(4,Math.round(W/360)):Math.max(6, Math.round(W/260));
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        nodes.push({
+          bx:(c+0.35+Math.random()*0.45)/cols,
+          by:0.78 + r*0.050 + rand(-0.010,0.010),
+          rx:mobileBg?rand(0.002,0.007):rand(0.006,0.020),
+          ry:mobileBg?rand(0.0005,0.0018):rand(0.0008,0.0032),
+          sp:mobileBg?rand(0.000035,0.000075):rand(0.00006,0.00016),
+          p:rand(0,Math.PI*2),
+          r:rand(1.2,2.6),
+          a:rand(0.45,1)
+        });
+      }
+    }
+    for(var p=0;p<(mobileBg?(reduce?0:3):(reduce?6:10));p++){
+      pulses.push({ edge:-1, prog:Math.random(), sp:mobileBg?rand(0.00035,0.00075):rand(0.00065,0.0017), a:mobileBg?rand(0.08,0.16):rand(0.14,0.30) });
+    }
+  }
+
+  bgImg.onload=function(){ ready=true; };
+  bgImg.src="aurora-v2.jpg";
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+
+  function drawBgImage(tm){
+    if(!ready){
+      ctx.fillStyle='#02070b';
+      ctx.fillRect(0,0,W,H);
+      return;
+    }
+    var iw=bgImg.naturalWidth||bgImg.width;
+    var ih=bgImg.naturalHeight||bgImg.height;
+    var cover=Math.max(W/iw,H/ih);
+    var scale=cover*1.03;
+    var driftX=Math.sin(tm*0.00006)*W*0.008;
+    var driftY=Math.cos(tm*0.00005)*H*0.006;
+    var dw=iw*scale, dh=ih*scale;
+    var ox=(W-dw)/2 + driftX;
+    var oy=(H-dh)/2 + driftY;
+    ctx.drawImage(bgImg, ox, oy, dw, dh);
+    var vign=ctx.createLinearGradient(0,0,0,H);
+    vign.addColorStop(0,'rgba(0,0,0,0.10)');
+    vign.addColorStop(0.68,'rgba(0,0,0,0.04)');
+    vign.addColorStop(1,'rgba(0,0,0,0.18)');
+    ctx.fillStyle=vign; ctx.fillRect(0,0,W,H);
+  }
+
+  var starSprites=null;
+  function makeStarSprite(hue){
+    var c=document.createElement('canvas'); c.width=64; c.height=64;
+    var g2=c.getContext('2d');
+    var g=g2.createRadialGradient(32,32,0,32,32,32);
+    g.addColorStop(0,'rgba('+hue+',0.9)');
+    g.addColorStop(0.3,'rgba('+hue+',0.22)');
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    g2.fillStyle=g; g2.beginPath(); g2.arc(32,32,32,0,Math.PI*2); g2.fill();
+    return c;
+  }
+  function drawStars(tm){
+    if(!starSprites) starSprites={cool:makeStarSprite('220,245,255'), warm:makeStarSprite('255,245,220')};
+    for(var i=0;i<stars.length;i++){
+      var s=stars[i];
+      var x=s.x*W, y=s.y*H;
+      var tw=0.35+0.65*Math.abs(Math.sin(tm*s.tw+s.p));
+      var a=s.a*tw;
+      var r=s.r*(0.7+tw*0.6);
+      var hue=s.cool?'220,245,255':'255,245,220';
+      ctx.globalAlpha=a;
+      ctx.drawImage(s.cool?starSprites.cool:starSprites.warm, x-r*8, y-r*8, r*16, r*16);
+      ctx.globalAlpha=1;
+      ctx.fillStyle='rgba(255,255,255,'+(a*0.95)+')'; ctx.beginPath(); ctx.arc(x,y,Math.max(0.4,r*0.45),0,Math.PI*2); ctx.fill();
+      if(tw>0.84){
+        var fl=r*6.8;
+        ctx.strokeStyle='rgba(255,255,255,'+(a*0.34)+')';
+        ctx.lineWidth=0.45;
+        ctx.beginPath(); ctx.moveTo(x-fl,y); ctx.lineTo(x+fl,y); ctx.moveTo(x,y-fl*0.65); ctx.lineTo(x,y+fl*0.65); ctx.stroke();
+      }
+    }
+  }
+
+  function drawAurora(tm){
+    var bands=[
+      { x1:-0.08, x2:0.42, y1:0.40, y2:0.22, amp:0.032, speed:0.00014, width:0.22, alpha:0.21 },
+      { x1:0.18, x2:0.66, y1:0.34, y2:0.26, amp:0.020, speed:0.00012, width:0.16, alpha:0.11 },
+      { x1:0.50, x2:1.04, y1:0.23, y2:0.16, amp:0.042, speed:0.00013, width:0.26, alpha:0.23 },
+      { x1:0.60, x2:0.96, y1:0.31, y2:0.24, amp:0.024, speed:0.00015, width:0.17, alpha:0.12 }
+    ];
+    ctx.save();
+    ctx.globalCompositeOperation='screen';
+    for(var b=0;b<bands.length;b++){
+      var band=bands[b];
+      var top=[], bot=[];
+      var steps=mobileBg?28:56;
+      for(var i=0;i<=steps;i++){
+        var u=i/steps;
+        var x=(band.x1 + (band.x2-band.x1)*u)*W;
+        var baseY=(band.y1 + (band.y2-band.y1)*u)*H;
+        var wob=Math.sin(u*7.2 + tm*band.speed + b)*H*band.amp + Math.sin(u*13.2 - tm*band.speed*1.45 + b*1.3)*H*(band.amp*0.48);
+        var y=baseY+wob;
+        var th=H*band.width*(0.78+0.22*Math.sin(u*8.2 + tm*0.00024 + b));
+        top.push([x, y-th*0.5]);
+        bot.push([x, y+th*0.5]);
+      }
+      ctx.beginPath();
+      ctx.moveTo(top[0][0],top[0][1]);
+      for(var t1=1;t1<top.length;t1++) ctx.lineTo(top[t1][0],top[t1][1]);
+      for(var t2=bot.length-1;t2>=0;t2--) ctx.lineTo(bot[t2][0],bot[t2][1]);
+      ctx.closePath();
+      var grad=ctx.createLinearGradient(0, top[0][1], 0, bot[Math.floor(bot.length/2)][1]);
+      grad.addColorStop(0,'rgba(105,255,224,'+band.alpha+')');
+      grad.addColorStop(0.42,'rgba(42,240,205,'+(band.alpha*0.78)+')');
+      grad.addColorStop(0.76,'rgba(18,160,220,'+(band.alpha*0.46)+')');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      if('filter' in ctx) ctx.filter='blur('+ ((mobileBg?8:(reduce?10:18))*fxScale) +'px)';
+      ctx.fillStyle=grad;
+      ctx.fill();
+      if('filter' in ctx) ctx.filter='none';
+
+      // vertical curtain strands
+      if('filter' in ctx) ctx.filter='blur('+((mobileBg?3:(reduce?4:7))*fxScale)+'px)';
+      var strands=mobileBg?8:28;
+      for(var s=0;s<strands;s++){
+        var uu=s/(strands-1);
+        var sx=(band.x1 + (band.x2-band.x1)*uu)*W;
+        var sy=(band.y1 + (band.y2-band.y1)*uu)*H + Math.sin(uu*7.8 + tm*band.speed + b)*H*band.amp;
+        var len=H*(0.08 + 0.06*Math.abs(Math.sin(tm*0.00038 + uu*6 + b)));
+        ctx.strokeStyle='rgba(90,255,220,'+(band.alpha*0.18)+')';
+        ctx.lineWidth=1.2;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy-len*0.18);
+        ctx.quadraticCurveTo(sx+Math.sin(tm*0.00022+s)*10, sy+len*0.30, sx+Math.cos(tm*0.00016+s)*7, sy+len);
+        ctx.stroke();
+      }
+      if('filter' in ctx) ctx.filter='none';
+    }
+    ctx.restore();
+  }
+
+  function drawReflection(tm){
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0,H*0.60,W,H*0.40);
+    ctx.clip();
+    ctx.globalCompositeOperation='screen';
+    ctx.globalAlpha=0.30;
+    var bands=[
+      { x1:0.04, x2:0.48, y1:0.79, y2:0.69, amp:0.018, speed:0.00022, width:0.11, alpha:0.12 },
+      { x1:0.58, x2:0.96, y1:0.68, y2:0.74, amp:0.024, speed:0.00018, width:0.14, alpha:0.14 }
+    ];
+    for(var b=0;b<bands.length;b++){
+      var band=bands[b];
+      var top=[], bot=[];
+      var steps=mobileBg?22:36;
+      for(var i=0;i<=steps;i++){
+        var u=i/steps;
+        var x=(band.x1 + (band.x2-band.x1)*u)*W;
+        var baseY=(band.y1 + (band.y2-band.y1)*u)*H;
+        var wob=Math.sin(u*8.6 + tm*band.speed + b)*H*band.amp + Math.sin(u*14.5 - tm*band.speed*1.5)*H*(band.amp*0.35);
+        var y=baseY+wob;
+        var th=H*band.width*(0.72+0.28*Math.sin(u*7 + tm*0.0002));
+        top.push([x, y-th*0.42]);
+        bot.push([x, y+th*0.42]);
+      }
+      ctx.beginPath(); ctx.moveTo(top[0][0],top[0][1]);
+      for(var k=1;k<top.length;k++) ctx.lineTo(top[k][0],top[k][1]);
+      for(var q=bot.length-1;q>=0;q--) ctx.lineTo(bot[q][0],bot[q][1]);
+      ctx.closePath();
+      var grad=ctx.createLinearGradient(0, top[0][1], 0, bot[Math.floor(bot.length/2)][1]);
+      grad.addColorStop(0,'rgba(60,255,210,'+band.alpha+')');
+      grad.addColorStop(0.5,'rgba(30,170,220,'+(band.alpha*0.6)+')');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      if('filter' in ctx) ctx.filter='blur('+((mobileBg?6:(reduce?8:14))*fxScale)+'px)';
+      ctx.fillStyle=grad; ctx.fill();
+      if('filter' in ctx) ctx.filter='none';
+    }
+    // subtle shimmer lines
+    for(var y=H*0.64; y<H*0.95; y+=26){
+      ctx.strokeStyle='rgba(120,255,255,0.02)';
+      ctx.lineWidth=1;
+      ctx.beginPath();
+      ctx.moveTo(0,y);
+      ctx.bezierCurveTo(W*0.25,y+Math.sin(tm*0.0002+y)*2.4,W*0.75,y+Math.cos(tm*0.00018+y)*2.4,W,y+Math.sin(tm*0.00016+y)*2.0);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function updateNodes(tm){
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i];
+      n.x = n.bx + Math.sin(tm*n.sp + n.p)*n.rx;
+      n.y = n.by + Math.cos(tm*n.sp*0.9 + n.p)*n.ry;
+    }
+  }
+
+  function buildEdges(){
+    var edges=[];
+    var maxDist=Math.min(W,H)*(mobileBg?0.095:0.125);
+    for(var i=0;i<nodes.length;i++){
+      for(var j=i+1;j<nodes.length;j++){
+        var a=nodes[i], b=nodes[j];
+        var x1=a.x*W, y1=a.y*H, x2=b.x*W, y2=b.y*H;
+        var dx=x1-x2, dy=y1-y2;
+        var d=Math.sqrt(dx*dx+dy*dy);
+        if(d<maxDist) edges.push({a:i,b:j,d:d});
+      }
+    }
+    return edges;
+  }
+
+  function drawNetwork(tm){
+    updateNodes(tm);
+    var edges=buildEdges();
+    ctx.save();
+    ctx.globalCompositeOperation='screen';
+    for(var e=0;e<edges.length;e++){
+      var ed=edges[e], a=nodes[ed.a], b=nodes[ed.b];
+      var x1=a.x*W, y1=a.y*H, x2=b.x*W, y2=b.y*H;
+      var alpha=clamp(0.20 - ed.d/(Math.min(W,H)*1.0), 0.04, 0.14);
+      var grad=ctx.createLinearGradient(x1,y1,x2,y2);
+      grad.addColorStop(0,'rgba(255,182,60,'+(alpha*0.9)+')');
+      grad.addColorStop(0.5,'rgba(255,220,132,'+(alpha*0.55)+')');
+      grad.addColorStop(1,'rgba(255,182,60,'+(alpha*0.85)+')');
+      ctx.strokeStyle='rgba(255,176,64,'+(alpha*0.55*0.30)+')';
+      ctx.lineWidth=5;
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+      ctx.strokeStyle=grad;
+      ctx.lineWidth=0.75;
+      ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    }
+    // moving pulses along lines
+    for(var p=0;p<pulses.length && edges.length;p++){
+      var pulse=pulses[p];
+      if(pulse.edge<0 || pulse.edge>=edges.length) pulse.edge=Math.floor(Math.random()*edges.length);
+      pulse.prog += pulse.sp*(mobileBg?0.38:(reduce?0.55:0.72));
+      if(pulse.prog>1){ pulse.prog=0; pulse.edge=Math.floor(Math.random()*edges.length); }
+      var edg=edges[pulse.edge];
+      var aa=nodes[edg.a], bb=nodes[edg.b];
+      var sx=aa.x*W, sy=aa.y*H, ex=bb.x*W, ey=bb.y*H;
+      var px=sx+(ex-sx)*pulse.prog;
+      var py=sy+(ey-sy)*pulse.prog;
+      var tail=Math.max(0,pulse.prog-0.20);
+      var tx=sx+(ex-sx)*tail;
+      var ty=sy+(ey-sy)*tail;
+      var tg=ctx.createLinearGradient(tx,ty,px,py);
+      tg.addColorStop(0,'rgba(255,200,90,0)');
+      tg.addColorStop(1,'rgba(255,240,188,'+(pulse.a)+')');
+      ctx.strokeStyle='rgba(255,210,120,'+(pulse.a*0.52*0.30)+')'; ctx.lineWidth=7;
+      ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(px,py); ctx.stroke();
+      ctx.strokeStyle=tg; ctx.lineWidth=1.15;
+      ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(px,py); ctx.stroke();
+      var rg=ctx.createRadialGradient(px,py,0,px,py,8);
+      rg.addColorStop(0,'rgba(255,250,220,'+(pulse.a*1.08)+')');
+      rg.addColorStop(0.24,'rgba(255,205,92,'+(pulse.a*0.68)+')');
+      rg.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=rg; ctx.beginPath(); ctx.arc(px,py,10,0,Math.PI*2); ctx.fill();
+    }
+    // nodes
+    for(var i=0;i<nodes.length;i++){
+      var n=nodes[i], x=n.x*W, y=n.y*H;
+      var tw=0.42+0.58*Math.abs(Math.sin(tm*0.0012+n.p));
+      var rr=n.r*(0.85+tw*0.5);
+      var glow=ctx.createRadialGradient(x,y,0,x,y,rr*8);
+      glow.addColorStop(0,'rgba(255,242,205,'+(n.a*tw*0.92)+')');
+      glow.addColorStop(0.28,'rgba(255,184,70,'+(n.a*tw*0.42)+')');
+      glow.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(x,y,rr*8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='rgba(255,228,160,'+(n.a*tw)+')'; ctx.beginPath(); ctx.arc(x,y,rr,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function frame(ts){
+    if(mobileBg && Date.now()<scrollPauseUntil){
+      if(!scrollStaticDrawn){ctx.clearRect(0,0,W,H);try{drawBgImage(ts||0);}catch(e){}scrollStaticDrawn=true;}
+      requestAnimationFrame(frame);return;
+    }
+    scrollStaticDrawn=false;
+    if(mobileBg && ts-lastFrame<100){requestAnimationFrame(frame);return;}
+    if(!mobileBg && ts-lastFrame<33){requestAnimationFrame(frame);return;}
+    lastFrame=ts||0;
+    t=ts||0;
+    var _pt0=(window.performance&&performance.now)?performance.now():0;
+    ctx.clearRect(0,0,W,H);
+    drawBgImage(t);
+    if(mobileBg){
+      // aurora wave disabled on mobile: iOS lacks canvas filter blur, causing harsh shapes vs Android
+    }else{
+      if(t-lastFx>=FX_MS){
+        lastFx=t;
+        fxx.setTransform(dpr*FXS,0,0,dpr*FXS,0,0);
+        fxx.clearRect(0,0,W,H);
+        var _mainCtx=ctx; ctx=fxx; fxScale=FXS;
+        try{ drawAurora(t); drawReflection(t); }finally{ ctx=_mainCtx; fxScale=1; }
+      }
+      ctx.save();
+      ctx.globalCompositeOperation='screen';
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.imageSmoothingEnabled=true;
+      ctx.drawImage(fxc,0,0,fxc.width,fxc.height,0,0,cv.width,cv.height);
+      ctx.restore();
+    }
+    drawStars(t);
+    drawNetwork(t);
+    if(!perfDead && !mobileBg && _pt0){
+      var _dt=performance.now()-_pt0;
+      perfN++; perfSum+=_dt;
+      if(perfN===60){
+        if(perfSum/60>12){
+          perfDead=true;
+          try{ cv.parentNode && cv.parentNode.removeChild(cv); }catch(e){}
+          return; // static CSS aurora background takes over
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+<script>
+(function(){
+  var mq = window.matchMedia ? window.matchMedia('(max-width: 900px), (pointer: coarse)') : {matches:false};
+  var ua = navigator.userAgent || '';
+  var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  function isMobile(){ return !!mq.matches; }
+  function frames(){
+    return [document.getElementById('calcframe'), document.getElementById('performanceframe')].filter(Boolean);
+  }
+  function setFrameScrollAttrs(){
+    frames().forEach(function(f){
+      f.setAttribute('scrolling','yes');
+      f.style.webkitOverflowScrolling='touch';
+      f.style.overflow='auto';
+      if(isMobile()){
+        if(isIOS){
+          /* iOS Safari shrinks 100dvh when the keyboard opens. Let the fixed
+             portal own the height and keep the iframe at 100% instead. */
+          f.style.height='100%';
+          f.style.minHeight='0';
+          f.style.maxHeight='100%';
+        }else{
+          f.style.height='calc(100dvh - 58px)';
+          f.style.minHeight='calc(100dvh - 58px)';
+          f.style.maxHeight='none';
+        }
+      }
+    });
+  }
+  function forceMobileScroll(){
+    if(!isMobile()) return;
+    /* Portal scrolling belongs to the iframe. Do not unlock the parent page
+       after setPanel() has intentionally locked it. */
+    var root=document.getElementById('pcg-site-root');
+    var portalOpen=!!(root&&root.classList.contains('pcg-portal-open'));
+    try{
+      if(portalOpen){
+        document.documentElement.style.setProperty('overflow','hidden','important');
+        document.body.style.setProperty('overflow','hidden','important');
+        document.body.style.setProperty('touch-action','none','important');
+      }
+    }catch(e){}
+    setFrameScrollAttrs();
+  }
+  window.addEventListener('message', function(ev){
+    if(!isMobile() || !ev.data || ev.data.poiFrameHeight == null) return;
+    var h = Math.max(window.innerHeight - 58, Math.ceil(Number(ev.data.poiFrameHeight) || 0));
+    frames().forEach(function(f){
+      if(f.contentWindow === ev.source){
+        /* Android keeps its dynamic viewport height. On iOS, never bind the
+           iframe to 100dvh because the software keyboard collapses it. */
+        if(isIOS){
+          f.style.height='100%';
+          f.style.minHeight='0';
+          f.style.maxHeight='100%';
+        }else{
+          f.style.height='calc(100dvh - 58px)';
+          f.style.minHeight='calc(100dvh - 58px)';
+          f.style.maxHeight='none';
+        }
+        f.dataset.contentHeight=String(h);
+      }
+    });
+  }, false);
+  window.addEventListener('resize', forceMobileScroll, {passive:true});
+  window.addEventListener('orientationchange', function(){setTimeout(forceMobileScroll,350);}, {passive:true});
+  document.addEventListener('click', function(){setTimeout(forceMobileScroll,60);setTimeout(forceMobileScroll,450);}, true);
+  frames().forEach(function(f){f.addEventListener('load', function(){setTimeout(forceMobileScroll,80);setTimeout(forceMobileScroll,600);});});
+  forceMobileScroll();
+  setTimeout(forceMobileScroll,600);
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+  var frame=document.getElementById('performanceframe');
+  if(!frame)return;
+  frame.setAttribute('allowtransparency','true');
+  frame.style.setProperty('background','transparent','important');
+  frame.style.setProperty('background-color','rgba(0,0,0,0)','important');
+  function applyAlpha(){
+    try{
+      var doc=frame.contentDocument;
+      if(!doc)return;
+      [doc.documentElement,doc.body].forEach(function(el){
+        if(!el)return;
+        el.style.setProperty('background','transparent','important');
+        el.style.setProperty('background-color','rgba(0,0,0,0)','important');
+        el.style.setProperty('background-image','none','important');
+      });
+    }catch(_e){}
+  }
+  frame.addEventListener('load',function(){applyAlpha();setTimeout(applyAlpha,60);setTimeout(applyAlpha,350);setTimeout(applyAlpha,1200);});
+  applyAlpha();
+})();
+</script>
+</body></html>
