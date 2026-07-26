@@ -320,7 +320,7 @@ a.cta-btn.secondary:visited{color:var(--soft)}
   .counter{right:50%;transform:translateX(50%);bottom:70px;color:var(--mut2)}
   #view-home{top:58px;padding:20px 14px 90px}
   #view-calc{top:58px;bottom:0}
-  #calcframe{width:100vw;height:calc(100dvh - 58px);display:block}
+  #calcframe{width:100vw;height:100%;min-height:0;display:block}
   
   .proj-grid{grid-template-columns:1fr}
   .home-title{font-size:34px;max-width:none}
@@ -1425,8 +1425,8 @@ html,body{
   #performanceframe{
     display:block !important;
     width:100% !important;
-    height:calc(100dvh - 58px) !important;
-    min-height:calc(100dvh - 58px) !important;
+    height:100% !important;
+    min-height:0 !important;
     border:0 !important;
     background:transparent !important;
     overflow:auto !important;
@@ -1553,7 +1553,7 @@ body::before,body:before,body::after,body:after{
 html,body{background:#020608!important;background-image:none!important;}
 </style>
 <link href="assets/pcg-site-v40-23.css?v=4023b?v=4023" rel="stylesheet"/>
-<link href="assets/pcg-mobile-v40-36.css?v=4036" rel="stylesheet"/>
+<link href="assets/pcg-mobile-v40-41.css?v=4041" rel="stylesheet"/>
 <meta name="pcg-build" content="V40.37 IOS MEMBER OPEN FIX">
 </head><body class="pcg-public-page">
 <div aria-hidden="true" class="poi-bg-fixed"></div>
@@ -1698,12 +1698,12 @@ html,body{background:#020608!important;background-image:none!important;}
 </svg><b>PCG</b></span></button><div class="pcg-final-copy"><div class="pcg-site-eyebrow">ДАРААГИЙН АЛХАМ</div><h2>Өсөлтийн боломж, бодит хяналт, эрсдэлийн хамгаалалтыг өөрийн нөхцөлөөр харьцуулна уу.</h2><p>Тооцоолуураар оролцооны дүн, хугацаа, боломжит хуваарилалт болон дансны өсөлтийн зураглалыг харна. Хамтын ажиллагаа эхэлсний дараа Гишүүний булангаар бодит гүйцэтгэл, хувийн үр дүн, тайлан болон төслийн хаалтыг хянана. Нөхцөл, эрсдэл, тайлагналын бүтцийг уулзалтаар дэлгэрэнгүй ярилцах боломжтой.</p><div class="pcg-site-buttons"><button class="pcg-site-primary" data-pcg-panel="calc" type="button">Тооцоолуур нээх →</button><button class="pcg-site-secondary" data-pcg-panel="member" type="button">Гишүүний булан</button><a class="pcg-site-secondary" href="https://calendar.app.google/h9H4D6sWnnfF8ZSDA" rel="noopener" target="_blank">Уулзалтын цаг товлох ↗</a><a class="pcg-site-secondary" href="mailto:info@poicapitalgroup.com">info@poicapitalgroup.com</a></div></div></div></div></section>
 </div>
 <section class="pcg-site-panel pcg-portal-panel" id="view-calc"><iframe allowtransparency="true" class="pcg-portal-frame" id="calcframe" src="app/calculator-mini.html" style="background:transparent!important" title="Тооцоолуур"></iframe></section>
-<section class="pcg-site-panel pcg-portal-panel" id="view-performance"><iframe allowtransparency="true" class="pcg-portal-frame" id="performanceframe" src="member/index.html?environment=real&amp;embedded=1" style="background:transparent!important" title="Гишүүний булан"></iframe></section>
+<section class="pcg-site-panel pcg-portal-panel" id="view-performance"><iframe allowtransparency="true" class="pcg-portal-frame" id="performanceframe" src="member/index.html?environment=real&amp;embedded=1&amp;v=4041" style="background:transparent!important" title="Гишүүний булан"></iframe></section>
 </main>
 <footer class="pcg-site-footer"><span>© 2026 POI Capital Group. <span class="pcg-footer-rights">Бүх эрх хуулиар хамгаалагдсан.</span></span><a href="mailto:info@poicapitalgroup.com">info@poicapitalgroup.com</a><a href="https://admin.poicapitalgroup.com/" rel="noopener" target="_blank">Удирдлагын нэвтрэх</a><button data-pcg-top="" type="button">Дээш очих ↑</button></footer>
 </div>
 <div aria-hidden="true" class="pcg-cert-modal" id="pcg-cert-modal"><div class="pcg-cert-dialog"><button aria-label="Хаах" data-pcg-cert-close="" type="button">×</button><img alt="MyForexFunds батламж" src="myforexfunds_certificate.jpg"/></div></div>
-<script src="assets/pcg-mobile-v40-36.js?v=4036"></script>
+<script src="assets/pcg-mobile-v40-41.js?v=4041"></script>
 <script src="assets/pcg-site-v40-23.js?v=4023b?v=4023"></script>
 <script>// ---------- Background canvas (gold beams + stars) ----------
 (function(){
@@ -2089,59 +2089,7 @@ html,body{background:#020608!important;background-image:none!important;}
   requestAnimationFrame(frame);
 })();
 </script>
-<script>
-(function(){
-  var mq = window.matchMedia ? window.matchMedia('(max-width: 900px), (pointer: coarse)') : {matches:false};
-  function isMobile(){ return !!mq.matches; }
-  function frames(){
-    return [document.getElementById('calcframe'), document.getElementById('performanceframe')].filter(Boolean);
-  }
-  function setFrameScrollAttrs(){
-    frames().forEach(function(f){
-      f.setAttribute('scrolling','yes');
-      f.style.webkitOverflowScrolling='touch';
-      f.style.overflow='auto';
-      if(isMobile()){
-        f.style.height='calc(100dvh - 58px)';
-        f.style.minHeight='calc(100dvh - 58px)';
-      }
-    });
-  }
-  function forceMobileScroll(){
-    if(!isMobile()) return;
-    /* Portal scrolling belongs to the iframe. Do not unlock the parent page
-       after setPanel() has intentionally locked it. */
-    var root=document.getElementById('pcg-site-root');
-    var portalOpen=!!(root&&root.classList.contains('pcg-portal-open'));
-    try{
-      if(portalOpen){
-        document.documentElement.style.setProperty('overflow','hidden','important');
-        document.body.style.setProperty('overflow','hidden','important');
-        document.body.style.setProperty('touch-action','none','important');
-      }
-    }catch(e){}
-    setFrameScrollAttrs();
-  }
-  window.addEventListener('message', function(ev){
-    if(!isMobile() || !ev.data || ev.data.poiFrameHeight == null) return;
-    var h = Math.max(window.innerHeight - 58, Math.ceil(Number(ev.data.poiFrameHeight) || 0));
-    frames().forEach(function(f){
-      if(f.contentWindow === ev.source){
-        /* Keep iframe viewport scrollable on Android; do not make it giant. */
-        f.style.height='calc(100dvh - 58px)';
-        f.style.minHeight='calc(100dvh - 58px)';
-        f.dataset.contentHeight=String(h);
-      }
-    });
-  }, false);
-  window.addEventListener('resize', forceMobileScroll, {passive:true});
-  window.addEventListener('orientationchange', function(){setTimeout(forceMobileScroll,350);}, {passive:true});
-  document.addEventListener('click', function(){setTimeout(forceMobileScroll,60);setTimeout(forceMobileScroll,450);}, true);
-  frames().forEach(function(f){f.addEventListener('load', function(){setTimeout(forceMobileScroll,80);setTimeout(forceMobileScroll,600);});});
-  forceMobileScroll();
-  setTimeout(forceMobileScroll,600);
-})();
-</script>
+
 <script>
 (function(){
   'use strict';

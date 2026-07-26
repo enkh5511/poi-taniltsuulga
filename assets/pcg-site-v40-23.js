@@ -96,7 +96,7 @@
     if(currentPanel==='site'&&name!=='site')lastSiteScroll=window.scrollY||0;
     /* Load the member document before exposing the fixed portal. This avoids
        the transparent first frame that Safari can show during lazy loading. */
-    if(name==='member'&&memberFrame&&!memberFrame.getAttribute('src'))memberFrame.src='member/index.html?environment=real';
+    if(name==='member'&&memberFrame&&!memberFrame.getAttribute('src'))memberFrame.src='member/index.html?environment=real&embedded=1&v=4041';
     currentPanel=name;
     root.setAttribute('data-pcg-active-panel',name);
     Object.keys(panels).forEach(function(key){panels[key].classList.toggle('is-active',key===name);});
